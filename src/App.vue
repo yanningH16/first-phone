@@ -1,9 +1,9 @@
 <template>
   <div id="app" @touchmove.prevent>
     <div class="container">
-      <keep-alive :exclude="excludeArr">
+      <!-- <keep-alive :exclude="excludeArr">   暂时不需 -->
         <router-view></router-view>
-      </keep-alive>
+      <!-- </keep-alive> -->
     </div>
     <tabbar></tabbar>
   </div>
@@ -37,7 +37,6 @@ export default {
     position fixed
     width 100%
     height 100%
-    // height 528px
     .container
       height 100%
       width 100%

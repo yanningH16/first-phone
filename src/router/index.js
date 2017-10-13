@@ -33,6 +33,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import axios from 'axios'
+import {loadUserInfo} from '../assets/js/cache'
 // import Index from '@/components/index/index'
 // import Nopay from '@/components/nopay/nopay'
 // import Rushou from '@/components/rushou/rushou'
@@ -167,11 +168,6 @@ const ExChangeCoin = (resolve) => {
 }
 const NoPayOrder = (resolve) => {
   import ('@/components/user/noPayOrder/noPayOrder').then((module) => {
-    resolve(module)
-  })
-}
-const NoPayOrderCore = (resolve) => {
-  import ('@/components/user/noPayOrder/noPayOrderCore').then((module) => {
     resolve(module)
   })
 }
@@ -687,12 +683,6 @@ const routes = [{
     meta: { title: '白拿订单', isLogin: true },
   },
   {
-    path: '/user/noPayOrderCore',
-    component: NoPayOrderCore,
-    name: 'noPayOrderCore',
-    meta: { title: '白拿订单Core', isLogin: true },
-  },
-  {
     path: '/user/applyCustomer',
     component: ApplyCustomer,
     name: 'applyCustomer',
@@ -1075,7 +1065,7 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
     axios.post('/api/user/loginOrNot', {}).then((res) => {
-      if (res.data.code !== '200') {
+      if (res.data.code !== '200'|| !loadUserInfo()) {
         Vue.$vux.alert.show({
           title: '温馨提示',
           content: '您未登录，请登录',

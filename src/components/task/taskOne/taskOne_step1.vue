@@ -88,200 +88,172 @@
           <p>警告：严禁直接输入商品价格和商铺全程搜索商品，一经发现，平台将永久取消中奖！</p>
         </div>
         <div class="sureBtn">
-            <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">下一步</button>
+          <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">下一步</button>
         </div>
       </div>
     </scroll>
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import Vue from "vue"
-  import Step from "../../../base/step/step.vue"
-  import Clipboard from 'clipboard'
-  import {Toast} from 'vux'
-  import {ToastPlugin} from 'vux'
-  import {Alert} from 'vux'
-  import {AlertPlugin} from 'vux'
-  import Scroll from '../../../base/scroll/scroll.vue'
-  import {mapGetters} from 'vuex'
+import Vue from "vue"
+import Step from "../../../base/step/step.vue"
+import Clipboard from 'clipboard'
+import { Toast } from 'vux'
+import { Alert } from 'vux'
+import Scroll from '../../../base/scroll/scroll.vue'
+import { mapGetters } from 'vuex'
+export default {
+  name: "taskOne_step1",
+  components: {
+    Step,
+    Toast,
+    Alert,
+    Scroll
+  },
+  data() {
+    return {
+      isOk: true, //按钮可提交
+      type: 1, //任务类型
+      goodsObj: {},
+      keyWord: {},
+      keyIndex: 0,
+      keyWordArr: [],
+      discountsKeyword: '',
+      keyName: '',
+      sortType: '',//排序类型
+      typeArr: ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先'], //类型数组
+      buyerTaskRecordId: '',
+      stepIndex: 0, //当前任务步骤下标
+      msg: "1.点击输入框\r2.长按\r3.粘贴", //输入域placeholder,
+      shopName: "",
+      taoKey: "",
+      inputShopName: ''
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'userNopay',
+      'userInfo'
+    ])
+  },
+  created() {
+    let that = this;
+    that.type = that.$route.query.type
+    this.$axios.post('/api/orderOperate/getAdditionalInfo', {
+      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+    }).then((data) => {
+      console.log(data)
+      this.goodsObj = data.data.data
+      this.shopName = this.goodsObj.shopName
+      this.taoKey = this.goodsObj.taokouling
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh()
+      })
+    }).catch(function(err) {
+      console.log(err)
+      this.$vux.alert.show({
+        title: '获取失败',
+        content: data.data.message,
+      })
+    })
 
-  Vue.use(AlertPlugin)
-  Vue.use(ToastPlugin)
-  export default {
-    name: "taskOne_step1",
-    components: {
-      Step,
-      Toast,
-      ToastPlugin,
-      Alert,
-      Scroll
-    },
-    data() {
-      return {
-        isOk: true, //按钮可提交
-        type: 1, //任务类型
-        goodsObj: {},
-        keyWord: {},
-        keyIndex: 0,
-        keyWordArr: [],
-        discountsKeyword: '',
-        keyName: '',
-        sortType: '',//排序类型
-        typeArr: ['综合排序','信用','价格从高到低','价格从低到高','销量优先'], //类型数组
-        buyerTaskRecordId: '',
-        stepIndex: 0, //当前任务步骤下标
-        msg: "1.点击输入框\r2.长按\r3.粘贴", //输入域placeholder,
-        shopName: "",
-        taoKey: "",
-        inputShopName: ''
+
+    //获取关键词
+    this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
+      sellerTaskId: that.$route.query.sellerTaskId
+    }).then((data) => {
+      console.log(data)
+      this.keyWordArr = data.data.data
+      this.keyIndex = this.mathRandom();
+      this.keyWord = data.data.data[this.keyIndex]
+      this.sortType = this.keyWord.sortType
+      this.discountsKeyword = JSON.parse(this.keyWord.discountsKeyword).join(' ');
+      var keyWordObj = JSON.parse(this.keyWord.keyword)
+      for (let m in keyWordObj) {
+        //console.log(m);
+        this.keyName = m;
+        //console.log(keyWordObj[m])
       }
-    },
-    computed: {
-      ...mapGetters([
-        'userNopay',
-        'userInfo'
-      ])
-    },
-    created() {
-      //var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
-      //console.log(this.userNopay[0].sellerTaskId)
-      //console.log(this.userInfo.buyerUserId)
-      //获取任务信息
-      /*let that = this;
-      this.$axios.post('api/orderOperate/getFirstOrder', {
-        sellerTaskId: that.$route.query.buyerTaskRecordId,
-        buyerUserId: buyerUserId
-      }).then((data) => {
-        console.log(data)
-        this.buyerTaskRecordId = data.data.data.buyerTaskRecordId
-        localStorage.setItem("buyerTaskRecordId",this.buyerTaskRecordId)
-        console.log()
-        this.taoKey = data.data.data.taokouling
-        console.log(this.buyerTaskRecordId)*/
-        //获取商品详情
-      let that = this;
-      that.type=that.$route.query.type
-        this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-          buyerTaskRecordId: that.$route.query.buyerTaskRecordId
-        }).then((data) => {
-          console.log(data)
-          this.goodsObj = data.data.data
-          this.shopName = this.goodsObj.shopName
-          this.taoKey = this.goodsObj.taokouling
-          this.$nextTick(()=>{
-            this.$refs.scroll.refresh()
-          })
-        }).catch(function (err) {
-          console.log(err)
-          this.$vux.alert.show({
-            title: '获取失败',
-            content: data.data.message,
-          })
-        })
-      /*}).catch((error) => {
+      if (data.status !== 200) {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: data.message,
         })
-      })*/
-
-
-      //获取关键词
-      this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
-        sellerTaskId: that.$route.query.sellerTaskId
-      }).then((data) => {
-        console.log(data)
-        this.keyWordArr = data.data.data
-        this.keyIndex = this.mathRandom();
-        this.keyWord = data.data.data[this.keyIndex]
-        this.sortType = this.keyWord.sortType
-        this.discountsKeyword = JSON.parse(this.keyWord.discountsKeyword).join(' ');
-        var keyWordObj = JSON.parse(this.keyWord.keyword)
-        for (let m in keyWordObj) {
-          //console.log(m);
-          this.keyName = m;
-          //console.log(keyWordObj[m])
-        }
-        if (data.status !== 200) {
+      }
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh()
+      })
+    }).catch((error) => {
+      this.$vux.alert.show({
+        title: '错误提示',
+        content: '服务器错误',
+      })
+    })
+  },
+  methods: {
+    doCopy() {
+      var clipboard = new Clipboard('.copy');
+      var that = this;
+      clipboard.on('success', function(e) {
+        that.$vux.toast.text('复制成功!', 'middle')
+      });
+    },
+    doNext() {
+      if (this.type === 1) {
+        //检查输入域淘口令是否正确
+        if (this.msg === this.taoKey) {
+          this.$router.push({ name: 'taskOneStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
+        } else {
           this.$vux.alert.show({
-            title: '错误提示',
-            content: data.message,
+            title: '核对商品失败',
+            content: '复制的淘口令有误',
+            buttonText: "重新输入",
+            onShow() {
+              return false
+            },
+            onHide() {
+              //console.log('Plugin: I\'m hiding')
+            }
           })
         }
-        this.$nextTick(() => {
-          this.$refs.scroll.refresh()
-        })
-      }).catch((error) => {
-        this.$vux.alert.show({
-          title: '错误提示',
-          content: '服务器错误',
-        })
+      } else {
+        if (this.inputShopName === this.shopName) {
+          this.$router.push({ name: 'taskOneStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
+        } else {
+          this.$vux.alert.show({
+            title: '核对店铺失败',
+            content: '输入的店铺有误',
+            buttonText: "重新输入",
+            onShow() {
+              return false
+            },
+            onHide() {
+              //console.log('Plugin: I\'m hiding')
+            }
+          })
+        }
+      }
+
+    },
+    failAlert() {  // 弹出框
+      this.$vux.alert.show({
+        title: '核对店铺失败',
+        content: '输入的店铺名有误',
+        buttonText: "重新输入",
+        onShow() {
+          console.log('Plugin: I\'m showing')
+        },
+        onHide() {
+          console.log('Plugin: I\'m hiding')
+        }
       })
     },
-    methods: {
-      doCopy() {
-        var clipboard = new Clipboard('.copy');
-        var that = this;
-        clipboard.on('success', function (e) {
-          that.$vux.toast.text('复制成功!', 'middle')
-        });
-      },
-      doNext() {
-        if(this.type===1) {
-          //检查输入域淘口令是否正确
-          if(this.msg === this.taoKey) {
-            this.$router.push({ name: 'taskOneStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
-          } else {
-            this.$vux.alert.show({
-              title: '核对商品失败',
-              content: '复制的淘口令有误',
-              buttonText: "重新输入",
-              onShow() {
-                return false
-              },
-              onHide() {
-                //console.log('Plugin: I\'m hiding')
-              }
-            })
-          }
-        } else {
-          if(this.inputShopName === this.shopName) {
-            this.$router.push({ name: 'taskOneStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
-          } else {
-            this.$vux.alert.show({
-              title: '核对店铺失败',
-              content: '输入的店铺有误',
-              buttonText: "重新输入",
-              onShow() {
-                return false
-              },
-              onHide() {
-                //console.log('Plugin: I\'m hiding')
-              }
-            })
-          }
-        }
-
-      },
-      failAlert() {  // 弹出框
-        this.$vux.alert.show({
-          title: '核对店铺失败',
-          content: '输入的店铺名有误',
-          buttonText: "重新输入",
-          onShow() {
-            console.log('Plugin: I\'m showing')
-          },
-          onHide() {
-            console.log('Plugin: I\'m hiding')
-          }
-        })
-      },
-      mathRandom() {
-        let length = this.keyWordArr.length
-        return Math.floor((Math.random() * length))
-      }
+    mathRandom() {
+      let length = this.keyWordArr.length
+      return Math.floor((Math.random() * length))
     }
   }
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   .step_box

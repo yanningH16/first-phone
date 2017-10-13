@@ -135,24 +135,6 @@
       }
     },
     created() {
-      //var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
-      //let buyerTaskRecordId = localStorage.getItem("buyerTaskRecordId")
-      //console.log(this.$route.params)
-      //console.log(this.userNopay[0].sellerTaskId)
-      //console.log(this.userInfo.buyerUserId)
-      //获取任务信息
-      /*this.$axios.post('api/orderOperate/getFirstOrder', {
-        sellerTaskId: 'UN201709290180925609',
-        buyerUserId: buyerUserId
-      }).then((data) => {
-        console.log(data)
-        this.buyerTaskRecordId = data.data.data.buyerTaskRecordId
-        localStorage.setItem("buyerTaskRecordId",this.buyerTaskRecordId);
-        this.taoKey = data.data.data.taokouling
-        console.log(this.buyerTaskRecordId)*/
-
-      //获取商品详情
-      // var buyerTaskRecordId = localStorage.getItem("buyerTaskRecordId")
       let that = this;
       that.type=that.$route.query.type;
       this.$axios.post('/api/orderOperate/getAdditionalInfo', {
@@ -168,18 +150,6 @@
       }).catch(function (err) {
         console.log(err)
       })
-      /*if (data.status !== 200) {
-        this.$vux.alert.show({
-          title: '错误提示',
-          content: data.message,
-        })
-      }*/
-      /*}).catch((error) => {
-        this.$vux.alert.show({
-          title: '错误提示',
-          content: '服务器错误',
-        })
-      })*/
 
       //获取关键词
       this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {

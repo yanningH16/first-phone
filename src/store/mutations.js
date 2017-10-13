@@ -1,9 +1,6 @@
 import * as types from './mutation-types'
 
 const mutations = {
-  [types.SET_USER_STATE](state, userState) {
-    state.userState = userState
-  },
   [types.SET_USER_PHONE](state, userPhone) {
     state.userPhone = userPhone
   },

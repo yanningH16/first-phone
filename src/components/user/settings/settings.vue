@@ -75,7 +75,6 @@ export default {
     Datetime
   },
   created () {
-    console.log(this.userInfo)
     this.avatorBox.avator = this.userInfo.headPicId || avatarSrc
     this.userName.value = this.userInfo.username
     this.userTaobao.value = this.userInfo.taobaoLevel
@@ -148,7 +147,7 @@ export default {
   },
   watch: {
     age(val) {
-      console.log(val)
+      //更新数据
     }
   },
   methods: {
@@ -163,8 +162,8 @@ export default {
     avatorChange() {
       this.show = true
     },
+    //显示日期
     ageChange() {
-      console.log(this.$vux)
       this.visibility = true
     },
     //退出登录
@@ -182,6 +181,13 @@ export default {
             console.log(error)
           })
         }
+      })
+    },
+    //修改信息
+    updateUserInfo(updateObj) {
+      this.$axios.post('/api/user/update',updateObj).then((response) => {
+      }).catch((error) => {
+        console.log(error)
       })
     },
     ...mapActions([

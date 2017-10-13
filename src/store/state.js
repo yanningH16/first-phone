@@ -2,7 +2,6 @@ import { loadUserPhone, loadUserInfo, loadUserNopay, loadUserState } from '../as
 const state = {
   userPhone: loadUserPhone(),
   userInfo: loadUserInfo(),
-  userNopay: loadUserNopay(),
-  userState: loadUserState()
+  userNopay: loadUserNopay()
 }
 export default state

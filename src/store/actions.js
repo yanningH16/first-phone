@@ -17,7 +17,3 @@ export const setUserInfo = function({ commit }, userInfo) {
 export const setUserNopay = function({ commit }, userNopay) {
     commit(types.SET_USER_NOPAY, setUserNopayStorage(userNopay))
   }
-  // 设置用户登录状态
-export const setUserState = function({ commit }, query) {
-  commit(types.SET_USER_STATE, setUserStateStorage(query))
-}

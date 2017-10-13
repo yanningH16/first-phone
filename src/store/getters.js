@@ -1,6 +1,4 @@
-// 用户是否登录
-export const userState = state => state.userState
-  // 用户手机
+// 用户手机
 export const userPhone = state => state.userPhone
   //搜索历史
 export const searchList = state => state.searchList

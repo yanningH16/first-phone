@@ -59,26 +59,20 @@ export default {
     Badge,
     Scroll
   },
-  created(){
-    this.userSetInfo.avatorUrl = this.userInfo.headPicId
-    this.userSetInfo.userName = this.userInfo.username
-    this.userSetInfo.typeName = (this.userInfo.isVip?'Plus会员':'普通会员')
-    this.userSetInfo.btnName = (this.userInfo.isVip?'续费Plus':'升级Plus')
-  },
-  updated(){
-    this.userSetInfo.avatorUrl = this.userInfo.headPicId
-    this.userSetInfo.userName = this.userInfo.username
-    this.userSetInfo.typeName = (this.userInfo.isVip?'Plus会员':'普通会员')
-    this.userSetInfo.btnName = (this.userInfo.isVip?'续费Plus':'升级Plus')
+  computed:{
+    //使用computed
+    userSetInfo(){
+      return {
+        avatorUrl: this.userInfo.headPicId,
+        userName: this.userInfo.username,
+        typeName: (this.userInfo.isVip?'Plus会员':'普通会员'),
+        btnName:(this.userInfo.isVip?'续费Plus':'升级Plus')
+      }
+      
+    }
   },
   data() {
     return {
-      userSetInfo: {
-        avatorUrl: '',
-        userName: '二口夭',
-        typeName: '普通会员',
-        btnName: '升级Plus'
-      },
       boxOne: [
         {
           title: '我的金币 32.00',

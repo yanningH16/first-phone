@@ -44,10 +44,10 @@
 import Scroll from '../../../base/scroll/scroll'
 import Pay from '../../../base/pay/pay'
 import { userInfoMixin } from '../../../assets/js/mixin'
-import { mapGetters ,mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "buyCoin",
-  mixins:[userInfoMixin],
+  mixins: [userInfoMixin],
   components: {
     Scroll,
     Pay
@@ -61,13 +61,8 @@ export default {
   },
   data() {
     return {
-      userSetInfo: {
-        userName: '耳扣要',
-        userState: 1,
-        userTime: '2017-10-25'
-      },
       preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ },
-      isClick:true,
+      isClick: true,
       paytype: 2,
       type: 2,
       isChecked: 0,
@@ -78,34 +73,25 @@ export default {
           price: '50',
           type: '一个月套餐',
           info: '每天仅需0.6元',
-          month:1
+          month: 1
         },
         {
           price: '96',
           oldPrice: '120',
           type: '两个月套餐',
           info: '每天仅需0.6元',
-          month:2
+          month: 2
         },
         {
           price: '120',
           oldPrice: '200',
           type: '三个月套餐',
           info: '每天仅需0.6元',
-          month:3
+          month: 3
         }
       ],
       moneyIndex: 0,
       chosed: true
-    }
-  },
-  created () {
-    console.log(this.userInfo)
-    this.userSetInfo.avatorUrl = this.userInfo.headPicId
-    this.userSetInfo.userName = this.userInfo.username
-    this.userSetInfo.userState = (this.userInfo.isVip?1:0)
-    if(this.userInfo.vipEndtime){
-      this.userSetInfo.userTime = this.userInfo.vipEndtime.slice(0,10)
     }
   },
   computed: {
@@ -119,7 +105,20 @@ export default {
       set(val) {
         return val
       }
+    },
+    userSetInfo(){
+      let userTime
+      if (this.userInfo.vipEndtime) {
+        userTime = this.userInfo.vipEndtime.slice(0, 10)
+      }
+      return {
+        avatorUrl:this.userInfo.headPicId,
+        userName:this.userInfo.username,
+        userState:(this.userInfo.isVip ? 1 : 0),
+        userTime:userTime
+      }
     }
+    
   },
   methods: {
     choosePay(index) {
@@ -128,7 +127,7 @@ export default {
     isChosed(val) {
       this.chosed = val
     },
-    buyPlus(){
+    buyPlus() {
       this.$axios.post('/api/user/vipShipRenewal', {
         telephone: this.userInfo.telephone,
         months: this.moneyBox[this.moneyIndex].month,
@@ -143,10 +142,10 @@ export default {
         } else {
           let _this = this
           this.$vux.toast.show({
-            text:'修改成功',
-            type:'success',
-            time:1000,
-            onHide(){
+            text: '修改成功',
+            type: 'success',
+            time: 1000,
+            onHide() {
               _this.refreshUserInfo()
               _this.$router.push({ name: 'user' })
             }
@@ -159,13 +158,13 @@ export default {
         })
       })
     },
-    refreshUserInfo(){
+    refreshUserInfo() {
       this.$axios.post('/api/user/refresh', {
         buyerUserId: this.userInfo.buyerUserId,
       }).then((response) => {
-        if(response.data.code==='200'){
+        if (response.data.code === '200') {
           this.setUserInfo(response.data.data)
-        }else{
+        } else {
           this.$vux.alert.show({
             title: '错误提示',
             content: '网络错误，信息更新未完成',
