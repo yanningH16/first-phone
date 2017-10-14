@@ -35,7 +35,7 @@
           <textarea name="" id=""  placeholder="撰写商品的评价，评价内容要求至少15个字以上，优质评价将提升你以后的中奖率" v-model="text"></textarea>
         </div>
         <div class="step2" style="padding-bottom: 0">
-          <h2>三、上传商品图片</h2>
+          <h2>三、上传商品图片(至少3张)</h2>
           <upload :myimgs="goodsImg" :max="5" :showNum="true"></upload>
         </div>
         <div class="warn">
@@ -100,12 +100,12 @@
     methods: {
       next(){
         console.log(this.text)
-        if (this.text!==''&& this.goodsImg.length>0) {
+        if (this.text!==''&& this.goodsImg.length>2) {
           this.$router.push({ name:'preAppendTextKeyImgFav2',query:{text:this.text,goodsImg:this.goodImg, buyerTaskRecordId: this.$route.query.buyerTaskRecordId} })
         }else{
           this.$vux.alert.show({
-            title:'错误提示',
-            content: '内容不能为空',
+            title:'提示',
+            content: '请完善信息',
           })
         }
       }

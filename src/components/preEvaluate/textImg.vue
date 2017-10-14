@@ -32,7 +32,7 @@
           <textarea v-model="goodCommon"  placeholder="撰写商品的评价，评价内容要求至少15个字以上，优质评价将提升你以后的中奖率"></textarea>
         </div>
         <div class="stepTwo">
-          <h2>三、上传商品图片</h2>
+          <h2>三、上传商品图片(至少3张)</h2>
           <div>
             <upload :myimgs="goodsImg" :max="5" :showNum="true"></upload>
           </div>
@@ -104,6 +104,13 @@
         doNext() {
           //var buyerTaskRecordId = localStorage.getItem("buyerTaskRecordId")
           let that = this;
+          if(this.goodsImg.length<3) {
+            this.$vux.alert.show({
+              title: '提示',
+              content: '请至少上传3张图片',
+            })
+            return false
+          }
           this.$axios.post('/api/orderOperate/backOrderSubmit', {
             buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
             goodCommon: this.goodCommon,
