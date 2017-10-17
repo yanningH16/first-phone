@@ -33,7 +33,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import axios from 'axios'
-import {loadUserInfo} from '../assets/js/cache'
+import { loadUserInfo } from '../assets/js/cache'
 // import Index from '@/components/index/index'
 // import Nopay from '@/components/nopay/nopay'
 // import Rushou from '@/components/rushou/rushou'
@@ -127,6 +127,11 @@ const UpdateUserPwd = (resolve) => {
 }
 const HelpCenter = (resolve) => {
   import ('@/components/user/helpCenter/helpCenter').then((module) => {
+    resolve(module)
+  })
+}
+const HelpInfo = (resolve) => {
+  import ('@/components/user/helpCenter/helpInfo').then((module) => {
     resolve(module)
   })
 }
@@ -719,6 +724,11 @@ const routes = [{
     meta: { title: '帮助中心' },
   },
   {
+    path: '/user/helpInfo',
+    component: HelpInfo,
+    name: 'helpInfo'
+  },
+  {
     path: '/user/userSuggest',
     component: UserSuggest,
     name: 'userSuggest',
@@ -1065,7 +1075,7 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
     axios.post('/api/user/loginOrNot', {}).then((res) => {
-      if (res.data.code !== '200'|| !loadUserInfo()) {
+      if (res.data.code !== '200' || !loadUserInfo()) {
         Vue.$vux.alert.show({
           title: '温馨提示',
           content: '您未登录，请登录',
@@ -1077,11 +1087,6 @@ router.beforeEach((to, from, next) => {
         if (to.matched.length === 0) {
           from.name ? next({ name: from.name }) : next('/') //未定义路由条状到首页
         }
-        if (to.meta.title || to.params.message) {
-          document.title = to.meta.title || to.params.message.title
-        } else {
-          document.title = 'BaoyiBao'
-        }
       }
     }).catch(() => {
       Vue.$vux.alert.show({
@@ -1092,6 +1097,11 @@ router.beforeEach((to, from, next) => {
         }
       })
     })
+  }
+  if (to.meta.title || to.params.message) {
+    document.title = to.meta.title || to.params.message.title
+  } else {
+    document.title = 'BaoyiBao'
   }
   next()
 })

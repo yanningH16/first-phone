@@ -9,12 +9,12 @@
             </div>
             <div class="questionContainer">
               <div class="questionBox" v-for="(item,index) in questions" :key="index">
-                <div class="left  border-right-1px">
+                <div class="left  border-right-1px" @click="goInfo(index)">
                   <span class="icon iconfont"></span>
                   <span class="text">{{item.text}}</span>
                 </div>
                 <div class="right">
-                  <div class="rightLine border-bottom-1px" v-for="(itemLine,indexLine) in item.list" :key="indexLine">
+                  <div class="rightLine border-bottom-1px" v-for="(itemLine,indexLine) in item.list" :key="indexLine" @click="goInfo(index,indexLine)">
                     {{itemLine.name}}
                   </div>
                 </div>
@@ -45,12 +45,10 @@ export default {
           text:'新手问题',
           list:[
             {
-              name:'申请需要交钱吗',
-              link:''
+              name:'申请需要什么条件?',
             },
             {
-              name:'如何保障我的资金安全？',
-              link:''
+              name:'申请需要交钱吗？',
             }
           ]
         },
@@ -59,12 +57,10 @@ export default {
           text:'试用申请',
           list:[
             {
-              name:'如何申请试用商品？',
-              link:''
+              name:'如何申请商品？',
             },
             {
-              name:'每天最多可得fsdsdfssssssfsds到几个商品呢？',
-              link:''
+              name:'每天最多可以得到几个商品呢？',
             }
           ]
         },
@@ -73,11 +69,11 @@ export default {
           text:'下单领取',
           list:[
             {
-              name:'我不小心使用淘宝下单怎么办？',
+              name:'中奖商品有下单时间限制要求吗？',
               link:''
             },
             {
-              name:'下单可以使用信用卡付款吗？',
+              name:'下单时可以使用信用卡付款吗？',
               link:''
             }
           ]
@@ -87,16 +83,35 @@ export default {
           text:'收货评价',
           list:[
             {
-              name:'收到商品质量有问题怎么办？',
+              name:'商品对评价有什么要求吗？',
               link:''
             },
             {
-              name:'评价忘记传图怎么办？',
+              name:'图文好评任务评价时需要注意些什么呢？',
+              link:''
+            }
+          ]
+        },
+        {
+          icon:'',
+          text:'返款/提现',
+          list:[
+            {
+              name:'银行卡不小心绑定错误了怎么办？',
+              link:''
+            },
+            {
+              name:'任务完成后什么时候返款？',
               link:''
             }
           ]
         }
       ]
+    }
+  },
+  methods:{
+    goInfo(index,chooseIndex){
+      this.$router.push({ name: 'helpInfo' ,query:{index:index,chooseIndex:chooseIndex}})
     }
   }
 }
@@ -124,6 +139,8 @@ export default {
     display flex
     flex-direction column
     height 100%
+    .scrollBox
+      height 100%
     .helpCenter
       .infoBox
         width 100%
