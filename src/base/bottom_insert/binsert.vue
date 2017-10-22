@@ -1,15 +1,11 @@
 <template>
   <div class="binsert">
     <ul>
-      <li v-if="type===1">
+      <li v-if="leastNum!==0">
         <b><img src="./img/share.png" alt="share"></b>
         <strong>分享</strong>
       </li>
-      <li v-if="type===2">
-        <b><img src="./img/fav.png" alt="fav"></b>
-        <strong>关注</strong>
-      </li>
-      <li v-if="type===3">
+      <li v-else>
         <b><img src="./img/fav.png" alt="fav"></b>
         <strong>关注</strong>
       </li>
@@ -18,20 +14,23 @@
         <span>剩余份数&nbsp;</span>
         <i>{{ leastNum }}</i>
       </li>
-      <li class="line" v-show="timeShow"></li>
-      <li v-show="timeShow">
-        <button v-if="type===1" class="time notDo">{{ leftTime }}</button>
-        <button v-if="type===2" class="time">我要必中</button>
-        <button v-if="type===3" class="time notDo">不可兑换</button>
+      <li class="line" v-if="tType==='time' || tType==='btn' || leastNum===0"></li>
+      <li>
+        <button v-if="leastNum===0" class="time notDo">不可兑换</button>
+        <button v-else-if="tType==='time'" class="time notDo">{{ leftTime }}</button>
+        <button v-else-if="tType==='btn'" class="time" @click="wantGet">我要必中</button>
         <!--<input v-if="type===1" type="button" class="time" disabled v-model="leftTime">
         <input v-if="type===2" type="button" class="time" value='我要必中'>
         <input v-if="type===3" type="button" class="time" value='不可兑换'>-->
         <!--<input type="button" class="time" :class="{'notDo': !canDo}" @click="goToGet" :disabled="!canDo" v-model="timeLimit">-->
       </li>
     </ul>
-    <span v-if="type===1" class="btn" @click="bottomBtn">申请白拿</span>
-    <span v-if="type===2" class="btn graybg">申请已满</span>
-    <span v-if="type===3" class="btn graybg">已领完</span>
+    <span v-if="leastNum===0" class="btn graybg">已领完</span>
+    <span v-else-if="type===0" class="btn graybg">申请白拿</span>
+    <span v-else-if="type===1" class="btn" @click="bottomBtn">申请白拿</span>
+    <span v-else-if="type===2" class="btn graybg">申请已满</span>
+    <span v-else-if="type===3" class="btn" @click="bottomBtn">申请就中奖</span>
+    <span v-else-if="type===4" class="btn" @click="bottomBtn">Plus白拿</span>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -43,11 +42,11 @@
       }
     },
     methods: {
-      bottomBtn() {
+      bottomBtn() {// 申请白拿等按钮
         this.$emit('btn-click')
       },
-      goToGet() {
-        this.$emit('goToWhere')
+      wantGet() {// 我要必中按钮
+        this.$emit('wantGet')
       }
     },
     props: {
@@ -57,16 +56,20 @@
       },
       type: {
         type: Number,
-        default: 1
+        default: 4
       },
-      timeShow: {
+      tType: {
+        type: String,
+        default: 'time'
+      },
+      /*timeShow: {
         type: Boolean,
         default: true
-      },
-      canDo: {
+      },*/
+     /* canDo: {
         type: Boolean,
         default: true
-      },
+      },*/
       leftTime: {
         type: String,
         default: "14:00开始"
