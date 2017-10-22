@@ -14,7 +14,7 @@
         <span>剩余份数&nbsp;</span>
         <i>{{ leastNum }}</i>
       </li>
-      <li class="line" v-if="tType==='time' || tType==='btn' || leastNum===0"></li>
+      <li class="line" v-if="tType==='time' || tType==='btn' || tType==='notDo'"></li>
       <li>
         <button v-if="tType==='notDo'" class="time notDo">不可兑换</button>
         <button v-else-if="tType==='time'" class="time notDo">{{ leftTime }}</button>
@@ -36,9 +36,7 @@
   export default {
     name: "Binsert",
     data() {
-      return {
-
-      }
+      return {}
     },
     methods: {
       bottomBtn() {// 申请白拿等按钮
