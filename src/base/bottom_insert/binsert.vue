@@ -16,7 +16,7 @@
       </li>
       <li class="line" v-if="tType==='time' || tType==='btn' || leastNum===0"></li>
       <li>
-        <button v-if="leastNum===0" class="time notDo">不可兑换</button>
+        <button v-if="tType==='notDo'" class="time notDo">不可兑换</button>
         <button v-else-if="tType==='time'" class="time notDo">{{ leftTime }}</button>
         <button v-else-if="tType==='btn'" class="time" @click="wantGet">我要必中</button>
         <!--<input v-if="type===1" type="button" class="time" disabled v-model="leftTime">
@@ -25,8 +25,7 @@
         <!--<input type="button" class="time" :class="{'notDo': !canDo}" @click="goToGet" :disabled="!canDo" v-model="timeLimit">-->
       </li>
     </ul>
-    <span v-if="leastNum===0" class="btn graybg">已领完</span>
-    <span v-else-if="type===0" class="btn graybg">申请白拿</span>
+    <span v-if="type===0" class="btn graybg">已领完</span>
     <span v-else-if="type===1" class="btn" @click="bottomBtn">申请白拿</span>
     <span v-else-if="type===2" class="btn graybg">申请已满</span>
     <span v-else-if="type===3" class="btn" @click="bottomBtn">申请就中奖</span>
@@ -52,11 +51,11 @@
     props: {
       leastNum: {
         type: Number,
-        default: 0
+        default: 1
       },
       type: {
         type: Number,
-        default: 4
+        default: 0
       },
       tType: {
         type: String,
