@@ -17,7 +17,7 @@
               </div>
             </div>
             <div class="infoBox">
-              <p v-for="(item,index) in infos" :key="index" class="info">{{index+1}}.{{item}}</p>
+              <p v-for="(item,index) in infos" :key="index" class="info">{{index + 1}}.{{item}}</p>
             </div>
             <div class="btnBox">
               <button class="btn" @click="showAddAddress" v-if="!addressItem">添加新地址</button>
@@ -30,8 +30,10 @@
                 <group>
                   <x-input placeholder="省区、城市、区县" v-model="addressOneName" @on-focus="chooseAddress"></x-input>
                   <x-input placeholder="详细地址，如街道、楼牌号等" required v-model="addressTwo" ref="validAdd"></x-input>
-                  <x-input is-type="china-name" placeholder="姓名" required v-model="addressName" ref="validName"></x-input>
-                  <x-input is-type="china-mobile" placeholder="手机号" required v-model="addressPhone" ref="validPhone"></x-input>
+                  <x-input is-type="china-name" placeholder="姓名" required v-model="addressName"
+                           ref="validName"></x-input>
+                  <x-input is-type="china-mobile" placeholder="手机号" required v-model="addressPhone"
+                           ref="validPhone"></x-input>
                 </group>
               </div>
               <div class="defaultAddress">
@@ -42,111 +44,146 @@
                 <button class="btn" :class="{'btn-disabled':!btnSaveState}" @click="saveAddress">保存</button>
               </div>
               <div class="showAddress">
-                <x-address style="display:none;" :title="title" v-model="addressOne" :list="addressData" :show.sync="isShowAddress"></x-address>
+                <x-address style="display:none;" :title="title" v-model="addressOne" :list="addressData"
+                           :show.sync="isShowAddress"></x-address>
               </div>
             </div>
           </transition>
-
         </div>
       </scroll>
     </div>
   </transition>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from '../../../base/scroll/scroll'
-import Checkbtn from '../../../base/checkbtn/checkbtn'
-import { XInput, Group, XAddress, ChinaAddressV2Data, Value2nameFilter as value2name } from 'vux'
-export default {
-  name: "usersex",
-  components: {
-    Scroll,
-    XInput,
-    Group,
-    Checkbtn,
-    XAddress
-  },
-  data() {
-    return {
-      infos: [
-        '请填写淘宝常用收货地址，中奖下单必须与改地址一致！平台会定期检查，如发现不一致，将封号处理！',
-        '该地址将作为后期活动寄送的收货地址'
-      ],
-      addressItem:{
-        name: '二口夭',
-        isDefault: true,
-        phone: '15345812564',
-        addressInfo: '浙江省 杭州市 余杭区 向往街999号乐富海邦园K座705'
+  import Scroll from '../../../base/scroll/scroll'
+  import Checkbtn from '../../../base/checkbtn/checkbtn'
+  import {XInput, Group, XAddress, ChinaAddressV2Data, Value2nameFilter as value2name} from 'vux'
+  import { mapActions } from 'vuex'
+
+  export default {
+    name: "usersex",
+    components: {
+      Scroll,
+      XInput,
+      Group,
+      Checkbtn,
+      XAddress
+    },
+    data() {
+      return {
+        infos: [
+          '请填写淘宝常用收货地址，中奖下单必须与改地址一致！平台会定期检查，如发现不一致，将封号处理！',
+          '该地址将作为后期活动寄送的收货地址'
+        ],
+        addressItem: {
+          name: '二口夭',
+          isDefault: true,
+          phone: '15345812564',
+          addressInfo: '浙江省 杭州市 余杭区 向往街999号乐富海邦园K座705'
+        },
+        isShowAdd: false,
+        addressOne: [],
+        addressOneName: '',
+        addressTwo: '',
+        addressName: '',
+        addressPhone: '',
+        isChecked: true,
+        btnSaveState: false,
+        addressData: ChinaAddressV2Data,
+        isShowAddress: false,
+        title: '默认'
+      }
+    },
+    watch: {
+      addressOne(newval) {
+        this.addressOneName = this.getName(newval)
+        this.regExpClicked()
       },
-      isShowAdd: false,
-      addressOne: [],
-      addressOneName: '',
-      addressTwo: '',
-      addressName: '',
-      addressPhone: '',
-      isChecked: true,
-      btnSaveState: false,
-      addressData: ChinaAddressV2Data,
-      isShowAddress: false,
-      title: '默认'
-    }
-  },
-  watch: {
-    addressOne(newval) {
-      this.addressOneName = this.getName(newval)
-      this.regExpClicked()
-    },
-    addressTwo() {
-      this.regExpClicked()
-    },
-    addressName() {
-      this.regExpClicked()
-    },
-    addressPhone() {
-      this.regExpClicked()
-    }
-  },
-  methods: {
-    showAddAddress() {
-      this.isShowAdd = true
-    },
-    //显示下拉地址
-    chooseAddress() {
-      this.isShowAddress = true
-    },
-    //获得地址
-    getName(value) {
-      return value2name(value, ChinaAddressV2Data)
-    },
-    //校验是否可点击
-    regExpClicked() {
-      // let hasAddressOne 
-      let hasCore = (this.addressOneName.length > 1)
-      let hasAdd = this.$refs.validAdd.valid
-      let hasName = this.$refs.validName.valid
-      let hasPhone = this.$refs.validPhone.valid
-      if (hasCore && hasAdd && hasName && hasPhone) {
-        this.btnSaveState = true
-        return false
-      }
-      this.btnSaveState = false
-    },
-    //保存地址
-    saveAddress() {
-      //ajax请求
-      if (this.btnSaveState) {
-        console.log('保存')
+      addressTwo() {
+        this.regExpClicked()
+      },
+      addressName() {
+        this.regExpClicked()
+      },
+      addressPhone() {
+        this.regExpClicked()
       }
     },
-    //更新地址
-    updateAddress() {
-      this.isShowAdd = true
+    methods: {
+      showAddAddress() {
+        this.isShowAdd = true
+      },
+      //显示下拉地址
+      chooseAddress() {
+        this.isShowAddress = true
+      },
+      //获得地址
+      getName(value) {
+        return value2name(value, ChinaAddressV2Data)
+      },
+      //校验是否可点击
+      regExpClicked() {
+        // let hasAddressOne
+        let hasCore = (this.addressOneName.length > 1)
+        let hasAdd = this.$refs.validAdd.valid
+        let hasName = this.$refs.validName.valid
+        let hasPhone = this.$refs.validPhone.valid
+        if (hasCore && hasAdd && hasName && hasPhone) {
+          this.btnSaveState = true
+          return false
+        }
+        this.btnSaveState = false
+      },
+      //保存地址
+      saveAddress() {
+        //ajax请求
+        if (this.btnSaveState) {
+          console.log('保存')
+          this.$axios.post('/api/user/update', {
+            telephone: this.$store.state.userInfo.telephone,
+            addressInfo: this.addressOneName,
+            phone: this.addressPhone,
+            name: this.addressName
+          }).then((response) => {
+            //console.log(response);
+            let that = this;
+            let obj = this.$store.state.userInfo;
+            obj.addressInfo = this.addressOneName;
+            obj.phone = this.addressPhone;
+            obj.name = this.addressName;
+            this.setUserInfo(obj);
+            this.$vux.toast.show({
+              text: '保存成功',
+              onHide () {
+                that.$router.push({ name: 'settings' })
+              }
+            })
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
+      },
+      //更新地址
+      updateAddress() {
+        this.isShowAdd = true
+      },
+      ...mapActions([
+        'setUserInfo'
+      ])
+    },
+    created() {//
+      this.addressItem = {
+        name: this.$store.state.userInfo.username,
+        isDefault: true,
+        phone: this.$store.state.userInfo.telephone,
+        addressInfo: this.$store.state.userInfo.postAddress
+      }
     }
   }
-}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '../../../assets/stylus/variable'
-@import '../../../assets/stylus/mixin'
+  @import '../../../assets/stylus/variable'
+  @import '../../../assets/stylus/mixin'
   .settings
     height 100%
     position fixed
@@ -157,39 +194,39 @@ export default {
     bottom 0
     z-index 9999
     background $color-background
-    &.move-enter-active,.move-leave-active 
+    &.move-enter-active, .move-leave-active
       transition all 0.2s linear
       transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
+    &.move-enter, .move-leave
       transform translate3d(100%, 0, 0)
     .scroll-content
       height 100%
       .userAddressBox
         .btnBox
+          width 100%
+          padding 2rem 1.8rem
+          box-sizing border-box
+          .btn
             width 100%
-            padding 2rem 1.8rem
-            box-sizing border-box
-            .btn
-              width 100%
-              border-width 0
-              outline 0
-              -webkit-appearance none
-              position: relative
-              height 4rem
-              line-height 4rem
-              font-size $font-size-medium-x
-              text-align center
-              text-decoration none
-              color $color-theme-white
-              border-radius $border-radius
-              -webkit-tap-highlight-color rgba(0, 0, 0, 0)
-              background-color $color-theme
-              font-weight $font-weight
-            .btn-disabled
-              background-color $color-theme-disabled
-              color rgba(255,255,255,0.3)
-              &:active
-                background $color-theme-active
+            border-width 0
+            outline 0
+            -webkit-appearance none
+            position: relative
+            height 4rem
+            line-height 4rem
+            font-size $font-size-medium-x
+            text-align center
+            text-decoration none
+            color $color-theme-white
+            border-radius $border-radius
+            -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+            background-color $color-theme
+            font-weight $font-weight
+          .btn-disabled
+            background-color $color-theme-disabled
+            color rgba(255, 255, 255, 0.3)
+            &:active
+              background $color-theme-active
         .boxOne
           .infoBox
             width 100%

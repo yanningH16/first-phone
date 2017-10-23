@@ -42,9 +42,9 @@
           <div class="iconfont">
           </div>
         </div>
-        <div class="actionBox">
+        <div class="actionBox" v-show="visibility">
           <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
-          <datetime v-model="age" title="" :show.sync="visibility"></datetime>
+          <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility"></datetime>
         </div>
       </scroll>
     </div>
@@ -166,6 +166,26 @@ export default {
     ageChange() {
       this.visibility = true
     },
+    saveAge() {
+      this.$axios.post('/api/user/update', {
+        telephone: this.$store.state.userInfo.telephone,
+        birthday: this.age
+      }).then((response) => {
+        console.log(response);
+        let that = this;
+        let obj = this.$store.state.userInfo;
+        obj.birthday = this.age;
+        this.setUserInfo(obj);
+        this.$vux.toast.show({
+          text: '保存成功',
+          onHide () {
+            that.$router.push({ name: 'settings' })
+          }
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
     //退出登录
     logout() {
       const _this = this
@@ -208,7 +228,7 @@ export default {
     bottom 0
     z-index 9999
     background $color-background
-    &.move-enter-active,.move-leave-active 
+    &.move-enter-active,.move-leave-active
       transition all 0.2s linear
       transform translate3d(0, 0, 0)
     &.move-enter,.move-leave

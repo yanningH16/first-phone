@@ -18,7 +18,7 @@
             <h1 class="info">请与[支付宝账户与安全]截图上显示的性别保持一致，一经绑定不能修改</h1>
           </div>
           <div class="btnBox">
-            <button class="btn">提交</button>
+            <button class="btn" @click="setSex">提交</button>
           </div>
         </div>
       </scroll>
@@ -28,6 +28,7 @@
 <script type="text/ecmascript-6">
 import CheckBox from '../../../base/checkbtn/checkbtn'
 import Scroll from '../../../base/scroll/scroll'
+import { mapActions } from 'vuex'
 export default {
   name: "usersex",
   components: {
@@ -40,6 +41,39 @@ export default {
       btnState:false
     }
   },
+  methods: {
+    setSex() {
+      console.log(this.$store.state.userInfo)
+      this.$axios.post('/api/user/update', {
+        telephone: this.$store.state.userInfo.telephone,
+        gender: this.chooseChecked === true ? '1' : '2'
+      }).then((response) => {
+        console.log(response);
+        let that = this;
+        let obj = this.$store.state.userInfo;
+        obj.gender = this.chooseChecked === true ? '1' : '2';
+        this.setUserInfo(obj);
+        this.$vux.toast.show({
+          text: '保存成功',
+          onHide () {
+            that.$router.go(0);
+          }
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    ...mapActions([
+      'setUserInfo'
+    ])
+  },
+  created() {
+    if(this.$store.state.userInfo.gender === '1') {
+      this.chooseChecked = true;
+    } else {
+      this.chooseChecked = false;
+    }
+  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -55,7 +89,7 @@ export default {
     bottom 0
     z-index 9999
     background $color-background
-    &.move-enter-active,.move-leave-active 
+    &.move-enter-active,.move-leave-active
       transition all 0.2s linear
       transform translate3d(0, 0, 0)
     &.move-enter,.move-leave

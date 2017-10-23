@@ -20,6 +20,7 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import { XInput, Group } from 'vux'
+import { mapActions } from 'vuex'
 export default {
   name: "userQq",
   components: {
@@ -45,9 +46,29 @@ export default {
 
   methods: {
     //保存qq
-    saveQq(){
-      
-    }
+    saveQq(){//addressQQ
+      this.$axios.post('/api/user/update', {
+        telephone: this.$store.state.userInfo.telephone,
+        qqNum: this.addressQQ
+      }).then((response) => {
+        console.log(response)
+        let that = this;
+        let obj = this.$store.state.userInfo;
+        obj.qqNum = this.addressQQ;
+        this.setUserInfo(obj);
+        this.$vux.toast.show({
+          text: '保存成功',
+          onHide () {
+            that.$router.push({ name: 'settings' })
+          }
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    ...mapActions([
+      'setUserInfo'
+    ])
   }
 }
 </script>
@@ -64,7 +85,7 @@ export default {
     bottom 0
     z-index 9999
     background $color-background
-    &.move-enter-active,.move-leave-active 
+    &.move-enter-active,.move-leave-active
       transition all 0.2s linear
       transform translate3d(0, 0, 0)
     &.move-enter,.move-leave
