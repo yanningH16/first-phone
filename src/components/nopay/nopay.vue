@@ -238,7 +238,7 @@ export default {
               pric: m.price,
               state: m.isMore,
               zhuan: m.extraGold,
-              hua:m.goldNum,
+              hua:m.extraGold,
               baina:'白拿'
             }
           }

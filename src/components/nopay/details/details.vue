@@ -170,6 +170,18 @@
           </ul>
         </alert>
 
+
+        <!-- 新增进行支付的弹窗开始   on-confirm='payMoney'确定支付触发的   on-cancel='payQuxiao'取消触发的-->
+           <confirm v-model="paycode" @on-confirm="payMoney" @on-cancel="payQuxiao">
+          <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
+          <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户: <span>55</span>金币</p>
+          <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费: <span>55</span>金币</p>
+         </confirm>
+
+
+
+         <!-- 新增进行支付的弹窗结束 -->
+
         <!--充值plus会员的操作-->
         <div class="cover" v-if="vip">
           <div class="plus">
@@ -258,6 +270,8 @@
         typeFoot:3,
         leftTime:'14:00',
 //      底部组件结束
+// 金币拿支付的提示
+        paycode:false,
         pic: false,
         wait: false,
         quan: false,
@@ -398,7 +412,7 @@
                 this.pic=true
                 return false
               }else {
-                //则走 我要白拿的正常任务
+                // 没有的话则走 我要白拿的正常任务
                 this.$axios.post('/api/orderOperate/getFirstOrder', {
                   sellerTaskId: that.$route.query.sellerTaskId,
                   buyerUserId: buyerUserId
@@ -420,13 +434,27 @@
                   userId:buyerUserId
           }).then((data)=>{
             console.log(data)
-          })
-            if(that.objDeli.goldNum){
+              let res=data.data
+              //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
+              if(that.objDeli.goldNum>res.data.availableGold){
               
+            }else{
+              //金币够用 开始进行支付
+                this.paycode=true
             }
+          })
+            
 
         } 
         // 即this.typeFoot===3结束
+
+        // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
+        if(this.type===4){
+
+        }
+
+
+         // 即this.typeFoot===4结束 Plus白拿结束
       },
 
         /*当点击一张必中券之后 点击使用 跳到必中任务里面去*/
@@ -435,6 +463,28 @@
         },
       
       //当点击取消 即不使用必中券的时候 跳到正常任务里面去
+
+      //金币换的支付接口 点击确定支付时候的弹窗
+      payMoney(){
+        var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
+          this.$axios.post('/api/fundsFlow/buyerGoldExchange',{
+                //金币数量
+                amount : this.objDeli.goldNum,
+                //用户id
+                 userFundId :buyerUserId,
+                 orderId:this.$route.query.sellerTaskId
+          }).then((data)=>{
+            console.log(data)
+
+
+          })
+      },
+      //点击取消 取消支付 
+      payQuxiao(){
+      },
+
+      //金币换的支付接口 点击确定支付时候的弹窗结束
+
 
 //    当点击立即去绑定触发的效果  判断微信 手机号 淘宝账号是否绑定了
       hideAlert(){
@@ -492,15 +542,20 @@
             that.objDeli = obj
             this.demo07_list[0].img = obj.picUrl
 //         进行一系列的判断
-//            如果是金币拿的底部出现的情况
+//            如果是金币换的底部出现的情况
+              that.$nextTick(() => {
+                          that.$refs.scroll.refresh()
+                        })
             if (that.objDeli.isGold===1||(that.objDeli.isGold===1&&that.objDeli.isMore===0)){
 //              申请就中奖的数量没有的时候
               if (that.objDeli.goldChangeLeftNum<=0){
                 this.typeFoot=0
                 this.tType=''
+                return false
               }else {
                 this.typeFoot=3
                 this.tType=''
+                return false
               }
             }
 //            进行pulus的判断 plus+全额返  plus+超额返
@@ -509,9 +564,11 @@
               if (that.objDeli.goldChangeLeftNum<=0){
                 this.typeFoot=0
                 this.tType=''
+                return false
               }else {
                 this.typeFoot=4
                 this.tType=''
+                return false
               }
               //超额返  全额返
             }else  if (that.objDeli.isMore===1||that.objDeli.isMore===0){
@@ -521,25 +578,26 @@
                 if (that.goldChangeLeftNum<=0&&that.objDeli.applyLeftNum<=0){
                   this.tType='notDo'
                   this.typeFoot=0
+                  return false
                 }else {
                   this.tType = 'btn'
 //                  申请白拿剩余数量为0的时候
                   if (that.objDeli.applyLeftNum <= 0) {
                     this.typeFoot = 2
+                    return false
                   } else {
                     this.typeFoot = 1
+                    return false
                   }
                 }
               }else {
                 this.tType='time'
                 this.typeFoot=1
+                return false
               }
             }
 //          进行判断结束
           }
-          that.$nextTick(() => {
-            that.$refs.scroll.refresh()
-          })
         }).catch((error) => {
           console.log(error)
           this.$vux.alert.show({
