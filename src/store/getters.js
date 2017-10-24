@@ -6,3 +6,5 @@ export const searchList = state => state.searchList
 export const userInfo = state => state.userInfo
   //记录商品列表的数据
 export const userNopay = state => state.userNopay
+//用户金币
+export const userCoin = state => state.userCoin

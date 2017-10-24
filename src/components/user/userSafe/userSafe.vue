@@ -82,6 +82,77 @@ export default {
       this.boxTwo[0].isLink = false
       this.boxTwo[0].value = '已设置'
     }
+    console.log(this.boxOne)
+  },
+  computed: {
+    boxOne: {
+      get() {
+        let arr = []
+        //淘宝账号状态判断
+        if (this.userInfo.alipayUserName) {
+          let obj = {
+            title: `绑定淘宝买号:${this.userInfo.alipayUserName}`
+          }
+          if (this.userInfo.checkStatus === 1) {
+            obj.state = 2
+            obj.isLink = false
+            obj.value = '已通过审核'
+          } else if (this.userInfo.checkStatus === 0) {
+            obj.state = 0
+            obj.isLink = true
+            obj.value = '未通过审核'
+          } else {
+            obj.state = 1
+            obj.isLink = true
+            obj.value = '审核中'
+          }
+          arr.push(obj)
+        } else {
+          let obj = {
+            title: '绑定淘宝买号',
+            link: '../registerThree',
+            isLink: true,
+            value: '',
+            info: '',
+            state: 1
+          }
+          arr.push(obj)
+        }
+        //银行卡状态判断
+        if (this.userInfo.bank_card_no) {
+          let obj = {}
+          if (this.userInfo.bankCheckStatus === 1) {
+            obj.state = 2
+            obj.isLink = false
+            obj.value = '已通过审核'
+          } else if (this.userInfo.bankCheckStatus === 0) {
+            obj.state = 0
+            obj.isLink = true
+            obj.value = '未通过审核'
+          } else {
+            obj.state = 1
+            obj.isLink = true
+            obj.value = '审核中'
+          }
+          arr.push(obj)
+        } else {
+          let obj = {
+            title: '绑定银行卡',
+            link: 'userSafe/yinHangKa',
+            isLink: true,
+            value: '',
+            info: '支付宝通过审核后方可绑定',
+            state: 1
+          }
+          arr.push(obj)
+        }
+        console.log(arr)
+        return arr
+      },
+      set(val) {
+        return val
+      }
+    }
   },
   data() {
     return {

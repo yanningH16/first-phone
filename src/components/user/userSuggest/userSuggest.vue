@@ -25,10 +25,19 @@ export default {
     Tab,
     TabItem,
   },
-  data(){
+  data() {
     return {
       tabArr: ['我要反馈', '我的反馈'],
-      checkIndex:0
+      checkIndex: 0,
+      pullup: true,
+    }
+  },
+  methods: {
+    scrollLoad() {
+
+    },
+    choose() {
+
     }
   }
 }
@@ -49,9 +58,9 @@ export default {
   &.move-enter-active, .move-leave-active
     transition all 0.2s linear
     transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave 
+  &.move-enter, .move-leave
     transform translate3d(100%, 0, 0)
-  .userContainerBox 
+  .userContainerBox
     background #eff0f2
     display flex
     flex-direction column

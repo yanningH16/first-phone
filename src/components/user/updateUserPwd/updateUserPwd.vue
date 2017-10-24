@@ -64,7 +64,7 @@ export default {
     userPwdPhone: {
       get: function() {
         let reg = /^(\d{3})\d{4}(\d{4})$/;
-        let tel = this.userMyPhone.replace(reg, "$1^-^$2");
+        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2");
         return tel
       },
       set: function() {
@@ -73,12 +73,12 @@ export default {
     },
     //获取已经存储手机号
     ...mapGetters([
-      'userPhone'
+      'userInfo'
     ])
   },
   created() {
-    if (this.userPhone.length) {
-      this.userMyPhone = this.userPhone
+    if (this.userInfo.telephone.length) {
+      this.userMyPhone = this.userInfo.telephone
     } else {
       this.userMyPhone = '15345812564'//应让其登录
     }
@@ -198,7 +198,6 @@ export default {
         password: md5(this.pwd),
       }).then((response) => {
         let data = response.data
-        console.log(data)
         if (data.code !== "200") {
           this.$vux.alert.show({
             title: '错误提示',

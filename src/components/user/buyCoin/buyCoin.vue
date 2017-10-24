@@ -17,6 +17,7 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import Pay from '../../../base/pay/pay'
+import {mapGetters} from 'vuex'
 export default {
   name: "buyCoin",
   components: {
@@ -27,7 +28,6 @@ export default {
     return {
       paytype: 2,
       isChecked: 0,
-      hasmoney: 25.65,
       title: '选择面额',
       moneyBox: [
         {
@@ -71,7 +71,23 @@ export default {
       set(val){
         return val
       }
-    }
+    },
+    hasmoney:{
+      get(){
+        let has = 0
+        if(this.userCoin.availableDeposit){
+          has = parseFloat(this.userCoin.availableDeposit).toFixed(2)
+        }
+        return has
+      },
+      set(val){
+        return val
+      }
+    },
+    ...mapGetters([
+      'userInfo',
+      'userCoin'
+    ])
   },
   methods: {
     choosePay(index) {

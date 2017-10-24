@@ -12,6 +12,9 @@ const mutations = {
   },
   [types.SET_USER_NOPAY](state,userNopay){
     state.userNopay = userNopay
+  },
+  [types.SET_USER_COIN](state,coin){
+    state.userCoin = coin
   }
 }
 

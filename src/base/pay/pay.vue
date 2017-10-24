@@ -52,7 +52,7 @@
             </p>
             <p v-show="!hasmoney">
               <span class="text">余额不足</span>
-              <x-button type="warn" :mini="true" style="vertical-align:middle">充值</x-button>
+              <!-- <x-button type="warn" :mini="true" style="vertical-align:middle">充值</x-button> -->
             </p>
           </div>
         </div>

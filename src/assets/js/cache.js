@@ -4,6 +4,7 @@ const USER_STATE_KEY = '__userState__'
 const USER_PHONE_KEY = '__userPhone__'
 const USER_INFO_KEY = '__userInfo__'
 const USER_NOPAY_KEY = '__userNopay__'
+const USER_COIN_KEY = '__userCoin__'
 
 //设置登录状态
 export function setUserStateStorage(state) {
@@ -41,4 +42,14 @@ export function setUserNopayStorage(userNopay) {
 //获取的数据
 export function loadUserNopay() {
   return storage.get(USER_NOPAY_KEY, [])
+}
+//用户金币
+//设置登录状态
+export function setUserCoinStorage(state) {
+  storage.set(USER_COIN_KEY, state)
+  return state
+}
+// 获得登录状态
+export function loadUserCoin() {
+  return storage.get(USER_COIN_KEY, [])
 }

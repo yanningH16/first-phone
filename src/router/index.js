@@ -156,6 +156,11 @@ const UserMoney = (resolve) => {
     resolve(module)
   })
 }
+const DesPostList = (resolve) => {
+  import ('@/components/user/desPostList/desPostList').then((module) => {
+    resolve(module)
+  })
+}
 const UserCoin = (resolve) => {
   import ('@/components/user/userCoin/userCoin').then((module) => {
     resolve(module)
@@ -662,6 +667,12 @@ const routes = [{
     component: UserMoney,
     name: 'userMoney',
     meta: { title: '我的资金', isLogin: true },
+  },
+  {
+    path: '/user/desPostList',
+    component: DesPostList,
+    name: 'desPostList',
+    meta: { title: '提现明细', isLogin: true },
   },
   {
     path: '/user/userCoin',
