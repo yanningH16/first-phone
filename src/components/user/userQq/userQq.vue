@@ -20,7 +20,7 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import { XInput, Group } from 'vux'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "userQq",
   components: {
@@ -28,9 +28,9 @@ export default {
     XInput,
     Group
   },
-  watch:{
-    addressQQ(newVal){
-      if(newVal.length>0){
+  watch: {
+    addressQQ(newVal) {
+      if (newVal.length > 0) {
         this.btnSaveState = true
         return false
       }
@@ -39,31 +39,46 @@ export default {
   },
   data() {
     return {
-      addressQQ:'',
-      btnSaveState:false
+      addressQQ: '',
+      btnSaveState: false
     }
   },
-
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
   methods: {
     //保存qq
-    saveQq(){//addressQQ
+    saveQq() {//addressQQ
       this.$axios.post('/api/user/update', {
-        telephone: this.$store.state.userInfo.telephone,
+        telephone: this.userInfo.telephone,
         qqNum: this.addressQQ
       }).then((response) => {
         console.log(response)
-        let that = this;
-        let obj = this.$store.state.userInfo;
-        obj.qqNum = this.addressQQ;
-        this.setUserInfo(obj);
-        this.$vux.toast.show({
-          text: '保存成功',
-          onHide () {
-            that.$router.push({ name: 'settings' })
-          }
-        })
+        if (response.data.code === '200') {
+          let _this = this
+          let obj = this.userInfo
+          obj.qqNum = this.addressQQ
+          this.setUserInfo(obj)
+          this.$vux.toast.show({
+            text: '修改成功',
+            onHide() {
+              _this.$router.push({ name: 'settings' })
+            }
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: response.data.message,
+          })
+        }
+
       }).catch((error) => {
-        console.log(error)
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络错误',
+        })
       })
     },
     ...mapActions([
@@ -75,54 +90,54 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .settings
+.settings
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .scroll-content
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .scroll-content
-      height 100%
-      .userAddressBox
+    .userAddressBox
+      margin-top 1.2rem
+      .info
+        color $color-text-d
+        font-size 1.2rem
+        text-align center
         margin-top 1.2rem
-        .info
-          color $color-text-d
-          font-size 1.2rem
+      .btnBox
+        width 100%
+        padding 2rem 1.8rem
+        box-sizing border-box
+        .btn
+          width 100%
+          border-width 0
+          outline 0
+          -webkit-appearance none
+          position relative
+          height 4rem
+          line-height 4rem
+          font-size $font-size-medium-x
           text-align center
-          margin-top 1.2rem
-        .btnBox
-            width 100%
-            padding 2rem 1.8rem
-            box-sizing border-box
-            .btn
-              width 100%
-              border-width 0
-              outline 0
-              -webkit-appearance none
-              position: relative
-              height 4rem
-              line-height 4rem
-              font-size $font-size-medium-x
-              text-align center
-              text-decoration none
-              color $color-theme-white
-              border-radius $border-radius
-              -webkit-tap-highlight-color rgba(0, 0, 0, 0)
-              background-color $color-theme
-              font-weight $font-weight
-            .btn-disabled
-              background-color $color-theme-disabled
-              color rgba(255,255,255,0.3)
-              &:active
-                background $color-theme-active
+          text-decoration none
+          color $color-theme-white
+          border-radius $border-radius
+          -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+          background-color $color-theme
+          font-weight $font-weight
+        .btn-disabled
+          background-color $color-theme-disabled
+          color rgba(255, 255, 255, 0.3)
+          &:active
+            background $color-theme-active
 </style>
 
