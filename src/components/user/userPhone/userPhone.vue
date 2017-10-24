@@ -10,7 +10,7 @@
             <group v-if="stepIndex===0">
               <x-input required v-model="userPwdPhone" :disabled="disabled"></x-input>
               <x-input placeholder="请输入验证码" required v-model="userMsg" type="number">
-                <button slot="right" class="btn" @click="getCode(userPhone,1)" :class="{'btn-disabled':!btnCodeState}">{{codeText}}</button>
+                <button slot="right" class="btn" @click="getCode(userInfo.telephone,1)" :class="{'btn-disabled':!btnCodeState}">{{codeText}}</button>
               </x-input>
             </group>
             <group v-else>
@@ -67,17 +67,18 @@ export default {
   },
   computed: {
     userPwdPhone: {
-      get: function() {
+      get: function () {
         let reg = /^(\d{3})\d{4}(\d{4})$/;
-        let tel = this.userPhone.replace(reg, "$1^-^$2");
+        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2");
         return tel
       },
-      set: function(v) {
+      set: function (v) {
       }
     },
     //获取已经存储手机号
     ...mapGetters([
-      'userPhone'
+      'userPhone',
+      'userInfo'
     ])
   },
   data() {
@@ -100,10 +101,10 @@ export default {
   },
   methods: {
     //获取短信验证码
-    getCode(phone,state) {
+    getCode(phone, state) {
       this.$axios.post('/api/sms/send', {
-          telephone: phone,
-          type: 0
+        telephone: phone,
+        type: 0
       }).then((response) => {
         if (response.data.code === '200') {
           this.chooseState = state
@@ -113,7 +114,7 @@ export default {
             this.btnNewCodeState = false
           }
           this.timer = setInterval(this.timeGo, 1000)
-        }else{
+        } else {
           this.$vux.alert.show({
             title: '错误提示',
             content: response.data.message,
@@ -145,112 +146,118 @@ export default {
       }
     },
     //验证验证码
-    checkCode(newMsg,phone,state){
-      if(state===1&&this.btnSaveState||state===2&&this.btnSureState){
-       this.$axios.post('/api/sms/verify', {
-        telephone: phone,
-        code: newMsg,
-        type: 0
-      }).then((response) => {
-        if (response.data.code !== '200') {
-          this.$vux.alert.show({
-            title: '错误提示',
-            content: response.data.message,
-          })
-        } else {
-          if(state===1){
-            this.stepIndex = 1
-          }else{
-            this.$vux.toast.show({
-              text:'修改成功',
-              type:'success',
-              time:1000,
-              onHide(){
-                _this.$router.push({ name: 'user' })
-              }
+    checkCode(newMsg, phone, state) {
+      if (state === 1 && this.btnSaveState || state === 2 && this.btnSureState) {
+        this.$axios.post('/api/sms/verify', {
+          telephone: phone,
+          code: newMsg,
+          type: 0
+        }).then((response) => {
+          if (response.data.code !== '200') {
+            this.$vux.alert.show({
+              title: '错误提示',
+              content: response.data.message,
             })
+          } else {
+            if (state === 1) {
+              this.stepIndex = 1
+            } else {
+              let obj = this.userInfo
+              obj.telephone = phone
+              this.setUserInfo(obj)
+              this.$vux.toast.show({
+                text: '修改成功',
+                type: 'success',
+                time: 1000,
+                onHide() {
+                  _this.$router.push({ name: 'user' })
+                }
+              })
+            }
           }
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
+        }).catch((error) => {
+          console.log(error)
+        })
       }
-    }
+    },
+    ...mapActions([
+      'setUserInfo'
+    ])
   }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .settings
+.settings
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .scroll-content
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active 
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .scroll-content
-      height 100%
-      .userAddressBox
-        .info
-          color $color-text-d
-          font-size 1.2rem
-          text-align left
-          margin-top 1.2rem
+    .userAddressBox
+      .info
+        color $color-text-d
+        font-size 1.2rem
+        text-align left
+        margin-top 1.2rem
+        width 100%
+        box-sizing border-box
+        padding 0 1.8rem
+      .addressInputBox
+        .btn
+          border-small($color-text, $border-radius)
+          outline 0
+          -webkit-appearance none
+          position relative
+          height 3.4rem
+          padding 0 1rem
+          font-size $font-size-medium
+          text-align center
+          text-decoration none
+          color $color-text
+          border-radius $border-radius
+          -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+          font-weight $font-weight
+          background $color-theme-white
+          position relative
+          right -1.5rem
+        .btn-disabled
+          opacity 0.3
+      .btnBox
+        width 100%
+        padding 2rem 1.8rem
+        box-sizing border-box
+        .btn
           width 100%
-          box-sizing border-box
-          padding 0 1.8rem
-        .addressInputBox
-          .btn
-            border-small($color-text,$border-radius)
-            outline 0
-            -webkit-appearance none
-            position: relative
-            height 3.4rem
-            padding 0 1rem
-            font-size $font-size-medium
-            text-align center
-            text-decoration none
-            color $color-text
-            border-radius $border-radius
-            -webkit-tap-highlight-color rgba(0, 0, 0, 0)
-            font-weight $font-weight
-            background $color-theme-white
-            position relative
-            right -1.5rem
-          .btn-disabled
-            opacity 0.3
-        .btnBox
-            width 100%
-            padding 2rem 1.8rem
-            box-sizing border-box
-            .btn
-              width 100%
-              border-width 0
-              outline 0
-              -webkit-appearance none
-              position: relative
-              height 4rem
-              line-height 4rem
-              font-size $font-size-medium-x
-              text-align center
-              text-decoration none
-              color $color-theme-white
-              border-radius $border-radius
-              -webkit-tap-highlight-color rgba(0, 0, 0, 0)
-              background-color $color-theme
-              font-weight $font-weight
-            .btn-disabled
-              background-color $color-theme-disabled
-              color rgba(255,255,255,0.3)
-              &:active
-                background $color-theme-active
+          border-width 0
+          outline 0
+          -webkit-appearance none
+          position relative
+          height 4rem
+          line-height 4rem
+          font-size $font-size-medium-x
+          text-align center
+          text-decoration none
+          color $color-theme-white
+          border-radius $border-radius
+          -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+          background-color $color-theme
+          font-weight $font-weight
+        .btn-disabled
+          background-color $color-theme-disabled
+          color rgba(255, 255, 255, 0.3)
+          &:active
+            background $color-theme-active
 </style>
