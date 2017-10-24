@@ -58,7 +58,7 @@
                   <span>全额</span>
                   <strong>用户下单全额返</strong>
                 </div>
-                <div v-if="objDeli.isGold===1">
+                <div v-if="objDeli.isGold===1" style="margin-top:1rem">
                   <span>金币</span>
                   <strong>支付
                     <em>{{objDeli.goldNum}}</em>金币后直接白拿</strong>
