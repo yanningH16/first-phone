@@ -129,14 +129,6 @@ export default {
       let isSfz = (this.sfz.length !== 0)
       let isSMImgUrl = (this.imgSM && this.imgSM.length === 1)
       let isHBImgUrl = (this.imgHB && this.imgHB.length >= 1)
-      // console.log(`isHastb:${isHasTb}`)
-      // console.log(`isWWImgUrl:${isWWImgUrl}`)
-      // console.log(`isLevel:${isLevel}`)
-      // console.log(`isXm:${isXm}`)
-      // console.log(`isZfb:${isZfb}`)
-      // console.log(`isSfz:${isSfz}`)
-      // console.log(`isSMImgUrl:${isSMImgUrl}`)
-      // console.log(`isHBImgUrl:${isHBImgUrl}`)
       if (isHasTb && isWWImgUrl && isLevel && isXm && isZfb && isSfz && isSMImgUrl && isHBImgUrl) {
         return true
       } else {
@@ -184,7 +176,7 @@ export default {
         }).catch((error) => {
           this.$vux.alert.show({
             title: '错误提示',
-            content: 服务器错误,
+            content: '服务器错误',
           })
         })
       }

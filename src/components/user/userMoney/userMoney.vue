@@ -368,9 +368,9 @@ export default {
     //提现
     deposit() {
       if (this.listCan.length > 0) {
-        let picker = this.$refs.picker
-        picker.show()
-        // this.showToast = true
+        // let picker = this.$refs.picker
+        // picker.show()
+        this.showToast = true
         // if (this.accountCan>200){
         //   this.$vux.confirm.show({
         //     title:'没有提现资格',
