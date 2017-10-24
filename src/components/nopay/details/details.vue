@@ -218,12 +218,17 @@
                     微信支付：
                     <span class="text">￥{{ataloCountCore}}</span>
                   </div>
-                  <span class="btnJinbi">立即支付</span>
+                  <span class="btnJinbi" @click="btnJinbi">立即支付</span>
                 </div>
               </div>
             </transition>
           </div>
         </div>
+        <!-- 金币充值成功的提示 -->
+        <alert v-model="jinbicg"  @on-hide='JinbiPaySucess' >
+        <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">支付成功</h2>
+        <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">请继续完成你的申请</p>
+      </alert>
 
       </div>
     </div>
@@ -261,7 +266,7 @@ export default {
   data() {
     return {
       //金币换的数据
-      firstTaskObj:{},
+      firstTaskObj: {},
       //        优惠券
       ticArr: [],
       Pass: Pass,
@@ -291,6 +296,7 @@ export default {
       jinbi: false,
       process_1: true,
       process_2: true,
+      jinbicg:false,
       //            提示用户绑定信息的提示
       wran: false,
       phone: false,
@@ -333,7 +339,7 @@ export default {
       //              充值金币部分
       paytype1: 2,
       isChecked1: 0,
-      hasmoney1: 2,
+      hasmoney1: 1,
       title1: '选择面额',
       moneyBox1: [
         {
@@ -374,8 +380,8 @@ export default {
     },
 
     chooseIndex(index) {
-      for(var i=0;i<this.ticArr.length;i++) {
-        if(index === i) {
+      for (var i = 0; i < this.ticArr.length; i++) {
+        if (index === i) {
           this.ticArr[i].ticObj.checked = true
         } else {
           this.ticArr[i].ticObj.checked = false
@@ -455,21 +461,40 @@ export default {
         }).then((data) => {
           console.log(data)
           let res = data.data
+          this.hasmoney1 = res.data.availableGold
           //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
-          if (that.objDeli.goldNum < res.data.availableGold) {
-              this.jinbi=true
-
+          if (that.objDeli.goldNum > res.data.availableGold) {
+            this.jinbi = true
           } else {
-            //金币够用 开始进行以下操作
+            this.jinbizhong()
+          }
+        })
+      }
+      // 即this.typeFoot===3结束
+
+      // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
+      if (this.typeFoot === 4) {
+          var isVip = JSON.parse(window.localStorage.getItem('__userInfo__')).isVip
+          if(isVip===1){
+
+          }
+      }
+
+      // 即this.typeFoot===4结束 Plus白拿结束
+    },
+
+    //定义一个函数用来调用 金币拿必中的模块
+    //金币够用 开始进行以下操作
             // this.paycode = true
-            var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
+           jinbizhong(){ 
+             var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
             this.$axios.post('/api/orderOperate/getFirstOrder', {
               sellerTaskId: this.$route.query.sellerTaskId,
               buyerUserId: buyerUserId,
               bitslap: 2
             }).then((data) => {
-              let res=data.data
-              this.firstTaskObj=res.data
+              let res = data.data
+              this.firstTaskObj = res.data
               console.log(data)
               let that = this
               if (res.code === '1701') {
@@ -496,49 +521,56 @@ export default {
                   } else {
                     this.sb = true
                   }
-                 })
+                })
               }
             })
-          }
-        })
-      }
-      // 即this.typeFoot===3结束
-
-      // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
-      if (this.type === 4) {
-
-      }
-
-      // 即this.typeFoot===4结束 Plus白拿结束
-    },
-
+            },
+        // 金币拿必中的模块结束
     /*当点击一张必中券之后 点击使用 跳到必中任务里面去*/
     useCou() {
       alert(11111)
     },
-
     //金币换的必中任务的成功提醒 支付成功之后的弹窗的确定按钮
     paySucess() {
-      if(this.firstTaskObj.taskId===39){
-          this.$router.push({name:'sureGetStep1',query:{buyerTaskRecordId:this.firstTaskObj.buyerTaskRecordId,sellerTaskId: this.$route.query.sellerTaskId,type:1}})
-      }else if(this.firstTaskObj.taskId===40){
-          this.$router.push({name:'sureGetStep1',query:{buyerTaskRecordId:this.firstTaskObj.buyerTaskRecordId,sellerTaskId: this.$route.query.sellerTaskId,type:2}})
-      }else if(this.firstTaskObj.taskId===41){
-          this.$router.push({name:'sureGetStep1',query:{buyerTaskRecordId:this.firstTaskObj.buyerTaskRecordId,sellerTaskId: this.$route.query.sellerTaskId,type:3}})
-      }else if(this.firstTaskObj.taskId===42){
-          this.$router.push({name:'sureGetStep1',query:{buyerTaskRecordId:this.firstTaskObj.buyerTaskRecordId,sellerTaskId: this.$route.query.sellerTaskId,type:4}})
-      }else if(this.firstTaskObj.taskId===43){
-          this.$router.push({name:'sureGetStep1',query:{buyerTaskRecordId:this.firstTaskObj.buyerTaskRecordId,sellerTaskId: this.$route.query.sellerTaskId,type:5}})
-      }else if(this.firstTaskObj.taskId===44){
-          this.$router.push({name:'sureGetStep1',query:{buyerTaskRecordId:this.firstTaskObj.buyerTaskRecordId,sellerTaskId: this.$route.query.sellerTaskId,type:6}})
+      if (this.firstTaskObj.taskId === 39) {
+        this.$router.push({ name: 'sureGetStep1', query: { buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId, sellerTaskId: this.$route.query.sellerTaskId, type: 1 } })
+      } else if (this.firstTaskObj.taskId === 40) {
+        this.$router.push({ name: 'sureGetStep1', query: { buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId, sellerTaskId: this.$route.query.sellerTaskId, type: 2 } })
+      } else if (this.firstTaskObj.taskId === 41) {
+        this.$router.push({ name: 'sureGetStep1', query: { buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId, sellerTaskId: this.$route.query.sellerTaskId, type: 3 } })
+      } else if (this.firstTaskObj.taskId === 42) {
+        this.$router.push({ name: 'sureGetStep1', query: { buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId, sellerTaskId: this.$route.query.sellerTaskId, type: 4 } })
+      } else if (this.firstTaskObj.taskId === 43) {
+        this.$router.push({ name: 'sureGetStep1', query: { buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId, sellerTaskId: this.$route.query.sellerTaskId, type: 5 } })
+      } else if (this.firstTaskObj.taskId === 44) {
+        this.$router.push({ name: 'sureGetStep1', query: { buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId, sellerTaskId: this.$route.query.sellerTaskId, type: 6 } })
       }
 
     },
     //金币换的支付接口 点击确定支付时候的弹窗结束
 
     //金币换的支付接口 金币不足弹出充值金币的接口
-    btnJinbi(){
-
+    btnJinbi() {
+      var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
+      this.$axios.post('/api/fundsFlow/goldCharge', {
+        //用户
+        type : 'buyer' ,
+        //资金
+        income : this.ataloCountCore,
+        userFundId :buyerUserId
+      }).then((data) => {
+        console.log(data)
+        let res = data.data
+        if(res.code==='200'){
+          this.jinbicg=true  
+        }else{
+          this.sb=true
+        }
+      })
+    },
+    //金币充值成功之后直接扣除调任务 
+    JinbiPaySucess(){
+        this.jinbizhong()
     },
     //    当点击立即去绑定触发的效果  判断微信 手机号 淘宝账号是否绑定了
     hideAlert() {
