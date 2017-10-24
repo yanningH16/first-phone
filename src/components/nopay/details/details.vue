@@ -101,10 +101,10 @@
             <div style="height: 300px;overflow: auto">
               <scroll ref="scroll" style="height: 100%">
                 <div>
-                  <div v-for="(item,index) in ticArr" :key='index' style="margin-bottom: 20px;position: relative" >
+                  <div @click="chooseIndex(index)" v-for="(item,index) in ticArr" :key='index' style="margin-bottom: 20px;position: relative" >
                     <coupons :item="item.ticObj">
                     </coupons>
-                    <img class="checkedTic" src="./choose.png" alt="">
+                    <img v-if="item.ticObj.checked" class="checkedTic" src="./choose.png" alt="">
                   </div>
                 </div>
               </scroll>
@@ -140,7 +140,7 @@
           <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">支付失败</h2>
           <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">请重新支付</p>
         </alert>
-        
+
 
         <!--用户未完成绑定的提示信息-->
         <alert v-model="wran" :button-text="alerts" @on-hide="hideAlert">
@@ -261,7 +261,7 @@ export default {
   data() {
     return {
       //金币换的数据
-      firstTaskObj:{}, 
+      firstTaskObj:{},
       //        优惠券
       ticArr: [],
       Pass: Pass,
@@ -373,6 +373,16 @@ export default {
       return now
     },
 
+    chooseIndex(index) {
+      for(var i=0;i<this.ticArr.length;i++) {
+        if(index === i) {
+          this.ticArr[i].ticObj.checked = true
+        } else {
+          this.ticArr[i].ticObj.checked = false
+        }
+      }
+    },
+
     btnClick() {
       //var buyerTaskRecordId = localStorage.getItem("buyerTaskRecordId")
       var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
@@ -414,7 +424,8 @@ export default {
                     state: 1,
                     maxPrice: i.maxPriceValue,
                     text: '全场通用',
-                    time: i.validendtime
+                    time: i.validendtime,
+                    checked: false
                   },
                 })
               }
@@ -660,7 +671,7 @@ export default {
     ...mapGetters([
       'userNopay'
     ]),
-    
+
     ataloCount: {
       //        会员充值
       get() {
