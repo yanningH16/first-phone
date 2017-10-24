@@ -93,13 +93,21 @@
       </scroll>
       <div>
         <!--使用优惠券券的弹窗-->
-        <div v-if="pic" style="position: relative;top: 0;left: 0">
-          <confirm v-model="pic" :confirmText="yes" :cancel-text="no" on-confirm	='useCou' on-cancel="useCansel">
+        <div v-if="pic" style="position: relative;">
+          <confirm v-model="pic" :confirmText="yes" style="height: 300px;padding-top: 10px" :cancel-text="no"
+                   on-confirm='useCou' on-cancel="useCansel">
             <h2 style="font-size:2rem;padding-top:1rem">你有可使用的必中券</h2>
             <p style="font-size:1.4rem;color:#75787f;padding-top:1.2rem">请选择一张必中券</p>
-            <div v-for="item in ticArr" :key='item' style="margin-bottom: 20px">
-            <coupons :item="item.ticObj" >
-            </coupons>
+            <div style="height: 300px;overflow: auto">
+              <scroll ref="scroll" style="height: 100%">
+                <div>
+                  <div v-for="(item,index) in ticArr" :key='index' style="margin-bottom: 20px;position: relative" >
+                    <coupons :item="item.ticObj">
+                    </coupons>
+                    <img class="checkedTic" src="./choose.png" alt="">
+                  </div>
+                </div>
+              </scroll>
             </div>
           </confirm>
         </div>
@@ -437,15 +445,15 @@
               let res=data.data
               //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
               if(that.objDeli.goldNum>res.data.availableGold){
-              
+
             }else{
               //金币够用 开始进行支付
                 this.paycode=true
             }
           })
-            
 
-        } 
+
+        }
         // 即this.typeFoot===3结束
 
         // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
@@ -461,7 +469,7 @@
         useCou(){
           alert(11111)
         },
-      
+
       //当点击取消 即不使用必中券的时候 跳到正常任务里面去
 
       //金币换的支付接口 点击确定支付时候的弹窗
@@ -479,7 +487,7 @@
 
           })
       },
-      //点击取消 取消支付 
+      //点击取消 取消支付
       payQuxiao(){
       },
 
@@ -947,21 +955,34 @@
       }
     }
   }
+  .checkedTic {
+    position absolute
+    bottom: 0
+    right: 0
+    width: 24px
+    height: 24px
+  }
 </style>
 <style scoped>
   /*#app .container .weui-cell .weui-cell__ft {*/
   /*!*margin-top: 1rem;*!*/
   /*}*/
- #app .weui-cell {
+  #app .weui-cell {
     padding: 3.8rem 0rem;
     margin-top: -4.5rem;
   }
- .weui-cell:before{
+
+  .weui-cell:before {
     border: none;
   }
-  .vux-x-dialog .weui-dialog__bd:first-child{
-    overflow: scroll;
+
+  .vux-x-dialog .weui-dialog__bd:first-child {
+    overflow: auto;
     height: 40rem;
   }
 </style>
-
+<style>
+  .scrollContainer .weui-dialog__bd:first-child {
+    padding-top: 10px
+  }
+</style>
