@@ -80,6 +80,15 @@ export default {
       navShow: true,
       chooseIndex: 0,
       istop: true,
+      //仍然得实例一下 
+      sortType: 'desc',
+      sortClass: 'integrated',
+      priceHigh: 100,
+      priceLow: 0,
+      productClassId: 0,
+      postage: 0,
+      format: 0,
+      highLottery: 0,
       getBarWidth: function (index) {
         return (index + 1) * 22 + 'px'
       },
@@ -90,6 +99,7 @@ export default {
   computed: {
     params: {
       get() {
+        console.log(112111)
         return {
           sortType: this.sortType,
           sortClass: this.sortClass,
@@ -104,6 +114,7 @@ export default {
         }
       },
       set(val) {
+        console.log(val)
         return val
       }
     }
@@ -118,7 +129,7 @@ export default {
       'setUserNopay'
     ]),
     tap(index) {
-      console.log(index)
+      this.pageNo = 1
       if (index == 0) {
         this.sortType = 'desc'
         this.sortClass = 'integrated'
@@ -128,8 +139,8 @@ export default {
         this.postage = 0
         this.format = 0
         this.highLottery = 0
+        this.goods = []
         this.getApi()
-        this.goods=[]
       }
       if (index == 1) {
         this.sortType = 'desc'
@@ -141,30 +152,31 @@ export default {
         this.format = 0
         this.highLottery = 0
         this.getApi()
-        this.goods=[]
+        this.goods = []
       }
       if (index == 2) {
         if (this.istop) {
           this.sortType = 'asc'
-          this.priceHigh = 10000
+          this.priceHigh = 0
           this.priceLow = 0
           this.getApi()
-        this.goods=[]
+          this.goods = []
         } else {
           this.sortType = 'desc'
           this.sortClass = 'price'
           this.priceHigh = 0
-          this.priceLow = 10000
+          this.priceLow = 0
           this.productClassId = 0
           this.postage = 0
           this.format = 0
           this.highLottery = 0
           this.getApi()
-        this.goods=[]
+          this.goods = []
         }
         this.istop = !this.istop
       }
       if (index == 3) {
+        this.goods = []
         this.sortType = 'desc'
         this.sortClass = 'sum'
         this.priceHigh = 0
@@ -174,7 +186,7 @@ export default {
         this.format = 0
         this.highLottery = 0
         this.getApi()
-        this.goods=[]
+
       }
       if (index == 4) {
         this.sortType = 'desc'
@@ -186,9 +198,9 @@ export default {
         this.format = 0
         this.highLottery = 0
         this.getApi()
-        this.goods=[]
+        this.goods = []
       }
-      this.checkedIndex = index;
+      this.checkedIndex = index
       if (index == 5) {
         this.cover = true
       }
@@ -204,19 +216,19 @@ export default {
         this.postage = 1
       } else {
         this.postage = 0
-      };
+      }
       if (this.isCked2 == true) {
         this.format = 1
       } else {
         this.format = 0
-      };
+      }
       if (this.isCked3 == true) {
         this.highLottery = 1
       } else {
         this.highLottery = 0
-      };
+      }
       this.getApi()
-      this.goods=[]
+      this.goods = []
     },
     pri(indexs) {
       this.chooseIndex = indexs
@@ -245,11 +257,11 @@ export default {
       }
     },
     setInfo(data) {
-      console.log(data)
+      console.log(this.params)
       let arrList = []
       this.maxPageSize = data.total
       for (let m of data.datas) {
-        console.log(m)
+        // console.log(m)
         let goods = {
           imgSrc: m.picUrl,
           hot: m.isRecommend,
@@ -274,17 +286,6 @@ export default {
       })
     }
   },
-
-  created() {
-    this.sortType = 'desc'
-    this.sortClass = 'integrated'
-    this.priceHigh = 0
-    this.priceLow = 0
-    this.productClassId = 0
-    this.postage = 0
-    this.format = 0
-    this.highLottery = 0
-  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>

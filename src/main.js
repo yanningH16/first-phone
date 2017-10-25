@@ -12,7 +12,8 @@ Vue.prototype.$axios = axios
 import './assets/stylus/index.styl'
 
 Vue.use(VueLazyload, {
-  loading: '/static/images/studio_0001.jpg'
+  loading: '/static/images/studio_0001.jpg',
+  error: '/static/images/noContainer.svg'
 })
 
 FastClick.attach(document.body)

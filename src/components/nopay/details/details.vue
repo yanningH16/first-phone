@@ -183,12 +183,18 @@
           </ul>
         </alert>
         <!-- 新增进行支付的弹窗开始  后面增加使用   on-confirm='payMoney'确定支付触发的   on-cancel='payQuxiao'取消触发的-->
-        <confirm v-model="paycode" @on-confirm="payMoney1" on-cancel='payQuxiao' >
+        <confirm v-model="paycode" @on-confirm="payMoney1" >
        <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
        <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户: <span>{{hasmoney1}}</span>金币</p>
        <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费: <span>{{Math.ceil(objDeli.price*0.1)}}</span>金币</p>
       </confirm>
         <!-- 新增进行支付的弹窗结束 -->
+        <!-- 必中的金币拿 -->
+        <confirm v-model="paycode_1" @on-confirm="payMoney2"  >
+       <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
+       <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户: <span>{{hasmoney1}}</span>金币</p>
+       <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费: <span>{{objDeli.goldNum}}</span>金币</p>
+      </confirm>
 
         <!--充值plus会员的操作-->
         <div class="cover" v-if="vip">
@@ -233,12 +239,34 @@
             </transition>
           </div>
         </div>
+        <!-- 金币拿 必中的 -->
+        <div class="cover" v-if="jinbi_1">
+          <div class="plus">
+            <h2>金币不足</h2>
+            <p>请充值</p>
+            <transition name="move">
+              <div class="userContainerBox">
+                <pay :title="title1" :moneyBox="moneyBox1" :moneyIndex="moneyIndex1" :type="type1" :paytype="paytype1"
+                     :hasmoney="hasmoney1" :isChecked="isChecked1" :isChosed="chosed1" @index-change="choosePay1"
+                     @isChosed-change="isChosed1"></pay>
+                <div class="btnBottomBox">
+                  <div class="info">
+                    微信支付：
+                    <span class="text">￥{{ataloCountCore}}</span>
+                  </div>
+                  <span class="btnJinbi" @click="btnJinbi_1">立即支付</span>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </div>
         <!-- 金币充值成功的提示 -->
-        <alert v-model="jinbicg" @on-hide='JinbiPaySucess'>
-          <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">支付成功</h2>
+        <alert v-model="jinbicgNa" @on-hide='BaiNaSucess'>
+          <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">充值成功</h2>
           <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">请继续完成你的申请</p>
         </alert>
-        <alert v-model="jinbicgNa" @on-hide='BaiNaSucess'>
+        <!-- 必中的金币充值的提示 -->
+        <alert v-model="jinbicgNa_1" @on-hide='BaiNaSucess_1'>
           <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">充值成功</h2>
           <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">请继续完成你的申请</p>
         </alert>
@@ -306,7 +334,7 @@ export default {
       //      底部组件结束
       // 金币拿支付的提示
       paycode: false,
-
+      paycode_1:false,
       pic: false,
       wait: false,
       quan: false,
@@ -320,6 +348,8 @@ export default {
       process_2: true,
       jinbicg: false,
       jinbicgNa: false,
+      jinbicgNa_1: false,
+      jinbi_1:false,
       Vipcg: false,
       //            提示用户绑定信息的提示
       wran: false,
@@ -578,23 +608,10 @@ export default {
       }
       //如果底部按钮状态为申请就中奖的时候 即this.typeFoot===3 即拿金币换
       if (this.typeFoot === 3) {
-        //查询金币余额的接口 
-        this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
-          userId: this.userInfo.buyerUserId
-        }).then((data) => {
-          console.log(data)
-          let res = data.data
-          this.hasmoney1 = res.data.availableGold
-          //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
-          if (that.objDeli.goldNum > res.data.availableGold) {
-            this.jinbi = true
-          } else {
-            this.jinbizhong()
-          }
-        })
+        this.jinbizhong()
       }
       // 即this.typeFoot===3结束
-
+         
       // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
       if (this.typeFoot === 4) {
         this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
@@ -614,46 +631,6 @@ export default {
       }
       // 即this.typeFoot===4结束 Plus白拿结束
     },
-    //定义一个函数用来调用 金币拿必中的模块
-    //金币够用 开始进行以下操作
-    // this.paycode = true
-    jinbizhong() {
-      this.$axios.post('/api/orderOperate/getFirstOrder', {
-        sellerTaskId: this.$route.query.sellerTaskId,
-        buyerUserId: this.userInfo.buyerUserId,
-      }).then((data) => {
-        let res = data.data
-        this.firstTaskObj = res.data
-        console.log(data)
-        let that = this
-        if (res.code === '1701') {
-          this.$vux.alert.show({
-            title: '提示',
-            content: '您还有未完成的任务,请去个人中心查看',
-            onHide() {
-              that.$router.push({ name: 'noPayOrder' })
-            }
-          })
-        } else if (res.code === '200') {
-          this.$axios.post('/api/fundsFlow/buyerGoldExchange', {
-            //金币数量
-            amount: this.objDeli.goldNum,
-            //用户id
-            userFundId: this.userInfo.buyerUserId,
-            orderId: this.$route.query.sellerTaskId
-          }).then((data) => {
-            console.log(data)
-            let res = data.data
-            if (res.code === '200') {
-              this.cg = true
-            } else {
-              this.sb = true
-            }
-          })
-        }
-      })
-    },
-    // 金币拿必中的模块结束
     //Plus白拿需要公用出来的部分
     Plus() {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
@@ -732,31 +709,7 @@ export default {
       }
 
     },
-    //金币换的支付接口 点击确定支付时候的弹窗结束
-
-    //金币换的支付接口 金币不足弹出充值金币的接口
-    btnJinbi() {
-      this.$axios.post('/api/fundsFlow/goldCharge', {
-        //用户
-        type: 'buyer',
-        //资金
-        income: this.ataloCountCore,
-        userFundId: this.userInfo.buyerUserId
-      }).then((data) => {
-        console.log(data)
-        let res = data.data
-        if (res.code === '200') {
-          this.jinbicg = true
-        } else {
-          this.sb = true
-        }
-      })
-    },
-    //金币充值成功之后直接扣除调任务
-    JinbiPaySucess() {
-      this.jinbizhong()
-    },
-    //开通Vip 支付的功能 如果余额不够 则微信支付的下面点击事件 微信支付不为0
+    // 先支付的功能 支付完开通vip 如果余额不够 则微信支付的下面点击事件 微信支付不为0
     btnZhiVip() {
       this.$axios.post('/api/fundsFlow/depositCharge', {
         //用户
@@ -948,7 +901,25 @@ export default {
         }
       })
     },
-    //当点击确认的时候开始领任务了
+    //必中里面的金币换 
+    jinbizhong(){
+        //请求查询金币的接口
+        this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
+        userId: this.userInfo.buyerUserId
+      }).then((data) => {
+        console.log(data)
+        let res = data.data
+        this.hasmoney1 = res.data.availableGold
+        //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
+        if (this.objDeli.goldNum<= res.data.availableGold) {
+          this.paycode_1 = true 
+        } else {
+          //提示用户去充值金币
+          this.jinbi_1 = true
+        }
+      })
+    },
+    //白拿的金币换的页面
     payMoney() {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
         sellerTaskId: this.$route.query.sellerTaskId,
@@ -991,8 +962,55 @@ export default {
         }
       })
     },
+    //必中的金币换的页面 
+    payMoney_1() {
+      this.$axios.post('/api/orderOperate/getFirstOrder', {
+        sellerTaskId: this.$route.query.sellerTaskId,
+        buyerUserId: this.userInfo.buyerUserId,
+      }).then((data) => {
+        console.log(data)
+        let res = data.data
+        let that=this
+        if (res.code === '200') {
+           this.firstTaskObj = res.data
+           this.$axios.post('/api/fundsFlow/buyerGoldExchange', {
+            //金币数量
+            amount: this.objDeli.goldNum,
+            //用户id
+            userFundId: this.userInfo.buyerUserId,
+            orderId: this.$route.query.sellerTaskId
+          }).then((data) => {
+            console.log(data)
+            let res = data.data
+            if (res.code === '200') { 
+              this.cg = true
+            } else {
+              this.sb = true
+            }
+          })       
+        } else if (res.code === '1701') {
+          this.$vux.alert.show({
+            title: '提示',
+            content: '您还有未完成的任务,请去个人中心查看',
+            onHide() {
+              that.$router.push({ name: 'noPayOrder' })
+            }
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '提示',
+            content: data.data.message
+          })
+        }
+      })
+    },
+    //点击确认支付 白拿的金币换
     payMoney1(){
         this.payMoney()    
+    },
+    //必中的金币换  点击确认支付
+    payMoney2(){
+        this.payMoney_1()
     },
     //金币不足进行充值
        //金币换的支付接口 金币不足弹出充值金币的接口
@@ -1014,9 +1032,30 @@ export default {
         }
       })
     },
+       btnJinbi_1() {
+      this.$axios.post('/api/fundsFlow/goldCharge', {
+        //用户
+        type: 'buyer',
+        //资金
+        income: this.ataloCountCore,
+        userFundId: this.userInfo.buyerUserId
+      }).then((data) => {
+        console.log(data)
+        let res = data.data
+        if (res.code === '200') {
+          this.jinbicgNa_1 = true
+          this.jinbi = false
+        } else {
+          this.sb = true
+        }
+      })
+    },
     //金币充值成功之后再次调用以上接口判断是否支付成功 余额是否足够 
     BaiNaSucess(){
       this.wantGet()
+    },
+     BaiNaSucess_1(){
+      this.jinbizhong()
     },
     /*白拿里面的我要必中当点击我要必中*******的时候触发的事件*/
     ...mapActions([
