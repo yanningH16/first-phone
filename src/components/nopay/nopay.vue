@@ -14,7 +14,7 @@
     </div>
     <div class="line"></div>
     <div class="scrollContainer" ref="scrollContainer">
-      <scroll ref="scroll" class="scroll-content" @scroll="boxScroll" :probeType="probeType">
+      <scroll ref="scroll" class="scroll-content" @scroll="boxScroll" :probeType="probeType"  @scrollToEnd="scrollLoad" :pullup="pullup">
         <Merchandise :goods="goods" @myrouter="show">
         </Merchandise>
       </scroll>
@@ -48,11 +48,13 @@ import Scroll from '../../base/scroll/scroll'
 import Headsearch from '../../base/headsearch/headsearch.vue'
 import Merchandise from '../../base/merchandise/merchandise.vue'
 import { mapActions } from 'vuex'
-import index from "../../router/index/index";
+import index from "../../router/index/index"
+import { scrollPages } from '../../assets/js/mixin'
 const list = () => ['全部', '全额返', '超额返', '金币拿', 'Plus专享']
 const list1 = () => ['综合', '最新', '价值', '数量', '人气', '筛选']
 const list3 = () => ["0-49", "50-99", "100-149", "150-200", "200以上"]
 export default {
+  mixins: [scrollPages],
   components: {
     Tab,
     TabItem,
@@ -71,19 +73,42 @@ export default {
       list3: list3(),
       index: 0,
       isCked2: false,
-      isCked1:false,
-      isCked3:false,
+      isCked1: false,
+      isCked3: false,
       checkedIndex: 0,
       cover: false,
       navShow: true,
       chooseIndex: 0,
-      istop:true,
-      getBarWidth: function(index) {
+      istop: true,
+      getBarWidth: function (index) {
         return (index + 1) * 22 + 'px'
       },
       goods: [],
+      apiUrl: '/api/homePage/getListFreeByCondition',
     }
   },
+  computed: {
+    params: {
+      get() {
+        return {
+          sortType: this.sortType,
+          sortClass: this.sortClass,
+          priceHigh: this.priceHigh,
+          priceLow: this.priceLow,
+          productClassId: this.productClassId,
+          postage: this.postage,
+          format: this.format,
+          highLottery: this.highLottery,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
+      },
+      set(val) {
+        return val
+      }
+    }
+  },
+
   methods: {
     onItemClick(index) {
       console.log('on item click:', index)
@@ -94,68 +119,74 @@ export default {
     ]),
     tap(index) {
       console.log(index)
-      if(index==0){
-      this.sortType= 'desc',
-      this.sortClass= 'integrated',
-      this.priceHigh= 0,
-      this.priceLow= 0,
-      this.productClassId= 0,
-      this.postage= 0,
-      this.format= 0,
-      this.highLottery= 0
-      this.getDesc()
+      if (index == 0) {
+        this.sortType = 'desc'
+        this.sortClass = 'integrated'
+        this.priceHigh = 0
+        this.priceLow = 0
+        this.productClassId = 0
+        this.postage = 0
+        this.format = 0
+        this.highLottery = 0
+        this.getApi()
+        this.goods=[]
       }
-      if(index==1){
-      this.sortType= 'desc',
-      this.sortClass= 'newest',
-      this.priceHigh= 0,
-      this.priceLow= 0,
-      this.productClassId= 0,
-      this.postage= 0,
-      this.format= 0,
-      this.highLottery= 0
-      this.getDesc()
+      if (index == 1) {
+        this.sortType = 'desc'
+        this.sortClass = 'newest'
+        this.priceHigh = 0
+        this.priceLow = 0
+        this.productClassId = 0
+        this.postage = 0
+        this.format = 0
+        this.highLottery = 0
+        this.getApi()
+        this.goods=[]
       }
-      if(index==2){
-        if(this.istop){
-            this.sortType= 'asc',
-            this.priceHigh= 10000,
-            this.priceLow= 0,
-          this.getDesc()
-        }else {
-          this.sortType= 'desc',
-            this.sortClass= 'price',
-            this.priceHigh= 0,
-            this.priceLow= 10000,
-            this.productClassId= 0,
-            this.postage= 0,
-            this.format= 0,
-            this.highLottery= 0
-          this.getDesc()
+      if (index == 2) {
+        if (this.istop) {
+          this.sortType = 'asc'
+          this.priceHigh = 10000
+          this.priceLow = 0
+          this.getApi()
+        this.goods=[]
+        } else {
+          this.sortType = 'desc'
+          this.sortClass = 'price'
+          this.priceHigh = 0
+          this.priceLow = 10000
+          this.productClassId = 0
+          this.postage = 0
+          this.format = 0
+          this.highLottery = 0
+          this.getApi()
+        this.goods=[]
         }
-        this.istop=!this.istop
+        this.istop = !this.istop
       }
-      if(index==3){
-      this.sortType= 'desc',
-      this.sortClass= 'sum',
-      this.priceHigh= 0,
-      this.priceLow= 0,
-      this.productClassId= 0,
-      this.postage= 0,
-      this.format= 0,
-      this.highLottery= 0
-      this.getDesc()
+      if (index == 3) {
+        this.sortType = 'desc'
+        this.sortClass = 'sum'
+        this.priceHigh = 0
+        this.priceLow = 0
+        this.productClassId = 0
+        this.postage = 0
+        this.format = 0
+        this.highLottery = 0
+        this.getApi()
+        this.goods=[]
       }
-      if(index==4){
-      this.sortType= 'desc',
-      this.sortClass= 'popularity',
-      this.priceHigh= 0,
-      this.priceLow= 0,
-      this.productClassId= 0,
-      this.postage= 0,
-      this.format= 0,
-      this.highLottery= 0
-      this.getDesc()
+      if (index == 4) {
+        this.sortType = 'desc'
+        this.sortClass = 'popularity'
+        this.priceHigh = 0
+        this.priceLow = 0
+        this.productClassId = 0
+        this.postage = 0
+        this.format = 0
+        this.highLottery = 0
+        this.getApi()
+        this.goods=[]
       }
       this.checkedIndex = index;
       if (index == 5) {
@@ -164,40 +195,41 @@ export default {
     },
     sure() {
       this.cover = false
-      this.sortType= 'desc',
-      this.sortClass= 'integrated',
-      this.priceHigh= 0,
-      this.priceLow= 0,
-      this.productClassId= 0;
-      if (this.isCked1==true) {
-        this.postage= 1
-      }else{
-        this.postage= 0
+      this.sortType = 'desc'
+      this.sortClass = 'integrated'
+      this.priceHigh = 0
+      this.priceLow = 0
+      this.productClassId = 0
+      if (this.isCked1 == true) {
+        this.postage = 1
+      } else {
+        this.postage = 0
       };
-      if (this.isCked2==true) {
-        this.format= 1
-      }else{
-        this.format= 0
+      if (this.isCked2 == true) {
+        this.format = 1
+      } else {
+        this.format = 0
       };
-       if (this.isCked3==true) {
-        this.highLottery= 1
-      }else{
-        this.highLottery= 0
+      if (this.isCked3 == true) {
+        this.highLottery = 1
+      } else {
+        this.highLottery = 0
       };
-      this.getDesc()
+      this.getApi()
+      this.goods=[]
     },
     pri(indexs) {
       this.chooseIndex = indexs
     },
     clear() {
       this.isCked1 = false
-       this.isCked2 = false
-        this.isCked3 = false
+      this.isCked2 = false
+      this.isCked3 = false
       this.chooseIndex = ""
     },
-    show(index,sellerTaskId) {
+    show(index, sellerTaskId) {
       console.log(sellerTaskId)
-      this.$router.push({ name: 'details', query: {sellerTaskId:sellerTaskId}})
+      this.$router.push({ name: 'details', query: { sellerTaskId: sellerTaskId } })
     },
     boxScroll(pos) {
       if (pos.y < 0) {
@@ -212,62 +244,46 @@ export default {
         })
       }
     },
-    getDesc(){
-      this.$axios.post('/api/homePage/getListFreeByCondition', {
-      sortType: this.sortType,
-      sortClass: this.sortClass,
-      priceHigh: this.priceHigh,
-      priceLow: this.priceLow,
-      productClassId:  this.productClassId,
-      postage: this.postage,
-      format: this.format,
-      highLottery:  this.highLottery
-    }).then((res) => {
-      let data = res.data
-      if (data.code === "200") {
-        let arrList = [];
-        for (let m of data.data) {
-          console.log(m)
-          let goods = {
-            imgSrc: m.picUrl,
-            hot: m.isRecommend,
-            info: m.productName,
-            progress: m.percent,
-            sellerTaskId:m.sellerTaskId,
-            msg: {
-              pric: m.price,
-              state: m.isMore,
-              zhuan: m.extraGold,
-              hua:m.extraGold,
-              baina:'白拿'
-            }
+    setInfo(data) {
+      console.log(data)
+      let arrList = []
+      this.maxPageSize = data.total
+      for (let m of data.datas) {
+        console.log(m)
+        let goods = {
+          imgSrc: m.picUrl,
+          hot: m.isRecommend,
+          info: m.productName,
+          progress: m.percent,
+          sellerTaskId: m.sellerTaskId,
+          msg: {
+            pric: m.price,
+            state: m.isMore,
+            zhuan: m.extraGold,
+            hua: m.extraGold,
+            baina: '白拿'
           }
-          arrList.push(goods)
         }
-        this.goods = arrList
-        var abc = this.setUserNopay(data.data)
-        this.$nextTick(() => {
-          this.$refs.scroll.refresh()
-        })
+        arrList.push(goods)
       }
-    }).catch((error) => {
-      this.$vux.alert.show({
-        title: '错误提示',
-        content: '服务器错误',
+      this.goods = [...this.goods, ...arrList]
+      // var abc = this.setUserNopay(data.data)
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh()
+        this.canLoading = true
       })
-    })
     }
   },
-  created(){
-      this.sortType= 'desc',
-      this.sortClass= 'integrated',
-      this.priceHigh= 0,
-      this.priceLow= 0,
-      this.productClassId= 0,
-      this.postage= 0,
-      this.format= 0,
-      this.highLottery= 0
-      this.getDesc()
+
+  created() {
+    this.sortType = 'desc'
+    this.sortClass = 'integrated'
+    this.priceHigh = 0
+    this.priceLow = 0
+    this.productClassId = 0
+    this.postage = 0
+    this.format = 0
+    this.highLottery = 0
   }
 }
 </script>
@@ -314,14 +330,14 @@ export default {
     box-sizing border-box
     .scroll-content
       height 100%
-      overflow: hidden;
+      overflow hidden
   .cover
     position fixed
     top 0
     left 0
     width 100%
     height 100%
-    background rgba(0,0,0,0.5)
+    background rgba(0, 0, 0, 0.5)
     z-index 101
     box-sizing border-box
     .conten
@@ -334,7 +350,7 @@ export default {
         font-family PingFangSC
         font-size 1.4rem
         font-weight 500
-        color #7587f
+        color #7587 f
         margin-left 1.2rem
         margin-top 20px
       .box
@@ -344,7 +360,7 @@ export default {
           border 1px solid black
         span
           display inline-block
-          width  7rem
+          width 7rem
           height 36px
           font-size 1.4rem
           font-weight 500
@@ -365,7 +381,7 @@ export default {
       .choose
         position absolute
         bottom 0
-        left  0
+        left 0
         width 100%
         border-top 2px solid #d4d5d8
         span
@@ -373,8 +389,4 @@ export default {
           border-right 1px solid #d4d5d8
           font-size 1.4rem
           padding 1.7rem 5.1rem
-
-
-
-
 </style>
