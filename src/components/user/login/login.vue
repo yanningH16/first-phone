@@ -105,7 +105,7 @@ export default {
           } else {
             //登录成功
             this.setUserInfo(data.data)
-            // this.setUserState('success') 后端端口校正
+            this.setUserPhoneHistory(this.phone)
             this.$router.push({ name: 'index' })
           }
         }).catch((error) => {

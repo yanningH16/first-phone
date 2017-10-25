@@ -58,9 +58,9 @@ import { mapActions } from 'vuex'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
   name: "settings",
-  mixins:[userInfoMixin],
+  mixins: [userInfoMixin],
   filters: {
-    isNull: function(value) {
+    isNull: function (value) {
       if (value) {
         return value
       }
@@ -74,11 +74,11 @@ export default {
     Actionsheet,
     Datetime
   },
-  created () {
+  created() {
     this.avatorBox.avator = this.userInfo.headPicId || avatarSrc
     this.userName.value = this.userInfo.username
     this.userTaobao.value = this.userInfo.taobaoLevel
-    this.userSex.value = (this.userInfo.gender===0?'女':'男')
+    this.userSex.value = (this.userInfo.gender === 0 ? '女' : '男')
     this.userAge.value = this.userInfo.birthday
     this.userAddress.value = this.userInfo.postAddress
     this.boxTwo[0].value = this.userInfo.qqNum
@@ -166,6 +166,7 @@ export default {
     ageChange() {
       this.visibility = true
     },
+    //更改年龄
     saveAge() {
       this.$axios.post('/api/user/update', {
         telephone: this.$store.state.userInfo.telephone,
@@ -178,7 +179,7 @@ export default {
         this.setUserInfo(obj);
         this.$vux.toast.show({
           text: '保存成功',
-          onHide () {
+          onHide() {
             that.$router.push({ name: 'settings' })
           }
         })
@@ -195,8 +196,17 @@ export default {
         onConfirm() {
           _this.$axios.post('/api/user/loginOut', {}).then((response) => {
             console.log(response)
-            _this.setUserInfo('')
-            _this.$router.push({ name: 'login' })
+            if (response.data.code === '200') {
+              _this.$vux.toast.text('退出成功', 'middle')
+              _this.setUserInfo('')
+              _this.$router.push({ name: 'login' })
+            } else {
+              _this.$vux.toast.show({
+                text: '退出成功',
+                type: 'warn',
+                position: middle
+              })
+            }
           }).catch((error) => {
             console.log(error)
           })
@@ -205,7 +215,7 @@ export default {
     },
     //修改信息
     updateUserInfo(updateObj) {
-      this.$axios.post('/api/user/update',updateObj).then((response) => {
+      this.$axios.post('/api/user/update', updateObj).then((response) => {
       }).catch((error) => {
         console.log(error)
       })
@@ -218,49 +228,49 @@ export default {
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
-  .settings
+.settings
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .scroll-content
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .scroll-content
-      height 100%
-      .settingsBox
-        background #eff0f2
-        .boxContainer
-          margin-top 0.8rem
-          &:first-child
-            margin-top 0
-      .btnBox
+    .settingsBox
+      background #eff0f2
+      .boxContainer
+        margin-top 0.8rem
+        &:first-child
+          margin-top 0
+    .btnBox
+      width 100%
+      padding 2rem 1.8rem
+      box-sizing border-box
+      .btn
         width 100%
-        padding 2rem 1.8rem
-        box-sizing border-box
-        .btn
-          width 100%
-          border-width 0
-          outline 0
-          -webkit-appearance none
-          position: relative
-          height 4rem
-          line-height 4rem
-          font-size $font-size-medium-x
-          text-align center
-          text-decoration none
-          color $color-theme-white
-          border-radius $border-radius
-          -webkit-tap-highlight-color rgba(0, 0, 0, 0)
-          background-color $color-theme
-          font-weight $font-weight
-          &:active
-            background $color-theme-active
+        border-width 0
+        outline 0
+        -webkit-appearance none
+        position relative
+        height 4rem
+        line-height 4rem
+        font-size $font-size-medium-x
+        text-align center
+        text-decoration none
+        color $color-theme-white
+        border-radius $border-radius
+        -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+        background-color $color-theme
+        font-weight $font-weight
+        &:active
+          background $color-theme-active
 </style>

@@ -23,82 +23,61 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import Coupons from '../../../base/coupons/coupons'
+import { scrollPages } from '../../../assets/js/mixin'
 import { mapGetters } from 'vuex'
 export default {
   name: "userCoupons",
+  mixins: [scrollPages],
   components: {
     Scroll,
     Coupons
   },
   data() {
     return {
-      pullup: true,
-      pageSize: 10,
-      pageNo: 1,
       messageList: [],
-      pageNos:1
+      apiUrl: '/api/buyer/message/getMessageListPageByBuyerId'
     }
   },
   computed: {
-    ...mapGetters([
-      'userInfo'
-    ])
-  },
-  created() {
-    this.getMessage()
+    params: {
+      get() {
+        return {
+          buyerUserId: this.userInfo.buyerUserId,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
+      },
+      set(val) {
+        return val
+      }
+    }
   },
   methods: {
     readInfo(item) {
       this.$router.push({ name: 'userMessageInfo', params: { message: item } })
     },
-    getMessage() {
-      this.$axios.post('/api/buyer/message/getMessageListPageByBuyerId', {
-        buyerUserId: this.userInfo.buyerUserId,
-        pageNo: this.pageNo,
-        pageSize: this.pageSize
-      }).then((response) => {
-        this.$vux.loading.hide()
-        let data = response.data
-        if (data.code !== "200") {
-          this.$vux.alert.show({
-            title: '错误提示',
-            content: data.message,
-          })
-        } else {
-          let myList = []
-          for (let item of data.data.datas) {
-            myList.push({
-              time: item.gmtCreate,
-              title: item.title,
-              info: item.content,
-              isRead: item.isRead
-            })
-          }
-          this.pageNos = data.data.pageNos
-          this.messageList = [...this.messageList, ...myList]
-          this.$nextTick(() => {
-            this.$refs.scrollContent.refresh()
-          })
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    scrollLoad() {
-      this.pageNo++
-      if(this.pageNo > this.pageNos){
-        this.$vux.toast.text('没有更多了', 'bottom')
-      }else{
-        this.getMessage()
+    setInfo(data) {
+      let myList = []
+      for (let item of data.datas) {
+        myList.push({
+          time: item.gmtCreate,
+          title: item.title,
+          info: item.content,
+          isRead: item.isRead
+        })
       }
+      this.pageNos = data.pageNos
+      this.messageList = [...this.messageList, ...myList]
+      this.$nextTick(() => {
+        this.$refs.scrollContent.refresh()
+      })
     }
   }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '../../../assets/stylus/variable';
-@import '../../../assets/stylus/mixin';
-
+@import '../../../assets/stylus/variable'
+@import '../../../assets/stylus/mixin'
 .userContainer
   height 100%
   position fixed
@@ -112,29 +91,29 @@ export default {
   &.move-enter-active, .move-leave-active
     transition all 0.2s linear
     transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave 
+  &.move-enter, .move-leave
     transform translate3d(100%, 0, 0)
-  .userContainerBox 
+  .userContainerBox
     background #eff0f2
     display flex
     flex-direction column
     height 100%
-    .messageBox 
-      .noMessage 
+    .messageBox
+      .noMessage
         text-align center
         font-size $font-size-medium
         color $color-text-d
         padding 20rem 0
-      .messageList 
+      .messageList
         overflow hidden
-        .list 
+        .list
           margin-top 1.2rem
           background $color-theme-white
           box-sizing border-box
           padding 1.6rem
-          .top 
+          .top
             display flex
-            .title 
+            .title
               flex 1
               font-size $font-size-medium
               color $color-text
@@ -142,12 +121,12 @@ export default {
               white-space nowrap
               overflow hidden
               text-overflow ellipsis
-            .time 
+            .time
               flex 1
               text-align right
               font-size $font-size-medium
               color $color-text-d
-          .info 
+          .info
             margin-top 1.2rem
             font-size $font-size-medium
             color $color-text-d

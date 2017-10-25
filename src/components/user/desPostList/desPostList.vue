@@ -51,34 +51,24 @@ export default {
     return {
       showToast: false,
       list: [],
+      apiUrl: '/api/withdrawApply/buyer/getBuyerApplyRecord',
     }
   },
-  mounted() {
-    this.getApi()
+  computed: {
+    params: {
+      get() {
+        return {
+          buyerUserId: this.userInfo.buyerUserId,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
+      },
+      set(val) {
+        return val
+      }
+    }
   },
   methods: {
-    //获得信息
-    getApi() {
-      this.$axios.post('/api/withdrawApply/buyer/getBuyerApplyRecord', {
-        buyerUserId: this.userInfo.buyerUserId,
-        pageNo: this.pageNo,
-        pageSize: this.pageSize
-      }).then((response) => {
-        if (response.data.code === '200') {
-          this.setInfo(response.data.data)
-        } else {
-          this.$vux.alert.show({
-            title: '错误提示',
-            content: response.data.message,
-          })
-        }
-      }).catch((error) => {
-        this.$vux.alert.show({
-          title: '错误提示',
-          content: '网络错误',
-        })
-      })
-    },
     //设置信息
     setInfo(data) {
       let mylist = []

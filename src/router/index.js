@@ -1098,7 +1098,6 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
     axios.post('/api/user/loginOrNot', {}).then((res) => {
-      console.log(res.data.code)
       if (res.data.code !== '200' || !loadUserInfo()) {
         Vue.$vux.alert.show({
           title: '温馨提示',
