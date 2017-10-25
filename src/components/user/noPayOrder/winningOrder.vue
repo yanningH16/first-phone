@@ -1,5 +1,4 @@
 <template>
-  <transition name="move">
     <scroll class="scroll-content" ref="scrollBox" :pullup="pullup" @scrollToEnd="scrollLoad">
       <div class="orderBox">
         <!--抽奖订单-->
@@ -112,7 +111,6 @@
         </div>
       </div>
     </scroll>
-  </transition>
 </template>
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
@@ -132,12 +130,7 @@ export default {
   },
   data() {
     return {
-      pullup: true,
       axiosResult: [],//获得的数据
-      maxPageSize: 0,
-      pageSize: 5,
-      pageNo: 1,
-      canLoading: true,
       goodsEvaluate: [],
       apiUrl: '/api/orderOperate/getBuyerTaskListByStatusAndTaskFlag',
       showAwardIndex: 0,
@@ -330,11 +323,6 @@ export default {
 @import '../../../assets/stylus/mixin'
 .scroll-content
   height 100%
-  &.move-enter-active, .move-leave-active
-    transition all 0.2s linear
-    transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave
-    transform translate3d(100%, 0, 0)
   .stateBox
     background #ffffff
     border-bottom-1px($color-text-ll)

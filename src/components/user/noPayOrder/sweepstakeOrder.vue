@@ -1,60 +1,58 @@
 <template>
-  <transition name="move">
-    <scroll class="scroll-content" ref="scrollBox" :pullup="pullup" @scrollToEnd="scrollLoad">
-      <div class="orderBox">
-        <!--未抽奖-->
-        <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===1}">
-          <cell title="未抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(1,valueLength)">
-            <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLength}}</span>
-          </cell>
-        </div>
-        <div class="orderBoxList" v-for="(item,index) in goodsLottery" :key="index" v-show="showLotteryIndex===1">
-          <appendCommon :goodsObj="item">
-            <span slot="state" class="reject">{{item.stateText}}</span>
-            <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-              <span class="num">{{item.coinInfo}}</span>金币</span>
-            <span slot="info" class="infoOrange" v-if="item.coinType===1">
-              <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-            <div class="bottom" slot="bottom">
-              <span class="details">{{item.lotteryInfo}}</span>
-              <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-              <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请{{item.isLotteryState}}</span>
-              <span class="btn details" v-if="item.isLotteryState===1" @click="doTask">去做任务</span>
-            </div>
-          </appendCommon>
-        </div>
-        <!--再一次抽奖-->
-        <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===2}">
-          <cell title="再一次抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(2,valueLength)">
-            <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLengthNext}}</span>
-          </cell>
-        </div>
-        <div class="orderBoxList" v-for="(item,index) in goodsLotteryNext" :key="index" v-show="showLotteryIndex===2">
-          <appendCommon :goodsObj="item">
-            <span slot="state" class="reject">{{item.stateText}}</span>
-            <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-              <span class="num">{{item.coinInfo}}</span>
-              金币
-            </span>
-            <span slot="info" class="infoOrange" v-if="item.coinType===1">
-              <span class="num">{{item.coinInfo}}</span>
-              金币兑换
-            </span>
-            <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-              <span class="num">{{item.coinInfo}}</span>
-              金币
-            </span>
-            <div class="bottom" slot="bottom">
-              <span class=" details">{{item.lotteryInfo}}</span>
-              <span class="btn" v-if="item.isLotteryState!==1" @click="giveUpLottery(item)">放弃白拿</span>
-              <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请</span>
-              <span class="btn details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
-            </div>
-          </appendCommon>
-        </div>
+  <scroll class="scroll-content" ref="scrollBox" :pullup="pullup" @scrollToEnd="scrollLoad">
+    <div class="orderBox">
+      <!--未抽奖-->
+      <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===1}">
+        <cell title="未抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(1,valueLength)">
+          <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLength}}</span>
+        </cell>
       </div>
-    </scroll>
-  </transition>
+      <div class="orderBoxList" v-for="(item,index) in goodsLottery" :key="index" v-show="showLotteryIndex===1">
+        <appendCommon :goodsObj="item">
+          <span slot="state" class="reject">{{item.stateText}}</span>
+          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+            <span class="num">{{item.coinInfo}}</span>金币</span>
+          <span slot="info" class="infoOrange" v-if="item.coinType===1">
+            <span class="num">{{item.coinInfo}}</span>金币兑换</span>
+          <div class="bottom" slot="bottom">
+            <span class="details">{{item.lotteryInfo}}</span>
+            <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
+            <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请{{item.isLotteryState}}</span>
+            <span class="btn details" v-if="item.isLotteryState===1" @click="doTask">去做任务</span>
+          </div>
+        </appendCommon>
+      </div>
+      <!--再一次抽奖-->
+      <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===2}">
+        <cell title="再一次抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(2,valueLength)">
+          <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLengthNext}}</span>
+        </cell>
+      </div>
+      <div class="orderBoxList" v-for="(item,index) in goodsLotteryNext" :key="index" v-show="showLotteryIndex===2">
+        <appendCommon :goodsObj="item">
+          <span slot="state" class="reject">{{item.stateText}}</span>
+          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+            <span class="num">{{item.coinInfo}}</span>
+            金币
+          </span>
+          <span slot="info" class="infoOrange" v-if="item.coinType===1">
+            <span class="num">{{item.coinInfo}}</span>
+            金币兑换
+          </span>
+          <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
+            <span class="num">{{item.coinInfo}}</span>
+            金币
+          </span>
+          <div class="bottom" slot="bottom">
+            <span class=" details">{{item.lotteryInfo}}</span>
+            <span class="btn" v-if="item.isLotteryState!==1" @click="giveUpLottery(item)">放弃白拿</span>
+            <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请</span>
+            <span class="btn details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
+          </div>
+        </appendCommon>
+      </div>
+    </div>
+  </scroll>
 </template>
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
@@ -273,11 +271,6 @@ export default {
 @import '../../../assets/stylus/mixin'
 .scroll-content
   height 100%
-  &.move-enter-active, .move-leave-active
-    transition all 0.2s linear
-    transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave
-    transform translate3d(100%, 0, 0)
   .stateBox
     background #ffffff
     border-bottom-1px($color-text-ll)

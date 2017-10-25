@@ -1,23 +1,21 @@
 <template>
-  <transition name="move">
-    <scroll class="scroll-content" ref="scrollBox" :pullup="pullup" @scrollToEnd="scrollLoad">
-      <div class="orderBox" v-if="goodsReject.length>0">
-        <div class="orderBoxList" v-for="(item,index) in goodsReject" :key="index">
-          <appendCommon :goodsObj="item">
-            <span slot="state" class="reject">{{item.stateText}}</span>
-            <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-              <span class="num">{{item.coinInfo}}</span>金币</span>
-            <span slot="info" class="infoOrange" v-if="item.coinType===1">
-              <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-            <div class="bottom" slot="bottom">
-              <span class="btn details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
-            </div>
-          </appendCommon>
-        </div>
+  <scroll class="scroll-content" ref="scrollBox" :pullup="pullup" @scrollToEnd="scrollLoad">
+    <div class="orderBox" v-if="goodsReject.length>0">
+      <div class="orderBoxList" v-for="(item,index) in goodsReject" :key="index">
+        <appendCommon :goodsObj="item">
+          <span slot="state" class="reject">{{item.stateText}}</span>
+          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+            <span class="num">{{item.coinInfo}}</span>金币</span>
+          <span slot="info" class="infoOrange" v-if="item.coinType===1">
+            <span class="num">{{item.coinInfo}}</span>金币兑换</span>
+          <div class="bottom" slot="bottom">
+            <span class="btn details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
+          </div>
+        </appendCommon>
       </div>
-      <div class="noArray" v-else>还没有相关订单呢</div>
-    </scroll>
-  </transition>
+    </div>
+    <div class="noArray" v-else>还没有相关订单呢</div>
+  </scroll>
 </template>
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
@@ -99,7 +97,6 @@ export default {
         goodsDramArr.push(obj)
       }
       this.goodsReject = [...goodsDramArr]
-      console.log(this.goodsReject)
       this.$nextTick(() => {
         this.$refs.scrollBox.refresh()
         this.canLoading = true
@@ -159,11 +156,6 @@ export default {
 @import '../../../assets/stylus/mixin'
 .scroll-content
   height 100%
-  &.move-enter-active, .move-leave-active
-    transition all 0.2s linear
-    transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave
-    transform translate3d(100%, 0, 0)
   .infoRed
     color $color-theme
     .num
