@@ -5,7 +5,7 @@
         <div class="userAddressBox">
           <div class="addressInputBox">
             <group>
-              <x-input placeholder="请输入你的QQ号" required v-model="addressQQ"></x-input>
+              <x-input placeholder="请输入你的QQ号" required v-model="addressQQ" type="number"></x-input>
             </group>
           </div>
           <h1 class="info">填写QQ号有助于提高中奖率，方便中奖后及时联系你</h1>
@@ -30,7 +30,7 @@ export default {
   },
   watch: {
     addressQQ(newVal) {
-      if (newVal.length > 0) {
+      if (RegExp(/^[1-9][0-9]{4,9}$/).test(newVal)) {
         this.btnSaveState = true
         return false
       }
@@ -58,8 +58,9 @@ export default {
         console.log(response)
         if (response.data.code === '200') {
           let _this = this
-          let obj = this.userInfo
-          obj.qqNum = this.addressQQ
+          let obj = Object.assign({}, this.userInfo, {
+            qqNum: this.addressQQ
+          })
           this.setUserInfo(obj)
           this.$vux.toast.show({
             text: '修改成功',

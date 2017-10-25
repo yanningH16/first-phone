@@ -6,18 +6,18 @@
           <scroll class="scroll-content">
             <div class="containerBox">
               <div class="groupBox">
-                <div class="checkList border-bottom-1px" @click="chooseCheck=1">
-                  <div class="left">提现到银行卡</div>
-                  <div class="right">
-                    <span class="info">中心银行 吴** 6218****0508</span>
-                    <checkbtn :isChecked="chooseCheck===1"></checkbtn>
-                  </div>
-                </div>
-                <div class="checkList" @click="chooseCheck=2">
+                <!-- <div class="checkList border-bottom-1px" @click="chooseCheck=1">
+                        <div class="left">提现到银行卡</div>
+                        <div class="right">
+                          <span class="info">中心银行 吴** 6218****0508</span>
+                          <checkbtn :isChecked="chooseCheck===1"></checkbtn>
+                        </div>
+                      </div> -->
+                <div class="checkList">
                   <div class="left">提现到微信</div>
                   <div class="right">
                     <span class="info">{{userInfo.wechatNum}}</span>
-                    <checkbtn :isChecked="chooseCheck===2"></checkbtn>
+                    <checkbtn :isChecked="chooseCheck===1"></checkbtn>
                   </div>
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default {
           this.$vux.alert.show({
             title: '提现成功,点击确定返回个人中心',
             onHide() {
-              _this.$router.push({name:'user' })
+              _this.$router.push({ name: 'user' })
             }
           })
         } else {

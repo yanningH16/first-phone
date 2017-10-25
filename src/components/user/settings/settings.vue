@@ -27,8 +27,8 @@
               <cell :link="userAge.link" :is-link="userAge.isLink" :title="userAge.title" :value="isNull(userAge.value)" @click.native="ageChange">
               </cell>
               <!--收货地址-->
-              <cell :link="userAddress.link" :is-link="userAddress.isLink" :title="userAddress.title" :value="isNull(userAddress.value)">
-              </cell>
+              <!-- <cell :link="userAddress.link" :is-link="userAddress.isLink" :title="userAddress.title" :value="isNull(userAddress.value)">
+                  </cell> -->
             </group>
           </div>
           <div class="boxContainer">
@@ -41,10 +41,10 @@
           </div>
           <div class="iconfont">
           </div>
-        </div>
-        <div class="actionBox" v-show="visibility">
-          <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
-          <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility"></datetime>
+          <div class="actionBox" v-show="visibility||show">
+            <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
+            <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility"></datetime>
+          </div>
         </div>
       </scroll>
     </div>
@@ -54,7 +54,7 @@
 import avatarSrc from '../userHeader/avator.png'
 import Scroll from '../../../base/scroll/scroll'
 import { Cell, Group, Actionsheet, Datetime } from 'vux'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
   name: "settings",
@@ -75,67 +75,115 @@ export default {
     Datetime
   },
   created() {
-    this.avatorBox.avator = this.userInfo.headPicId || avatarSrc
-    this.userName.value = this.userInfo.username
-    this.userTaobao.value = this.userInfo.taobaoLevel
-    this.userSex.value = (this.userInfo.gender === 0 ? '女' : '男')
-    this.userAge.value = this.userInfo.birthday
-    this.userAddress.value = this.userInfo.postAddress
-    this.boxTwo[0].value = this.userInfo.qqNum
-    this.boxTwo[1].value = this.userInfo.telephone
+  },
+  computed: {
+    avatorBox: {
+      get() {
+        return {
+          title: '头像',
+          link: '',
+          isLink: true,
+          avator: this.userInfo.headPicId || avatarSrc
+        }
+      },
+      set(val) {
+        return val
+      }
+    },
+    userName: {
+      get() {
+        return {
+          title: '用户名',
+          link: '',
+          isLink: false,
+          value: this.userInfo.username || '暂无数据'
+        }
+      },
+      set(val) {
+        return val
+      }
+    },
+    userTaobao: {
+      get() {
+        return {
+          title: '旺旺等级',
+          link: '',
+          isLink: true,
+          value: this.userInfo.taobaoLevel,
+          info: '请及时更新真是的旺旺等级'
+        }
+      },
+      set(val) {
+        return val
+      }
+    },
+    userSex: {
+      get() {
+        return {
+          title: '性别',
+          link: 'settings/usersex',
+          isLink: true,
+          value: (this.userInfo.gender === 0 ? '女' : '男')
+        }
+      },
+      set(val) {
+        return val
+      }
+    },
+    userAge: {
+      get() {
+        return {
+          title: '出生日期',
+          link: '',
+          isLink: true,
+          value: this.userInfo.birthday
+        }
+      },
+      set(val) {
+        return val
+      }
+    },
+    userAddress: {
+      get() {
+        return {
+          title: '收货地址',
+          link: 'settings/userAddress',
+          isLink: true,
+          value: this.userInfo.postAddress
+        }
+      },
+      set(val) {
+        return val
+      }
+    },
+    boxTwo: {
+      get() {
+        return [
+          {
+            title: '联系QQ',
+            link: 'settings/userQq',
+            isLink: true,
+            value: this.userInfo.qqNum,
+            info: '填写有助于提高中奖率'
+          },
+          {
+            title: '更改手机号',
+            link: 'settings/userPhone',
+            isLink: true,
+            value: this.userInfo.telephone
+          }
+        ]
+      },
+      set(val) {
+        return val
+      }
+    },
+    ...mapGetters([
+      'userInfo'
+    ])
   },
   data() {
     return {
-      avatorBox: {
-        title: '头像',
-        link: '',
-        isLink: true
-      },
-      userName: {
-        title: '用户名',
-        link: '',
-        isLink: false,
-      },
-      userTaobao: {
-        title: '旺旺等级',
-        link: '',
-        isLink: true,
-        value: '二口夭',
-        info: '请及时更新真是的旺旺等级'
-      },
-      userSex: {
-        title: '性别',
-        link: 'settings/usersex',
-        isLink: true,
-        value: ''
-      },
-      userAge: {
-        title: '出生日期',
-        link: '',
-        isLink: true,
-        value: ''
-      },
-      userAddress: {
-        title: '收货地址',
-        link: 'settings/userAddress',
-        isLink: true,
-        value: ''
-      },
-      boxTwo: [
-        {
-          title: '联系QQ',
-          link: 'settings/userQq',
-          isLink: true,
-          value: '279332222',
-          info: '填写有助于提高中奖率'
-        },
-        {
-          title: '更改手机号',
-          link: 'settings/userPhone',
-          isLink: true,
-          value: '17745812564'
-        }
-      ],
       show: false,
       menus2: {
         menu1: '从相册选择',
@@ -169,22 +217,33 @@ export default {
     //更改年龄
     saveAge() {
       this.$axios.post('/api/user/update', {
-        telephone: this.$store.state.userInfo.telephone,
+        telephone: this.userInfo.telephone,
         birthday: this.age
       }).then((response) => {
-        console.log(response);
-        let that = this;
-        let obj = this.$store.state.userInfo;
-        obj.birthday = this.age;
-        this.setUserInfo(obj);
-        this.$vux.toast.show({
-          text: '保存成功',
-          onHide() {
-            that.$router.push({ name: 'settings' })
-          }
-        })
+        if (response.data.code === '200') {
+          let _this = this
+          let obj = Object.assign({}, this.userInfo, {
+            birthday: this.age
+          })
+          this.setUserInfo(obj)
+          this.$vux.toast.show({
+            text: '保存成功',
+            onHide() {
+              _this.$router.push({ name: 'settings' })
+            }
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: response.data.message,
+          })
+        }
+
       }).catch((error) => {
-        console.log(error)
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络错误',
+        })
       })
     },
     //退出登录

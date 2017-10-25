@@ -50,7 +50,7 @@
 import { Cell, Group, Badge } from 'vux'
 import UserHeader from './userHeader/userHeader'
 import Scroll from '../../base/scroll/scroll'
-import { mapGetters,mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { userInfoMixin } from '../../assets/js/mixin'
 export default {
   name: "user",
@@ -124,12 +124,12 @@ export default {
           link: 'user/helpCenter',
           isLink: true
         },
-        // {
-        //   title: '意见反馈',
-        //   link: 'user/userSuggest',
-        //   isLink: true,
-        //   isDot: true
-        // }
+        /*{
+          title: '意见反馈',
+          link: 'user/userSuggest',
+          isLink: true,
+          isDot: true
+        }*/
       ],
       boxMoney: [
         {
@@ -151,32 +151,34 @@ export default {
       boxOthter: [
         {
           icon: 'icon-gift',
-          badge: 1,
           text: '抽奖',
-          type: 1
+          type: 1,
+          badge: 0
         },
         {
           icon: 'icon-winning',
           text: '中奖了',
-          type: 2
+          type: 2,
+          badge: 0
         },
         {
           icon: 'icon-assessment',
-          badge: 1,
           text: '评价',
-          type: 3
+          type: 3,
+          badge: 0
         },
         {
           icon: 'icon-reject',
-          badge: 1,
           text: '驳回',
-          type: 4
+          type: 4,
+          badge: 0
         }
       ],
     }
   },
   mounted() {
     this.getByBuyerUserId()
+    this.getOrderNum()
   },
   methods: {
     arrowClick() {
@@ -213,28 +215,73 @@ export default {
     setCoinInfo(data) {
       //垫付本金
       if (data.waitingBackDeposit) {
-        this.maxMoney(data.waitingBackDeposit,0)
+        this.maxMoney(data.waitingBackDeposit, 0)
       }
       if (data.frozenGold) {
-        this.maxMoney(data.frozenGold,1)
+        this.maxMoney(data.frozenGold, 1)
       }
       if (data.frozenGold) {
-        this.maxMoney(data.availableGold,2)
+        this.maxMoney(data.availableGold, 2)
       }
-      if(data.availableDeposit){
+      if (data.availableDeposit) {
         this.boxOne[1].title = `我的资金 ${parseFloat(data.availableDeposit).toFixed(2)}`
       }
-      if(data.availableGold){
+      if (data.availableGold) {
         this.boxOne[0].title = `我的金币 ${parseFloat(data.availableGold).toFixed(2)}`
       }
     },
-    maxMoney(money,index) {
+    //资金大于10000
+    maxMoney(money, index) {
       let watingPrice = parseFloat(money)
       if (watingPrice >= 10000) {
         watingPrice = watingPrice / 10000
         this.boxMoney[index].unit = '万'
       }
       this.boxMoney[index].price = watingPrice.toFixed(2)
+    },
+    //获得订单数量
+    getOrderNum() {
+      this.$axios.post('/api/orderOperate/getAllTaskRecordCountStatistics', {
+        userId: this.userInfo.buyerUserId
+      }).then((response) => {
+        if (response.data.code === '200') {
+          this.setOrderNum(response.data.data)
+        } else {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: response.data.message,
+          })
+        }
+      }).catch((error) => {
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络错误',
+        })
+      })
+    },
+    //设置订单数量
+    setOrderNum(data) {
+      if (!data.winningCount) {
+        this.maxOrderNum(data.winningCount, 0)
+      }
+      if (data.sweepstakeCount) {
+        this.maxOrderNum(data.sweepstakeCount, 1)
+      }
+      if (data.evaluateCount) {
+        this.maxOrderNum(data.evaluateCount, 2)
+      }
+      if (data.rejectCount) {
+        this.maxOrderNum(data.rejectCount, 3)
+      }
+    },
+    //最大订单数
+    maxOrderNum(account, index) {
+      let watingPrice = parseInt(account)
+      if (watingPrice > 10) {
+        watingPrice = '10+'
+      }
+      this.boxOthter[index].badge = watingPrice
+      console.log(this.boxOthter)
     },
     ...mapActions([
       'setUserCoin'

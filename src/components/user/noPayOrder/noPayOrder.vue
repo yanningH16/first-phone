@@ -28,214 +28,13 @@
             <div class="noArray" v-else>还没有相关订单呢</div>
           </scroll>
           <!-- 抽奖 -->
-          <scroll class="scroll-content" v-show="checkIndex===1" ref="goodsLottery" :pullup="pullup" @scrollToEnd="scrollLoad">
-            <div class="orderBox">
-              <!--未抽奖-->
-              <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===1}">
-                <cell title="未抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(1)">
-                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLength}}</span>
-                </cell>
-              </div>
-              <div class="orderBoxList" v-for="(item,index) in goodsLottery" :key="index" v-show="showLotteryIndex===1">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>金币</span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-                  <div class="bottom" slot="bottom">
-                    <span class="details">{{item.lotteryInfo}}</span>
-                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-                    <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请{{item.isLotteryState}}</span>
-                    <span class="btn details" v-if="item.isLotteryState===1" @click="doTask">去做任务</span>
-                  </div>
-                </appendCommon>
-              </div>
-              <!--再一次抽奖-->
-              <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===2}">
-                <cell title="再一次抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(2)">
-                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLengthNext}}</span>
-                </cell>
-              </div>
-              <div class="orderBoxList" v-for="(item,index) in goodsLotteryNext" :key="index" v-show="showLotteryIndex===2">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币兑换
-                  </span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <div class="bottom" slot="bottom">
-                    <span class=" details">{{item.lotteryInfo}}</span>
-                    <span class="btn" v-if="item.isLotteryState!==1" @click="giveUpLottery">放弃白拿</span>
-                    <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请</span>
-                    <span class="btn details" v-if="item.isLotteryState===1" @click="doTask">去做任务</span>
-                  </div>
-                </appendCommon>
-              </div>
-            </div>
-          </scroll>
+          <sweepstakeOrder></sweepstakeOrder>
           <!-- 中奖了 -->
-          <scroll class="scroll-content" v-show="checkIndex===2" ref="awardScroll" :pullup="pullup" @scrollToEnd="scrollLoad">
-            <div class="orderBox">
-              <!--抽奖订单-->
-              <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showAwardIndex===1}">
-                <cell title="抽奖订单" is-link :arrow-direction="!(showAwardIndex===1)? 'up' : 'down'" @click.native="changeAwardIndex(1)">
-                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueDraw}}</span>
-                </cell>
-              </div>
-              <div class="orderBoxList" v-for="(item,index) in goodsDraw" :key="index" v-show="showAwardIndex===1">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>金币</span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-                  <div class="bottom" slot="bottom">
-                    <span class="details">{{item.lotteryInfo}}</span>
-                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-                    <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item)">前去领奖</span>
-                    <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder">删除订单</span>
-                  </div>
-                </appendCommon>
-              </div>
-              <!--金币拿订单-->
-              <div class="stateBox" :class="{'isNoBottom':showAwardIndex===2}">
-                <cell title="金币拿订单" is-link :arrow-direction="!(showAwardIndex==2)? 'up' : 'down'" @click.native="changeAwardIndex(2)">
-                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueCoin}}</span>
-                </cell>
-              </div>
-              <div class="orderBoxList" v-for="(item,index) in goodsCoin" :key="index" v-show="showAwardIndex===2">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币兑换
-                  </span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <div class="bottom" slot="bottom">
-                    <span class=" details">{{item.lotteryInfo}}</span>
-                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-                    <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
-                    <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder">删除订单</span>
-                  </div>
-                </appendCommon>
-              </div>
-              <!--必中券订单-->
-              <div class="stateBox" :class="{'isNoBottom':showAwardIndex===3}">
-                <cell title="必中券订单" is-link :arrow-direction="!(showAwardIndex===3)? 'up' : 'down'" @click.native="changeAwardIndex(3)">
-                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueMust}}</span>
-                </cell>
-              </div>
-              <div class="orderBoxList" v-for="(item,index) in goodsMust" :key="index" v-show="showAwardIndex===3">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币兑换
-                  </span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <div class="bottom" slot="bottom">
-                    <span class=" details">{{item.lotteryInfo}}</span>
-                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-                    <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
-                    <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder">删除订单</span>
-                  </div>
-                </appendCommon>
-              </div>
-              <!--Plus会员订单-->
-              <div class="stateBox" :class="{'isNoBottom':showAwardIndex===4}">
-                <cell title="Plus会员订单" is-link :arrow-direction="!(showAwardIndex===4)? 'up' : 'down'" @click.native="changeAwardIndex(4)">
-                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valuePlus}}</span>
-                </cell>
-              </div>
-              <div class="orderBoxList" v-for="(item,index) in goodsPlus" :key="index" v-show="showAwardIndex===4">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币兑换
-                  </span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-                    <span class="num">{{item.coinInfo}}</span>
-                    金币
-                  </span>
-                  <div class="bottom" slot="bottom">
-                    <span class=" details">{{item.lotteryInfo}}</span>
-                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-                    <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
-                    <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder">删除订单</span>
-                  </div>
-                </appendCommon>
-              </div>
-            </div>
-          </scroll>
+          <!-- <winningOrder></winningOrder> -->
           <!-- 评价 -->
-          <scroll class="scroll-content" v-show="checkIndex===3" ref="scrollBox4" :pullup="pullup" @scrollToEnd="scrollLoad">
-            <div class="orderBox" v-if="goodsEvaluate.length>0">
-              <div class="orderBoxList" v-for="(item,index) in goodsEvaluate" :key="index">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>金币</span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-                  <div class="bottom" slot="bottom">
-                    <span class="details">{{item.evaluateInfo}}</span>
-                    <span class="btn details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
-                    <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
-                    <span class="btn details" v-else-if="item.isEvaluateState===2" @click="goEvaluate(item)">去预追评</span>
-                    <span class="btn details" v-else-if="item.isEvaluateState===3" @click="goEvaluate(item)">追评到淘宝</span>
-                    <span class="btn" v-else-if="item.isEvaluateState===4" @click="applyCustomer">申请售后</span>
-                  </div>
-                </appendCommon>
-              </div>
-            </div>
-            <div class="noArray" v-else>还没有相关订单呢</div>
-          </scroll>
+          <!-- <evaluateOrder></evaluateOrder> -->
           <!-- 驳回 -->
-          <scroll class="scroll-content" v-show="checkIndex===4" ref="scrollBox5" :pullup="pullup" @scrollToEnd="scrollLoad">
-            <div class="orderBox" v-if="goodsReject.length>0">
-              <div class="orderBoxList" v-for="(item,index) in goodsReject" :key="index">
-                <appendCommon :goodsObj="item">
-                  <span slot="state" class="reject">{{item.stateText}}</span>
-                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                    <span class="num">{{item.coinInfo}}</span>金币</span>
-                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                    <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-                  <div class="bottom" slot="bottom">
-                    <span class="btn details" @click="rejectOperate(item)">{{item.btnText}}</span>
-                  </div>
-                </appendCommon>
-              </div>
-            </div>
-            <div class="noArray" v-else>还没有相关订单呢</div>
-          </scroll>
+          <!-- <rejectOrder></rejectOrder> -->
         </div>
       </div>
     </div>
@@ -245,6 +44,10 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
+import RejectOrder from './rejectOrder'
+import EvaluateOrder from './evaluateOrder'
+import WinningOrder from './winningOrder'
+import SweepstakeOrder from './sweepstakeOrder'
 import { Tab, TabItem, Cell } from 'vux'
 import Vue from 'vue'
 import { __taskState__, allTask, award, awarded, comment, notify } from '../../../assets/data/task'
@@ -257,7 +60,11 @@ export default {
     TabItem,
     Scroll,
     AppendCommon,
-    Cell
+    Cell,
+    RejectOrder,
+    EvaluateOrder,
+    WinningOrder,
+    SweepstakeOrder
   },
   computed: {
     valueLength: {
@@ -281,11 +88,11 @@ export default {
     ])
   },
   created() {
-    if(this.$route.params.checkIndex){
+    if (this.$route.params.checkIndex) {
       this.checkIndex = this.$route.params.checkIndex
     }
     this.doChangeIndex()
-    if(this.checkIndex===2){
+    if (this.checkIndex === 2) {
       this.getColums()
     }
   },
@@ -299,7 +106,7 @@ export default {
       canLoading: true,
       goodsDrawResult: [],//
       tabArr: ['全部', '抽奖', '中奖了', '评价', '驳回'],
-      checkIndex: 3,
+      checkIndex: 1,
       goodsAll: [],
       //驳回
       goodsReject: [],
@@ -310,7 +117,7 @@ export default {
       goodsLotteryNext: [],
       // 抽奖订单
       showAwardIndex: 0,
-      showLotteryIndex:0,
+      showLotteryIndex: 0,
       goodsDraw: [],
       //金币拿订单
       goodsCoin: [],
@@ -362,7 +169,7 @@ export default {
       this.pageNo = 1
       this.doChangeIndex()
     },
-    changeLotteryIndex(index){
+    changeLotteryIndex(index) {
       if (this.showLotteryIndex === index) {
         this.showLotteryIndex = 0
         return false
@@ -405,10 +212,10 @@ export default {
         ''
       ]
       let index = award.indexOf(item.taskFlag)
-      if(item.buyerTaskStatus === '6' ||item.buyerTaskStatus === '2'){
-        this.$router.push({ name: lotteryRouter[index+1], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
-      }else if(item.buyerTaskStatus === '4'){
-        this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
+      if (item.buyerTaskStatus === '6' || item.buyerTaskStatus === '2') {
+        this.$router.push({ name: lotteryRouter[index + 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
+      } else if (item.buyerTaskStatus === '4') {
+        this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
       }
       // this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
     },
@@ -418,11 +225,11 @@ export default {
     },
     //前去领奖
     getAward(item) {
-      if(this.checkIndex===2){
+      if (this.checkIndex === 2) {
         this.doCheckTwo(item)
       }
     },
-    doCheckTwo(item){
+    doCheckTwo(item) {
       const routerLink = [
         'getPriceOneStep1',
         'getPriceTwoStep1',
@@ -432,7 +239,7 @@ export default {
         'sureGetStep1'
       ]
       let index = awarded.indexOf(item.taskFlag)
-      this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
+      this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //删除任务
     deleteOrder() {
@@ -451,33 +258,33 @@ export default {
     goEvaluate(item) {
       // this.$router.push({ name: 'preOnlyText' })
       const routerLink = [
-        'taskOneStep1','taskOneStep1','taskOneStep1','taskTwoStep1','','taskThreeStep1','','','getPriceOneStep1','getPriceTwoStep1','getPriceThreeStep1',
-        'preOnlyFiveStar','preOnlyText','preTextImg','preTextKey','preImgKey','onlyFiveStar','onlyText1','textImg1','textKey1','textImg1','',
-        'preAppendOnlyText','preAppendOnlyTextKey','preAppendTextFav1','preAppendTextFavKey1','preAppendTextImg','preAppendTextImgFav1','preAppendTextKeyImg',
-        'preAppendTextKeyImgFav1','appendToTaoBao1','appendToTaoBao1','appendToTaoBao1','appendToTaoBao1','appendToTaoBao2','appendToTaoBao2','appendToTaoBao2',
-        'appendToTaoBao2','sureGetStep1','sureGetStep1','sureGetStep1','sureGetStep1','sureGetStep1 ','sureGetStep1'
+        'taskOneStep1', 'taskOneStep1', 'taskOneStep1', 'taskTwoStep1', '', 'taskThreeStep1', '', '', 'getPriceOneStep1', 'getPriceTwoStep1', 'getPriceThreeStep1',
+        'preOnlyFiveStar', 'preOnlyText', 'preTextImg', 'preTextKey', 'preImgKey', 'onlyFiveStar', 'onlyText1', 'textImg1', 'textKey1', 'textImg1', '',
+        'preAppendOnlyText', 'preAppendOnlyTextKey', 'preAppendTextFav1', 'preAppendTextFavKey1', 'preAppendTextImg', 'preAppendTextImgFav1', 'preAppendTextKeyImg',
+        'preAppendTextKeyImgFav1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao2', 'appendToTaoBao2', 'appendToTaoBao2',
+        'appendToTaoBao2', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1 ', 'sureGetStep1'
       ]
       let index = comment.indexOf(item.taskFlag)
       let taskIndex
-      if(index>=0&&index<3){//预评价
+      if (index >= 0 && index < 3) {//预评价
         taskIndex = item.taskFiveId
-      }else if(index>=3&&index<7){//评价
+      } else if (index >= 3 && index < 7) {//评价
         taskIndex = item.taskSixId
-      }else if(index>=7&&index<11){//评价+预追评
+      } else if (index >= 7 && index < 11) {//评价+预追评
         taskIndex = item.taskSevenId
-      }else if(index>=11&&index<15){//评价+追评
+      } else if (index >= 11 && index < 15) {//评价+追评
         taskIndex = item.taskEightId
       }
-      this.$router.push({ name: routerLink[taskIndex-1], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
+      this.$router.push({ name: routerLink[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //修改驳回
-    rejectOperate(item){
-       const routerLink = [
-        'taskOneStep1','taskOneStep1','taskOneStep1','taskTwoStep1','','taskThreeStep1','','','getPriceOneStep1','getPriceTwoStep1','getPriceThreeStep1',
-        'preOnlyFiveStar','preOnlyText','preTextImg','preTextKey','preImgKey','onlyFiveStar','onlyText1','textImg1','textKey1','textImg1','',
-        'preAppendOnlyText','preAppendOnlyTextKey','preAppendTextFav1','preAppendTextFavKey1','preAppendTextImg','preAppendTextImgFav1','preAppendTextKeyImg',
-        'preAppendTextKeyImgFav1','appendToTaoBao1','appendToTaoBao1','appendToTaoBao1','appendToTaoBao1','appendToTaoBao2','appendToTaoBao2','appendToTaoBao2',
-        'appendToTaoBao2','sureGetStep1','sureGetStep1','sureGetStep1','sureGetStep1','sureGetStep1 ','sureGetStep1'
+    rejectOperate(item) {
+      const routerLink = [
+        'taskOneStep1', 'taskOneStep1', 'taskOneStep1', 'taskTwoStep1', '', 'taskThreeStep1', '', '', 'getPriceOneStep1', 'getPriceTwoStep1', 'getPriceThreeStep1',
+        'preOnlyFiveStar', 'preOnlyText', 'preTextImg', 'preTextKey', 'preImgKey', 'onlyFiveStar', 'onlyText1', 'textImg1', 'textKey1', 'textImg1', '',
+        'preAppendOnlyText', 'preAppendOnlyTextKey', 'preAppendTextFav1', 'preAppendTextFavKey1', 'preAppendTextImg', 'preAppendTextImgFav1', 'preAppendTextKeyImg',
+        'preAppendTextKeyImgFav1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao2', 'appendToTaoBao2', 'appendToTaoBao2',
+        'appendToTaoBao2', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1 ', 'sureGetStep1'
       ]
       const lotteryRouter = [
         'taskOneStep1',
@@ -492,15 +299,15 @@ export default {
       } else if (myIndex > 3 && myIndex <= 7) {
         taskIndex = item.taskSixId
       } else if (myIndex > 7 && myIndex <= 11) {
-         taskIndex = item.taskSevenId
+        taskIndex = item.taskSevenId
       } else if (myIndex > 11 && myIndex <= 15) {
         taskIndex = item.taskEightId
       } else if (myIndex > 15 && myIndex <= 18) {
         let awardIndex = award.indexOf(item.taskFlag)
-        this.$router.push({ name: lotteryRouter[awardIndex-1], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
+        this.$router.push({ name: lotteryRouter[awardIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
         return false
       }
-      this.$router.push({ name: routerLink[taskIndex], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
+      this.$router.push({ name: routerLink[taskIndex], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     // 申请售后
     applyCustomer() {
@@ -531,11 +338,11 @@ export default {
           buyerTaskStatuss: [
             "0", "5"
           ],
-          taskFlags:award,
+          taskFlags: award,
           pageSize: this.pageSize,
           pageNo: this.pageNo
         })
-      } 
+      }
       //抽奖--再一次抽奖
       else if (this.checkIndex === 1 && this.showLotteryIndex === 2) {
         this.doAxios({
@@ -543,11 +350,11 @@ export default {
           buyerTaskStatuss: [
             "2", "3"
           ],
-          taskFlags:award,
+          taskFlags: award,
           pageSize: this.pageSize,
           pageNo: this.pageNo
         })
-      } 
+      }
       //中奖了-抽奖订单
       else if (this.checkIndex === 2 && this.showAwardIndex === 1) {
         this.doAxios({
@@ -555,12 +362,12 @@ export default {
           buyerTaskStatuss: [
             "4", "9"
           ],
-          taskType:1,
-          taskFlags:[awarded[0],awarded[1],awarded[2]],
+          taskType: 1,
+          taskFlags: [awarded[0], awarded[1], awarded[2]],
           pageSize: this.pageSize,
           pageNo: this.pageNo
         })
-      } 
+      }
       //中奖了-金币拿订单
       else if (this.checkIndex === 2 && this.showAwardIndex === 2) {
         this.doAxios({
@@ -568,13 +375,13 @@ export default {
           buyerTaskStatuss: [
             "4", "5"
           ],
-          taskFlags:[awarded[3],awarded[4],awarded[5]],
+          taskFlags: [awarded[3], awarded[4], awarded[5]],
           pageSize: this.pageSize,
           pageNo: this.pageNo,
-          taskType:2 ,
-          isFree:0
+          taskType: 2,
+          isFree: 0
         })
-      } 
+      }
       //中奖了-必中券订单
       else if (this.checkIndex === 2 && this.showAwardIndex === 3) {
         this.doAxios({
@@ -582,12 +389,12 @@ export default {
           buyerTaskStatuss: [
             "4", "5"
           ],
-          taskType:1,
-          taskFlags:[awarded[5]],
+          taskType: 1,
+          taskFlags: [awarded[5]],
           pageSize: this.pageSize,
           pageNo: this.pageNo
         })
-      } 
+      }
       //中奖了-Plus会员
       else if (this.checkIndex === 2 && this.showAwardIndex === 4) {
         this.doAxios({
@@ -595,37 +402,37 @@ export default {
           buyerTaskStatuss: [
             "4", "5"
           ],
-          taskType:2 , 
-          isFree:1,
-          taskFlags:[awarded[0],awarded[1],awarded[2]],
-          pageSize: this.pageSize,
-          pageNo: this.pageNo
-        })
-      } 
-      //评价
-      else if (this.checkIndex === 3) {
-        this.doAxios({
-          buyerUserId: this.userInfo.buyerUserId,
-          buyerTaskStatuss: [
-            "4"
-          ],
-          taskFlags:comment,
-          pageSize: this.pageSize,
-          pageNo: this.pageNo
-        })
-      } 
-      //驳回
-      else if (this.checkIndex === 4) {
-        this.doAxios({
-          buyerUserId: this.userInfo.buyerUserId,
-          buyerTaskStatuss: [
-            "12"
-          ],
-          taskFlags: notify,
+          taskType: 2,
+          isFree: 1,
+          taskFlags: [awarded[0], awarded[1], awarded[2]],
           pageSize: this.pageSize,
           pageNo: this.pageNo
         })
       }
+      //评价
+      // else if (this.checkIndex === 3) {
+      //   this.doAxios({
+      //     buyerUserId: this.userInfo.buyerUserId,
+      //     buyerTaskStatuss: [
+      //       "4"
+      //     ],
+      //     taskFlags:comment,
+      //     pageSize: this.pageSize,
+      //     pageNo: this.pageNo
+      //   })
+      // } 
+      //驳回
+      // else if (this.checkIndex === 4) {
+      //   this.doAxios({
+      //     buyerUserId: this.userInfo.buyerUserId,
+      //     buyerTaskStatuss: [
+      //       "12"
+      //     ],
+      //     taskFlags: notify,
+      //     pageSize: this.pageSize,
+      //     pageNo: this.pageNo
+      //   })
+      // }
     },
     //(特殊tarbar)获得条数
     getColums() {
@@ -708,7 +515,7 @@ export default {
           goodsImg: item.platformPicId,
           shopName: item.shopName,
           stateText: goodsState.stateText,
-          btnText:goodsState.btnText,
+          btnText: goodsState.btnText,
           goodsName: item.productName,
           temp: typeArr[(parseInt(item.taskType) - 1)] || '无',
           coinType: 2,
@@ -721,29 +528,29 @@ export default {
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
           errInfo: `未通过原因 ${item.remarks}` || '未通过原因 错误原因',
-          taskFlag:item.taskFlag,
-          taskType:item.taskType,
-          sellerTaskId:item.sellerTaskId,
-          buyerTaskStatus:item.buyerTaskStatus,
-          taskOneId:item.taskOneId,
-          taskTwoId:item.taskTwoId,
-          taskThreeId:item.taskThreeId,
-          taskFourId:item.taskFourId,
-          taskFiveId:item.taskFiveId,
-          taskSixId:item.taskSixId,
-          taskSevenId:item.taskSevenId,
-          taskEightId:item.taskEightId,
-          taskNineId:item.taskNineId,
+          taskFlag: item.taskFlag,
+          taskType: item.taskType,
+          sellerTaskId: item.sellerTaskId,
+          buyerTaskStatus: item.buyerTaskStatus,
+          taskOneId: item.taskOneId,
+          taskTwoId: item.taskTwoId,
+          taskThreeId: item.taskThreeId,
+          taskFourId: item.taskFourId,
+          taskFiveId: item.taskFiveId,
+          taskSixId: item.taskSixId,
+          taskSevenId: item.taskSevenId,
+          taskEightId: item.taskEightId,
+          taskNineId: item.taskNineId,
         }
         //中奖了没有errInfo
-        if(this.checkIndex === 2){
+        if (this.checkIndex === 2) {
           obj.errInfo = ''
         }
         goodsDramArr.push(obj)
       }
-      if(this.checkIndex === 1 && this.showLotteryIndex === 1){
+      if (this.checkIndex === 1 && this.showLotteryIndex === 1) {
         this.goodsLottery = [...goodsDramArr]
-      }else if(this.checkIndex === 1 && this.showLotteryIndex === 2){
+      } else if (this.checkIndex === 1 && this.showLotteryIndex === 2) {
         this.goodsLotteryNext = [...goodsDramArr]
       }
       else if (this.checkIndex === 2 && this.showAwardIndex === 1) {
@@ -753,12 +560,12 @@ export default {
       } else if (this.checkIndex === 3) {
         this.goodsEvaluate = [...goodsDramArr]
       } else if (this.checkIndex === 4) {
-        this.goodsReject = [ ...goodsDramArr]
-      } else{
+        this.goodsReject = [...goodsDramArr]
+      } else {
         this.goodsAll = [...goodsDramArr]
       }
       this.$nextTick(() => {
-         this.$refs.scrollBox1.refresh()
+        this.$refs.scrollBox1.refresh()
         this.$refs.goodsLottery.refresh()
         this.$refs.awardScroll.refresh()
         this.$refs.scrollBox4.refresh()
@@ -792,7 +599,7 @@ export default {
         }
       }
       //评价的状态
-      else if(this.checkIndex === 3){
+      else if (this.checkIndex === 3) {
         let myIndex = comment.indexOf(taskFlag)
         if (buyerTaskStatus === '4') {
           if (myIndex >= 0 && myIndex < 3) {
@@ -808,7 +615,7 @@ export default {
             goodsState.stateText = '待追评到淘宝'
             goodsState.isEvaluateState = 3
           }
-        }else if (buyerTaskStatus === '9') {
+        } else if (buyerTaskStatus === '9') {
           if (myIndex >= 0 && myIndex < 3) {
             goodsState.stateText = '预评价审核中'
             goodsState.isEvaluateState = 4
@@ -822,33 +629,33 @@ export default {
         }
       }
       //中奖了的状态
-      else if(this.checkIndex === 2){
+      else if (this.checkIndex === 2) {
         if (buyerTaskStatus === '4') {
           goodsState.stateText = '待领奖'
           goodsState.isLotteryState = 2
-        }else if (buyerTaskStatus === '9') {
+        } else if (buyerTaskStatus === '9') {
           goodsState.stateText = '订单审核中'
           goodsState.isBottom = 1
-        }else if (buyerTaskStatus === '6') {
-           goodsState.stateText = '超时领奖'
-           goodsState.isLotteryState = 0
+        } else if (buyerTaskStatus === '6') {
+          goodsState.stateText = '超时领奖'
+          goodsState.isLotteryState = 0
         }
       }
       //抽奖
-      else if(this.checkIndex === 1){
+      else if (this.checkIndex === 1) {
         let myIndex = notify.indexOf(taskFlag)
         if (buyerTaskStatus === '0') {
           goodsState.stateText = '待开奖'
           goodsState.isLotteryState = 3
-        }else if (buyerTaskStatus === '2') {
+        } else if (buyerTaskStatus === '2') {
           goodsState.stateText = '未中奖'
           goodsState.isLotteryState = 0
-        }else if (buyerTaskStatus === '6') {
-           goodsState.stateText = '超时领奖'
-           goodsState.isLotteryState = 2
-        }else if (buyerTaskStatus === '4') {
-           goodsState.stateText = '待提交审核'
-           goodsState.isLotteryState = 2
+        } else if (buyerTaskStatus === '6') {
+          goodsState.stateText = '超时领奖'
+          goodsState.isLotteryState = 2
+        } else if (buyerTaskStatus === '4') {
+          goodsState.stateText = '待提交审核'
+          goodsState.isLotteryState = 2
         }
       }
       return goodsState
@@ -870,7 +677,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-.userContainer 
+.userContainer
   height 100%
   position fixed
   width 100%
@@ -879,31 +686,31 @@ export default {
   top 0
   bottom 0
   z-index 9999
-  background: $color-background
-  &.move-enter-active, .move-leave-active 
+  background $color-background
+  &.move-enter-active, .move-leave-active
     transition all 0.2s linear
     transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave 
+  &.move-enter, .move-leave
     transform translate3d(100%, 0, 0)
-  .scrollBox 
+  .scrollBox
     background #eff0f2
     display flex
     flex-direction column
     height 100%
-    .stateBox 
+    .stateBox
       background #ffffff
       border-bottom-1px($color-text-ll)
       margin-bottom 1.2rem
-      &.isNoBottom 
-        margin-bottom: 0
-    .tabContainer 
+      &.isNoBottom
+        margin-bottom 0
+    .tabContainer
       flex 0 0 4.1rem
       position relative
       z-index 99
     .listBox
       flex 1
       overflow hidden
-      .scroll-content 
+      .scroll-content
         height 100%
       .infoRed
         color $color-theme
@@ -912,7 +719,7 @@ export default {
           font-size $font-size-large
           margin-left 0
       .infoOrange
-        color: $color-theme-orange
+        color $color-theme-orange
         .num
           color $color-theme-orange
           font-size $font-size-large
@@ -931,10 +738,10 @@ export default {
         .details
           color $color-theme
           font-size $font-size-medium
-      .reject 
+      .reject
         color $color-theme
         font-size $font-size-normal
-    .noArray 
+    .noArray
       padding 10rem 0
       font-size 1.2rem
       text-align center

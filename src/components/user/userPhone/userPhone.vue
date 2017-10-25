@@ -35,7 +35,7 @@
 import Scroll from '../../../base/scroll/scroll'
 import Step from '../../../base/step/step'
 import { XInput, Group } from 'vux'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "userQq",
   components: {
@@ -153,6 +153,7 @@ export default {
           code: newMsg,
           type: 0
         }).then((response) => {
+          let _this = this
           if (response.data.code !== '200') {
             this.$vux.alert.show({
               title: '错误提示',
@@ -161,24 +162,33 @@ export default {
           } else {
             if (state === 1) {
               this.stepIndex = 1
+              this.codeText = '获取'
+              this.time = 60
+              clearInterval(this.timer)
+              this.timer = null
             } else {
-              let obj = this.userInfo
-              obj.telephone = phone
-              this.setUserInfo(obj)
-              this.$vux.toast.show({
-                text: '修改成功',
-                type: 'success',
-                time: 1000,
-                onHide() {
-                  _this.$router.push({ name: 'user' })
-                }
-              })
+              this.updatePhone()
             }
           }
         }).catch((error) => {
           console.log(error)
         })
       }
+    },
+    updatePhone() {
+      //做请求
+      // let obj = Object.assign({}, this.userInfo, {
+      //   telephone: this.userNewPhone
+      // })
+      // this.setUserInfo(obj)
+      // this.$vux.toast.show({
+      //   text: '修改成功',
+      //   type: 'success',
+      //   time: 1000,
+      //   onHide() {
+      //     _this.$router.push({ name: 'user' })
+      //   }
+      // })
     },
     ...mapActions([
       'setUserInfo'
