@@ -42,7 +42,7 @@
           </div>
           <div class="tuijian" v-show="active==false">
             <div @click="active=true">
-              <img  src="../img/ttb.png" alt="">
+              <img src="../img/ttb.png" alt="">
               <p>推荐</p>
             </div>
             <div @click="active=false">
@@ -52,12 +52,10 @@
           </div>
         </div>
         <div class="stepTwo">
-          <h2 style="line-height: 2.8rem;">五、恭喜您获得追评任务！审核通过并完成追评任务可获得<span style="color: red">{{ priceNum }}金币</span>奖励</h2>
+          <h2 style="line-height: 2.8rem;">五、恭喜您获得追评任务！审核通过并完成追评任务可获得
+            <span style="color: red">{{ priceNum }}金币</span>奖励</h2>
         </div>
         <div class="sureBtn">
-          <!--<router-link :to="{ name: 'submitSuccess',params: { type: 'evaluate2' } }">
-            <button :disabled="!isOk" :class="{ook: !isOk}">提交</button>
-          </router-link>-->
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">提交</button>
         </div>
       </div>
@@ -65,170 +63,169 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import Step from "../../../base/step/step.vue"
-  import Scroll from '../../../base/scroll/scroll.vue'
-  import { Rater } from 'vux'
-  export default {
-    name: "component_name",
-    components: {
-      Step,
-      Scroll,
-      Rater
-    },
-    data() {
-      return {
-        isOk: true,
-        starStyle: '★', //星星形状
-        red: 'red', //星星颜色
-        active: true, //推荐 or 不推荐
-        priceNum: 5 , //奖励金币数量
-        goods1: 5,
-        goods2: 5,
-      }
-    },
-    methods: {
-      doNext() {
-        //var buyerTaskRecordId = localStorage.getItem("buyerTaskRecordId")
-        let that = this;
-        this.$axios.post('/api/orderOperate/backOrderSubmit', {
-          buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-          commonMsg: this.$route.query.commonMsg,
-          commonImg: this.$route.query.commonImg,
-          goodsCommon: this.goods1,
-          worthStar: this.goods2
-        }).then((data) => {
-          console.log(data)
-          if(data.data.code === '200') {
-            this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate2' } })
-          } else {
-            this.$vux.alert.show({
-              title: '提交失败',
-              content: data.data.message,
-            })
-          }
-        }).catch((error) => {
+import Step from "../../../base/step/step.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import { Rater } from 'vux'
+export default {
+  name: "component_name",
+  components: {
+    Step,
+    Scroll,
+    Rater
+  },
+  data() {
+    return {
+      isOk: true,
+      starStyle: '★', //星星形状
+      red: 'red', //星星颜色
+      active: true, //推荐 or 不推荐
+      priceNum: 5, //奖励金币数量
+      goods1: 5,
+      goods2: 5,
+    }
+  },
+  methods: {
+    doNext() {
+      let that = this;
+      this.$axios.post('/api/orderOperate/backOrderSubmit', {
+        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+        commonMsg: this.$route.query.commonMsg,
+        commonImg: this.$route.query.commonImg,
+        goodsCommon: this.goods1,
+        worthStar: this.goods2
+      }).then((data) => {
+        console.log(data)
+        if (data.data.code === '200') {
+          this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate2' } })
+        } else {
           this.$vux.alert.show({
-            title: '错误提示',
-            content: '服务器错误',
+            title: '提交失败',
+            content: data.data.message,
           })
+        }
+      }).catch((error) => {
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '服务器错误',
         })
-      }
+      })
     }
   }
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  .step_box
-    background #EFF0F2
-    width 100%
-    height 100%
-    position fixed
-    top: 0
-    left: 0
-    z-index:999
-    .stepTwo
-      padding: 2rem 1.6rem
-      margin-top: 1.2rem
-      background #fff
-      overflow hidden
-      h2
-        font-size 1.6rem
-        color: #08090a
-        margin-bottom: 2rem
-      div
-        float left
-        img
-          width: 14rem
-          height 14rem
-      ul
-        float left
-        margin-left: 1.2rem
-        width: 12.6rem
-        li
-          font-size 1.4rem
-          color #08090a
+.step_box
+  background #EFF0F2
+  width 100%
+  height 100%
+  position fixed
+  top 0
+  left 0
+  z-index 999
+  .stepTwo
+    padding 2rem 1.6rem
+    margin-top 1.2rem
+    background #fff
+    overflow hidden
+    h2
+      font-size 1.6rem
+      color #08090a
+      margin-bottom 2rem
+    div
+      float left
+      img
+        width 14rem
+        height 14rem
+    ul
+      float left
+      margin-left 1.2rem
+      width 12.6rem
+      li
+        font-size 1.4rem
+        color #08090a
+        overflow hidden
+        text-overflow ellipsis
+        white-space nowrap
+        line-height 2.6rem
+        strong
+          display inline-block
+          width 5.6rem
+          color #75787f
+          margin-right 1rem
+        span
           overflow hidden
           text-overflow ellipsis
           white-space nowrap
-          line-height: 2.6rem
-          strong
-            display inline-block
-            width 5.6rem
-            color #75787f
-            margin-right: 1rem
-          span
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-      p
-        font-size 1.2rem
-        line-height: 2rem
-        color #75787f
-    .sureBtn
-      margin: 2rem 1.6rem
-      padding-bottom: 2rem
-      button
-        background #ff3340
-        font-size 1.6rem
-        line-height: 4rem
-        width 100%
-        box-sizing border-box
-        border none
-        outline none
-        border-radius 0.2rem
-        color #ffffff
-      .ook
-        color #D86E75
-    .sunmitBtn
-      margin-top: 1rem
-      button
-        background #ff3340
-    .shopName
-      padding-top: 1.2rem
-      padding-bottom: 1.2rem
-      border-bottom 0.5px solid #d4d5d8
-      .inputCompet
-        overflow hidden
-        padding-top: 1rem
-        padding-bottom: 1rem
-        input
-          float left
-          width 60%
-          font-size 1.4rem
-          line-height: 3rem
-          outline none
-        button
-          float right
-    .stars
-      overflow hidden
-      font-size 1.4rem
+    p
+      font-size 1.2rem
+      line-height 2rem
+      color #75787f
+  .sureBtn
+    margin 2rem 1.6rem
+    padding-bottom 2rem
+    button
+      background #ff3340
+      font-size 1.6rem
+      line-height 4rem
       width 100%
-      >div
+      box-sizing border-box
+      border none
+      outline none
+      border-radius 0.2rem
+      color #ffffff
+    .ook
+      color #D86E75
+  .sunmitBtn
+    margin-top 1rem
+    button
+      background #ff3340
+  .shopName
+    padding-top 1.2rem
+    padding-bottom 1.2rem
+    border-bottom 0.5px solid #d4d5d8
+    .inputCompet
+      overflow hidden
+      padding-top 1rem
+      padding-bottom 1rem
+      input
         float left
-        line-height: 2rem
-      .title
-        margin-right: 2rem
-      .check
-        width: 15rem
-      .res
-        font-size 1.2rem
-        color #75787f
-    .tuijian
-      width: 100%
-      display flex
-      justify-content center
-      >div
-        margin-right: 2rem
-        margin-left: 2rem
-        text-align center
-        img
-          padding: 1.5rem
-          margin-bottom: 0.8rem
-          width: 2.5rem
-          height 2.5rem
-          border-radius 2px
-          border 0.5px solid #d4d5d8
-        .red
-          background red
-        .no
-          transform rotate(180deg)
+        width 60%
+        font-size 1.4rem
+        line-height 3rem
+        outline none
+      button
+        float right
+  .stars
+    overflow hidden
+    font-size 1.4rem
+    width 100%
+    >div
+      float left
+      line-height 2rem
+    .title
+      margin-right 2rem
+    .check
+      width 15rem
+    .res
+      font-size 1.2rem
+      color #75787f
+  .tuijian
+    width 100%
+    display flex
+    justify-content center
+    >div
+      margin-right 2rem
+      margin-left 2rem
+      text-align center
+      img
+        padding 1.5rem
+        margin-bottom 0.8rem
+        width 2.5rem
+        height 2.5rem
+        border-radius 2px
+        border 0.5px solid #d4d5d8
+      .red
+        background red
+      .no
+        transform rotate(180deg)
 </style>

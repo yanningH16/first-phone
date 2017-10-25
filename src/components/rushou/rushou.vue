@@ -1,21 +1,18 @@
 <template>
   <div>
-    <task></task>
+    <binsert></binsert>
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import { Swiper } from 'vux'
-  import Task from "../task/taskFive/taskFiveStep1.vue"
+  import Binsert from '../../base/bottom_insert/binsert.vue'
 export default {
   name: "rushou",
   components: {
-    Swiper,
-    Task
+    Binsert
   },
   data () {
     return {
       demo07_index: 0,
-
     }
   },
   methods:{

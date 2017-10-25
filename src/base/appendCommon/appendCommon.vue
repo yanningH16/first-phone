@@ -55,10 +55,16 @@
 <script type="text/ecmascript-6">
 import Vue from 'vue'
 import Clipboard from 'clipboard'
+<<<<<<< HEAD
 import Tianmao from './tianmao.svg'
 import Taobao from './taobao.svg'
 import { Toast } from 'vux'
 import { ToastPlugin } from 'vux'
+=======
+import { Toast } from 'vux'
+import { ToastPlugin } from 'vux'
+
+>>>>>>> 2d49382991d1a6f14223f01facf5dee6387c8d0d
 Vue.use(ToastPlugin)
 export default {
   name: "appendCommon",

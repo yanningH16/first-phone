@@ -3,7 +3,6 @@
     <div class='finish_room2'>
       <div v-for='(item ,index ) in imgs' class='room_img' :key="index">
         <img :src="item">
-        <!-- @click='delete_img(index)' -->
         <span @click='delete_img(index)' class="removeImg"><img src="./imgs/delete.png" ref="deleteBox"></span>
       </div>
       <div class='room_add_img' v-show="isMax">
@@ -57,7 +56,6 @@ export default {
   },
   mounted() {
     this.imgs = this.myimgs
-    // getStore()
   },
   watch: {
     imgs(newVal) {
@@ -110,10 +108,10 @@ export default {
           })
         }
       }).catch((error) => {
-        // this.$vux.alert.show({
-        //   title: '错误提示',
-        //   content: '网络错误',
-        // })
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络错误',
+        })
         console.log('error:' + error)
       })
     },
@@ -148,9 +146,6 @@ export default {
           content: '网络错误',
         })
       })
-    },
-    changeInput() {
-      console.log(123)
     }
   }
 }
@@ -182,7 +177,7 @@ export default {
   height: 100%;
 }
 
-.finish_room2>.room_img span {
+.finish_room2 > .room_img span {
   width: 2rem;
   height: 2rem;
   position: absolute;
@@ -204,19 +199,19 @@ export default {
   justify-content: center;
 }
 
-.room_add_img>span>img {
+.room_add_img > span > img {
   width: 100%;
   height: 100%;
 }
 
-.room_add_img>span:nth-child(1) {
+.room_add_img > span:nth-child(1) {
   flex: 0 0 2.8rem;
   width: 2.8rem;
   height: 2.8rem;
   overflow: hidden;
 }
 
-.room_add_img>span:nth-child(2) {
+.room_add_img > span:nth-child(2) {
   flex: 0 0 1rem;
   margin-top: 0.5rem;
   color: gray;
