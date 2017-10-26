@@ -8,9 +8,9 @@
       <span class="iconfont icon-search"></span>
       <input type="text" @focus="search" placeholder="搜索你想要的好物" @keyup.13="toSearch" v-model="inpKey">
     </div>
-    <span class="history" @click="openHis">
-      <span v-show="!hisShow" class="iconfont icon-message"></span>
-      <i v-show="hisShow">取消</i>
+    <span class="history">
+      <span v-show="!hisShow" class="iconfont icon-message" @click="toMessage"></span>
+      <i v-show="hisShow" @click="openHis">取消</i>
     </span>
     <div class="all-class" v-show="!menuShow">
       <ul>
@@ -62,6 +62,10 @@ export default {
       }
       this.hisArr.unshift(this.inpKey)
       this.setHistory(this.hisArr.slice());
+    },
+    //点击去个人消息中心
+    toMessage() {
+      this.$router.push({ name: 'userMessage' });
     },
     openMenu() {
       this.menuShow = false;

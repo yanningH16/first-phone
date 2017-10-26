@@ -53,7 +53,7 @@
           <div class="cont_show1">
             <div class="cont_show_title" style="background-image:url(https://static.vux.li/demo/1.jpg)">
               <h2 class="m_title">必中爱上就不错过</h2>
-              <span class="m_all" @click="toClassPage(1)">查看全部&nbsp;&gt;</span>
+              <span class="m_all" @click="toClassPage(3)">查看全部&nbsp;&gt;</span>
             </div>
             <div class="cont_show_scroll">
               <slider class="scroll-content" :arr="arrImg2" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="cont_show2">
-            <h2 class="m_title" @click="toClassPage(1)">优质商品
+            <h2 class="m_title" @click="toClassPage(0)">优质商品
               <span>白拿</span>到手软&nbsp;&gt;</h2>
             <div class="cont_show_scroll">
               <div class="scroll_item" v-for="(item, index) in arrImg3" @click="goDetail(item)" :key="index">
@@ -73,7 +73,7 @@
             </div>
           </div>
           <div class="cont_show1">
-            <h3 @click="toClassPage(1)">潮流女装&nbsp;&gt;</h3>
+            <h3 @click="toClassPage(0)">潮流女装&nbsp;&gt;</h3>
             <div class="cont_show_title">
               <img src="https://static.vux.li/demo/1.jpg" alt="">
             </div>
@@ -86,7 +86,7 @@
             </div>
           </div>
           <div class="cont_show1">
-            <h3 @click="toClassPage(1)">时尚男装&nbsp;&gt;</h3>
+            <h3 @click="toClassPage(0)">时尚男装&nbsp;&gt;</h3>
             <div class="cont_show_title">
               <img src="https://static.vux.li/demo/1.jpg" alt="">
             </div>
@@ -197,6 +197,7 @@ export default {
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
+              vip: m.isPlus,
               info: m.productName,
               progress: m.percent,
               sellerTaskId: m.sellerTaskId,
@@ -230,6 +231,7 @@ export default {
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
+              vip: m.isPlus,
               info: m.productName,
               progress: m.percent,
               sellerTaskId: m.sellerTaskId,
@@ -263,6 +265,7 @@ export default {
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
+              vip: m.isPlus,
               info: m.productName,
               progress: m.percent,
               sellerTaskId: m.sellerTaskId,
@@ -306,6 +309,7 @@ export default {
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
+              vip: m.isPlus,
               info: m.productName,
               progress: m.percent,
               sellerTaskId: m.sellerTaskId,
@@ -339,6 +343,7 @@ export default {
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
+              vip: m.isPlus,
               info: m.productName,
               progress: m.percent,
               sellerTaskId: m.sellerTaskId,
@@ -366,7 +371,7 @@ export default {
     },
     //进入筛选分类结果页面
     toClassPage(index) {
-      this.$router.push({ name: 'nopay' })
+      this.$router.push({ name: 'nopay', query: { index: index } })
     }
   },
   mounted() {
