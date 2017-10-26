@@ -89,12 +89,13 @@ export default {
       postage: 0,
       format: 0,
       highLottery: 0,
-      firstCondition:'no',
+      firstCondition: 'no',
       getBarWidth: function (index) {
         return (index + 1) * 22 + 'px'
       },
       goods: [],
       apiUrl: '/api/homePage/getListFreeByCondition',
+      isNoLoad: false
     }
   },
   computed: {
@@ -112,7 +113,7 @@ export default {
           highLottery: this.highLottery,
           pageNo: this.pageNo,
           pageSize: this.pageSize,
-          firstCondition:this.firstCondition
+          firstCondition: this.firstCondition
         }
       },
       set(val) {
@@ -124,25 +125,25 @@ export default {
   created(){
       if(this.$route.query.index){
           this.headerTabClick(this.$route.query.index)
+          this.index = this.$route.query.index
+          this.isNoLoad= true
       }
   },
-
   methods: {
     headerTabClick(index) {
       this.pageNo = 1
-      let TabArr=['no','all','more','gold','puls-puls']
-        this.sortType = 'desc'
-        this.sortClass = 'integrated'
-        this.priceHigh = 0
-        this.priceLow = 0
-        this.productClassId = 0
-        this.postage = 0
-        this.format = 0
-        this.highLottery = 0
-        this.firstCondition=TabArr[index]
-        this.goods = []
-        this.getApi()
-      console.log(index)
+      let TabArr = ['no', 'all', 'more', 'gold', 'puls-puls']
+      this.sortType = 'desc'
+      this.sortClass = 'integrated'
+      this.priceHigh = 0
+      this.priceLow = 0
+      this.productClassId = 0
+      this.postage = 0
+      this.format = 0
+      this.highLottery = 0
+      this.firstCondition = TabArr[index]
+      this.goods = []
+      this.getApi()
     },
     //设置本地存储
     ...mapActions([
@@ -177,6 +178,7 @@ export default {
       if (index == 2) {
         if (this.istop) {
           this.sortType = 'asc'
+          this.sortClass = 'price'
           this.priceHigh = 100
           this.priceLow = 0
           this.getApi()
@@ -229,8 +231,8 @@ export default {
       this.cover = false
       this.sortType = 'desc'
       this.sortClass = 'integrated'
-      let arrLow=['0','50','100','150','200']
-      let arrHigh=['49','99','149','199','']
+      let arrLow = ['0', '50', '100', '150', '200']
+      let arrHigh = ['49', '99', '149', '199', '']
       this.priceHigh = arrHigh[this.chooseIndex]
       this.priceLow = arrLow[this.chooseIndex]
       this.productClassId = 0
@@ -284,10 +286,10 @@ export default {
       let arrList = []
       this.maxPageSize = data.total
       for (let m of data.datas) {
-        console.log(m)
+        // console.log(m)
         let goods = {
           imgSrc: m.picUrl,
-          vip:m.isPlus,
+          vip: m.isPlus,
           hot: m.isRecommend,
           info: m.productName,
           progress: m.percent,

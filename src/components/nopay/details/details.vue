@@ -425,7 +425,7 @@ export default {
   },
   created() {
     this.getDesc()
-    console.log(this.userInfo)
+    // console.log(this.userInfo)
   },
   methods: {
     //      定义一个当前时间的函数
@@ -436,7 +436,7 @@ export default {
 
     //选择使用优惠券
     chooseIndex(index) {
-      console.log(this.ticArr[index])
+      // console.log(this.ticArr[index])
       for (var i = 0; i < this.ticArr.length; i++) {
         if (index === i) {
           this.ticArr[i].ticObj.checked = true
@@ -453,16 +453,16 @@ export default {
         buyerUserId: this.userInfo.buyerUserId,
         bitslap: 1
       }).then((data) => {
-        console.log(data);
-        this.firstTaskObj = data.data.data;
+        // console.log(data);
+        this.firstTaskObj = data.data.data
         if (data.data.code === '200') {
           this.$axios.post('/api/buyerTicket/updateByBuyerTicketId', {
             status: 2,
             buyerTicketId: this.ticArr[this.ticIndex].ticObj.buyerTicketId
           }).then((data) => {
-            console.log(data);
+            // console.log(data);
             if (data.data.code === '200') {
-              this.paySucess();
+              this.paySucess()
             } else {
               this.$vux.alert.show({
                 title: '提示',
@@ -492,8 +492,8 @@ export default {
         sellerTaskId: this.$route.query.sellerTaskId,
         buyerUserId: this.userInfo.buyerUserId
       }).then((data) => {
-        console.log(data);
-        let that = this;
+        // console.log(data);
+        let that = this
         if (data.data.code === '200') {
           this.$router.push({
             name: 'taskOneStep1',
@@ -575,8 +575,8 @@ export default {
                 sellerTaskId: this.$route.query.sellerTaskId,
                 buyerUserId: this.userInfo.buyerUserId
               }).then((data) => {
-                console.log(data);
-                let that = this;
+                // console.log(data);
+                let that = this
                 if (data.data.code === '200') {
                   this.$router.push({
                     name: 'taskOneStep1',
@@ -621,7 +621,7 @@ export default {
           this.hasmoney = res.data.availableDeposit
         })
         var isVip = parseInt(this.userInfo.isVip)
-        console.log(isVip)
+        // console.log(isVip)
         if (isVip === 1) {
           this.Plus()
           //不是vip 提示充值 
@@ -639,7 +639,7 @@ export default {
       }).then((data) => {
         let res = data.data
         this.firstTaskObj = res.data
-        console.log(data)
+        // console.log(data)
         let that = this
         if (res.code === '1701') {
           this.$vux.alert.show({
@@ -718,7 +718,7 @@ export default {
         income: this.ataloCount,
         userFundId: this.userInfo.buyerUserId
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         if (res.code === '200') {
           //充值成功之后直接给它扣除 成为vip 
@@ -745,7 +745,7 @@ export default {
       this.$axios.post('/api/fundsFlow/depositExchangeForVip', {
         vipPlan: parseInt(this.moneyIndex + 1)
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         if (res.code === '200') {
           this.Vipcg = true
@@ -790,7 +790,7 @@ export default {
       this.$axios.post('/api/homePage/getDesc', {
         sellerTaskId: this.$route.query.sellerTaskId
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data;
         if (res.code == "200") {
           let obj = {
@@ -874,7 +874,7 @@ export default {
           //          进行判断结束
         }
       }).catch((error) => {
-        console.log(error)
+        // console.log(error)
         this.$vux.alert.show({
           title: '错误提示',
           content: '服务器错误',
@@ -889,7 +889,7 @@ export default {
       this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
         userId: this.userInfo.buyerUserId
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         this.hasmoney1 = res.data.availableGold
         //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
@@ -907,7 +907,7 @@ export default {
         this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
         userId: this.userInfo.buyerUserId
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         this.hasmoney1 = res.data.availableGold
         //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
@@ -926,7 +926,7 @@ export default {
         buyerUserId: this.userInfo.buyerUserId,
         bitslap: 2
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         let that=this
         if (res.code === '200') {
@@ -938,7 +938,7 @@ export default {
             userFundId: this.userInfo.buyerUserId,
             orderId: this.$route.query.sellerTaskId
           }).then((data) => {
-            console.log(data)
+            // console.log(data)
             let res = data.data
             if (res.code === '200') { 
               this.cg = true
@@ -968,7 +968,7 @@ export default {
         sellerTaskId: this.$route.query.sellerTaskId,
         buyerUserId: this.userInfo.buyerUserId,
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         let that=this
         if (res.code === '200') {
@@ -980,7 +980,7 @@ export default {
             userFundId: this.userInfo.buyerUserId,
             orderId: this.$route.query.sellerTaskId
           }).then((data) => {
-            console.log(data)
+            // console.log(data)
             let res = data.data
             if (res.code === '200') { 
               this.cg = true
@@ -1022,7 +1022,7 @@ export default {
         income: this.ataloCountCore,
         userFundId: this.userInfo.buyerUserId
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         if (res.code === '200') {
           this.jinbicgNa = true
@@ -1040,7 +1040,7 @@ export default {
         income: this.ataloCountCore,
         userFundId: this.userInfo.buyerUserId
       }).then((data) => {
-        console.log(data)
+        // console.log(data)
         let res = data.data
         if (res.code === '200') {
           this.jinbicgNa_1 = true
