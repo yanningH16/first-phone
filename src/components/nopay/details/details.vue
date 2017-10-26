@@ -88,7 +88,7 @@
             </div>
             <!-- <h2>上拉查看更多</h2> -->
           </div>
-          <div class="bottom">
+          <div class="bottom" >
             <binsert :type="typeFoot" :leastNum="objDeli.leftNumToday-0" :tType="tType" :leftTime="leftTime"
                      @wantGet="wantGet" @btn-click="btnClick"></binsert>
           </div>
@@ -151,7 +151,7 @@
           <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">未完成全部绑定</h2>
           <ul class="wran_info">
             <li>
-              <p v-if="phone">
+              <p v-if="this.userInfo.telephone !==undefined">
                 <span>手机号已绑定</span>
                 <span><img :src='Pass' alt="" width="20px" height="20px"></span>
               </p>
@@ -161,7 +161,7 @@
               </p>
             </li>
             <li>
-              <p v-if="weixin">
+              <p v-if="this.userInfo.wechatNum !== undefined">
                 <span>微信号已绑定</span>
                 <span><img :src='Pass' alt="" width="20px" height="20px"></span>
               </p>
@@ -171,7 +171,7 @@
               </p>
             </li>
             <li>
-              <p v-if="taobao">
+              <p v-if="this.userInfo.taobaoId !== undefined">
                 <span>淘宝账号已绑定</span>
                 <span><img :src='Pass' alt="" width="20px" height="20px"></span>
               </p>
@@ -353,9 +353,9 @@ export default {
       Vipcg: false,
       //            提示用户绑定信息的提示
       wran: false,
-      phone: false,
-      weixin: false,
-      taobao: true,
+      // phone: false,
+      // weixin: false,
+      // taobao: false,
       yes: '使用',
       no: '不使用',
       go: '前去完成',
@@ -539,7 +539,7 @@ export default {
         }
       })
       //      判断是否会弹出提示框的 微信 淘宝 手机号
-      if (weixin !== 1 || taobao !== 1 || phone === '') {
+      if (this.userInfo.wechatNum === undefined || this.userInfo.taobaoId === undefined || this.userInfo.telephone ===undefined) {
         this.wran = true
         return false
       }
@@ -761,12 +761,12 @@ export default {
 
     //    当点击立即去绑定触发的效果  判断微信 手机号 淘宝账号是否绑定了
     hideAlert() {
-      if (this.phone === false) {
+      if (this.userInfo.telephone === undefined) {
         this.$router.push({ name: 'registerOne' })
-      } else if (this.weixin === false) {
+      } else if (this.userInfo.wechatNum === undefined) {
         this.$router.push({ name: 'registerTwo' })
-      } else if (this.taobao === false) {
-        this.$router.push({ name: 'RegisterThree' })
+      } else if (this.userInfo.taobaoId === undefined) {
+        this.$router.push({ name: 'registerThree' })
       }
     },
     choosePay(index) {
@@ -885,6 +885,10 @@ export default {
 
     /*白拿里面的我要必中当点击我要必中*******的时候触发的事件*/
     wantGet() {
+          if (this.userInfo.wechatNum === undefined || this.userInfo.taobaoId === undefined || this.userInfo.telephone ===undefined) {
+        this.wran = true
+        return false
+      }else{
       //请求查询金币的接口
       this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
         userId: this.userInfo.buyerUserId
@@ -900,6 +904,7 @@ export default {
           this.jinbi = true
         }
       })
+      }
     },
     //必中里面的金币换 
     jinbizhong(){
