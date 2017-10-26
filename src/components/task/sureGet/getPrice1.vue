@@ -187,9 +187,9 @@ export default {
       return Math.floor((Math.random() * length))
     },
     doNext() {
-      if (this.type === 1) {
+      if (this.type == 1 || this.type == 4) {
         //检查输入域淘口令是否正确
-        if (this.msg === this.inputShopName) {
+        if (this.msg === this.taoKey) {
           this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type } })
         } else {
           this.$vux.alert.show({

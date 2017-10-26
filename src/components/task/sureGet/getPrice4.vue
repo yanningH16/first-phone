@@ -80,7 +80,7 @@ export default {
         });
         return false
       }
-      this.$axios.post('/api/orderOperate/bitslapOrderSubmit', {
+      this.$axios.post('/api/orderOperate/fourthOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         favImg: that.$route.query.obj.favImg,
         focusImg: that.$route.query.obj.focusImg,
