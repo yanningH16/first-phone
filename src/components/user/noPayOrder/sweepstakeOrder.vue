@@ -60,11 +60,11 @@ import AppendCommon from '../../../base/appendCommon/appendCommon'
 import Vue from 'vue'
 import { award, orderRouter } from '../../../assets/data/task'
 import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate } from '../../../assets/js/mixin'
+import { scrollPages, orderOperate, sweepstakeOrderOperate } from '../../../assets/js/mixin'
 import { Cell } from 'vux'
 export default {
   name: "rejectOrder",
-  mixins: [scrollPages, orderOperate],
+  mixins: [scrollPages, orderOperate, sweepstakeOrderOperate],
   components: {
     Scroll,
     AppendCommon,
@@ -230,39 +230,7 @@ export default {
         console.log(error)
       })
     },
-    //删除订单
-    giveUpLottery(item) {
-      this.$vux.confirm.show({
-        // 组件除show外的属性
-        title: '确认放弃白拿？',
-        content: '放弃的商品不能再次申请',
-        onCancel() {
-          console.log('取消')
-        },
-        onConfirm() {
-          console.log('确认')
-        }
-      })
-    },
-    //继续申请
-    getLottery(item) {
-      const lotteryRouter = [
-        'taskOneStep1',
-        'taskTwoStep1',
-        'taskThreeStep1',
-        ''
-      ]
-      let index = award.indexOf(item.taskFlag)
-      if (item.buyerTaskStatus === '6' || item.buyerTaskStatus === '2') {
-        this.$router.push({ name: lotteryRouter[index + 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
-      } else if (item.buyerTaskStatus === '4') {
-        this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
-      }
-    },
-    //去做任务
-    doTask(item) {
-      console.log('做任务')
-    },
+
   }
 }
 </script>

@@ -1,37 +1,4 @@
-export const __task__ = ['追评', '预追评', '激励', '评价', '预评价', '下订单', '白拿三', '白拿二', '白拿一']
-export const __taskState__ = [ // 任务状态
-  '任务完成待开奖',
-  '中奖',
-  '三步完成未中奖',
-  '放弃任务',
-  '任务刚领取',
-  '用户被随机分到的任务（被动）',
-  '任务失效',
-  '任务结束(完美)',
-  '等待中奖（金币换）',
-  '待审核',
-  '审核通过',
-  '必中隔日两小时提交后状态',
-  '审核不通过',
-];
-const errStateText = [
-    '待提交申请',
-    '待开奖',
-    '未中奖',
-    '超时领奖',
-    '待提交补偿任务',
-    '待领奖',
-    '订单审核中',
-    '带领奖',
-    '待预评价',
-    '预评价审核中',
-    '待评价到淘宝',
-    '淘宝评价审核中',
-    '订单审核未通过',
-    '预评价审核未通过',
-    '预追评审核未通过',
-  ]
-  //抽奖（下订单之前0,1组合）
+//抽奖（下订单之前0,1组合）
 export const award = [
   '000000001',
   '000000011',
@@ -100,4 +67,3 @@ export const orderRouter = [
   'preAppendTextKeyImgFav1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao2', 'appendToTaoBao2', 'appendToTaoBao2',
   'appendToTaoBao2', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1 ', 'sureGetStep1'
 ]
-export const allTask = [...award, ...awarded, ...comment, ...notify]

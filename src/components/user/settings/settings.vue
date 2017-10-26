@@ -19,6 +19,7 @@
                 <div v-if="userTaobao.avator">
                   <img :src="userTaobao.avator" alt="" style="width:4.8rem;height:4.8rem">
                 </div>
+                <popup-picker :data="list" v-model="userTaobao.value" style="opacity:0" @on-change="onChange"></popup-picker>
               </cell>
               <!--性别-->
               <cell :link="userSex.link" :is-link="userSex.isLink" :title="userSex.title" :value="isNull(userSex.value)">
@@ -28,7 +29,7 @@
               </cell>
               <!--收货地址-->
               <!-- <cell :link="userAddress.link" :is-link="userAddress.isLink" :title="userAddress.title" :value="isNull(userAddress.value)">
-                  </cell> -->
+                                          </cell> -->
             </group>
           </div>
           <div class="boxContainer">
@@ -43,7 +44,7 @@
           </div>
           <div class="actionBox" v-show="visibility||show">
             <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
-            <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility"></datetime>
+            <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility" :min-year="1900" :max-year="2017"></datetime>
           </div>
         </div>
       </scroll>
@@ -53,7 +54,7 @@
 <script type="text/ecmascript-6">
 import avatarSrc from '../userHeader/avator.png'
 import Scroll from '../../../base/scroll/scroll'
-import { Cell, Group, Actionsheet, Datetime } from 'vux'
+import { Cell, Group, Actionsheet, Datetime, PopupPicker } from 'vux'
 import { mapActions, mapGetters } from 'vuex'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
@@ -72,9 +73,8 @@ export default {
     Cell,
     Scroll,
     Actionsheet,
-    Datetime
-  },
-  created() {
+    Datetime,
+    PopupPicker
   },
   computed: {
     avatorBox: {
@@ -109,7 +109,7 @@ export default {
           title: '旺旺等级',
           link: '',
           isLink: true,
-          value: this.userInfo.taobaoLevel,
+          value: this.userInfo.taobaoLevel || '暂无数据',
           info: '请及时更新真是的旺旺等级'
         }
       },
@@ -136,7 +136,7 @@ export default {
           title: '出生日期',
           link: '',
           isLink: true,
-          value: this.userInfo.birthday
+          value: this.userInfo.birthday.slice(0, 10)
         }
       },
       set(val) {
@@ -190,12 +190,10 @@ export default {
         menu2: '拍照'
       },
       visibility: false,
-      age: ''
-    }
-  },
-  watch: {
-    age(val) {
-      //更新数据
+      age: '',
+      list: [['1星', '2星', '3星', '4星', '5星', '1冠', '2冠', '3冠', '4冠', '5冠']],
+      value: [],
+      taobaoLevel: null
     }
   },
   methods: {
@@ -225,13 +223,9 @@ export default {
           let obj = Object.assign({}, this.userInfo, {
             birthday: this.age
           })
+          this.userAge.value = this.age
           this.setUserInfo(obj)
-          this.$vux.toast.show({
-            text: '保存成功',
-            onHide() {
-              _this.$router.push({ name: 'settings' })
-            }
-          })
+          this.$vux.toast.show({ text: '设置成功' })
         } else {
           this.$vux.alert.show({
             title: '错误提示',
@@ -278,6 +272,9 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+    },
+    onChange(val) {
+      this.userTaobao.value = val[0]
     },
     ...mapActions([
       'setUserInfo'

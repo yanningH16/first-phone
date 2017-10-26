@@ -11,13 +11,13 @@
           <!--全部-->
           <orderAll v-if="checkIndex===0"></orderAll>
           <!-- 抽奖 -->
-          <sweepstakeOrder v-show="checkIndex===1" :checkIndex="checkIndex"></sweepstakeOrder>
+          <sweepstakeOrder v-else-if="checkIndex===1" :checkIndex="checkIndex"></sweepstakeOrder>
           <!-- 中奖了 -->
-          <winningOrder v-show="checkIndex===2" :checkIndex="checkIndex"></winningOrder>
+          <winningOrder v-else-if="checkIndex===2" :checkIndex="checkIndex"></winningOrder>
           <!-- 评价 -->
-          <evaluateOrder v-show="checkIndex===3" :checkIndex="checkIndex"></evaluateOrder>
+          <evaluateOrder v-else-if="checkIndex===3" :checkIndex="checkIndex"></evaluateOrder>
           <!-- 驳回 -->
-          <rejectOrder v-show="checkIndex===4" :checkIndex="checkIndex"></rejectOrder>
+          <rejectOrder v-else-if="checkIndex===4" :checkIndex="checkIndex"></rejectOrder>
         </div>
       </div>
     </div>

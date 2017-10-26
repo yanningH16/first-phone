@@ -23,10 +23,10 @@ import AppendCommon from '../../../base/appendCommon/appendCommon'
 import Vue from 'vue'
 import { notify, orderRouter } from '../../../assets/data/task'
 import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate } from '../../../assets/js/mixin'
+import { scrollPages, orderOperate, rejectOrderOperate } from '../../../assets/js/mixin'
 export default {
   name: "rejectOrder",
-  mixins: [scrollPages, orderOperate],
+  mixins: [scrollPages, orderOperate, rejectOrderOperate],
   components: {
     Scroll,
     AppendCommon
@@ -131,23 +131,7 @@ export default {
       }
       return goodsState
     },
-    //驳回路由跳转
-    rejectOperate(item, taskFlag) {
-      let myIndex = notify.indexOf(taskFlag)
-      let taskIndex
-      if (myIndex >= 0 && myIndex <= 4) {
-        taskIndex = item.taskFourId
-      } else if (myIndex > 4 && myIndex <= 9) {
-        taskIndex = item.taskFiveId
-      } else if (myIndex > 9 && myIndex <= 14) {
-        taskIndex = item.taskSixId
-      } else if (myIndex > 14 && myIndex <= 19) {
-        taskIndex = item.taskEightId
-      } else if (myIndex > 19 && myIndex <= 24) {
-        taskIndex = item.taskNinetId
-      }
-      this.$router.push({ name: orderRouter[taskIndex], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
-    },
+
   }
 }
 </script>

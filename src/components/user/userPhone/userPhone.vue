@@ -102,6 +102,7 @@ export default {
   methods: {
     //获取短信验证码
     getCode(phone, state) {
+      this.$vux.toast.text('短信已发送', 'middle')
       this.$axios.post('/api/sms/send', {
         telephone: phone,
         type: 0
@@ -167,7 +168,7 @@ export default {
               clearInterval(this.timer)
               this.timer = null
             } else {
-              this.updatePhone()
+              this.updatePhone(phone)
             }
           }
         }).catch((error) => {
@@ -175,8 +176,15 @@ export default {
         })
       }
     },
-    updatePhone() {
+    updatePhone(phone) {
       //做请求
+      this.$axios.post('/api/user/updateTelephoneByUserId', {
+        buyerUserId: this.userInfo.buyerUserId,
+        telephone: this.userNewPhone
+      }).then((response) => {
+      }).catch((error) => {
+        console.log(error)
+      })
       // let obj = Object.assign({}, this.userInfo, {
       //   telephone: this.userNewPhone
       // })

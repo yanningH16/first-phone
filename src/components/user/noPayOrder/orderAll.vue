@@ -11,49 +11,37 @@
             <span class="num">{{item.coinInfo}}</span>金币兑换
           </span>
           <!--全部-->
-          <div class="orderBoxShow">
-            <div class="bottom" slot="bottom">
-              <span class="btn details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
-            </div>
-          </div>
+          <div class="bottom" slot="bottom" v-if="item.orderType === 0"></div>
           <!--抽奖-->
-          <div class="orderBoxShow">
-            <div class="bottom" slot="bottom">
-              <span class="details">{{item.lotteryInfo}}</span>
-              <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-              <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请{{item.isLotteryState}}</span>
-              <span class="btn details" v-if="item.isLotteryState===1" @click="doTask">去做任务</span>
-            </div>
+          <div class="bottom" slot="bottom" v-if="item.orderType === 1">
+            <span class="details">{{item.lotteryInfo}}</span>
+            <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
+            <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请{{item.isLotteryState}}</span>
+            <span class="btn details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
           </div>
           <!--中奖了-->
-          <div class="orderBoxShow">
-            <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-              <span class="num">{{item.coinInfo}}</span>
-              金币
-            </span>
-            <div class="bottom" slot="bottom">
-              <span class=" details">{{item.lotteryInfo}}</span>
-              <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-              <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
-              <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
-            </div>
+          <span slot="info" class="infoRed" v-if="item.coinType===2 && item.orderType === 2">白拿还赚
+            <span class="num">{{item.coinInfo||0}}</span>
+            金币
+          </span>
+          <div class="bottom" slot="bottom" v-if="item.orderType === 2">
+            <span class=" details">{{item.lotteryInfo}}</span>
+            <!-- <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span> -->
+            <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
+            <!-- <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span> -->
           </div>
           <!--评价-->
-          <div class="orderBoxShow">
-            <div class="bottom" slot="bottom">
-              <span class="details">{{item.evaluateInfo}}</span>
-              <span class="btn details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
-              <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
-              <span class="btn details" v-else-if="item.isEvaluateState===2" @click="goEvaluate(item)">去预追评</span>
-              <span class="btn details" v-else-if="item.isEvaluateState===3" @click="goEvaluate(item)">追评到淘宝</span>
-              <span class="btn" v-else-if="item.isEvaluateState===4" @click="applyCustomer(item)">申请售后</span>
-            </div>
+          <div class="bottom" slot="bottom" v-if="item.orderType === 3">
+            <span class="details">{{item.evaluateInfo}}</span>
+            <span class="btn details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
+            <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
+            <span class="btn details" v-else-if="item.isEvaluateState===2" @click="goEvaluate(item)">去预追评</span>
+            <span class="btn details" v-else-if="item.isEvaluateState===3" @click="goEvaluate(item)">追评到淘宝</span>
+            <!-- <span class="btn" v-else-if="item.isEvaluateState===4" @click="applyCustomer(item)">申请售后</span> -->
           </div>
           <!--驳回-->
-          <div class="orderBoxShow">
-            <div class="bottom" slot="bottom">
-              <span class="btn details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
-            </div>
+          <div class="bottom" slot="bottom" v-if="item.orderType === 4">
+            <span class="btn details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
           </div>
         </appendCommon>
       </div>
@@ -65,12 +53,12 @@
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
 import Vue from 'vue'
-import { notify, orderRouter } from '../../../assets/data/task'
+import { award, awarded, comment, notify, orderRouter } from '../../../assets/data/task'
 import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate } from '../../../assets/js/mixin'
+import { scrollPages, orderOperate, sweepstakeOrderOperate, evaluateOrderOperate, rejectOrderOperate, winningOrderOperate } from '../../../assets/js/mixin'
 export default {
   name: "rejectOrder",
-  mixins: [scrollPages, orderOperate],
+  mixins: [scrollPages, orderOperate, sweepstakeOrderOperate, evaluateOrderOperate, rejectOrderOperate, winningOrderOperate],
   components: {
     Scroll,
     AppendCommon
@@ -84,7 +72,7 @@ export default {
       pageNo: 1,
       canLoading: true,
       goodsAll: [],
-      apiUrl: '/api/orderOperate/getBuyerTaskListByStatusAndTaskFlag'
+      apiUrl: '/api/orderOperate/getAllBuyerTaskList'
     }
   },
   computed: {
@@ -109,10 +97,11 @@ export default {
         let goodsState = this.setGoodsState(item.taskFlag, item.buyerTaskStatus)
         let timeInfo = this.setTime(item.gmtModify)
         let obj = {
+          orderType: goodsState.orderType,
           platformId: item.platformId,
           goodsImg: item.platformPicId,
           shopName: item.shopName,
-          stateText: goodsState.stateText || '',
+          stateText: goodsState.stateText,
           btnText: goodsState.btnText,
           goodsName: item.productName,
           temp: this.typeArr[(parseInt(item.taskType) - 1)] || '无',
@@ -121,22 +110,33 @@ export default {
           price: item.price,
           orderNum: item.buyerTaskRecordId,
           info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
+          isLotteryState: goodsState.isLotteryState,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
+          isEvaluateState: goodsState.isEvaluateState,
           errInfo: item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系',
           taskFlag: item.taskFlag,
           taskType: item.taskType,
           sellerTaskId: item.sellerTaskId,
           buyerTaskStatus: item.buyerTaskStatus,
+          taskOneId: item.taskOneId,
+          taskTwoId: item.taskTwoId,
+          taskThreeId: item.taskThreeId,
           taskFourId: item.taskFourId,
           taskFiveId: item.taskFiveId,
           taskSixId: item.taskSixId,
+          taskSevenId: item.taskSevenId,
           taskEightId: item.taskEightId,
           taskNineId: item.taskNineId,
+          listNoState: goodsState.listNoState,
+        }
+        if (goodsState.orderType === 2) {
+          obj.errInfo = ''
         }
         goodsDramArr.push(obj)
       }
       this.goodsAll = [...goodsDramArr]
+      console.log(this.goodsAll)
       this.$nextTick(() => {
         this.$refs.scrollBox.refresh()
         this.canLoading = true
@@ -144,8 +144,109 @@ export default {
     },
     //设置内容状态
     setGoodsState(taskFlag, buyerTaskStatus) {
-      let myIndex = notify.indexOf(taskFlag)
       let goodsState = {}
+      if (notify.indexOf(taskFlag) !== -1 && buyerTaskStatus === '12') {
+        let myIndex = notify.indexOf(taskFlag)
+        goodsState.orderType = 4
+        if (buyerTaskStatus === '12') {
+          if (myIndex >= 0 && myIndex <= 4) {
+            goodsState.stateText = '订单审核未通过'
+            goodsState.btnText = '修改申请'
+            goodsState.isBottom = false
+          } else if (myIndex > 4 && myIndex <= 9) {
+            goodsState.stateText = '预评价审核未通过'
+            goodsState.btnText = '修改预评价'
+            goodsState.isBottom = false
+          } else if (myIndex > 9 && myIndex <= 14) {
+            goodsState.stateText = '评价审核未通过'
+            goodsState.btnText = ''
+            goodsState.isBottom = true
+          } else if (myIndex > 14 && myIndex <= 19) {
+            goodsState.stateText = '预追评审核未通过'
+            goodsState.btnText = '修改预追评'
+            goodsState.isBottom = false
+          } else if (myIndex > 19 && myIndex <= 24) {
+            goodsState.stateText = '追评审核未通过'
+            goodsState.btnText = ''
+            goodsState.isBottom = true
+          }
+        }
+      }
+      //评价的状态
+      else if (comment.indexOf(taskFlag) !== -1 && (buyerTaskStatus === '4' || buyerTaskStatus === '9')) {
+        let myIndex = comment.indexOf(taskFlag)
+        goodsState.orderType = 3
+        if (buyerTaskStatus === '4') {
+          if (myIndex >= 0 && myIndex < 3) {
+            goodsState.stateText = '待预评价'
+            goodsState.isEvaluateState = 0
+          } else if (myIndex > 3 && myIndex < 7) {
+            goodsState.stateText = '待评价到淘宝'
+            goodsState.isEvaluateState = 1
+          } else if (myIndex > 7 && myIndex < 11) {
+            goodsState.stateText = '待预追评'
+            goodsState.isEvaluateState = 2
+          } else if (myIndex > 11 && myIndex < 15) {
+            goodsState.stateText = '待追评到淘宝'
+            goodsState.isEvaluateState = 3
+          }
+        } else if (buyerTaskStatus === '9') {
+          if (myIndex >= 0 && myIndex < 3) {
+            goodsState.stateText = '预评价审核中'
+            goodsState.isEvaluateState = 4
+          } else if (myIndex > 3 && myIndex < 7) {
+            goodsState.stateText = '淘宝评价审核中'
+          } else if (myIndex > 7 && myIndex < 11) {
+            goodsState.stateText = '预追评审核中'
+          } else if (myIndex > 11 && myIndex < 15) {
+            goodsState.stateText = '淘宝追评审核中'
+          }
+        }
+      }
+      //中奖了的状态
+      else if (awarded.indexOf(taskFlag) !== -1 && (buyerTaskStatus === '4' || buyerTaskStatus === '5' || buyerTaskStatus === '9')) {
+        goodsState.orderType = 2
+        if (buyerTaskStatus === '4') {
+          goodsState.stateText = '待领奖'
+          goodsState.isLotteryState = 0
+        } else if (buyerTaskStatus === '9') {
+          goodsState.stateText = '订单审核中'
+          goodsState.isBottom = 1
+        } else if (buyerTaskStatus === '6') {
+          goodsState.stateText = '超时领奖'
+          goodsState.isLotteryState = 2
+          goodsState.isBottom = 1
+          goodsState.listNoState = true
+        }
+      }
+      //抽奖
+      else if (award.indexOf(taskFlag) !== -1) {
+        let myIndex = notify.indexOf(taskFlag)
+        goodsState.orderType = 1
+        if (buyerTaskStatus === '0') {
+          goodsState.stateText = '待开奖'
+          goodsState.isLotteryState = 3
+        } else if (buyerTaskStatus === '2') {
+          goodsState.stateText = '未中奖'
+          goodsState.isLotteryState = 0
+        } else if (buyerTaskStatus === '6') {
+          goodsState.stateText = '超时领奖'
+          goodsState.isLotteryState = 2
+        } else if (buyerTaskStatus === '4') {
+          goodsState.stateText = '待提交审核'
+          goodsState.isLotteryState = 2
+        }
+      } else if (buyerTaskStatus === '2') {
+        goodsState.orderType = 0
+        goodsState.stateText = '未中奖'
+        goodsState.isBottom = 1
+        goodsState.listNoState = true
+      } else if (buyerTaskStatus === '6') {
+        goodsState.orderType = 0
+        goodsState.stateText = '任务已失效'
+        goodsState.isBottom = 1
+        goodsState.listNoState = true
+      }
       return goodsState
     },
   }

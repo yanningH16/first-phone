@@ -1,5 +1,5 @@
 <template>
-  <div class="common_box">
+  <div class="common_box" :class="{'forbidden':goodsObj.listNoState}">
     <div class="title border-bottom-1px">
       <strong>
         <img :src="Taobao" alt="" v-if="goodsObj.platformId===1">
@@ -13,6 +13,7 @@
     </div>
     <div class="good_intro border-bottom-1px">
       <img :src="goodsObj.goodsImg" alt="goodImg">
+      <div class="imgForbidden" v-if="goodsObj.listNoState">失效</div>
       <div>
         <h2>{{goodsObj.goodsName}}</h2>
         <div>
@@ -132,6 +133,17 @@ export default {
       width 8.3rem
       height 8.3rem
       border-radius 2px
+    .imgForbidden
+      position absolute
+      width 8.3rem
+      height 8.3rem
+      border-radius 2px
+      background rgba(0, 0, 0, 0.5)
+      left -1.2rem
+      font-size 2rem
+      text-align center
+      line-height 8.3rem
+      color #b7b9bf
     > div
       float left
       width 19.3rem
@@ -205,4 +217,8 @@ export default {
     .red
       color red
       border 0.5px solid red
+  &.forbidden
+    .i
+      .reject
+        color #75787f !important
 </style>

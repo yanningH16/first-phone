@@ -14,7 +14,7 @@
             <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
             <span class="btn details" v-else-if="item.isEvaluateState===2" @click="goEvaluate(item)">去预追评</span>
             <span class="btn details" v-else-if="item.isEvaluateState===3" @click="goEvaluate(item)">追评到淘宝</span>
-            <span class="btn" v-else-if="item.isEvaluateState===4" @click="applyCustomer(item)">申请售后</span>
+            <!-- <span class="btn" v-else-if="item.isEvaluateState===4" @click="applyCustomer(item)">申请售后</span> -->
           </div>
         </appendCommon>
       </div>
@@ -28,10 +28,10 @@ import AppendCommon from '../../../base/appendCommon/appendCommon'
 import Vue from 'vue'
 import { comment, orderRouter } from '../../../assets/data/task'
 import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate } from '../../../assets/js/mixin'
+import { scrollPages, orderOperate, evaluateOrderOperate } from '../../../assets/js/mixin'
 export default {
   name: "rejectOrder",
-  mixins: [scrollPages, orderOperate],
+  mixins: [scrollPages, orderOperate, evaluateOrderOperate],
   components: {
     Scroll,
     AppendCommon
@@ -127,7 +127,8 @@ export default {
       } else if (buyerTaskStatus === '9') {
         if (myIndex >= 0 && myIndex < 3) {
           goodsState.stateText = '预评价审核中'
-          goodsState.isEvaluateState = 4
+          // goodsState.isEvaluateState = 4
+          goodsState.info  = '如有问题，请联系客服'
         } else if (myIndex > 3 && myIndex < 7) {
           goodsState.stateText = '淘宝评价审核中'
         } else if (myIndex > 7 && myIndex < 11) {
@@ -137,25 +138,6 @@ export default {
         }
       }
       return goodsState
-    },
-    //评价路由跳转
-    goEvaluate(item) {
-      let index = comment.indexOf(item.taskFlag)
-      let taskIndex
-      if (index >= 0 && index < 3) {//预评价
-        taskIndex = item.taskFiveId
-      } else if (index >= 3 && index < 7) {//评价
-        taskIndex = item.taskSixId
-      } else if (index >= 7 && index < 11) {//评价+预追评
-        taskIndex = item.taskEightId
-      } else if (index >= 11 && index < 15) {//评价+追评
-        taskIndex = item.taskNineId
-      }
-      this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
-    },
-    //申请售后
-    applyCustomer(item) {
-
     }
   }
 }

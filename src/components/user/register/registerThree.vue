@@ -103,21 +103,15 @@ export default {
       imgSM: [],
       imgHB: [],
       value: [],
-      list: [
-        ['2星',
-          '3星',
-          '4星',
-          '5星',
-          '皇冠']
-      ],
+      list: [['1星', '2星', '3星', '4星', '5星', '1冠', '2冠', '3冠', '4冠', '5冠']],
       taobaoLevel: null
     }
   },
   computed: {
 
   },
-  mounted () {
-     console.log(this.userPhone)
+  mounted() {
+    console.log(this.userPhone)
   },
   computed: {
     btnSaveState() {
@@ -154,7 +148,7 @@ export default {
         this.$axios.post('/api/user/register3', {
           telephone: this.userPhone,
           taobaoId: this.taobao,
-          taobaoLevel: parseInt(this.list[0].indexOf(this.taobaoLevel))+2,
+          taobaoLevel: parseInt(this.list[0].indexOf(this.taobaoLevel)) + 2,
           taobaoAccountPicId: this.imgWW[0],
           fullName: this.xm,
           alipayAccountNo: this.zfb,
@@ -189,150 +183,112 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '../../../assets/stylus/variable';
-@import '../../../assets/stylus/mixin';
-
-.userContainer {
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 9999;
-  background: $color-background;
-
-  &.move-enter-active, .move-leave-active {
-    transition: all 0.2s linear;
-    transform: translate3d(0, 0, 0);
-  }
-
-  &.move-enter, .move-leave {
-    transform: translate3d(100%, 0, 0);
-  }
-
-  .userContainerBox {
-    background: #eff0f2;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    .register {
-      padding-bottom: 2rem;
-
-      .header {
-        width: 100%;
-        padding: 2rem 1.6rem;
-        font-size: 0;
-        margin-top: 1rem;
-
-        img {
-          width: 2.5rem;
-          height: 2.5rem;
-          vertical-align: top;
-          margin-right: 1rem;
-        }
-
-        span {
-          height: 2.5rem;
-          line-height: 2.5rem;
-          font-size: $font-size-large-x;
-          color: $color-text;
-        }
-      }
-
-      .groupBox, .groupBoxCore {
-        margin-top: 1.2rem;
-        padding: 1.2rem 1.6rem;
-        width: 100%;
-        box-sizing: border-box;
-        background: $color-theme-white;
-
-        .title {
-          font-size: $font-size-medium;
-          color: $color-text;
-          margin-bottom: 1.2rem;
-        }
-
-        .input {
-          width: 100%;
-          height: 5rem;
-          line-height: 5rem;
-          font-size: $font-size-medium;
-          border: 0;
-          outline: 0;
-          -webkit-appearance: none;
-          background-color: transparent;
-        }
-
-        .text {
-          color: $color-text-d;
-          font-size: $font-size-normal;
-          margin-bottom: 2.8rem;
-        }
-
-        .info {
-          font-size: $font-size-normal;
-          color: $color-text-d;
-          line-height: 2rem;
-        }
-
-        .inputBoxCore {
-          margin-bottom: 1.2rem;
-        }
-
-        .inputBox {
-          position: relative;
-          border-bottom-1px($color-text-ll);
-
-          .btn {
-            border-small($color-text, $border-radius);
-            outline: 0;
-            -webkit-appearance: none;
-            position: relative;
-            height: 3.4rem;
-            padding: 0 1rem;
-            font-size: $font-size-medium;
-            text-align: center;
-            text-decoration: none;
-            color: $color-text;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            font-weight: $font-weight;
-            background: $color-theme-white;
-            position: relative;
-            right: -1.5rem;
-
-            &.btn-disabled {
-              opacity: 0.3;
-            }
-          }
-        }
-
-        .idown {
-          content: ' ';
-          display: inline-block;
-          height: 6px;
-          width: 6px;
-          border-width: 2px 2px 0 0;
-          border-color: #C8C8CD;
-          border-style: solid;
-          position: relative;
-          top: -2px;
-          position: absolute;
-          top: 50%;
-          margin-top: -6px;
-          right: 15px;
-          transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
-        }
-      }
-
-      .btnBox {
-        width: 100%;
-        padding: 0.5rem 1.8rem;
-        box-sizing: border-box;
-      }
-    }
-  }
-}
+@import '../../../assets/stylus/variable'
+@import '../../../assets/stylus/mixin'
+.userContainer
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .userContainerBox
+    background #eff0f2
+    display flex
+    flex-direction column
+    height 100%
+    .register
+      padding-bottom 2rem
+      .header
+        width 100%
+        padding 2rem 1.6rem
+        font-size 0
+        margin-top 1rem
+        img
+          width 2.5rem
+          height 2.5rem
+          vertical-align top
+          margin-right 1rem
+        span
+          height 2.5rem
+          line-height 2.5rem
+          font-size $font-size-large-x
+          color $color-text
+      .groupBox, .groupBoxCore
+        margin-top 1.2rem
+        padding 1.2rem 1.6rem
+        width 100%
+        box-sizing border-box
+        background $color-theme-white
+        .title
+          font-size $font-size-medium
+          color $color-text
+          margin-bottom 1.2rem
+        .input
+          width 100%
+          height 5rem
+          line-height 5rem
+          font-size $font-size-medium
+          border 0
+          outline 0
+          -webkit-appearance none
+          background-color transparent
+        .text
+          color $color-text-d
+          font-size $font-size-normal
+          margin-bottom 2.8rem
+        .info
+          font-size $font-size-normal
+          color $color-text-d
+          line-height 2rem
+        .inputBoxCore
+          margin-bottom 1.2rem
+        .inputBox
+          position relative
+          border-bottom-1px($color-text-ll)
+          .btn
+            border-small($color-text, $border-radius)
+            outline 0
+            -webkit-appearance none
+            position relative
+            height 3.4rem
+            padding 0 1rem
+            font-size $font-size-medium
+            text-align center
+            text-decoration none
+            color $color-text
+            -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+            font-weight $font-weight
+            background $color-theme-white
+            position relative
+            right -1.5rem
+            &.btn-disabled
+              opacity 0.3
+        .idown
+          content ' '
+          display inline-block
+          height 6px
+          width 6px
+          border-width 2px 2px 0 0
+          border-color #C8C8CD
+          border-style solid
+          position relative
+          top -2px
+          position absolute
+          top 50%
+          margin-top -6px
+          right 15px
+          transform matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg)
+      .btnBox
+        width 100%
+        padding 0.5rem 1.8rem
+        box-sizing border-box
 </style>

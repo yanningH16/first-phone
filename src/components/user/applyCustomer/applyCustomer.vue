@@ -12,7 +12,7 @@
                 </i>
               </div>
             </x-input>
-            <x-input placeholder="申请原因(选填)"></x-input>
+            <x-input placeholder="申请原因说明（选填）"></x-input>
           </group>
           <div class="containerBox">
             <h1 class="title">上传凭证</h1>
