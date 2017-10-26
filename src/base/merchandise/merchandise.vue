@@ -3,6 +3,7 @@
     <div class="wrap" v-for="(item,index) in goods" :key="index" @click="doRouter(index,item.sellerTaskId)">
       <div class="img">
         <img v-lazy="item.imgSrc" alt="">
+        <p class="vip" v-if="item.vip===1">Plus专享</p>
       </div>
       <h4>
         <span v-if="hot===1" class="hot iconfont icon-hot" alt=""></span>{{item.info}}</h4>
@@ -57,10 +58,22 @@ export default {
   background white
 .img
   height 14.5rem
+  position relative
   img
     width 100%
     height 100%
     border-radius 5px
+  .vip
+    background red
+    width 5rem
+    height 2rem 
+    color white
+    position absolute
+    top 2rem
+    left 0
+    line-height 2rem
+    text-align center
+    font-size 0.9rem
 .btn
   display flex
   justify-content space-between

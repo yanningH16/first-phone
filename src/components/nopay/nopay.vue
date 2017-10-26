@@ -4,7 +4,7 @@
       <Headsearch></Headsearch>
       <div class="nav">
         <tab :line-width=2 active-color="white" v-model="index" bar-active-color="white">
-          <tab-item class="vux-center" v-for="(item, index) in list2" @click="demo2 = item" :key="index">{{item}}
+          <tab-item class="vux-center" v-for="(item, index) in list2" @on-item-click="headerTabClick(index)" :key="index">{{item}}
           </tab-item>
         </tab>
       </div>
@@ -89,6 +89,7 @@ export default {
       postage: 0,
       format: 0,
       highLottery: 0,
+      firstCondition:'no',
       getBarWidth: function (index) {
         return (index + 1) * 22 + 'px'
       },
@@ -99,7 +100,7 @@ export default {
   computed: {
     params: {
       get() {
-        console.log(112111)
+        // console.log(112111)
         return {
           sortType: this.sortType,
           sortClass: this.sortClass,
@@ -110,19 +111,38 @@ export default {
           format: this.format,
           highLottery: this.highLottery,
           pageNo: this.pageNo,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          firstCondition:this.firstCondition
         }
       },
       set(val) {
-        console.log(val)
+        // console.log(val)
         return val
       }
     }
   },
+  created(){
+      if(this.$route.query.index){
+          this.headerTabClick(this.$route.query.index)
+      }
+  },
 
   methods: {
-    onItemClick(index) {
-      console.log('on item click:', index)
+    headerTabClick(index) {
+      this.pageNo = 1
+      let TabArr=['no','all','more','gold','puls-puls']
+        this.sortType = 'desc'
+        this.sortClass = 'integrated'
+        this.priceHigh = 0
+        this.priceLow = 0
+        this.productClassId = 0
+        this.postage = 0
+        this.format = 0
+        this.highLottery = 0
+        this.firstCondition=TabArr[index]
+        this.goods = []
+        this.getApi()
+      console.log(index)
     },
     //设置本地存储
     ...mapActions([
@@ -157,14 +177,14 @@ export default {
       if (index == 2) {
         if (this.istop) {
           this.sortType = 'asc'
-          this.priceHigh = 0
+          this.priceHigh = 100
           this.priceLow = 0
           this.getApi()
           this.goods = []
         } else {
           this.sortType = 'desc'
           this.sortClass = 'price'
-          this.priceHigh = 0
+          this.priceHigh = 100
           this.priceLow = 0
           this.productClassId = 0
           this.postage = 0
@@ -209,8 +229,10 @@ export default {
       this.cover = false
       this.sortType = 'desc'
       this.sortClass = 'integrated'
-      this.priceHigh = 0
-      this.priceLow = 0
+      let arrLow=['0','50','100','150','200']
+      let arrHigh=['49','99','149','199','']
+      this.priceHigh = arrHigh[this.chooseIndex]
+      this.priceLow = arrLow[this.chooseIndex]
       this.productClassId = 0
       if (this.isCked1 == true) {
         this.postage = 1
@@ -230,6 +252,7 @@ export default {
       this.getApi()
       this.goods = []
     },
+    //点击筛选的价格  
     pri(indexs) {
       this.chooseIndex = indexs
     },
@@ -240,7 +263,7 @@ export default {
       this.chooseIndex = ""
     },
     show(index, sellerTaskId) {
-      console.log(sellerTaskId)
+      // console.log(sellerTaskId)
       this.$router.push({ name: 'details', query: { sellerTaskId: sellerTaskId } })
     },
     boxScroll(pos) {
@@ -257,13 +280,14 @@ export default {
       }
     },
     setInfo(data) {
-      console.log(this.params)
+      // console.log(this.params)
       let arrList = []
       this.maxPageSize = data.total
       for (let m of data.datas) {
-        // console.log(m)
+        console.log(m)
         let goods = {
           imgSrc: m.picUrl,
+          vip:m.isPlus,
           hot: m.isRecommend,
           info: m.productName,
           progress: m.percent,
