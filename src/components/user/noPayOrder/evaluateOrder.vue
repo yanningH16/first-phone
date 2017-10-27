@@ -8,7 +8,7 @@
             <span class="num">{{item.coinInfo}}</span>金币</span>
           <span slot="info" class="infoOrange" v-if="item.coinType===1">
             <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-          <div class="bottom" slot="bottom">
+          <div class="bottom" slot="bottom" >
             <span class="details">{{item.evaluateInfo}}</span>
             <span class="btn details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
             <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
@@ -88,7 +88,7 @@ export default {
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
-          errInfo: `未通过原因 ${item.remarks}` || '未通过原因 错误原因',
+          errInfo: goodsState.info,
           taskFlag: item.taskFlag,
           taskType: item.taskType,
           sellerTaskId: item.sellerTaskId,
@@ -110,7 +110,7 @@ export default {
     setGoodsState(taskFlag, buyerTaskStatus) {
       let goodsState = {}
       let myIndex = comment.indexOf(taskFlag)
-      
+
       if (buyerTaskStatus === '4') {
         if (myIndex >= 0 && myIndex <= 3) {
           goodsState.stateText = '待预评价'
@@ -128,14 +128,17 @@ export default {
       } else if (buyerTaskStatus === '9') {
         if (myIndex >= 0 && myIndex <= 3) {
           goodsState.stateText = '预评价审核中'
-          // goodsState.isEvaluateState = 4
-          goodsState.info  = '如有问题，请联系客服'
+          goodsState.isBottom = 4
+          goodsState.info = '如有问题，请联系客服'
         } else if (myIndex > 3 && myIndex <= 7) {
           goodsState.stateText = '淘宝评价审核中'
+          goodsState.isBottom = 4
         } else if (myIndex > 7 && myIndex <= 11) {
           goodsState.stateText = '预追评审核中'
+          goodsState.isBottom = 4
         } else if (myIndex > 11 && myIndex <= 15) {
           goodsState.stateText = '淘宝追评审核中'
+          goodsState.isBottom = 4
         }
       }
       return goodsState

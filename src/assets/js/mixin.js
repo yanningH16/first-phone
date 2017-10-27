@@ -183,7 +183,7 @@ export const sweepstakeOrderOperate = {
         buyerTaskRecordId: item.orderNum
       }).then((response) => {
         this.$vux.toast.text(response.data.message, 'middle')
-        if(response.data.code==='200'){
+        if (response.data.code === '200') {
           this.getApi()
         }
       }).catch((error) => {
@@ -227,7 +227,8 @@ export const evaluateOrderOperate = {
       } else if (index > 11 && index <= 15) { //评价+追评
         taskIndex = item.taskNineId
       }
-      console.log(index)
+      console.log(item)
+      console.log(orderRouter[taskIndex - 1])
       this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //申请售后
