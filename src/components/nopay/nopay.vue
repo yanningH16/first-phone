@@ -83,7 +83,7 @@ export default {
       //仍然得实例一下 
       sortType: 'desc',
       sortClass: 'integrated',
-      priceHigh: 100,
+      priceHigh: 0,
       priceLow: 0,
       productClassId: 0,
       postage: 0,
@@ -179,14 +179,14 @@ export default {
         if (this.istop) {
           this.sortType = 'asc'
           this.sortClass = 'price'
-          this.priceHigh = 100
+          this.priceHigh = 0
           this.priceLow = 0
           this.getApi()
           this.goods = []
         } else {
           this.sortType = 'desc'
           this.sortClass = 'price'
-          this.priceHigh = 100
+          this.priceHigh = 0
           this.priceLow = 0
           this.productClassId = 0
           this.postage = 0

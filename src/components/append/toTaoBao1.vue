@@ -307,7 +307,7 @@ export default {
     margin 2rem 1.6rem
     padding-bottom 2rem
     button
-      background #cc3d46
+      background #ff3340
       font-size 1.6rem
       line-height 4rem
       width 100%
