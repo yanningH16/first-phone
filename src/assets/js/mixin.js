@@ -218,15 +218,16 @@ export const evaluateOrderOperate = {
     goEvaluate(item) {
       let index = comment.indexOf(item.taskFlag)
       let taskIndex
-      if (index >= 0 && index < 3) { //预评价
+      if (index >= 0 && index <= 3) { //预评价
         taskIndex = item.taskFiveId
-      } else if (index >= 3 && index < 7) { //评价
+      } else if (index > 3 && index <= 7) { //评价
         taskIndex = item.taskSixId
-      } else if (index >= 7 && index < 11) { //评价+预追评
+      } else if (index > 7 && index <= 11) { //评价+预追评
         taskIndex = item.taskEightId
-      } else if (index >= 11 && index < 15) { //评价+追评
+      } else if (index > 11 && index <= 15) { //评价+追评
         taskIndex = item.taskNineId
       }
+      console.log(index)
       this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //申请售后
@@ -242,6 +243,7 @@ export const rejectOrderOperate = {
     rejectOperate(item, taskFlag) {
       let myIndex = notify.indexOf(taskFlag)
       let taskIndex
+      console.log(taskIndex)
       if (myIndex >= 0 && myIndex <= 4) {
         taskIndex = item.taskFourId
       } else if (myIndex > 4 && myIndex <= 9) {
@@ -271,6 +273,8 @@ export const winningOrderOperate = {
         'sureGetStep1'
       ]
       let index = awarded.indexOf(item.taskFlag)
+      console.log(awarded)
+      console.log(item)
       this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //删除订单

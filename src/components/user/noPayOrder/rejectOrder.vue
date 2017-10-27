@@ -23,7 +23,7 @@ import AppendCommon from '../../../base/appendCommon/appendCommon'
 import Vue from 'vue'
 import { notify, orderRouter } from '../../../assets/data/task'
 import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate, rejectOrderOperate } from '../../../assets/js/mixin'
+import { scrollPages, orderOperate, rejectOrderOperate} from '../../../assets/js/mixin'
 export default {
   name: "rejectOrder",
   mixins: [scrollPages, orderOperate, rejectOrderOperate],

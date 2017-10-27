@@ -79,7 +79,7 @@ export default {
           stateText: goodsState.stateText,
           btnText: goodsState.btnText,
           goodsName: item.productName,
-          temp: typeArr[(parseInt(item.taskType) - 1)] || '无',
+          temp: this.typeArr[(parseInt(item.taskType) - 1)] || '无',
           coinType: 2,
           num: `${item.numPerOrder}件`,
           price: item.price,
@@ -110,30 +110,31 @@ export default {
     setGoodsState(taskFlag, buyerTaskStatus) {
       let goodsState = {}
       let myIndex = comment.indexOf(taskFlag)
+      
       if (buyerTaskStatus === '4') {
-        if (myIndex >= 0 && myIndex < 3) {
+        if (myIndex >= 0 && myIndex <= 3) {
           goodsState.stateText = '待预评价'
           goodsState.isEvaluateState = 0
-        } else if (myIndex > 3 && myIndex < 7) {
+        } else if (myIndex > 3 && myIndex <= 7) {
           goodsState.stateText = '待评价到淘宝'
           goodsState.isEvaluateState = 1
-        } else if (myIndex > 7 && myIndex < 11) {
+        } else if (myIndex > 7 && myIndex <= 11) {
           goodsState.stateText = '待预追评'
           goodsState.isEvaluateState = 2
-        } else if (myIndex > 11 && myIndex < 15) {
+        } else if (myIndex > 11 && myIndex <= 15) {
           goodsState.stateText = '待追评到淘宝'
           goodsState.isEvaluateState = 3
         }
       } else if (buyerTaskStatus === '9') {
-        if (myIndex >= 0 && myIndex < 3) {
+        if (myIndex >= 0 && myIndex <= 3) {
           goodsState.stateText = '预评价审核中'
           // goodsState.isEvaluateState = 4
           goodsState.info  = '如有问题，请联系客服'
-        } else if (myIndex > 3 && myIndex < 7) {
+        } else if (myIndex > 3 && myIndex <= 7) {
           goodsState.stateText = '淘宝评价审核中'
-        } else if (myIndex > 7 && myIndex < 11) {
+        } else if (myIndex > 7 && myIndex <= 11) {
           goodsState.stateText = '预追评审核中'
-        } else if (myIndex > 11 && myIndex < 15) {
+        } else if (myIndex > 11 && myIndex <= 15) {
           goodsState.stateText = '淘宝追评审核中'
         }
       }

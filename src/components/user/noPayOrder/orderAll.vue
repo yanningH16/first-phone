@@ -27,7 +27,7 @@
           <div class="bottom" slot="bottom" v-if="item.orderType === 2">
             <span class=" details">{{item.lotteryInfo}}</span>
             <!-- <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span> -->
-            <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
+            <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item)">前去领奖</span>
             <!-- <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span> -->
           </div>
           <!--评价-->
@@ -248,7 +248,6 @@ export default {
         goodsState.isBottom = 1
         goodsState.listNoState = true
       }
-      console.log(buyerTaskStatus)
       return goodsState
     },
   }
