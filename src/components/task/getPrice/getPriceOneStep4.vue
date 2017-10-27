@@ -76,13 +76,12 @@ export default {
       }
       this.$axios.post('/api/orderOperate/fourthOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        favImg: that.$route.query.obj.favImg,
-        focusImg: that.$route.query.obj.focusImg,
-        chatImg: that.$route.query.obj.chatImg,
-        taoKeyArr: that.$route.query.obj.taoKeyArr,
-        orderImgs: this.orderImgs,
-        orderNum: this.orderNum,
-        realPay: this.realPay
+        storeProductPicId: that.$route.query.obj.favImg,
+        concernShopPicId: that.$route.query.obj.focusImg,
+        customerServiceChartPicId: that.$route.query.obj.chatImg,
+        taobaoOrderPicId: this.orderImgs,
+        productOrderNo: this.orderNum,
+        productOrderPrice: this.realPay
       }).then((data) => {
         console.log(data)
         if (data.data.code === '200') {

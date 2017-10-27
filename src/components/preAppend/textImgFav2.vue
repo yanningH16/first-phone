@@ -80,9 +80,9 @@ export default {
       if (this.commonImg.length > 0) {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-          gooImg: that.$route.query.goodImg,
-          text: that.$route.query.text,
-          commonImg: this.commonImg
+          evaluateProductPicId: that.$route.query.goodImg,
+          additionalFavorText: that.$route.query.text,
+          additionalFavorPicId: this.commonImg
         }).then((res) => {
           console.log(res)
           if (res.data.code == 200) {

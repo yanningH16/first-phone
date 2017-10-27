@@ -104,8 +104,8 @@ export default {
       }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        goodCommon: this.goodCommon,
-        goodsImg: this.goodsImg
+        favorText: this.goodCommon,
+        favorPicId: this.goodsImg
       }).then((data) => {
         console.log(data)
         if (data.data.code === '200') {

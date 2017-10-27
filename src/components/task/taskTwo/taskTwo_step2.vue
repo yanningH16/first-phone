@@ -60,8 +60,8 @@ export default {
       let that = this;
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        favImg: this.favImg,
-        focusImg: this.focusImg
+        storeProductPicId: this.favImg,
+        concernShopPicId: this.focusImg
       }).then((res) => {
         console.log(res)
         if (res.data.code === "200") {

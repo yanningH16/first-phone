@@ -49,7 +49,7 @@ export default {
       let that = this;
       this.$axios.post('/api/orderOperate/seventhOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        favImg: this.favImg
+        storeProductPicId: this.favImg
       }).then((res) => {
         console.log(res)
         if (res.data.code === "200") {

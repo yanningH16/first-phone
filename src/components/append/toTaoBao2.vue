@@ -78,7 +78,7 @@ export default {
       var that = this;
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        goodsImg: that.goodsImg
+        additionalFavorPicId: that.goodsImg
       }).then((res) => {
         if (res.data.code === '200') {
           this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate3' } })

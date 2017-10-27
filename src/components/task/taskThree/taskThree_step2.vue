@@ -51,10 +51,7 @@ export default {
       }
       let that = this;
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        taokoulin: [
-          this.goodsOneKey, this.goodsTwoKey, this.goodsThreeKey
-        ]
+        buyerTaskRecordId: that.$route.query.buyerTaskRecordId
       }).then((res) => {
         console.log(res)
         let data = res.data
