@@ -259,7 +259,7 @@ export default {
       } else if (buyerTaskStatus === '9') {
         goodsState.stateText = '订单审核中'
         goodsState.isBottom = 1
-      } else if (buyerTaskStatus === '6') {
+      } else if (buyerTaskStatus === '5') {
         goodsState.stateText = '超时领奖'
         goodsState.isLotteryState = 2
         goodsState.isBottom = 1

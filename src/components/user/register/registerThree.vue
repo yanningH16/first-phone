@@ -114,19 +114,24 @@ export default {
     console.log(this.userPhone)
   },
   computed: {
-    btnSaveState() {
-      let isHasTb = (this.taobao.length !== 0)
-      let isWWImgUrl = (this.imgWW && this.imgWW.length === 1)
-      let isLevel = (this.taobaoLevel !== null && this.taobaoLevel.length !== 0)
-      let isXm = (this.xm.length !== 0)
-      let isZfb = (this.zfb.length !== 0)
-      let isSfz = (this.sfz.length !== 0)
-      let isSMImgUrl = (this.imgSM && this.imgSM.length === 1)
-      let isHBImgUrl = (this.imgHB && this.imgHB.length >= 1)
-      if (isHasTb && isWWImgUrl && isLevel && isXm && isZfb && isSfz && isSMImgUrl && isHBImgUrl) {
-        return true
-      } else {
-        return false
+    btnSaveState: {
+      get() {
+        let isHasTb = (this.taobao.length !== 0)
+        let isWWImgUrl = (this.imgWW && this.imgWW.length === 1)
+        let isLevel = (this.taobaoLevel !== null && this.taobaoLevel.length !== 0)
+        let isXm = (this.xm.length !== 0)
+        let isZfb = (this.zfb.length !== 0)
+        let isSfz = (this.sfz.length !== 0)
+        let isSMImgUrl = (this.imgSM && this.imgSM.length === 1)
+        let isHBImgUrl = (this.imgHB && this.imgHB.length >= 1)
+        if (isHasTb && isWWImgUrl && isLevel && isXm && isZfb && isSfz && isSMImgUrl && isHBImgUrl) {
+          return true
+        } else {
+          return false
+        }
+      },
+      set(val) {
+        return val
       }
     },
     ...mapGetters([

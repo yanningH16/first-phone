@@ -15,11 +15,7 @@
               <cell :link="userName.link" :is-link="userName.isLink" :title="userName.title" :value="userName.value">
               </cell>
               <!--旺旺等级-->
-              <cell :link="userTaobao.link" :is-link="userTaobao.isLink" :title="userTaobao.title" :inline-desc='userTaobao.info'>
-                <div v-if="userTaobao.avator">
-                  <img :src="userTaobao.avator" alt="" style="width:4.8rem;height:4.8rem">
-                </div>
-                <popup-picker :data="list" v-model="userTaobao.value" style="opacity:0" @on-change="onChange"></popup-picker>
+              <cell @click.native="showPopupPicker=true" :link="userTaobao.link" :is-link="userTaobao.isLink" :title="userTaobao.title" :inline-desc='userTaobao.info' :value="userTaobao.value">
               </cell>
               <!--性别-->
               <cell :link="userSex.link" :is-link="userSex.isLink" :title="userSex.title" :value="isNull(userSex.value)">
@@ -29,7 +25,7 @@
               </cell>
               <!--收货地址-->
               <!-- <cell :link="userAddress.link" :is-link="userAddress.isLink" :title="userAddress.title" :value="isNull(userAddress.value)">
-                                          </cell> -->
+                                                          </cell> -->
             </group>
           </div>
           <div class="boxContainer">
@@ -43,6 +39,7 @@
           <div class="iconfont">
           </div>
           <div class="actionBox" v-show="visibility||show">
+            <popup-picker :data="list" @on-change="onChange" :show.sync="showPopupPicker" style="position:absolute"></popup-picker>
             <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
             <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility" :min-year="1900" :max-year="2017"></datetime>
           </div>
@@ -96,7 +93,7 @@ export default {
           title: '用户名',
           link: '',
           isLink: false,
-          value: this.userInfo.username || '暂无数据'
+          value: this.userInfo.username || this.userInfo.telephone || '暂无数据'
         }
       },
       set(val) {
@@ -109,7 +106,7 @@ export default {
           title: '旺旺等级',
           link: '',
           isLink: true,
-          value: this.userInfo.taobaoLevel || '暂无数据',
+          value: this.list[0][parseInt(this.userInfo.taobaoLevel)] || '暂无数据',
           info: '请及时更新真是的旺旺等级'
         }
       },
@@ -136,7 +133,7 @@ export default {
           title: '出生日期',
           link: '',
           isLink: true,
-          value: this.userInfo.birthday.slice(0, 10)
+          value: this.userInfo.birthday
         }
       },
       set(val) {
@@ -193,7 +190,9 @@ export default {
       age: '',
       list: [['1星', '2星', '3星', '4星', '5星', '1冠', '2冠', '3冠', '4冠', '5冠']],
       value: [],
-      taobaoLevel: null
+      taobaoLevel: null,
+      userTaobaoState: null,
+      showPopupPicker: false
     }
   },
   methods: {
@@ -248,7 +247,6 @@ export default {
         content: '退出登录将不能查看个人信息',
         onConfirm() {
           _this.$axios.post('/api/user/loginOut', {}).then((response) => {
-            console.log(response)
             if (response.data.code === '200') {
               _this.$vux.toast.text('退出成功', 'middle')
               _this.setUserInfo('')
@@ -266,15 +264,39 @@ export default {
         }
       })
     },
-    //修改信息
-    updateUserInfo(updateObj) {
-      this.$axios.post('/api/user/update', updateObj).then((response) => {
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
     onChange(val) {
-      this.userTaobao.value = val[0]
+      this.$axios.post('/api/user/update', {
+        telephone: this.userInfo.telephone,
+        taobaoLevel: this.list[0].indexOf(val[0])
+      }).then((response) => {
+        if (response.data.code === '200') {
+          let _this = this
+          let obj = Object.assign({}, this.userInfo, {
+            taobaoLevel: this.list[0].indexOf(val[0])
+          })
+          this.userTaobao.value = {
+            title: '旺旺等级',
+            link: '',
+            isLink: true,
+            value: this.list[0][parseInt(this.list[0].indexOf(val[0]))] || '暂无数据',
+            info: '请及时更新真是的旺旺等级'
+          }
+          console.log(this.userTaobao.value)
+          this.setUserInfo(obj)
+          this.$vux.toast.show({ text: '设置成功' })
+        } else {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: response.data.message,
+          })
+        }
+
+      }).catch((error) => {
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络错误',
+        })
+      })
     },
     ...mapActions([
       'setUserInfo'

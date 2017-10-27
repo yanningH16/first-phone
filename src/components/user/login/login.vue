@@ -44,7 +44,7 @@
 <script type="text/ecmascript-6">
 import Pay from '../../../base/pay/pay'
 import MButton from '../../../base/button/button'
-import { Divider , md5} from 'vux'
+import { Divider, md5 } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
 import Vue from 'vue'
 export default {
@@ -109,7 +109,11 @@ export default {
             this.$router.push({ name: 'index' })
           }
         }).catch((error) => {
-          console.log(error)
+          this.$vux.loading.hide()
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: '网络故障',
+          })
         })
       }
     },
@@ -135,95 +139,95 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .userContainer
-    height 100%
-    position fixed
+.userContainer
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .userContainerBox
+    background #fff
     width 100%
     height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .userContainerBox
-      background #fff
-      width 100%
+    .login
       height 100%
-      .login
-        height 100%
-        position relative
-        min-height 568px
-        .info
-          text-align right
-          padding-right 1.6rem
-          padding-top 1.6rem
-          font-size $font-size-medium
-          color $color-text-d
-        .header
-          width 100%
-          text-align center
-          padding 3rem 0
-          .text
-            font-size $font-size-large-x
-            color $color-text
-        .inputBox
-          box-sizing border-box
-          padding 0 1.6rem
-          width 100%
-          margin-bottom 2rem
-          .inputBoxCell
-            border-bottom-1px($color-text-ll)
-            .input
-              width 100%
-              height 5rem
-              line-height  5rem
-              font-size  $font-size-medium
-              border 0
-              outline 0
-              -webkit-appearance none
-              background-color transparent
-        .btnBox
-          box-sizing border-box
-          padding 0 1.6rem
-          width 100%
-          .btnOther
-            text-align center
+      position relative
+      min-height 568px
+      .info
+        text-align right
+        padding-right 1.6rem
+        padding-top 1.6rem
+        font-size $font-size-medium
+        color $color-text-d
+      .header
+        width 100%
+        text-align center
+        padding 3rem 0
+        .text
+          font-size $font-size-large-x
+          color $color-text
+      .inputBox
+        box-sizing border-box
+        padding 0 1.6rem
+        width 100%
+        margin-bottom 2rem
+        .inputBoxCell
+          border-bottom-1px($color-text-ll)
+          .input
+            width 100%
+            height 5rem
+            line-height 5rem
             font-size $font-size-medium
-            color $color-text
-            margin-top 1.6rem
-        .bottom
+            border 0
+            outline 0
+            -webkit-appearance none
+            background-color transparent
+      .btnBox
+        box-sizing border-box
+        padding 0 1.6rem
+        width 100%
+        .btnOther
+          text-align center
+          font-size $font-size-medium
+          color $color-text
+          margin-top 1.6rem
+      .bottom
+        box-sizing border-box
+        padding 0 1.6rem
+        width 100%
+        position absolute
+        bottom 0
+        padding-bottom 3.2rem
+        .divider
+          font-size $font-size-normal
+          color $color-text-d
+        .otherLogin
+          text-align center
+          display flex
           box-sizing border-box
-          padding 0 1.6rem
-          width 100%
-          position absolute
-          bottom 0
-          padding-bottom 3.2rem
-          .divider
-            font-size $font-size-normal
-            color $color-text-d
-          .otherLogin
-            text-align center
+          padding 1rem 6rem 0 6rem
+          .otherLoginBox
+            flex 1
+            font-size 0
             display flex
-            box-sizing border-box
-            padding 1rem 6rem 0 6rem
-            .otherLoginBox
+            flex-direction column
+            .img
               flex 1
-              font-size 0
-              display flex
-              flex-direction column
-              .img
-                flex 1
-                margin-bottom 0.8rem
-                img
-                  width 3rem
-                  height 3rem
-              span
-                flex 1
-                font-size $font-size-normal
-                color $color-text-d
+              margin-bottom 0.8rem
+              img
+                width 3rem
+                height 3rem
+            span
+              flex 1
+              font-size $font-size-normal
+              color $color-text-d
 </style>

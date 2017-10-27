@@ -67,7 +67,7 @@ export default {
     userSetInfo() {
       return {
         avatorUrl: this.userInfo.headPicId,
-        userName: this.userInfo.username,
+        userName: this.userInfo.telephone || this.userInfo.telephone || '微信名',
         typeName: (this.userInfo.isVip ? 'Plus会员' : '普通会员'),
         btnName: (this.userInfo.isVip ? '续费Plus' : '升级Plus')
       }

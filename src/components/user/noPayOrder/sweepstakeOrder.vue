@@ -24,7 +24,7 @@
       </div>
       <!--再一次抽奖-->
       <div class="stateBox border-bottom-1px" :class="{'isNoBottom':showLotteryIndex===2}">
-        <cell title="再一次抽奖" is-link :arrow-direction="!(showLotteryIndex===1)? 'up' : 'down'" @click.native="changeLotteryIndex(2,valueLength)">
+        <cell title="再一次抽奖" is-link :arrow-direction="!(showLotteryIndex===2)? 'up' : 'down'" @click.native="changeLotteryIndex(2,valueLength)">
           <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueLengthNext}}</span>
         </cell>
       </div>
@@ -92,7 +92,7 @@ export default {
   computed: {
     params: {
       get() {
-        if (this.showLotteryIndex === 1) {//中奖了-抽奖订单
+        if (this.showLotteryIndex === 1) {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
@@ -102,7 +102,7 @@ export default {
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
-        } else if (this.showLotteryIndex === 2) {//中奖了-金币拿订单
+        } else if (this.showLotteryIndex === 2) {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [

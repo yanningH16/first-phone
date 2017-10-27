@@ -41,7 +41,7 @@ import { XInput, Group, md5 } from 'vux'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
   name: "userQq",
-  mixins:[userInfoMixin],
+  mixins: [userInfoMixin],
   components: {
     Scroll,
     XInput,
@@ -76,12 +76,12 @@ export default {
   },
   computed: {
     userPwdPhone: {
-      get: function() {
+      get: function () {
         let reg = /^(\d{3})\d{4}(\d{4})$/;
-        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2");
+        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2")
         return tel
       },
-      set: function(v) {
+      set: function (v) {
         this.userPhone = v
       }
     }
@@ -118,7 +118,13 @@ export default {
         }).then((response) => {
           if (response.data.code === '200') {
             this.timer = setInterval(this.timeGo, 1000)
+          } else {
+            this.$vux.alert.show({
+              title: '错误提示',
+              content: response.data.message,
+            })
           }
+          this.btnCodeState = true
         }).catch((error) => {
           this.btnCodeState = true
           this.$vux.alert.show({
@@ -174,10 +180,10 @@ export default {
           })
         } else {
           this.$vux.toast.show({
-            text:'修改成功',
-            type:'success',
-            time:1000,
-            onHide(){
+            text: '修改成功',
+            type: 'success',
+            time: 1000,
+            onHide() {
               _this.$router.push({ name: 'user' })
             }
           })
@@ -192,7 +198,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-.settings 
+.settings
   height 100%
   position fixed
   width 100%
@@ -202,15 +208,15 @@ export default {
   bottom 0
   z-index 9999
   background $color-background
-  &.move-enter-active, .move-leave-active 
+  &.move-enter-active, .move-leave-active
     transition all 0.2s linear
     transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave 
+  &.move-enter, .move-leave
     transform translate3d(100%, 0, 0)
-  .scroll-content 
+  .scroll-content
     height 100%
-    .userAddressBox 
-      .info 
+    .userAddressBox
+      .info
         color $color-text-d
         font-size 1.2rem
         text-align left
@@ -218,8 +224,8 @@ export default {
         width 100%
         box-sizing border-box
         padding 0 1.8rem
-      .addressInputBox 
-        .btn 
+      .addressInputBox
+        .btn
           border-small($color-text, $border-radius)
           outline 0
           -webkit-appearance none
@@ -236,9 +242,9 @@ export default {
           background $color-theme-white
           position relative
           right -1.5rem
-        .btn-disabled 
-          opacity: 0.3
-      .btnBox 
+        .btn-disabled
+          opacity 0.3
+      .btnBox
         width 100%
         padding 2rem 1.8rem
         box-sizing border-box

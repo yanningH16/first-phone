@@ -130,13 +130,12 @@ export default {
           taskNineId: item.taskNineId,
           listNoState: goodsState.listNoState,
         }
-        if (goodsState.orderType === 2) {
+        if (goodsState.orderType === 2 || item.buyerTaskStatus === '6') {
           obj.errInfo = ''
         }
         goodsDramArr.push(obj)
       }
       this.goodsAll = [...goodsDramArr]
-      console.log(this.goodsAll)
       this.$nextTick(() => {
         this.$refs.scrollBox.refresh()
         this.canLoading = true
@@ -220,7 +219,7 @@ export default {
         }
       }
       //抽奖
-      else if (award.indexOf(taskFlag) !== -1) {
+      else if (award.indexOf(taskFlag) !== -1 && (buyerTaskStatus === '0' || buyerTaskStatus === '2' || buyerTaskStatus === '5' || buyerTaskStatus === '4')) {
         let myIndex = notify.indexOf(taskFlag)
         goodsState.orderType = 1
         if (buyerTaskStatus === '0') {
@@ -229,24 +228,27 @@ export default {
         } else if (buyerTaskStatus === '2') {
           goodsState.stateText = '未中奖'
           goodsState.isLotteryState = 0
-        } else if (buyerTaskStatus === '6') {
+        } else if (buyerTaskStatus === '5') {
           goodsState.stateText = '超时领奖'
           goodsState.isLotteryState = 2
         } else if (buyerTaskStatus === '4') {
           goodsState.stateText = '待提交审核'
           goodsState.isLotteryState = 2
         }
-      } else if (buyerTaskStatus === '2') {
+      }
+      else if (buyerTaskStatus === '2') {
         goodsState.orderType = 0
         goodsState.stateText = '未中奖'
         goodsState.isBottom = 1
         goodsState.listNoState = true
-      } else if (buyerTaskStatus === '6') {
+      }
+      else if (buyerTaskStatus === '6') {
         goodsState.orderType = 0
         goodsState.stateText = '任务已失效'
         goodsState.isBottom = 1
         goodsState.listNoState = true
       }
+      console.log(buyerTaskStatus)
       return goodsState
     },
   }

@@ -113,7 +113,7 @@ export default {
       }
       return {
         avatorUrl:this.userInfo.headPicId,
-        userName:this.userInfo.username,
+        userName:this.userInfo.username || this.userInfo.telephone,
         userState:(this.userInfo.isVip ? 1 : 0),
         userTime:userTime
       }

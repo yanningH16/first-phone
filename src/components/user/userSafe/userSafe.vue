@@ -41,25 +41,25 @@ export default {
       this.boxTwo[0].isLink = false
       this.boxTwo[0].value = '已设置'
     }
-    console.log(this.boxOne)
   },
   computed: {
     boxOne: {
       get() {
         let arr = []
         //淘宝账号状态判断
-        if (this.userInfo.alipayUserName) {
+        if (this.userInfo.taobaoId) {
           let obj = {
-            title: `绑定淘宝买号:${this.userInfo.alipayUserName}`
+            title: `绑定淘宝买号：${this.userInfo.taobaoId}`
           }
-          if (this.userInfo.checkStatus === 1) {
+          if (this.userInfo.taobaoStatus === 1) {
             obj.state = 2
             obj.isLink = false
             obj.value = '已通过审核'
-          } else if (this.userInfo.checkStatus === 0) {
+          } else if (this.userInfo.taobaoStatus === 0) {
             obj.state = 0
             obj.isLink = true
             obj.value = '未通过审核'
+            obj.link = '../registerThree'
           } else {
             obj.state = 1
             obj.isLink = true
@@ -78,8 +78,12 @@ export default {
           arr.push(obj)
         }
         //银行卡状态判断
-        if (this.userInfo.bank_card_no) {
-          let obj = {}
+        if (this.userInfo.bankCardNo) {
+          let reg = /^(\d{4})[\d]*(\d{4})$/
+          let account = this.userInfo.bankCardNo.replace(reg, "$1^-^$2");
+          let obj = {
+            title: `绑定银行卡：${account}`,
+          }
           if (this.userInfo.bankCheckStatus === 1) {
             obj.state = 2
             obj.isLink = false
@@ -88,6 +92,7 @@ export default {
             obj.state = 0
             obj.isLink = true
             obj.value = '未通过审核'
+            link: 'userSafe/yinHangKa'
           } else {
             obj.state = 1
             obj.isLink = true
@@ -101,11 +106,10 @@ export default {
             isLink: true,
             value: '',
             info: '支付宝通过审核后方可绑定',
-            state: 1
+            state: 0
           }
           arr.push(obj)
         }
-        console.log(arr)
         return arr
       },
       set(val) {

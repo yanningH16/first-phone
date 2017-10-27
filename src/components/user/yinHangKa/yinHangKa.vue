@@ -25,7 +25,8 @@ import Scroll from '../../../base/scroll/scroll'
 import Info from '../../../base/info/info'
 import Upload from '../../../base/upload/upload'
 import MButton from '../../../base/button/button'
-import { XInput, Group, XAddress, ChinaAddressV2Data, Value2nameFilter as value2name} from 'vux'
+import { XInput, Group, XAddress, ChinaAddressV2Data, Value2nameFilter as value2name } from 'vux'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "yinHangKa",
   components: {
@@ -45,17 +46,17 @@ export default {
         '为确保您的资金安全，绑定后支付宝信息、银行卡开户名不可修改，及时账号被盗，您账号里的资金也不会转移到他人的账户'
       ],
       btnSaveState: false,
-      title:'',
-      addressValue:[],
-      addressValueString:'',
+      title: '',
+      addressValue: [],
+      addressValueString: '',
       addressData: ChinaAddressV2Data,
-      userName:'',
-      userAccount:null,
-      userBsName:'',
-      userAccountType:(val)=>{
-        if(val.length>=15&&val.length<=17){
+      userName: '',
+      userAccount: null,
+      userBsName: '',
+      userAccountType: (val) => {
+        if (val.length >= 15 && val.length <= 17) {
           return {
-            valid : true
+            valid: true
           }
         }
         return {
@@ -65,28 +66,34 @@ export default {
       }
     }
   },
-  watch:{
-    addressValue(value){
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
+  watch: {
+    addressValue(value) {
+      console.log(value)
       this.addressValueString = value2name(value, ChinaAddressV2Data)
       this.checkState()
     },
-    userName(){
+    userName() {
       this.checkState()
     },
-    userBsName(){
+    userBsName() {
       this.checkState()
     },
-    userAccount(){
+    userAccount() {
       this.checkState()
     }
   },
   methods: {
-    checkState(){
+    checkState() {
       let isUserName = this.$refs.userName.valid
       let isAccount = this.$refs.userAccount.valid
-      let isAddressValueString = this.addressValueString.length >0
-      let isUserBsName = this.userBsName.length >0
-      if(isUserName&&isAccount&&isAddressValueString&&isUserBsName){
+      let isAddressValueString = this.addressValueString.length > 0
+      let isUserBsName = this.userBsName.length > 0
+      if (isUserName && isAccount && isAddressValueString && isUserBsName) {
         this.btnSaveState = true
         return false
       }
@@ -94,38 +101,72 @@ export default {
     },
     //保存地址
     apply() {
-      console.log(123)
       //ajax请求
       if (this.btnSaveState) {
         console.log('保存')
+        this.$axios.post('/api/user/update', {
+          telephone: this.userInfo.telephone,
+          bankCardUserName: this.userName,
+          bankCardNo: this.userAccount,
+          bankLocationCity: this.addressValueString,
+          bankName: this.userBsName
+        }).then((response) => {
+          if (response.data.code === '200') {
+            let _this = this
+            let obj = Object.assign({}, this.userInfo, {
+              bankCardUserName: this.userName,
+              bankCardNo: this.userAccount,
+              bankLocationCity: this.addressValueString,
+              bankName: this.userBsName
+            })
+            this.setUserInfo(obj)
+            this.$vux.toast.show({
+              text: '保存成功',
+              onHide() {
+                _this.$router.push({ name: 'settings' });
+              }
+            })
+          } else {
+            this.$vux.toast.show({
+              text: '设置失败，请重试',
+              type: 'warn',
+            })
+          }
+
+        }).catch((error) => {
+          console.log(error)
+        })
       }
-    }
+    },
+    ...mapActions([
+      'setUserInfo'
+    ])
   }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .settings
+.settings
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .scroll-content
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active 
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .scroll-content
-      height 100%
-      .groupBox
-        margin-top 1.2rem
-      .btnBox
-        box-sizing border-box
-        padding 0 1.6rem
+    .groupBox
+      margin-top 1.2rem
+    .btnBox
+      box-sizing border-box
+      padding 0 1.6rem
 </style>
