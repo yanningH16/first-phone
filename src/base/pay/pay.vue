@@ -3,8 +3,8 @@
     <div class="payMoney">
       <h1 class="title">{{title}}</h1>
       <div class="payMoneyBox">
-        <checker v-model="myMoneyIndex" :max="1" type="radio" :radio-required="radioRequired" default-item-class="pay-item" selected-item-class="pay-item-selected">
-          <checker-item :value="index" v-for="(item, index) in moneyBox" :key="index">
+        <checker v-model="myMoneyIndex" :max="1"  type="radio" :radio-required="radioRequired" default-item-class="pay-item" selected-item-class="pay-item-selected">
+          <checker-item :value="index" v-for="(item, index) in moneyBox" :key="index" >
             <div class="typeOne" v-show="type === 0">
               <p class="price">{{item.price}}</p>
               <p class="oldPrice">原价{{item.oldPrice}}</p>
@@ -78,7 +78,7 @@ export default {
       type: Number,
       default: 0
     },
-    isChosed:{
+    isChosed: {
       type: Boolean,
       default: false
     },
@@ -113,6 +113,7 @@ export default {
   },
   watch: {
     myMoneyIndex(newval) {
+      console.log(newval)
       this.$emit('index-change', newval)
     },
     moneyIndex(newval) {
@@ -124,19 +125,19 @@ export default {
     isChecked(newval) {
       this.isMyChecked = newval
     },
-    isMyChosed(newval){
-       this.$emit('isChosed-change', newval)
+    isMyChosed(newval) {
+      this.$emit('isChosed-change', newval)
     },
-    isChosed(newval){
-       this.isMyChosed = newval
+    isChosed(newval) {
+      this.isMyChosed = newval
     },
   },
   data() {
     return {
       myMoneyIndex: null,
       isMyChecked: null,
-      isMyChosed:null,
-      radioRequired:true
+      isMyChosed: null,
+      radioRequired: true
     }
   },
   methods: {
@@ -151,129 +152,227 @@ export default {
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../assets/stylus/variable.styl'
-  .payBox
-    width 100%
-    background #fff
-    box-sizing border-box
-    padding 16px
-    .title
-      height 1.4rem
-      font-size 1.4rem
-      font-weight 300
-      line-height 1
-      color $color-text-d
-      margin-bottom 20px
-    .vux-checker-box
-      display flex
-      // justify-content space-around
-      flex-wrap wrap
-      // align-content center
-      .pay-item
-        display :inline-block
-        flex:0 0 30%
-        padding 1.5rem 0
-        box-sizing border-box
-        border 1px solid #d4d5d8
-        text-align center
-        margin-bottom 5%
-        margin-right 5%
-        &:nth-child(3n+3)
-          margin-right 0
+.payBox
+  width 100%
+  background #fff
+  box-sizing border-box
+  padding 16px
+  .title
+    height 1.4rem
+    font-size 1.4rem
+    font-weight 300
+    line-height 1
+    color $color-text-d
+    margin-bottom 20px
+  .vux-checker-box
+    display flex
+    // justify-content space-around
+    flex-wrap wrap
+    // align-content center
+    .pay-item
+      display inline-block
+      flex 0 0 30%
+      padding 1.5rem 0
+      box-sizing border-box
+      border 1px solid #d4d5d8
+      text-align center
+      margin-bottom 5%
+      margin-right 5%
+      &:nth-child(3n+3)
+        margin-right 0
+      .price
+        font-size 1.6rem
+        color $color-text
+      .oldPrice, .type, .info
+        font-size 1rem
+        margin-bottom 0.5rem
+      .oldPrice
+        margin-top 1.2rem
+        color $color-text-d
+      // text-decoration line-through
+      .type, .info
+        color $color-text-d
+        white-space nowrap
+      .typeOne
         .price
-          font-size 1.6rem
-          color $color-text
-        .oldPrice,.type,.info
-          font-size 1rem
+          margin-bottom 1rem
+      .typeTwo
+        .price
           margin-bottom 0.5rem
-        .oldPrice
-          margin-top 1.2rem
-          color $color-text-d
-          // text-decoration line-through
-        .type,.info
-          color $color-text-d
-          white-space nowrap
-        .typeOne
-          .price
-            margin-bottom 1rem
-        .typeTwo
-          .price
-            margin-bottom 0.5rem
-          .info
-            color $color-error 
-      .pay-item-selected
-        border 1px solid $color-text
-        position relative
-        &:after
-          content ''
-          display inline-block
-          width 3rem
-          height 3rem
-          position absolute
-          top 0
-          right 0
-          background url('checked.png') 
-          background-repeat :no-repeat
-          background-size 3rem 3rem
-    .payTypeBox
-      .payTypeBoxContent
-        font-size 0
-        display flex
-        padding 1.5rem 0 
-        position relative
-        &:after
-          content :''
-          display inline-block
-          width 110%
-          position absolute
-          bottom 0
-          border-bottom 1px solid #d4d5d8
-        &:first-child
-          padding-top 0
-        &:last-child
-          padding-bottom 0
-        &:last-child:after
-          border-bottom : none
-        .icon
-          width 2.1rem
-          height 2.1rem
-          flex 0 0 2.1rem
-          margin 0.45rem 0
+        .info
+          color $color-error
+    .pay-item-selected
+      border 1px solid $color-text
+      position relative
+      &:after
+        content ''
+        display inline-block
+        width 3rem
+        height 3rem
+        position absolute
+        top 0
+        right 0
+        background url('checked.png')
+        background-repeat no-repeat
+        background-size 3rem 3rem
+  .payTypeBox
+    .payTypeBoxContent
+      font-size 0
+      display flex
+      padding 1.5rem 0
+      position relative
+      &:after
+        content ''
+        display inline-block
+        width 110%
+        position absolute
+        bottom 0
+        border-bottom 1px solid #d4d5d8
+      &:first-child
+        padding-top 0
+      &:last-child
+        padding-bottom 0
+      &:last-child:after
+        border-bottom none
+      .icon
+        width 2.1rem
+        height 2.1rem
+        flex 0 0 2.1rem
+        margin 0.45rem 0
+      .text
+        flex 1
+        margin-left 1.5rem
+        display inline-block
+        font-size 1.4rem
+        color $color-text
+        height 3rem
+        line-height 3rem
+        vertical-align bottom
+      .btnContainer
+        flex 0 0 2.1rem
+        height 3rem
+        line-height 3rem
+      .letter
+        height 3rem
+        line-height 3rem
+        text-align right
         .text
-          flex 1
-          margin-left 1.5rem
-          display inline-block
-          font-size 1.4rem
-          color $color-text
-          height 3rem
-          line-height 3rem
-          vertical-align: bottom
-        .btnContainer
-          flex 0 0 2.1rem
-          height 3rem
-          line-height 3rem
-        .letter
-          height 3rem
-          line-height 3rem
-          text-align right
-          .text
-            font-size $font-size-small
-            color $color-text-d
-            margin-right 1rem
-    .payMoney
-      margin-bottom  10px
+          font-size $font-size-small
+          color $color-text-d
+          margin-right 1rem
+  .payMoney
+    margin-bottom 10px
 </style>
 <style lang="stylus" rel="stylesheet/stylus">
-  .weui-switch, .weui-switch-cp__box
-    height 30px
-    width 50px
-    vertical-align middle
-  .weui-switch:after, .weui-switch-cp__box:after
-    width 28px
-    height 28px
-  .weui-switch:before, .weui-switch-cp__box:before
-    height 28px
-    width 48px
-  .weui-switch:checked, .weui-switch-cp__input:checked ~ .weui-switch-cp__box
-    border-color #ff3340
-    background-color #ff3340
+@import '../../assets/stylus/variable.styl'
+.payBox
+  width 100%
+  background #fff
+  box-sizing border-box
+  padding 16px
+  .title
+    height 1.4rem
+    font-size 1.4rem
+    font-weight 300
+    line-height 1
+    color $color-text-d
+    margin-bottom 20px
+  .vux-checker-box
+    display flex
+    // justify-content space-around
+    flex-wrap wrap
+    // align-content center
+    .pay-item
+      display inline-block
+      flex 0 0 30%
+      padding 1.5rem 0
+      box-sizing border-box
+      border 1px solid #d4d5d8
+      text-align center
+      margin-bottom 5%
+      margin-right 5%
+      &:nth-child(3n+3)
+        margin-right 0
+      .price
+        font-size 1.6rem
+        color $color-text
+      .oldPrice, .type, .info
+        font-size 1rem
+        margin-bottom 0.5rem
+      .oldPrice
+        margin-top 1.2rem
+        color $color-text-d
+      // text-decoration line-through
+      .type, .info
+        color $color-text-d
+        white-space nowrap
+      .typeOne
+        .price
+          margin-bottom 1rem
+      .typeTwo
+        .price
+          margin-bottom 0.5rem
+        .info
+          color $color-error
+    .pay-item-selected
+      border 1px solid $color-text
+      position relative
+      &:after
+        content ''
+        display inline-block
+        width 3rem
+        height 3rem
+        position absolute
+        top 0
+        right 0
+        background url('checked.png')
+        background-repeat no-repeat
+        background-size 3rem 3rem
+  .payTypeBox
+    .payTypeBoxContent
+      font-size 0
+      display flex
+      padding 1.5rem 0
+      position relative
+      &:after
+        content ''
+        display inline-block
+        width 110%
+        position absolute
+        bottom 0
+        border-bottom 1px solid #d4d5d8
+      &:first-child
+        padding-top 0
+      &:last-child
+        padding-bottom 0
+      &:last-child:after
+        border-bottom none
+      .icon
+        width 2.1rem
+        height 2.1rem
+        flex 0 0 2.1rem
+        margin 0.45rem 0
+      .text
+        flex 1
+        margin-left 1.5rem
+        display inline-block
+        font-size 1.4rem
+        color $color-text
+        height 3rem
+        line-height 3rem
+        vertical-align bottom
+      .btnContainer
+        flex 0 0 2.1rem
+        height 3rem
+        line-height 3rem
+      .letter
+        height 3rem
+        line-height 3rem
+        text-align right
+        .text
+          font-size $font-size-small
+          color $color-text-d
+          margin-right 1rem
+  .payMoney
+    margin-bottom 10px
 </style>

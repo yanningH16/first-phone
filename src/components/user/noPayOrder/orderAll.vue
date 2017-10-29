@@ -92,10 +92,10 @@ export default {
   methods: {
     //存数据
     setGoodsList(data) {
+      // console.log(data)
       let goodsDramArr = []
       for (let item of data) {
-        let goodsState = this.setGoodsState(item.taskFlag, item.buyerTaskStatus)
-        let timeInfo = this.setTime(item.gmtModify)
+        let goodsState = this.setGoodsState(item)
         let obj = {
           orderType: goodsState.orderType,
           platformId: item.platformId,
@@ -109,12 +109,12 @@ export default {
           num: `${item.numPerOrder}件`,
           price: item.price,
           orderNum: item.buyerTaskRecordId,
-          info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
+          info: goodsState.info,
           isLotteryState: goodsState.isLotteryState,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
-          errInfo: item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系',
+          errInfo: goodsState.errInfo,
           taskFlag: item.taskFlag,
           taskType: item.taskType,
           sellerTaskId: item.sellerTaskId,
@@ -130,8 +130,10 @@ export default {
           taskNineId: item.taskNineId,
           listNoState: goodsState.listNoState,
         }
-        if (goodsState.orderType === 2 || item.buyerTaskStatus === '6') {
+        //无错误信息判断
+        if (goodsState.orderType === 2 || item.buyerTaskStatus === '6' || item.buyerTaskStatus === '7') {
           obj.errInfo = ''
+          obj.info = ''
         }
         goodsDramArr.push(obj)
       }
@@ -142,24 +144,27 @@ export default {
       })
     },
     //设置内容状态
-    setGoodsState(taskFlag, buyerTaskStatus) {
+    setGoodsState(item) {
       let goodsState = {}
-      if (notify.indexOf(taskFlag) !== -1 && buyerTaskStatus === '12') {
-        let myIndex = notify.indexOf(taskFlag)
+      if (notify.indexOf(item.taskFlag) !== -1 && item.buyerTaskStatus === '12') {
+        let myIndex = notify.indexOf(item.taskFlag)
         goodsState.orderType = 4
-        if (buyerTaskStatus === '12') {
+        if (item.buyerTaskStatus === '12') {
           if (myIndex >= 0 && myIndex <= 4) {
             goodsState.stateText = '订单审核未通过'
             goodsState.btnText = '修改申请'
             goodsState.isBottom = false
+            goodsState.errInfo = item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系'
           } else if (myIndex > 4 && myIndex <= 9) {
             goodsState.stateText = '预评价审核未通过'
             goodsState.btnText = '修改预评价'
             goodsState.isBottom = false
+            goodsState.errInfo = item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系'
           } else if (myIndex > 9 && myIndex <= 14) {
             goodsState.stateText = '评价审核未通过'
             goodsState.btnText = ''
             goodsState.isBottom = true
+            goodsState.errInfo = '评价有问题，待平台与您联系'
           } else if (myIndex > 14 && myIndex <= 19) {
             goodsState.stateText = '预追评审核未通过'
             goodsState.btnText = '修改预追评'
@@ -168,14 +173,15 @@ export default {
             goodsState.stateText = '追评审核未通过'
             goodsState.btnText = ''
             goodsState.isBottom = true
+            goodsState.errInfo = '评价有问题，待平台与您联系'
           }
         }
       }
       //评价的状态
-      else if (comment.indexOf(taskFlag) !== -1 && (buyerTaskStatus === '4' || buyerTaskStatus === '9')) {
-        let myIndex = comment.indexOf(taskFlag)
+      else if (comment.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
+        let myIndex = comment.indexOf(item.taskFlag)
         goodsState.orderType = 3
-        if (buyerTaskStatus === '4') {
+        if (item.buyerTaskStatus === '4') {
           if (myIndex >= 0 && myIndex <= 3) {
             goodsState.stateText = '待预评价'
             goodsState.isEvaluateState = 0
@@ -189,7 +195,7 @@ export default {
             goodsState.stateText = '待追评到淘宝'
             goodsState.isEvaluateState = 3
           }
-        } else if (buyerTaskStatus === '9') {
+        } else if (item.buyerTaskStatus === '9') {
           if (myIndex >= 0 && myIndex <= 3) {
             goodsState.stateText = '预评价审核中'
             goodsState.isEvaluateState = 4
@@ -207,15 +213,15 @@ export default {
         }
       }
       //中奖了的状态
-      else if (awarded.indexOf(taskFlag) !== -1 && (buyerTaskStatus === '4' || buyerTaskStatus === '5' || buyerTaskStatus === '9')) {
+      else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '9')) {
         goodsState.orderType = 2
-        if (buyerTaskStatus === '4') {
+        if (item.buyerTaskStatus === '4') {
           goodsState.stateText = '待领奖'
           goodsState.isLotteryState = 0
-        } else if (buyerTaskStatus === '9') {
+        } else if (item.buyerTaskStatus === '9') {
           goodsState.stateText = '订单审核中'
           goodsState.isBottom = 1
-        } else if (buyerTaskStatus === '6') {
+        } else if (item.buyerTaskStatus === '6') {
           goodsState.stateText = '超时领奖'
           goodsState.isLotteryState = 2
           goodsState.isBottom = 1
@@ -223,34 +229,41 @@ export default {
         }
       }
       //抽奖
-      else if (award.indexOf(taskFlag) !== -1 && (buyerTaskStatus === '0' || buyerTaskStatus === '2' || buyerTaskStatus === '5' || buyerTaskStatus === '4')) {
-        let myIndex = notify.indexOf(taskFlag)
+      else if (award.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '0' || item.buyerTaskStatus === '2' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '4')) {
+        let myIndex = notify.indexOf(item.taskFlag)
         goodsState.orderType = 1
-        if (buyerTaskStatus === '0') {
+        if (item.buyerTaskStatus === '0') {
           goodsState.stateText = '待开奖'
           goodsState.isLotteryState = 3
-        } else if (buyerTaskStatus === '2') {
+        } else if (item.buyerTaskStatus === '2') {
           goodsState.stateText = '未中奖'
           goodsState.isLotteryState = 0
-        } else if (buyerTaskStatus === '5') {
+        } else if (item.buyerTaskStatus === '5') {
           goodsState.stateText = '超时领奖'
           goodsState.isLotteryState = 2
-        } else if (buyerTaskStatus === '4') {
+          goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
+        } else if (item.buyerTaskStatus === '4') {
           goodsState.stateText = '待提交审核'
           goodsState.isLotteryState = 2
+          goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         }
       }
-      else if (buyerTaskStatus === '2') {
+      else if (item.buyerTaskStatus === '2') {
         goodsState.orderType = 0
         goodsState.stateText = '未中奖'
         goodsState.isBottom = 1
         goodsState.listNoState = true
       }
-      else if (buyerTaskStatus === '6') {
+      else if (item.buyerTaskStatus === '6') {
         goodsState.orderType = 0
         goodsState.stateText = '任务已失效'
         goodsState.isBottom = 1
         goodsState.listNoState = true
+      }
+      else if (item.buyerTaskStatus === '7') {
+        goodsState.orderType = 0
+        goodsState.stateText = '交易成功'
+        goodsState.isBottom = 1
       }
       return goodsState
     },
@@ -312,6 +325,7 @@ export default {
         .btn
           font-size $font-size-medium
           padding 0.8rem 1.2rem
+          display inline-block
           color $color-text
           margin-left 1.2rem
           border-small($color-text, $border-radius)

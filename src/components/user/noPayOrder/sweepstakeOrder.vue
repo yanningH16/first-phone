@@ -127,20 +127,19 @@ export default {
     setGoodsList(data) {
       let goodsDramArr = []
       for (let item of data) {
-        let goodsState = this.setGoodsState(item.taskFlag, item.buyerTaskStatus)
-        let timeInfo = this.setTime(item.gmtModify)
+        let goodsState = this.setGoodsState(item)
         let obj = {
           goodsImg: item.platformPicId,
           shopName: item.shopName,
           stateText: goodsState.stateText,
           btnText: goodsState.btnText,
           goodsName: item.productName,
-          temp: typeArr[(parseInt(item.taskType) - 1)] || '无',
+          temp: this.typeArr[(parseInt(item.taskType) - 1)] || '无',
           coinType: 2,
           num: `${item.numPerOrder}件`,
           price: item.price,
           orderNum: item.buyerTaskRecordId,
-          info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
+          info: goodsState.info,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
@@ -151,14 +150,10 @@ export default {
         }
         goodsDramArr.push(obj)
       }
-      if (this.showAwardIndex === 1) {
-        this.goodsDraw = [...goodsDramArr]
-      } else if (this.showAwardIndex === 2) {
-        this.goodsCoin = [...goodsDramArr]
-      } else if (this.showAwardIndex === 3) {
-        this.goodsMust = [...goodsDramArr]
-      } else if (this.showAwardIndex === 4) {
-        this.goodsPlus = [...goodsDramArr]
+      if (this.showLotteryIndex === 1) {
+        this.goodsLottery = [...goodsDramArr]
+      } else if (this.showLotteryIndex === 2) {
+        this.goodsLotteryNext = [...goodsDramArr]
       }
       this.$nextTick(() => {
         this.$refs.scrollBox.refresh()
@@ -166,21 +161,24 @@ export default {
       })
     },
     //设置内容状态
-    setGoodsState(taskFlag, buyerTaskStatus) {
+    setGoodsState(item) {
       let goodsState = {}
-      let myIndex = award.indexOf(taskFlag)
-      if (buyerTaskStatus === '0') {
+      let myIndex = award.indexOf(item.taskFlag)
+      if (item.buyerTaskStatus === '0') {
         goodsState.stateText = '待开奖'
         goodsState.isLotteryState = 3
-      } else if (buyerTaskStatus === '2') {
+      } else if (item.buyerTaskStatus === '2') {
         goodsState.stateText = '未中奖'
         goodsState.isLotteryState = 0
-      } else if (buyerTaskStatus === '6') {
+        goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
+      } else if (item.buyerTaskStatus === '6') {
         goodsState.stateText = '超时领奖'
         goodsState.isLotteryState = 2
-      } else if (buyerTaskStatus === '4') {
+        goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
+      } else if (item.buyerTaskStatus === '4') {
         goodsState.stateText = '待提交审核'
         goodsState.isLotteryState = 2
+        goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }
       return goodsState
     },
@@ -208,7 +206,7 @@ export default {
         return false
       }
       this.showLotteryIndex = index
-      this.doInfo()
+      this.getApi()
     },
     //(特殊tarbar)获得条数
     getColums() {

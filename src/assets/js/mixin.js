@@ -83,11 +83,11 @@ export const orderOperate = {
     orderList: {
       handler(val) {
         let myArr = []
-        val.forEach((item, i) => {
-          let obj = Object.assign(item, this.axiosResult[i])
-          myArr.push(obj)
-        })
-        if (val.length === this.axiosResult.length * this.pageNo) {
+        if (val.length === (this.axiosResult.length + (this.pageNo - 1) * this.pageSize)) {
+          val.forEach((item, i) => {
+            let obj = Object.assign(item, this.axiosResult[i - (this.pageNo - 1) * this.pageSize])
+            myArr.push(obj)
+          })
           this.setGoodsList(myArr)
         }
       },
@@ -227,8 +227,6 @@ export const evaluateOrderOperate = {
       } else if (index > 11 && index <= 15) { //评价+追评
         taskIndex = item.taskNineId
       }
-      console.log(item)
-      console.log(orderRouter[taskIndex - 1])
       this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //申请售后
@@ -244,7 +242,6 @@ export const rejectOrderOperate = {
     rejectOperate(item, taskFlag) {
       let myIndex = notify.indexOf(taskFlag)
       let taskIndex
-      console.log(taskIndex)
       if (myIndex >= 0 && myIndex <= 4) {
         taskIndex = item.taskFourId
       } else if (myIndex > 4 && myIndex <= 9) {
@@ -274,8 +271,6 @@ export const winningOrderOperate = {
         'sureGetStep1'
       ]
       let index = awarded.indexOf(item.taskFlag)
-      console.log(awarded)
-      console.log(item)
       this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //删除订单

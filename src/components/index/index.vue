@@ -223,7 +223,6 @@ export default {
     getRecommendSure() {
       let that = this;
       this.$axios.get('/api/homePage/getRecommendSure').then(function (data) {
-        console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
           for (let m of data.data.data) {
@@ -284,7 +283,7 @@ export default {
           })
         }
       }).catch(function (err) {
-        console.log(err);
+        console.log(err)
       })
     },
     //获取热门的商品品类的列表

@@ -2,7 +2,7 @@
   <transition name="move">
     <div class="userContainer">
       <div class="userContainerBox">
-        <scroll style="height:100%" :click="isClick" :preventDefaultException="preventDefaultException">
+        <scroll style="height:100%" :click="isClick" :preventDefaultException="preventDefaultException" ref="scrollConent">
           <div class="register">
             <div class="header">
               <img src="./taobao.png" alt="">
@@ -108,12 +108,6 @@ export default {
     }
   },
   computed: {
-
-  },
-  mounted() {
-    console.log(this.userPhone)
-  },
-  computed: {
     btnSaveState: {
       get() {
         let isHasTb = (this.taobao.length !== 0)
@@ -124,6 +118,9 @@ export default {
         let isSfz = (this.sfz.length !== 0)
         let isSMImgUrl = (this.imgSM && this.imgSM.length === 1)
         let isHBImgUrl = (this.imgHB && this.imgHB.length >= 1)
+        this.$nextTick(() => {
+          this.$refs.scrollConent.refresh()
+        })
         if (isHasTb && isWWImgUrl && isLevel && isXm && isZfb && isSfz && isSMImgUrl && isHBImgUrl) {
           return true
         } else {
@@ -150,35 +147,48 @@ export default {
     },
     doResponse() {
       if (this.btnSaveState) {
-        this.$axios.post('/api/user/register3', {
-          telephone: this.userPhone,
-          taobaoId: this.taobao,
-          taobaoLevel: parseInt(this.list[0].indexOf(this.taobaoLevel)) + 2,
-          taobaoAccountPicId: this.imgWW[0],
-          fullName: this.xm,
-          alipayAccountNo: this.zfb,
-          alipayUserIdcard: this.sfz,
-          realNameAuthPicUrl: this.imgSM[0],
-          huabeiPicsUrl: this.imgHB
-        }).then((response) => {
-          let data = response.data
-          if (data.code !== "200") {
-            this.$vux.alert.show({
-              title: '错误提示',
-              content: data.message,
-            })
-          } else {
-            //登录成功
-            this.$router.push({ name: 'login' })
-            this.btnSaveState = true
+        let _this = this
+        this.$vux.confirm.show({
+          title: '提示',
+          content: '买号绑定后将不能继续修改买号信息，确认提交？',
+          onConfirm() {
+            _this.doApi()
           }
-        }).catch((error) => {
-          this.$vux.alert.show({
-            title: '错误提示',
-            content: '服务器错误',
-          })
         })
       }
+    },
+    doApi() {
+      let content = {
+        title: '提交成功，请耐心等待',
+        info: '当天提交的支付宝审核预计在1小时左右完成审核,21:00之后提交的将于次日审核'
+      }
+      this.$axios.post('/api/user/register3', {
+        telephone: this.userPhone,
+        taobaoId: this.taobao,
+        taobaoLevel: parseInt(this.list[0].indexOf(this.taobaoLevel)) + 2,
+        taobaoAccountPicId: this.imgWW[0],
+        fullName: this.xm,
+        alipayAccountNo: this.zfb,
+        alipayUserIdcard: this.sfz,
+        realNameAuthPicUrl: this.imgSM[0],
+        huabeiPicsUrl: this.imgHB
+      }).then((response) => {
+        let data = response.data
+        if (data.code !== "200") {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: data.message,
+          })
+        } else {
+          //登录成功
+          this.$router.push({ name: 'state', params: { content: content } })
+        }
+      }).catch((error) => {
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '服务器错误',
+        })
+      })
     },
     //选择旺旺等级
     onChange(val) {

@@ -66,7 +66,7 @@ export default {
     setGoodsList(data) {
       let goodsDramArr = []
       for (let item of data) {
-        let goodsState = this.setGoodsState(item.taskFlag, item.buyerTaskStatus)
+        let goodsState = this.setGoodsState(item)
         let timeInfo = this.setTime(item.gmtModify)
         let obj = {
           platformId: item.platformId,
@@ -83,7 +83,7 @@ export default {
           info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
-          errInfo: item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系',
+          errInfo: goodsState.errInfo,
           taskFlag: item.taskFlag,
           taskType: item.taskType,
           sellerTaskId: item.sellerTaskId,
@@ -103,30 +103,35 @@ export default {
       })
     },
     //设置内容状态
-    setGoodsState(taskFlag, buyerTaskStatus) {
-      let myIndex = notify.indexOf(taskFlag)
+    setGoodsState(item) {
+      let myIndex = notify.indexOf(item.taskFlag)
       let goodsState = {}
-      if (buyerTaskStatus === '12') {
+      if (item.buyerTaskStatus === '12') {
         if (myIndex >= 0 && myIndex <= 4) {
           goodsState.stateText = '订单审核未通过'
           goodsState.btnText = '修改申请'
           goodsState.isBottom = false
+          goodsState.errInfo = item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系'
         } else if (myIndex > 4 && myIndex <= 9) {
           goodsState.stateText = '预评价审核未通过'
           goodsState.btnText = '修改预评价'
           goodsState.isBottom = false
+          goodsState.errInfo = item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系'
         } else if (myIndex > 9 && myIndex <= 14) {
           goodsState.stateText = '评价审核未通过'
           goodsState.btnText = ''
           goodsState.isBottom = true
+          goodsState.errInfo =  '评价有问题，待平台与您联系'
         } else if (myIndex > 14 && myIndex <= 19) {
           goodsState.stateText = '预追评审核未通过'
           goodsState.btnText = '修改预追评'
           goodsState.isBottom = false
+          goodsState.errInfo = item.remarks ? `未通过原因 ${item.remarks}` : '评价有问题，待平台与您联系'
         } else if (myIndex > 19 && myIndex <= 24) {
           goodsState.stateText = '追评审核未通过'
           goodsState.btnText = ''
           goodsState.isBottom = true
+          goodsState.errInfo =  '评价有问题，待平台与您联系'
         }
       }
       return goodsState

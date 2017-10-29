@@ -2,7 +2,7 @@
   <transition name="move">
     <div class="userContainer">
       <div class="userContainerBox">
-        <div class="login">
+        <div class="login" ref="login">
           <p class="info" @click="goRegister">去注册</p>
           <div class="header">
             <p class="text">手机号密码登录</p>
@@ -55,6 +55,7 @@ export default {
   },
   mounted() {
     this.phone = this.userPhone
+    this.$refs.login.style.height = `${document.body.clientHeight}px`
   },
   watch: {
     phone() {
@@ -161,7 +162,6 @@ export default {
     .login
       height 100%
       position relative
-      min-height 568px
       .info
         text-align right
         padding-right 1.6rem

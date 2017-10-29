@@ -2,7 +2,7 @@
   <transition name="move">
     <div class="userContainer">
       <div class="userContainerBox">
-        <scroll class="scrollBox" :click="!isClick" :preventDefaultException="preventDefaultException">
+        <scroll class="scrollBox" ref="scrollBox" :click="!isClick" :preventDefaultException="preventDefaultException">
           <div>
             <div class="userHeader">
               <div class="avator">
@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ },
+      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|DIV|P)$/ },
       isClick: true,
       paytype: 2,
       type: 2,
@@ -94,6 +94,12 @@ export default {
       chosed: true
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.scrollBox.refresh()
+      this.canLoading = true
+    })
+  },
   computed: {
     ataloCount: {
       get() {
@@ -106,22 +112,25 @@ export default {
         return val
       }
     },
-    userSetInfo(){
+    userSetInfo() {
       let userTime
       if (this.userInfo.vipEndtime) {
         userTime = this.userInfo.vipEndtime.slice(0, 10)
       }
       return {
-        avatorUrl:this.userInfo.headPicId,
-        userName:this.userInfo.username || this.userInfo.telephone,
-        userState:(this.userInfo.isVip ? 1 : 0),
-        userTime:userTime
+        avatorUrl: this.userInfo.headPicId,
+        userName: this.userInfo.username || this.userInfo.telephone,
+        userState: (this.userInfo.isVip ? 1 : 0),
+        userTime: userTime
       }
     }
-    
+
   },
   methods: {
     choosePay(index) {
+      // if (index === this.moneyIndex) {
+      //   return false
+      // }
       this.moneyIndex = index
     },
     isChosed(val) {
@@ -186,98 +195,98 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .userContainer
+.userContainer
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .userContainerBox
+    background #eff0f2
+    display flex
+    flex-direction column
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active 
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .userContainerBox
-      background #eff0f2
-      display flex
-      flex-direction column
-      height 100%
-      .scrollBox
-        flex 1
-        overflow hidden
-        margin-bottom 5rem
-        .userHeader
-          font-family PingFangSC
-          width 100%
-          height 13.4rem
-          box-sizing border-box
-          background-size 100% 
-          padding 2.8rem 2rem
-          background-image url('../userHeader/profile_bg.svg')
-          display flex
-          .avator
-            height 7rem
-            flex 0 0 7rem
-            .avatorImg
-              width 100%
-              height 100%
-          .info
-            flex 1
-            display flex
-            flex-direction column
-            margin-left 1rem
-            .top
-              flex 1
-              .name
-                margin-left 0.5rem
-                font-size $font-size-medium-x
-                color $color-theme-white
-                margin-right 0.5rem
-                // vertical-align text-top
-              .tag
-                font-size $font-size-medium
-                color $color-text-d
-            .bottom
-              flex 1
-              font-size $font-size-medium
-              color $color-text-d
-      .plusInfo
+    .scrollBox
+      flex 1
+      overflow hidden
+      margin-bottom 5rem
+      .userHeader
+        font-family PingFangSC
         width 100%
+        height 13.4rem
         box-sizing border-box
-        padding 1.2rem 0
-        line-height 2rem
-        img
-          width 100%
-      .btnBottomBox
-        flex 0 0 5rem
-        height 5rem
-        line-height 5rem
-        font-size 0
-        background #fff
-        position fixed
-        width 100%
-        bottom 0
-        right 0
+        background-size 100%
+        padding 2.8rem 2rem
+        background-image url('../userHeader/profile_bg.svg')
         display flex
+        .avator
+          height 7rem
+          flex 0 0 7rem
+          .avatorImg
+            width 100%
+            height 100%
         .info
           flex 1
-          text-align right
-          padding-right 1.2rem
-          .name
-            font-size 1.2rem
-          .text
-            color $color-theme
-            font-size $font-size-large-x
-            position relative
-            top 0.2rem
-        .btn
-          flex 0 0 12.8rem
-          color $color-theme-white
-          background $color-theme
-          font-size $font-size-medium-x 
-          text-align center
+          display flex
+          flex-direction column
+          margin-left 1rem
+          .top
+            flex 1
+            .name
+              margin-left 0.5rem
+              font-size $font-size-medium-x
+              color $color-theme-white
+              margin-right 0.5rem
+            // vertical-align text-top
+            .tag
+              font-size $font-size-medium
+              color $color-text-d
+          .bottom
+            flex 1
+            font-size $font-size-medium
+            color $color-text-d
+    .plusInfo
+      width 100%
+      box-sizing border-box
+      padding 1.2rem 0
+      line-height 2rem
+      img
+        width 100%
+    .btnBottomBox
+      flex 0 0 5rem
+      height 5rem
+      line-height 5rem
+      font-size 0
+      background #fff
+      position fixed
+      width 100%
+      bottom 0
+      right 0
+      display flex
+      .info
+        flex 1
+        text-align right
+        padding-right 1.2rem
+        .name
+          font-size 1.2rem
+        .text
+          color $color-theme
+          font-size $font-size-large-x
+          position relative
+          top 0.2rem
+      .btn
+        flex 0 0 12.8rem
+        color $color-theme-white
+        background $color-theme
+        font-size $font-size-medium-x
+        text-align center
 </style>
