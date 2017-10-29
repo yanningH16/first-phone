@@ -21,7 +21,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ goodsObj.productFormat ? goodsObj.productFormat : '任意规格' }}</span>
             </li>
             <li>
               <strong>价格</strong>
@@ -32,12 +32,12 @@
         <div class="step2">
           <h2>二、将评价内容打字到手机淘宝</h2>
           <p>请在快递签收后，前去淘宝输入评价内容</p>
-          <textarea readonly name="" id="" :value="commonMsg"></textarea>
+          <textarea name="" id="" :value="commonMsg"></textarea>
         </div>
         <div class="step2">
           <h2>三、将图片上传到手机淘宝</h2>
-          <p>完成该步骤可额外获得
-            <span style="color: red">6金币</span>奖励</p>
+          <!-- <p>完成该步骤可额外获得
+            <span style="color: red">6金币</span>奖励</p> -->
           <div class="showImg">
             <img src="../img/showImg.jpg" alt="">
             <img src="../img/showImg.jpg" alt="">

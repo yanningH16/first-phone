@@ -29,7 +29,7 @@
         </div>
         <div class="stepTwo">
           <h2>二、五星文字好评</h2>
-          <p>评价中需包含关键字：{{ goodsObj.additionalFavorKeyword }}</p>
+          <p>评价中需包含关键字：{{ goodsObj.additionalFavorKeyword.join(',') }}</p>
           <textarea name="" id="" v-model="goodCommon" placeholder="撰写商品的评价，评价内容要求至少15个字以上，优质评价将提升你以后的中奖率"></textarea>
         </div>
         <div class="warn">
