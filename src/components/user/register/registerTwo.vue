@@ -62,11 +62,12 @@ export default {
         } else {
           //登录成功
           this.btnSaveState = true
+          this.stateText = '已绑定'
         }
       }).catch((error) => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: 服务器错误,
+          content: '服务器错误',
         })
       })
     },

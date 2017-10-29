@@ -1,6 +1,6 @@
 <template>
   <div>
-    <binsert></binsert>
+    
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -12,13 +12,10 @@ export default {
   },
   data () {
     return {
-      demo07_index: 0,
     }
   },
   methods:{
-    demo07_onIndexChange (index) {
-      this.demo07_index = index
-    }
+    
   }
 }
 </script>

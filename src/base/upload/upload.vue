@@ -7,7 +7,7 @@
       </div>
       <div class='room_add_img' v-show="isMax">
         <span><img src="./imgs/add_img.png"></span>
-        <span v-if="isShow">{{ imgs.length }} / {{ max }}</span>
+        <span v-if="isShow">{{ imgs.length + 1 }} / {{ max }}</span>
         <input @change='add_img' type="file" ref="chooseImg">
       </div>
     </div>

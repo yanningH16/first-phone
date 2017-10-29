@@ -5,16 +5,16 @@
         <div class="register">
           <div class="groupBox">
             <group>
-              <x-input required placeholder="输入手机号" is-type="china-mobile" v-model="phone" ref="phone"></x-input>
-              <x-input placeholder="请输入验证码" required type="number" :is-type="msgType" class="inputBox" v-model="msg" ref="msg">
+              <x-input :show-clear="false" required placeholder="输入手机号" is-type="china-mobile" v-model="phone" ref="phone"></x-input>
+              <x-input :show-clear="false" placeholder="请输入验证码" required type="number" :is-type="msgType" class="inputBox" v-model="msg" ref="msg">
                 <button slot="right" class="btn" @click="getCode" :class="{'btn-disabled':!btnCodeState}">{{codeText}}</button>
               </x-input>
-              <x-input required placeholder="设定登录密码(不少于6位)" :is-type="pwdType" type="password" v-model="pwd" ref="pwd"></x-input>
+              <x-input :show-clear="false" required placeholder="设定登录密码(不少于6位)" :is-type="pwdType" type="password" v-model="pwd" ref="pwd"></x-input>
             </group>
           </div>
           <div class="groupBox">
             <group>
-              <x-input placeholder="输入QQ号(非必填)" type="number" v-model="qq"></x-input>
+              <x-input :show-clear="false" placeholder="输入QQ号(非必填)" type="number" v-model="qq"></x-input>
             </group>
           </div>
           <info :infoArr="infos"></info>
@@ -135,7 +135,7 @@ export default {
     },
     timeGo() {
       if (this.time >= 0) {
-        this.codeText = `已发送(${this.time}`
+        this.codeText = `已发送(${this.time})`
         this.time--
       } else {
         this.codeText = '重新获取'

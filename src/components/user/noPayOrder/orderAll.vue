@@ -256,7 +256,7 @@ export default {
       }
       else if (item.buyerTaskStatus === '6') {
         goodsState.orderType = 0
-        goodsState.stateText = '任务已失效'
+        goodsState.stateText = '已放弃白拿'
         goodsState.isBottom = 1
         goodsState.listNoState = true
       }

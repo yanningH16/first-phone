@@ -598,12 +598,14 @@ const routes = [{
     path: '/rushou',
     component: Rushou,
     name: 'rushow',
+    redirect:'/index',
     meta: { title: '入手' }
   },
   {
     path: '/youpin',
     component: Youpin,
     name: 'youpin',
+    redirect:'/index',
     meta: { title: '有品' }
   },
   {
