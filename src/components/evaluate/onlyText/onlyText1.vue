@@ -93,7 +93,26 @@ export default {
       }
     }).catch(function (err) {
       console.log(err)
-    })
+    });
+    //获取与评价的内容
+    this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+      'orderId': this.$route.query.buyerTaskRecordId
+    }).then((data) => {
+      console.log(data)
+      if (data.data.code === '200') {
+        this.commonMsg = data.data.data.favorText
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '获取信息失败',
+          content: data.data.message,
+        })
+      }
+    }).catch(function (err) {
+      console.log(err)
+    });
   },
   methods: {
     doNext() {

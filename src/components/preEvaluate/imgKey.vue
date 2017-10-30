@@ -19,7 +19,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ goodsObj.productFormat }}</span>
             </li>
             <li>
               <strong>价格</strong>
@@ -29,7 +29,7 @@
         </div>
         <div class="stepTwo">
           <h2>二、五星文字好评</h2>
-          <p>评价中需包含关键字：{{ goodsObj.additionalFavorKeyword.join(',') }}</p>
+          <p>评价中需包含关键字：{{ goodsObj.favorKeyword ? goodsObj.favorKeyword.join(',') : '' }}</p>
           <textarea name="" id="" v-model="goodCommon" placeholder="撰写商品的评价，评价内容要求至少15个字以上，优质评价将提升你以后的中奖率"></textarea>
         </div>
         <div class="stepTwo" style="padding-bottom: 0">

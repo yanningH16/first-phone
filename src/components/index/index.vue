@@ -150,10 +150,13 @@ export default {
       this.$axios.get('/api/homePage/getBanner').then(function (data) {
         if (data.data.code === '200') {
           let arrData = data.data.data
+          if(!data.data.data){
+            return false
+          }
           let imgArr = [];
           for (let i = 0; i < arrData.length; i++) {
             imgArr.push({
-              url: 'javascript:',
+              url: '/nopay/details?sellerTaskId=' + arrData[i].sellerTaskId,
               img: arrData[i].picUrl,
               sellerTaskId: arrData[i].sellerTaskId
             })
@@ -162,7 +165,7 @@ export default {
         } else {
           _this.$vux.alert.show({
             title: '提示',
-            content: data.data.message,
+            content: '今日暂无广告!',
             onShow() {
               console.log('Plugin: I\'m showing')
             },
@@ -192,6 +195,9 @@ export default {
         //console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
+          if(!data.data.data){
+            return false
+          }
           for (let m of data.data.data) {
             //console.log(m);
             let goods = {
@@ -225,6 +231,9 @@ export default {
       this.$axios.get('/api/homePage/getRecommendSure').then(function (data) {
         if (data.data.code === '200') {
           let arrList = [];
+          if(!data.data.data){
+            return false
+          }
           for (let m of data.data.data) {
             //console.log(m);
             let goods = {
@@ -259,6 +268,9 @@ export default {
         console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
+          if(!data.data.data){
+            return false
+          }
           for (let m of data.data.data) {
             //console.log(m);
             let goods = {
@@ -303,6 +315,9 @@ export default {
         //console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
+          if(!data.data.data){
+            return false
+          }
           for (let m of data.data.data) {
             //console.log(m);
             let goods = {
@@ -337,6 +352,9 @@ export default {
         //console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
+          if(!data.data.data){
+            return false
+          }
           for (let m of data.data.data) {
             //console.log(m);
             let goods = {

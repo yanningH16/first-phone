@@ -32,17 +32,14 @@
         <div class="step2">
           <h2>二、将评价内容打字到手机淘宝</h2>
           <p>请在快递签收后，前去淘宝输入评价内容</p>
-          <textarea name="" id="" :value="commonMsg"></textarea>
+          <textarea readonly name="" id="" :value="commonMsg"></textarea>
         </div>
         <div class="step2">
           <h2>三、将图片上传到手机淘宝</h2>
           <!-- <p>完成该步骤可额外获得
             <span style="color: red">6金币</span>奖励</p> -->
           <div class="showImg">
-            <img src="../img/showImg.jpg" alt="">
-            <img src="../img/showImg.jpg" alt="">
-            <img src="../img/showImg.jpg" alt="">
-            <img src="../img/showImg.jpg" alt="">
+            <img v-for="(item, index) in imgListArr" :key="index" :src="item" alt="">
           </div>
         </div>
         <div class="step2" style="padding-bottom: 0">
@@ -80,6 +77,7 @@ export default {
       isOk: true, //按钮可点击
       goodsObj: {},
       commonImg: [],
+      imgListArr: [],//预评价上传的截图
       commonMsg: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯'
     }
   },
@@ -103,7 +101,27 @@ export default {
       }
     }).catch(function (err) {
       console.log(err)
-    })
+    });
+    //获取与评价的内容
+    this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+      'orderId': that.$route.query.buyerTaskRecordId
+    }).then((data) => {
+      console.log(data)
+      if (data.data.code === '200') {
+        this.imgListArr = data.data.favorPicId
+        this.commonMsg = data.data.favorText
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '获取信息失败',
+          content: data.data.message,
+        })
+      }
+    }).catch(function (err) {
+      console.log(err)
+    });
   },
   methods: {
     doNext() {
