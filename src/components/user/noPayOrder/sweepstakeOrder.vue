@@ -96,7 +96,7 @@ export default {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "0", "5"
+              "0", "4","5"
             ],
             taskFlags: award,
             pageSize: this.pageSize,
