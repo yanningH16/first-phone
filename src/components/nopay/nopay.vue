@@ -4,7 +4,7 @@
       <Headsearch></Headsearch>
       <div class="nav">
         <tab :line-width=2 active-color="white" v-model="index" bar-active-color="white">
-          <tab-item class="vux-center" v-for="(item, index) in list2" @on-item-click="headerTabClick(index)" :key="index">{{item}}
+          <tab-item :disabled='disabled' class="vux-center" v-for="(item, index) in list2" @on-item-click="headerTabClick(index)" :key="index">{{item}}
           </tab-item>
         </tab>
       </div>
@@ -21,9 +21,7 @@
     </div>
     <div class="cover" v-show="cover">
       <div class="conten">
-        <router-link to="/nopay/details">
           <h2>活动和服务</h2>
-        </router-link>
         <div class="box">
           <span @click="isCked1=!isCked1" :class="{'chooses':isCked1}">包邮</span>
           <span @click="isCked2 =!isCked2" :class="{'chooses':isCked2}">不限规格</span>
@@ -67,6 +65,7 @@ export default {
   name: "component_name",
   data() {
     return {
+      disabled:false,
       probeType: 3,
       list2: list(),
       list1: list1(),
@@ -131,6 +130,10 @@ export default {
   },
   methods: {
     headerTabClick(index) {
+      this.disabled=true
+      setTimeout(()=>{
+          this.disabled=false
+      },500),
       this.pageNo = 1
       let TabArr = ['no', 'all', 'more', 'gold', 'puls-puls']
       this.sortType = 'desc'
@@ -150,7 +153,11 @@ export default {
       'setUserNopay'
     ]),
     tap(index) {
+       setTimeout(()=>{
+         return false
+      },100),
       this.pageNo = 1
+      this.goods = []
       if (index == 0) {
         this.sortType = 'desc'
         this.sortClass = 'integrated'
@@ -188,17 +195,12 @@ export default {
           this.sortClass = 'price'
           this.priceHigh = 0
           this.priceLow = 0
-          this.productClassId = 0
-          this.postage = 0
-          this.format = 0
-          this.highLottery = 0
           this.getApi()
           this.goods = []
         }
         this.istop = !this.istop
       }
-      if (index == 3) {
-        this.goods = []
+      if (index == 3) {  
         this.sortType = 'desc'
         this.sortClass = 'sum'
         this.priceHigh = 0
@@ -208,6 +210,7 @@ export default {
         this.format = 0
         this.highLottery = 0
         this.getApi()
+        this.goods = []
 
       }
       if (index == 4) {
@@ -232,7 +235,7 @@ export default {
       this.sortType = 'desc'
       this.sortClass = 'integrated'
       let arrLow = ['0', '50', '100', '150', '200']
-      let arrHigh = ['49', '99', '149', '199', '']
+      let arrHigh = ['49', '99', '149', '199', '5000000']
       this.priceHigh = arrHigh[this.chooseIndex]
       this.priceLow = arrLow[this.chooseIndex]
       this.productClassId = 0

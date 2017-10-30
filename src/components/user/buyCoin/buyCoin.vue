@@ -45,7 +45,7 @@ export default {
           info: '送16金币'
         },
         {
-          price: '30金币',
+          price: '300金币',
           oldPrice: '300元',
           info: '送30金币'
         },

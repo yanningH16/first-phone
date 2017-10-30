@@ -10,9 +10,11 @@ import axios from 'axios'
 Vue.prototype.$axios = axios
 
 import './assets/stylus/index.styl'
-
+Vue.filter('moneyBeautifuly', function (value) {
+  return parseFloat(value)
+})
 Vue.use(VueLazyload, {
-  loading: '/static/images/studio_0001.jpg',
+  // loading: '/static/images/wait.gif',
   error: '/static/images/noContainer.svg'
 })
 

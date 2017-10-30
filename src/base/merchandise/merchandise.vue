@@ -12,12 +12,12 @@
         <p class="red" :style='{width:item.progress+"%"}'></p>
       </div>
       <div class="btn">
-        <p class="pric">¥{{item.msg.pric}}</p>
+        <p class="pric">¥{{item.msg.pric | moneyBeautifuly}}</p>
         <p class="baina" v-if="item.msg.state === 0">{{item.msg.baina}}</p>
         <p class="zhuan" v-if="item.msg.state === 1">白拿还赚
-          <span>{{item.msg.zhuan}}</span>金币</p>
+          <span>{{item.msg.zhuan | moneyBeautifuly}}</span>金币</p>
         <p class="hua" v-if="item.msg.state === 2">花
-          <span>{{item.msg.hua}}</span>金币白拿</p>
+          <span>{{item.msg.hua | moneyBeautifuly}}</span>金币白拿</p>
       </div>
     </div>
   </div>

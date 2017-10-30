@@ -263,7 +263,7 @@ export default {
         flex 1
         text-align center
         margin 1.4rem 0
-        line-height $font-size-large-x
+        line-height 2rem
         font-size $font-size-medium-x
         border-right 1px solid $color-text-ll
         &:last-of-type
