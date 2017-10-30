@@ -20,7 +20,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ twoInfo.productFormat ? twoInfo.productFormat : '任意规格' }}</span>
             </li>
             <li>
               <strong>价格</strong>
@@ -36,10 +36,7 @@
         <div class="step2" style="padding-bottom: 0">
           <h2>三、将图片上传到手机淘宝</h2>
           <div class="showImg">
-            <img src="./img/showImg.jpg" alt="">
-            <img src="./img/showImg.jpg" alt="">
-            <img src="./img/showImg.jpg" alt="">
-            <img src="./img/showImg.jpg" alt="">
+            <img v-for="(item,index) in picArrList" :key="index" :src="item" alt="">
           </div>
         </div>
         <div class="step2" style="padding-bottom: 0">
@@ -70,6 +67,7 @@ export default {
       isOk: true, //按钮可点击
       goodsImg: [],
       twoInfo: {},
+      picArrList: [],
       msgCont: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯'
     }
   },
@@ -105,7 +103,27 @@ export default {
         title: '错误提示',
         content: '服务器错误',
       })
-    })
+    });
+    //获取与评价的内容
+    this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+      'orderId': that.$route.query.buyerTaskRecordId
+    }).then((data) => {
+      console.log(data)
+      if (data.data.code === '200') {
+        this.picArrList = data.data.data.evaluateProductPicId
+        this.msgCont = data.data.data.additionalFavorText
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '获取信息失败',
+          content: data.data.message,
+        })
+      }
+    }).catch(function (err) {
+      console.log(err)
+    });
   }
 }
 </script>

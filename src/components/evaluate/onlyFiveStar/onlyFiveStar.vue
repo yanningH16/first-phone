@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     doNext() {
-      this.$router.push({ name: 'onlyFiveStar2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonImg: this.commonImg } })
+      this.$router.push({ name: 'onlyFiveStar2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }
   }
 }
