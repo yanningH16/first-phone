@@ -53,7 +53,7 @@
         </div>
         <div class="stepTwo">
           <h2 style="line-height: 2.8rem;">五、恭喜您获得追评任务！审核通过并完成追评任务可获得
-            <span style="color: red">{{ priceNum }}金币</span>奖励</h2>
+            <span style="color: red">{{ this.$route.query.additionalTaskCost }}金币</span>奖励</h2>
         </div>
         <div class="sureBtn">
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">提交</button>

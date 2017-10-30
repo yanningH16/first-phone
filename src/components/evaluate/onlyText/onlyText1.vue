@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     doNext() {
-      this.$router.push({ name: 'onlyText2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg } })
+      this.$router.push({ name: 'onlyText2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }
   }
 }
