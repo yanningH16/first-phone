@@ -8,11 +8,11 @@
       <i class="iconfont icon-icon-baina"></i>
       <span class="tab-link">白拿</span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/rushou">
+    <router-link tag="div" class="tab-item" style="opacity: 0.5;" to="/rushou">
       <i class="iconfont icon-icon-rushou"></i>
       <span class="tab-link">入手</span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/youpin">
+    <router-link tag="div" class="tab-item" style="opacity: 0.5;" to="/youpin">
       <i class="iconfont icon-icon-youpin"></i>
       <span class="tab-link">有品</span>
     </router-link>
