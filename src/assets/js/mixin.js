@@ -238,6 +238,27 @@ export const evaluateOrderOperate = {
 };
 //驳回模块操作
 export const rejectOrderOperate = {
+<<<<<<< HEAD
+    methods: {
+        //驳回路由跳转
+        rejectOperate(item, taskFlag) {
+            let myIndex = notify.indexOf(taskFlag)
+            let taskIndex
+            if (myIndex >= 0 && myIndex <= 4) {
+                taskIndex = item.taskFourId
+            } else if (myIndex > 4 && myIndex <= 9) {
+                taskIndex = item.taskFiveId
+            } else if (myIndex > 9 && myIndex <= 14) {
+                taskIndex = item.taskSixId
+            } else if (myIndex > 14 && myIndex <= 19) {
+                taskIndex = item.taskEightId
+            } else if (myIndex > 19 && myIndex <= 24) {
+                taskIndex = item.taskNinetId
+            }
+            this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
+        },
+    }
+=======
   methods: {
     //驳回路由跳转
     rejectOperate(item, taskFlag) {
@@ -257,6 +278,7 @@ export const rejectOrderOperate = {
       this.$router.push({ name: orderRouter[taskIndex], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
   }
+>>>>>>> beba30dd12eb542b7a432c03104ade35c0d7f772
 };
 //中奖模块操作
 export const winningOrderOperate = {

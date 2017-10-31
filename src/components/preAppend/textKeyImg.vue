@@ -34,7 +34,7 @@
           <textarea name="" id="" placeholder="撰写商品的评价，评价内容要求至少15个字以上，优质评价将提升你以后的中奖率" v-model="text"></textarea>
         </div>
         <div class="step2" style="padding-bottom: 0">
-          <h2>三、上传商品图片</h2>
+          <h2>三、上传商品图片(至少三张)</h2>
           <upload :myimgs="goodsImg" :max="5" :showNum="true"></upload>
         </div>
         <div class="warn">
@@ -89,6 +89,18 @@ export default {
         content: '服务器错误',
       })
     })
+  },
+  watch: {
+    goodsImg: {
+      handler(val) {
+        if (val.length > 3) {
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        }
+      },
+      deep: true
+    }
   },
   //接口请求部分结束
   methods: {

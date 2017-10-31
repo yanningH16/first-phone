@@ -118,7 +118,7 @@ export default {
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
-        this.picArrList = data.data.data.evaluateProductPicId
+        this.picArrList = JSON.parse(data.data.data.evaluateProductPicId)
         this.msgCont = data.data.data.additionalFavorText
         this.$nextTick(() => {
           this.$refs.scroll.refresh()
