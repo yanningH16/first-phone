@@ -46,11 +46,11 @@
           <img src="./rmb.png" alt="" class="icon">
           <span class="text">余额支付</span>
           <div class="letter">
-            <p v-show="hasmoney">
+            <p v-show="hasmoney" class="pLine">
               <span class="text">￥{{hasmoney}}</span>
               <input type="checkbox" class="weui-switch" v-model="isMyChosed">
             </p>
-            <p v-show="!hasmoney">
+            <p v-show="!hasmoney" class="pLine">
               <span class="text">余额不足</span>
               <!-- <x-button type="warn" :mini="true" style="vertical-align:middle">充值</x-button> -->
             </p>
@@ -262,6 +262,8 @@ export default {
         height 3rem
         line-height 3rem
         text-align right
+        .pLine
+          display flex
         .text
           font-size $font-size-small
           color $color-text-d

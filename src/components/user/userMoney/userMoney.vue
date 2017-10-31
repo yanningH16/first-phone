@@ -45,21 +45,21 @@
           </scroll>
         </div>
         <div class="payMoney border-top-1px">
-          <div class="payBox" v-show="checkIndex===0">
+          <div class="payBoxMoney" v-show="checkIndex===0">
             <div class="account">
               合计：
               <span class="num">{{accountBen}}</span>
               元
             </div>
           </div>
-          <div class="payBox" v-show="checkIndex===1">
+          <div class="payBoxMoney" v-show="checkIndex===1">
             <div class="account">
               合计：
               <span class="num">{{accountDone}}</span>
               元
             </div>
           </div>
-          <div class="payBox" v-show="checkIndex===2">
+          <div class="payBoxMoney" v-show="checkIndex===2">
             <div class="account">
               合计：
               <span class="num">{{accountCan}}</span>
@@ -396,7 +396,7 @@ export default {
       width 100%
       box-sizing border-box
       padding 0 1.6rem
-      .payBox
+      .payBoxMoney
         display flex
         .deposit
           flex 0 0 8rem

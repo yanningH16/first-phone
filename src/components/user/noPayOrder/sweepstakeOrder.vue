@@ -39,10 +39,10 @@
             <span class="num">{{item.coinInfo}}</span>
             金币兑换
           </span>
-          <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
             <span class="num">{{item.coinInfo}}</span>
             金币
-          </span>
+          </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" v-if="item.isLotteryState!==1" @click="giveUpLottery(item)">放弃白拿</span>

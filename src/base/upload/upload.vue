@@ -128,7 +128,6 @@ export default {
       })
       console.log(name, file)
       return client.multipartUpload(name, file).then((res) => {
-        console.log(res)
         if (_this.imgs.length > _this.max - 1) {
           _this.$vux.alert.show({
             title: '提示',

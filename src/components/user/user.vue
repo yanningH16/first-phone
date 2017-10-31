@@ -281,7 +281,6 @@ export default {
         watingPrice = '10+'
       }
       this.boxOthter[index].badge = watingPrice
-      console.log(this.boxOthter)
     },
     ...mapActions([
       'setUserCoin'

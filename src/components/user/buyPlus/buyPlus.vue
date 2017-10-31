@@ -33,8 +33,8 @@
             <span class="name">微信支付：</span>
             <span class="text">￥{{ataloCount}}</span>
           </div>
-          <span class="btn" v-if="userInfo.userState" @click="buyPlus">立即充值</span>
-          <span class="btn" v-else @click="buyPlus">立即续费</span>
+          <span class="btn" v-if="userInfo.userState" @click="buyPlus" :class="{'disabled':hasmoney===0}">立即充值</span>
+          <span class="btn" v-else @click="buyPlus" :class="{'disabled':hasmoney===0}">立即续费</span>
         </div>
       </div>
     </div>
@@ -66,7 +66,6 @@ export default {
       paytype: 2,
       type: 2,
       isChecked: 0,
-      hasmoney: 2.68,
       title: '选择套餐',
       moneyBox: [
         {
@@ -100,6 +99,12 @@ export default {
       this.canLoading = true
     })
   },
+  updated() {
+    this.$nextTick(() => {
+      this.$refs.scrollBox.refresh()
+      this.canLoading = true
+    })
+  },
   computed: {
     ataloCount: {
       get() {
@@ -123,8 +128,19 @@ export default {
         userState: (this.userInfo.isVip ? 1 : 0),
         userTime: userTime
       }
+    },
+    hasmoney: {
+      get() {
+        let has = 0
+        if (this.userCoin.availableDeposit) {
+          has = parseFloat(this.userCoin.availableDeposit).toFixed(2)
+        }
+        return has
+      },
+      set(val) {
+        return val
+      }
     }
-
   },
   methods: {
     choosePay(index) {
@@ -137,6 +153,9 @@ export default {
       this.chosed = val
     },
     buyPlus() {
+      if(hasmoney===0){
+        return false
+      }
       this.$axios.post('/api/user/vipShipRenewal', {
         telephone: this.userInfo.telephone,
         months: this.moneyBox[this.moneyIndex].month,
@@ -289,4 +308,7 @@ export default {
         background $color-theme
         font-size $font-size-medium-x
         text-align center
+        &.disabled
+          opacity 0.2
+          background #000
 </style>

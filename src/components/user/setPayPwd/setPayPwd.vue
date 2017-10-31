@@ -113,7 +113,7 @@ export default {
       if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
-          telephone: this.userPhone,
+          telephone: this.userInfo.telephone,
           type: 0
         }).then((response) => {
           if (response.data.code === '200') {
@@ -124,7 +124,6 @@ export default {
               content: response.data.message,
             })
           }
-          this.btnCodeState = true
         }).catch((error) => {
           this.btnCodeState = true
           this.$vux.alert.show({

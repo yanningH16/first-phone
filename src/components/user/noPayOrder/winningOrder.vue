@@ -97,10 +97,10 @@
             <span class="num">{{item.coinInfo}}</span>
             金币兑换
           </span>
-          <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
             <span class="num">{{item.coinInfo}}</span>
             金币
-          </span>
+          </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -171,8 +171,7 @@ export default {
             taskFlags: [awarded[3], awarded[4], awarded[5]],
             pageSize: this.pageSize,
             pageNo: this.pageNo,
-            taskType: 2,
-            isFree: 0
+            taskType: 2
           }
         } else if (this.showAwardIndex === 3) { //中奖了-必中券订单
           return {
@@ -202,6 +201,11 @@ export default {
       set(val) {
         return val
       }
+    }
+  },
+  watch:{
+    params(val){
+      console.log(val)
     }
   },
   mounted() {
@@ -278,7 +282,7 @@ export default {
         return false
       }
       this.showAwardIndex = index
-      this.doInfo()
+      this.getApi()
     },
     //(特殊tarbar)获得条数
     getColums() {
