@@ -18,7 +18,6 @@
                   <span style="font-size: 2rem;">{{objDeli.goldNum | moneyBeautifuly}}</span>金币兑换<span
                   class="prics">¥{{objDeli.price | moneyBeautifuly}}</span>
                 </div>
-
                 <!--3.超额返的部分-->
                 <div class="jinbihuan" style="color: #ff3340" v-else-if="objDeli.isMore===1">
                   多返<span style="font-size: 2rem;">{{objDeli.extraGold | moneyBeautifuly}}</span>金币<span
