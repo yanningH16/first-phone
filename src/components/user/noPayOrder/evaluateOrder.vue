@@ -84,7 +84,7 @@ export default {
           num: `${item.numPerOrder}件`,
           price: item.price,
           orderNum: item.buyerTaskRecordId,
-          info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
+          info: goodsState.info,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
@@ -118,12 +118,15 @@ export default {
         } else if (myIndex > 3 && myIndex <= 7) {
           goodsState.stateText = '待评价到淘宝'
           goodsState.isEvaluateState = 1
+          goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
         } else if (myIndex > 7 && myIndex <= 11) {
           goodsState.stateText = '待预追评'
           goodsState.isEvaluateState = 2
+          goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
         } else if (myIndex > 11 && myIndex <= 15) {
           goodsState.stateText = '待追评到淘宝'
           goodsState.isEvaluateState = 3
+          goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
         }
       } else if (buyerTaskStatus === '9') {
         if (myIndex >= 0 && myIndex <= 3) {

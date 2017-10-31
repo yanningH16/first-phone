@@ -96,7 +96,7 @@ export default {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "0", "4","5"
+              "0", "4", "5"
             ],
             taskFlags: award,
             pageSize: this.pageSize,
@@ -106,7 +106,7 @@ export default {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "2", "3"
+              "2", "3", "6"
             ],
             taskFlags: award,
             pageSize: this.pageSize,
@@ -178,6 +178,10 @@ export default {
       } else if (item.buyerTaskStatus === '4') {
         goodsState.stateText = '待提交审核'
         goodsState.isLotteryState = 2
+        goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
+      }else if (item.buyerTaskStatus === '5') {
+        goodsState.stateText = '待提交审核'
+        goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }
       return goodsState

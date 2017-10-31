@@ -16,7 +16,7 @@
           <div class="bottom" slot="bottom" v-if="item.orderType === 1">
             <span class="details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
-            <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请{{item.isLotteryState}}</span>
+            <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请</span>
             <span class="btn details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
           </div>
           <!--中奖了-->
@@ -238,13 +238,17 @@ export default {
         } else if (item.buyerTaskStatus === '2') {
           goodsState.stateText = '未中奖'
           goodsState.isLotteryState = 0
-        } else if (item.buyerTaskStatus === '5') {
+        } else if (item.buyerTaskStatus === '6') {
           goodsState.stateText = '超时领奖'
           goodsState.isLotteryState = 2
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         } else if (item.buyerTaskStatus === '4') {
           goodsState.stateText = '待提交审核'
           goodsState.isLotteryState = 2
+          goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
+        } else if (item.buyerTaskStatus === '5') {
+          goodsState.stateText = '待提交审核'
+          goodsState.isLotteryState = 0
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         }
       }
