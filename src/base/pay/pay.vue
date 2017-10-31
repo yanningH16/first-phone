@@ -62,6 +62,7 @@
 </template>
 <script type="text/ecmascript-6">
 import { Checker, CheckerItem, XButton, XSwitch } from 'vux'
+import { mapGetters, mapActions } from 'vuex'
 import Checkbtn from '../checkbtn/checkbtn'
 export default {
   name: "pay",
@@ -105,6 +106,11 @@ export default {
     Checkbtn,
     XButton,
     XSwitch
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ]),
   },
   created() {
     this.myMoneyIndex = this.moneyIndex

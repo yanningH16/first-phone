@@ -37,8 +37,8 @@
           </div>
         </scroll>
         <div class="payMoney border-top-1px">
-          <div class="payBox" @click="exChangeCoin">兑换成可提现金额</div>
-          <div class="payBox payBoxCore" @click="buyCoin">充值金币</div>
+          <div class="payBoxMoney" @click="exChangeCoin">兑换成可提现金额</div>
+          <div class="payBoxMoney payBoxCore" @click="buyCoin">充值金币</div>
         </div>
       </div>
     </div>
@@ -259,7 +259,7 @@ export default {
       width 100%
       box-sizing border-box
       display flex
-      .payBox
+      .payBoxMoney
         flex 1
         text-align center
         margin 1.4rem 0

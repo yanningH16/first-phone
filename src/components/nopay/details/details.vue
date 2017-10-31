@@ -88,12 +88,13 @@
             </div>
             <!-- <h2>上拉查看更多</h2> -->
           </div>
-          <div class="bottom" >
+        </div>
+      </scroll>
+      <!-- 底部的固定 -->
+      <div class="bottom">
             <binsert :type="typeFoot" :leastNum="objDeli.leftNumToday-0" :tType="tType" :leftTime="leftTime"
                      @wantGet="wantGet" @btn-click="btnClick"></binsert>
           </div>
-        </div>
-      </scroll>
       <div>
         <!--使用优惠券券的弹窗-->
         <div v-if="pic" style="position: relative;">
@@ -1120,221 +1121,231 @@ export default {
 .scrollContainer
   height 100%
   box-sizing border-box
-// padding-bottom 5rem
-.scroll-content
-  height 100%
-  .img
-    width 100%
-    height 32rem
-  .conten
-    margin-top 2rem
-    padding-left 1.6rem
-    .content_info
-      h1
-        font-size 1.6rem
-        font-weight 500
-        color #08090a
-        line-height 2.5rem
-      .bn
-        margin-top 0.8rem
-        font-size 1.2rem
-        font-weight 300
-        color #75787f
-        margin-left -2.4rem
-        strong
-          color #08090a
-      .time
-        margin-top 1.6rem
-        height 1.8rem
-        width 100%
-        .pric
-          font-size 2.4rem
-          color #75787f
-          text-decoration line-through
-          font-weight 100
-          display inline-block
-          margin-top 10px
-        .jinbihuan
-          margin-right 2rem
-          font-size 1.4rem
-          color #e6a545
-          padding-top 10px
-        .prics
-          color #75787f
-          text-decoration line-through
-          font-size 1.2rem
-          margin-left 0.5rem
-        .weui-cell
-          padding 0
-          margin-top -2.5rem
-      .guige
-        margin-top -1rem
-        font-size 1.2rem
-        color #08090a
-        margin-left -0.5rem
-      .size
-        margin-top 0.8rem
-        span
-          display inline-block
-          width 3.2rem
-          height 1.8rem
-          border-radius 2px
-          background #e6a545
-          margin-right 0.8rem
-          line-height 1.8rem
-          text-align center
-          color #ffffff
-          font-size 1.2rem
-    .process
-      margin-top 2.45rem
-      border-top 10px solid #eff0f2
-      margin-left -1.6rem
-      .process_1, .process_2
-        margin-left 1.6rem
-        margin-top 1.8rem
-        border-bottom 1px solid #d4d5d8
-        padding-bottom 1.8rem
-        span
-          display inline-block
-          width 3.2rem
-          height 1.8rem
-          border-radius 2px
-          background #e6a545
-          margin-right 0.8rem
-          line-height 1.8rem
-          text-align center
-          color #ffffff
-          font-size 1.2rem
-        strong
-          font-size 1.4rem
-          color #e6a545
-          text-align center
-      h3
-        margin-top 1.8rem
-        font-size 1.4rem
-        color #08090a
-        margin-left 1.6rem
-      .seq
-        height 6rem
-        margin-top 1.8rem
-        border-top 1px solid #d4d5d8
-        border-bottom 1px solid #d4d5d8
-        display flex
-        justify-content space-around
-        div
-          width 9rem
-          border-right 1px solid #75787f
-          strong
-            display inline-block
-            font-size 1.6rem
-            padding 2.2rem 0 0 0.8rem
-          p
-            width 4.3rem
-            margin-left 2.8rem
-            line-height 1.5rem
-            font-size 1rem
-            margin-top -2rem
-            color #75787f
-    h2
-      text-align center
-      font-size 1.4rem
-      color #b7b9bf
-      margin-top 3.2rem
-.cover
-  width 100%
-  height 100%
-  position fixed
-  left 0
-  top 0
-  background rgba(0, 0, 0, 0.6)
-// 等待的转圈的标识
-.quan
-  text-align center
-  width 60%
-  margin 0 auto
-  border-radius 3px
-  background white
-  margin-top 16rem
-  h3
-    margin-top 1.6rem
-    font-size 1.4rem
-    color $color-text
-    padding-bottom 2rem
-.wran_info
-  margin-top 3.5rem
-  margin-left 2.8rem
-  li
-    width 90%
-    border-bottom 1px solid $color-text-ll
-    p
-      display flex
-      width 100%
-      padding-bottom 1.5rem
-      justify-content space-between
-.plus
-  width 90%
-  margin 0 auto
-  border-radius 3px
-  background white
-  margin-top 7.6rem
-h2
-  font-size 2rem
-  color #08090a
-  padding-top 2.8rem
-  text-align center
-p
-  width 20rem
-  margin 0 auto
-  line-height 2rem
-  font-size 1.4rem
-  color #75787f
-  margin-top 1.6rem
-  text-align center
-&.move-enter-active, .move-leave-active
-  transition all 0.2s linear
-  transform translate3d(0, 0, 0)
-&.move-enter, .move-leave
-  transform translate3d(100%, 0, 0)
-.userContainerBox
-  background #eff0f2
   display flex
   flex-direction column
-  height 100%
-  .title
-    text-align left
-  .info
-    font-size $font-size-normal
-    color $color-text-d
+// padding-bottom 5rem
+  .scroll-content
+    height 100%
+    flex 1
+    overflow hidden
+    position relative
+    .img
+      width 100%
+      height 32rem
+    .conten
+      margin-top 2rem
+      padding-left 1.6rem
+      .content_info
+        h1
+          font-size 1.6rem
+          font-weight 500
+          color #08090a
+          line-height 2.5rem
+        .bn
+          margin-top 0.8rem
+          font-size 1.2rem
+          font-weight 300
+          color #75787f
+          margin-left -2.4rem
+          strong
+            color #08090a
+        .time
+          margin-top 1.6rem
+          height 1.8rem
+          width 100%
+          .pric
+            font-size 2.4rem
+            color #75787f
+            text-decoration line-through
+            font-weight 100
+            display inline-block
+            margin-top 10px
+          .jinbihuan
+            margin-right 2rem
+            font-size 1.4rem
+            color #e6a545
+            padding-top 10px
+          .prics
+            color #75787f
+            text-decoration line-through
+            font-size 1.2rem
+            margin-left 0.5rem
+          .weui-cell
+            padding 0
+            margin-top -2.5rem
+        .guige
+          margin-top -1rem
+          font-size 1.2rem
+          color #08090a
+          margin-left -0.5rem
+        .size
+          margin-top 0.8rem
+          span
+            display inline-block
+            width 3.2rem
+            height 1.8rem
+            border-radius 2px
+            background #e6a545
+            margin-right 0.8rem
+            line-height 1.8rem
+            text-align center
+            color #ffffff
+            font-size 1.2rem
+      .process
+        margin-top 2.45rem
+        border-top 10px solid #eff0f2
+        margin-left -1.6rem
+        .process_1, .process_2
+          margin-left 1.6rem
+          margin-top 1.8rem
+          border-bottom 1px solid #d4d5d8
+          padding-bottom 1.8rem
+          span
+            display inline-block
+            width 3.2rem
+            height 1.8rem
+            border-radius 2px
+            background #e6a545
+            margin-right 0.8rem
+            line-height 1.8rem
+            text-align center
+            color #ffffff
+            font-size 1.2rem
+          strong
+            font-size 1.4rem
+            color #e6a545
+            text-align center
+        h3
+          margin-top 1.8rem
+          font-size 1.4rem
+          color #08090a
+          margin-left 1.6rem
+        .seq
+          height 6rem
+          margin-top 1.8rem
+          border-top 1px solid #d4d5d8
+          border-bottom 1px solid #d4d5d8
+          display flex
+          justify-content space-around
+          div
+            width 9rem
+            border-right 1px solid #75787f
+            strong
+              display inline-block
+              font-size 1.6rem
+              padding 2.2rem 0 0 0.8rem
+            p
+              width 4.3rem
+              margin-left 2.8rem
+              line-height 1.5rem
+              font-size 1rem
+              margin-top -2rem
+              color #75787f
+      h2
+        text-align center
+        font-size 1.4rem
+        color #b7b9bf
+        margin-top 3.2rem
+  .bottom
+    flex 0 0 5rem
     width 100%
     box-sizing border-box
-    padding 1.2rem 1.6rem
+    display flex      
+  .cover
+    width 100%
+    height 100%
+    position fixed
+    left 0
+    top 0
+    background rgba(0, 0, 0, 0.6)
+  // 等待的转圈的标识
+  .quan
+    text-align center
+    width 60%
+    margin 0 auto
+    border-radius 3px
+    background white
+    margin-top 16rem
+    h3
+      margin-top 1.6rem
+      font-size 1.4rem
+      color $color-text
+      padding-bottom 2rem
+  .wran_info
+    margin-top 3.5rem
+    margin-left 2.8rem
+    li
+      width 90%
+      border-bottom 1px solid $color-text-ll
+      p
+        display flex
+        width 100%
+        padding-bottom 1.5rem
+        justify-content space-between
+  .plus
+    width 90%
+    margin 0 auto
+    border-radius 3px
+    background white
+    margin-top 7.6rem
+  h2
+    font-size 2rem
+    color #08090a
+    padding-top 2.8rem
+    text-align center
+  p
+    width 20rem
+    margin 0 auto
     line-height 2rem
-  .btnBottomBox
-    height 5rem
-    line-height 5rem
-    font-size 0
-    background #fff
+    font-size 1.4rem
+    color #75787f
+    margin-top 1.6rem
+    text-align center
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .userContainerBox
+    background #eff0f2
     display flex
+    flex-direction column
+    height 100%
+    .title
+      text-align left
     .info
-      flex 1
-      text-align right
-      .text
-        color $color-theme
-        font-size $font-size-large-x
-        position relative
-        top 0.2rem
-    .btnJinbi
-      flex 0 0 12.8rem
-      color $color-theme-white
-      background $color-theme
-      font-size $font-size-medium-x
-      text-align center
-.checkedTic
-  position absolute
-  bottom 0
-  right 0
-  width 24px
-  height 24px
+      font-size $font-size-normal
+      color $color-text-d
+      width 100%
+      box-sizing border-box
+      padding 1.2rem 1.6rem
+      line-height 2rem
+    .btnBottomBox
+      height 5rem
+      line-height 5rem
+      font-size 0
+      background #fff
+      display flex
+      .info
+        flex 1
+        text-align right
+        .text
+          color $color-theme
+          font-size $font-size-large-x
+          position relative
+          top 0.2rem
+      .btnJinbi
+        flex 0 0 12.8rem
+        color $color-theme-white
+        background $color-theme
+        font-size $font-size-medium-x
+        text-align center
+  .checkedTic
+    position absolute
+    bottom 0
+    right 0
+    width 24px
+    height 24px
 </style>
 <style scoped>
 /*#app .container .weui-cell .weui-cell__ft {*/

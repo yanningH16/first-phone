@@ -8,7 +8,7 @@
           <div class="info">
             微信支付：<span class="text"><i class="icon">￥</i>{{ataloCount}}</span>
           </div>
-          <span class="btn">立即充值</span>
+          <span class="btn" @click="btn">立即充值</span>
         </div>
       </div>
     </div>
@@ -90,6 +90,9 @@ export default {
     ])
   },
   methods: {
+    btn(){
+        alert('充值成功')
+    },
     choosePay(index) {
       this.moneyIndex = index
     },

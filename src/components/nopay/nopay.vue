@@ -12,6 +12,7 @@
     <div class="nav-sec" ref="navSec">
       <span v-for="(item,index) in list1" @click="tap(index)" :class="{'checked':index === checkedIndex,'top':index===2&&istop,'foot':index===2&&!istop}" :key="index" >{{item}}</span>
     </div>
+    <div class="covers" v-show="covers"></div>
     <div class="line"></div>
     <div class="scrollContainer" ref="scrollContainer">
       <scroll ref="scroll" class="scroll-content" @scroll="boxScroll" :probeType="probeType"  @scrollToEnd="scrollLoad" :pullup="pullup">
@@ -65,7 +66,8 @@ export default {
   name: "component_name",
   data() {
     return {
-      disabled:false,
+      disabled: false,
+      covers:false,
       probeType: 3,
       list2: list(),
       list1: list1(),
@@ -121,20 +123,20 @@ export default {
       }
     }
   },
-  created(){
-      if(this.$route.query.index){
-          this.headerTabClick(this.$route.query.index)
-          this.index = this.$route.query.index
-          this.isNoLoad= true
-      }
+  created() {
+    if (this.$route.query.index) {
+      this.headerTabClick(this.$route.query.index)
+      this.index = this.$route.query.index
+      this.isNoLoad = true
+    }
   },
   methods: {
     headerTabClick(index) {
-      this.disabled=true
-      setTimeout(()=>{
-          this.disabled=false
-      },500),
-      this.pageNo = 1
+      this.disabled = true
+      setTimeout(() => {
+        this.disabled = false
+      }, 500),
+        this.pageNo = 1
       let TabArr = ['no', 'all', 'more', 'gold', 'puls-puls']
       this.sortType = 'desc'
       this.sortClass = 'integrated'
@@ -153,10 +155,11 @@ export default {
       'setUserNopay'
     ]),
     tap(index) {
-       setTimeout(()=>{
-         return false
-      },100),
-      this.pageNo = 1
+      this.covers=true
+      setTimeout(() => {
+        this.covers=false
+      }, 400),
+        this.pageNo = 1
       this.goods = []
       if (index == 0) {
         this.sortType = 'desc'
@@ -186,21 +189,21 @@ export default {
         if (this.istop) {
           this.sortType = 'asc'
           this.sortClass = 'price'
-          this.priceHigh = 0
+          this.priceHigh = 10000
           this.priceLow = 0
           this.getApi()
           this.goods = []
         } else {
           this.sortType = 'desc'
           this.sortClass = 'price'
-          this.priceHigh = 0
+          this.priceHigh = 10000
           this.priceLow = 0
           this.getApi()
           this.goods = []
         }
         this.istop = !this.istop
       }
-      if (index == 3) {  
+      if (index == 3) {
         this.sortType = 'desc'
         this.sortClass = 'sum'
         this.priceHigh = 0
@@ -285,7 +288,12 @@ export default {
       }
     },
     setInfo(data) {
-      // console.log(this.params)
+      if (!data.total) {
+        this.$vux.alert.show({
+          title: '数据为空',
+        })
+        return false
+      }
       let arrList = []
       this.maxPageSize = data.total
       for (let m of data.datas) {
@@ -336,7 +344,7 @@ export default {
     margin-top -20px
     .vux-tab-item
       color #eff0f2
-      font-size 1.4rem
+      font-size 1.4rem     
   .nav-sec
     display flex
     position relative
@@ -353,6 +361,14 @@ export default {
     .foot:after
       content '↓'
       padding-left 0.5rem
+   .covers
+    position absolute
+    top 8.4rem
+    left 0
+    background transparent
+    width 100%
+    height 3.2rem
+    z-index 100
   .scrollContainer
     height 100%
     padding-bottom 12.6rem
