@@ -69,7 +69,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ twoInfo.productFormat ? twoInfo.productFormat : '任意规格' }}</span>
             </li>
             <li>
               <strong>价格</strong>
@@ -78,9 +78,6 @@
           </ul>
         </div>
         <div class="sureBtn">
-          <!--<router-link :to="{ name: 'taskThreeStep2' }">
-                <button>我已找到商品，下一步</button>
-              </router-link>-->
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">我已找到商品，下一步</button>
         </div>
       </div>

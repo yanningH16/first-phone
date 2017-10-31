@@ -102,6 +102,13 @@ export default {
         })
         return false
       }
+      if (this.goodCommon === '') {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请填写评论信息!',
+        })
+        return false
+      }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         favorText: this.goodCommon,

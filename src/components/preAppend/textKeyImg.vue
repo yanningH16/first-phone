@@ -93,7 +93,6 @@ export default {
   //接口请求部分结束
   methods: {
     next() {
-      console.log(this.text)
       if (this.text !== '' && this.goodsImg.length > 0) {
         let that = this;
         this.$axios.post('/api/orderOperate/backOrderSubmit', {

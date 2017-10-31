@@ -94,7 +94,6 @@ export default {
   //接口请求部分结束
   methods: {
     next() {
-      console.log(this.text)
       if (this.text !== '' && this.goodsImg.length > 2) {
         this.$router.push({ name: 'preAppendTextKeyImgFav2', query: { text: this.text, goodsImg: this.goodImg, buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
       } else {

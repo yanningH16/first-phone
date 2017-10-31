@@ -69,7 +69,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ twoInfo.productFormat ? twoInfo.productFormat : '任意规格' }}</span>
             </li>
             <li>
               <strong>价格</strong>
@@ -81,9 +81,6 @@
           <h2>三、浏览商品详情至少1-3分钟</h2>
         </div>
         <div class="sureBtn">
-          <!--<router-link :to="{ name: 'taskTwoStep2' }">
-                  <button>我已浏览完毕，下一步</button>
-                </router-link>-->
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">我已浏览完毕，下一步</button>
         </div>
       </div>
@@ -127,21 +124,7 @@ export default {
   },
   created() {
     let that = this;
-    /*this.$axios.post('/api/orderOperate/getBuyerTask', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
-    }).then((res) => {
-      let data = res.data
-      if (data.code=== "200") {
-        console.log(data)
-      }
-    }).catch((error) => {
-      this.$vux.alert.show({
-        title:'错误提示',
-        content: '服务器错误',
-      })
-    })*/
-
-    //      第二步的核对商品
+    //第二步的核对商品
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
     }).then((res) => {

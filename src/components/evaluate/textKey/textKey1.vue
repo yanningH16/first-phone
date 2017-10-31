@@ -92,11 +92,37 @@ export default {
       }
     }).catch(function (err) {
       console.log(err)
-    })
+    });
+    //获取与评价的内容
+    this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+      'orderId': that.$route.query.buyerTaskRecordId
+    }).then((data) => {
+      console.log(data)
+      if (data.data.code === '200') {
+        this.commonMsg = data.data.data.favorText
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '获取信息失败',
+          content: data.data.message,
+        })
+      }
+    }).catch(function (err) {
+      console.log(err)
+    });
   },
   methods: {
     doNext() {
-      this.$router.push({ name: 'textKey2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg } })
+      if(this.commonImg.length === 0) {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请上传评论截图'
+        });
+        return false;
+      }
+      this.$router.push({ name: 'textKey2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }
   }
 }

@@ -36,8 +36,8 @@
         </div>
         <div class="step2">
           <h2>三、将图片上传到手机淘宝</h2>
-          <!-- <p>完成该步骤可额外获得
-            <span style="color: red">6金币</span>奖励</p> -->
+          <p>完成该步骤可额外获得
+            <span style="color: red">{{ goodsObj.normalGraphicCost ? goodsObj.normalGraphicCost : '' }}</span>奖励</p>
           <div class="showImg">
             <img v-for="(item, index) in imgListArr" :key="index" :src="item" alt="">
           </div>
@@ -108,8 +108,8 @@ export default {
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
-        this.imgListArr = data.data.favorPicId
-        this.commonMsg = data.data.favorText
+        this.imgListArr = data.data.data.favorPicId
+        this.commonMsg = data.data.data.favorText
         this.$nextTick(() => {
           this.$refs.scroll.refresh()
         })
@@ -125,7 +125,14 @@ export default {
   },
   methods: {
     doNext() {
-      this.$router.push({ name: 'textImg2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg } })
+      if(this.commonImg.length === 0) {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请上传评论截图'
+        });
+        return false;
+      }
+      this.$router.push({ name: 'textImg2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }
   }
 }

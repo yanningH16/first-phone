@@ -9,9 +9,9 @@
           <h2>三、随机浏览店铺内1-3个商品，收藏商品，并上传截图</h2>
           <upload :myimgs="favImg" :max="3" :showNum="true"></upload>
         </div>
-        <div class="warn">
-          <p>提示：如果店铺商品不足3个，可复制其他店铺同类商品淘口令提交</p>
-        </div>
+        <!-- <div class="warn">
+          <p>提示：如果店铺商品不足3个，可复制其他店铺同类商品提交</p>
+        </div> -->
         <div class="sureBtn">
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">提交申请</button>
         </div>

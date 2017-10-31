@@ -69,7 +69,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ twoInfo.productFormat ? twoInfo.productFormat : '任意规格' }}</span>
             </li>
             <li>
               <strong>价格</strong>

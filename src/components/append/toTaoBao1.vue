@@ -61,8 +61,7 @@ export default {
       isOk: true, //按钮可点击
       goodsImg: [],
       msgCont: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯',
-      twoInfo: {},
-      imgListArr: [],
+      twoInfo: {}
     }
   },
   // 接口请求部分开始
@@ -101,7 +100,6 @@ export default {
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
-        this.imgListArr = data.data.data.evaluateProductPicId
         this.msgCont = data.data.data.additionalFavorText
         this.$nextTick(() => {
           this.$refs.scroll.refresh()
@@ -120,6 +118,13 @@ export default {
   methods: {
     next() {
       var that = this;
+      if(this.goodsImg.length === 0) {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请上传评论截图'
+        });
+        return false;
+      }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         additionalFavorPicId: that.goodsImg

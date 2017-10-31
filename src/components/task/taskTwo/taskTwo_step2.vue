@@ -14,8 +14,6 @@
           <upload :myimgs="focusImg" :max="1" :showNum="false"></upload>
         </div>
         <div class="sureBtn">
-          <!--<router-link :to="{ name: 'submitSuccess',query: { openTime: '2017-09-13 20:00:00',type: 'task', last: true } }">
-              </router-link>-->
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="shopCar">提交申请</button>
         </div>
       </div>
@@ -65,7 +63,6 @@ export default {
       }).then((res) => {
         console.log(res)
         if (res.data.code === "200") {
-          //            this.$router.push({name:'details',params:{id:100}})
           let time = formateDate('yyyy-MM-dd hh:mm:ss')
           this.$router.push({ name: 'submitSuccess', query: { openTime: time, type: 'task' } })
         }

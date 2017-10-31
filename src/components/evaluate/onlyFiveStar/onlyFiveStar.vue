@@ -30,7 +30,7 @@
           </ul>
         </div>
         <div class="step2" style="padding-bottom: 0">
-          <h2>二、上传评价页面截图</h2>
+          <h2>二、上传五星好评页面截图</h2>
           <upload :myimgs="commonImg" :max="1" :showNum="false"></upload>
         </div>
         <div class="warn">
@@ -92,6 +92,13 @@ export default {
   },
   methods: {
     doNext() {
+      if(this.commonImg.length === 0) {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请上传评论截图'
+        });
+        return false;
+      }
       this.$router.push({ name: 'onlyFiveStar2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }
   }

@@ -13,7 +13,7 @@
           </div>
           <div class="flag" v-if="$route.query.type=='task'">
             <span>预计
-              <strong>{{ $route.query.openTime }}</strong> 开奖</span>
+              <strong>{{ openTime }}</strong> 开奖</span>
             <p>若未中奖，继续提交第二天申请，将再获取1次抽奖机会</p>
           </div>
           <div class="flag" v-if="$route.query.type=='price'">
@@ -22,7 +22,7 @@
           </div>
           <div class="flag" v-if="$route.query.type=='last'">
             <span>预计
-              <strong>{{ $route.query.openTime }}</strong> 开奖</span>
+              <strong>{{ openTime }}</strong> 开奖</span>
             <p>若未中奖，将不能再申请该商品</p>
           </div>
           <div class="flag" v-if="$route.query.type=='task5'">
@@ -92,7 +92,8 @@ export default {
           zhuan: '3',
           baina: '白拿'
         }
-      }
+      },
+      openTime: ''
     }
   },
   methods: {
@@ -101,7 +102,29 @@ export default {
     },
     goDetail(item) {
 
+    },
+    filterTime() {
+      if (this.$route.query.openTime) {
+        let date = this.$route.query.openTime.substr(0, 10);
+        let hour = this.$route.query.openTime.substr(-8, 2);
+        let minue = this.$route.query.openTime.substr(-5, 2);
+        if (hour == 13) {
+          hour += (minue / 60)
+        }
+        if (hour < 10) {
+          this.openTime = date + ' 10:00:00';
+        } else if (hour >= 10 && hour < 13.5) {
+          this.openTime = date + ' 13:30:00';
+        } else if (hour >= 13.5 && hour < 16) {
+          this.openTime = date + ' 16:00:00';
+        } else if (hour >= 16 && hour < 20) {
+          this.openTime = date + ' 20:00:00';
+        }
+      }
     }
+  },
+  created() {
+    this.filterTime();
   }
 }
 </script>

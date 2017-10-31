@@ -33,7 +33,7 @@
           <textarea name="" id="" v-model="goodCommon" placeholder="撰写商品的评价，评价内容要求至少15个字以上，优质评价将提升你以后的中奖率"></textarea>
         </div>
         <div class="stepTwo" style="padding-bottom: 0">
-          <h2>三、上传商品图片</h2>
+          <h2>三、上传商品图片(至少三张)</h2>
           <div>
             <upload :myimgs="goodsImg" :max="5" :showNum="true"></upload>
           </div>
@@ -97,26 +97,34 @@ export default {
   methods: {
     doNext() {
       let that = this;
-      this.$axios.post('/api/orderOperate/backOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        favorText: this.goodCommon,
-        favorPicId: this.goodsImg
-      }).then((data) => {
-        console.log(data)
-        if (data.data.code === '200') {
-          this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate1' } })
-        } else {
+      if (this.goodCommon !== '' && this.goodsImg.length > 2) {
+        this.$axios.post('/api/orderOperate/backOrderSubmit', {
+          buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+          favorText: this.goodCommon,
+          favorPicId: this.goodsImg
+        }).then((data) => {
+          console.log(data)
+          if (data.data.code === '200') {
+            this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate1' } })
+          } else {
+            this.$vux.alert.show({
+              title: '提交失败',
+              content: data.data.message,
+            })
+          }
+        }).catch((error) => {
           this.$vux.alert.show({
-            title: '提交失败',
-            content: data.data.message,
+            title: '错误提示',
+            content: '服务器错误',
           })
-        }
-      }).catch((error) => {
-        this.$vux.alert.show({
-          title: '错误提示',
-          content: '服务器错误',
         })
-      })
+      } else {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请完善相关信息!',
+        })
+      }
+
     }
   }
 }

@@ -116,6 +116,13 @@ export default {
   },
   methods: {
     doNext() {
+      if(this.commonImg.length === 0) {
+        this.$vux.alert.show({
+          title: '提示',
+          content: '请上传评论截图'
+        });
+        return false;
+      }
       this.$router.push({ name: 'onlyText2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }
   }

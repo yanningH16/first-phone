@@ -28,7 +28,7 @@
             </li>
             <li>
               <strong>规格</strong>
-              <span>任意规格</span>
+              <span>{{ goodsObj.productFormat ? goodsObj.productFormat : '任意规格' }}</span>
             </li>
             <li>
               <strong>价格</strong>
@@ -45,9 +45,6 @@
           <p>加入购物车便于日后领奖</p>
         </div>
         <div class="sunmitBtn sureBtn">
-          <!--<router-link :to="{ name: 'submitSuccess', params: { openTime:'2018-08-08 20:00:00', type: 'task' } }">
-                <button>我已加入购物车，提交申请</button>
-              </router-link>-->
           <button @click="doSubmit">我已加入购物车，提交申请</button>
         </div>
       </div>
