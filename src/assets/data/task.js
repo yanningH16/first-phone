@@ -65,5 +65,5 @@ export const orderRouter = [
   'preOnlyFiveStar', 'preOnlyText', 'preTextImg', 'preTextKey', 'preImgKey', 'onlyFiveStar', 'onlyText1', 'textImg1', 'textKey1', 'textImg1', '',
   'preAppendOnlyText', 'preAppendOnlyTextKey', 'preAppendTextFav1', 'preAppendTextFavKey1', 'preAppendTextImg', 'preAppendTextImgFav1', 'preAppendTextKeyImg',
   'preAppendTextKeyImgFav1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao1', 'appendToTaoBao2', 'appendToTaoBao2', 'appendToTaoBao2',
-  'appendToTaoBao2', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1 ', 'sureGetStep1'
+  'appendToTaoBao2', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1', 'sureGetStep1'
 ]

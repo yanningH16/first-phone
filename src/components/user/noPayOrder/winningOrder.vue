@@ -10,10 +10,10 @@
       <div class="orderBoxList" v-for="(item,index) in goodsDraw" :key="index" v-show="showAwardIndex===1">
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
-          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
             <span class="num">{{item.coinInfo}}</span>金币</span>
           <span slot="info" class="infoOrange" v-if="item.coinType===1">
-            <span class="num">{{item.coinInfo}}</span>金币兑换</span>
+            <span class="num">{{item.coinInfo}}</span>金币兑换</span> -->
           <div class="bottom" slot="bottom">
             <span class="details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -31,7 +31,7 @@
       <div class="orderBoxList" v-for="(item,index) in goodsCoin" :key="index" v-show="showAwardIndex===2">
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
-          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
             <span class="num">{{item.coinInfo}}</span>
             金币
           </span>
@@ -42,7 +42,7 @@
           <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
             <span class="num">{{item.coinInfo}}</span>
             金币
-          </span>
+          </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -60,7 +60,7 @@
       <div class="orderBoxList" v-for="(item,index) in goodsMust" :key="index" v-show="showAwardIndex===3">
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
-          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
             <span class="num">{{item.coinInfo}}</span>
             金币
           </span>
@@ -71,7 +71,7 @@
           <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
             <span class="num">{{item.coinInfo}}</span>
             金币
-          </span>
+          </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -89,14 +89,14 @@
       <div class="orderBoxList" v-for="(item,index) in goodsPlus" :key="index" v-show="showAwardIndex===4">
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
-          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
             <span class="num">{{item.coinInfo}}</span>
             金币
           </span>
           <span slot="info" class="infoOrange" v-if="item.coinType===1">
             <span class="num">{{item.coinInfo}}</span>
             金币兑换
-          </span>
+          </span> -->
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
             <span class="num">{{item.coinInfo}}</span>
             金币
