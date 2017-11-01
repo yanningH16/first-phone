@@ -293,7 +293,7 @@ export default {
         this.listDone = mylist
         this.accountDone = data.total
       }
-      if (this.checkIndex === 1) {
+      if (this.checkIndex === 2) {
         this.listCan = mylist
         this.accountCan = data.total
       }
