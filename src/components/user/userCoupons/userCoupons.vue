@@ -3,13 +3,16 @@
     <div class="userContainer">
       <div class="userContainerBox">
         <scroll class="scrollContent" style="height:100%" :pullup="pullup" @scrollToEnd="loadMore" ref="scrollContent">
-          <div class="couponsBox">
+          <div class="couponsBox" v-if="couponsList.length>=1">
             <div class="couponsList" v-for="(item,index) in couponsList" :key="index">
               <coupons :item="item"></coupons>
             </div>
             <div class="delete">
               <span class="deleteBtn" @click="deleteCoupons">清空失效必中券</span>
             </div>
+          </div>
+          <div class="" v-else style="text-align:center;font-size:1.4rem;margin:150px 0;color:#888">
+            暂无数据
           </div>
         </scroll>
       </div>

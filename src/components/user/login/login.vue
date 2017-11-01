@@ -19,7 +19,7 @@
             <m-Button @my-click="doLogin" :class="{'btn-disabled':!btnSaveState}">登录</m-Button>
             <p class="btnOther" @click="forgetPwd">忘记密码</p>
           </div>
-          <div class="bottom">
+          <div class="bottom" v-if="false">
             <divider class="divider">其他方式登录</divider>
             <div class="otherLogin">
               <div class="otherLoginBox" @click="otherClick">

@@ -22,7 +22,7 @@
             </div>
             <div class="infoBox">
               <p class="info">客服QQ：1098237458</p>
-              <p class="info">客服电话：400-888-888</p>
+              <!-- <p class="info">客服电话：400-888-888</p> -->
             </div>
           </div>
         </scroll>
