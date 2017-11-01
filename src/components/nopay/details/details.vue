@@ -535,7 +535,9 @@ export default {
             content: '您未登录，请登录',
             onHide() {
               that.$router.push({ name: 'login' })
+              return false
             }
+
           })
         }
       })
@@ -554,6 +556,7 @@ export default {
             title: '温馨提示',
             content: '审核未通过,请重新修改信息',
           })
+
         } else if (res.alipayStatus === 2) {
           this.$vux.alert.show({
             title: '温馨提示',
@@ -567,11 +570,14 @@ export default {
           })
 
         } else if (res.taobaoStatus === 0) {
+          let that=this
           this.$vux.alert.show({
             title: '温馨提示',
-            content: '审核未通过,请重新修改信息',
+            content: '淘宝账号审核未通过,请重新修改信息',
+            onHide() {
+              that.$router.push({ name: 'registerThree' })
+            }
           })
-
         } else if (res.taobaoStatus === 2) {
           this.$vux.alert.show({
             title: '温馨提示',
@@ -938,6 +944,7 @@ export default {
             title: '温馨提示',
             content: '审核未通过,请重新修改信息',
           })
+          this.$router.push({ name: 'registerThree' })
         } else if (res.alipayStatus === 2) {
           this.$vux.alert.show({
             title: '温馨提示',
@@ -951,9 +958,13 @@ export default {
           })
 
         } else if (res.taobaoStatus === 0) {
+           let that=this
           this.$vux.alert.show({
             title: '温馨提示',
-            content: '审核未通过,请重新修改信息',
+            content: '淘宝账号审核未通过,请重新修改信息',
+            onHide() {
+              that.$router.push({ name: 'registerThree' })
+            }
           })
 
         } else if (res.taobaoStatus === 2) {

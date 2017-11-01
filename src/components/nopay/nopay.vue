@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="nav-sec" ref="navSec">
-      <span v-for="(item,index) in list1" @click="tap(index)" :class="{'checked':index === checkedIndex,'top':index===2&&istop,'foot':index===2&&!istop}" :key="index" >{{item}}</span>
+      <span v-for="(item,index) in list1" @click="tap(index)" :class="{'checked':index === checkedIndex,'top':index===1&&istop,'foot':index===1&&!istop}" :key="index" >{{item}}</span>
     </div>
     <div class="covers" v-show="covers"></div>
     <div class="line"></div>
@@ -137,7 +137,7 @@ export default {
         this.disabled = false
       }, 500),
         this.pageNo = 1
-      let TabArr = ['no', 'all', 'more', 'gold', 'puls-puls']
+      let TabArr = ['no', 'all', 'more', 'gold', 'plus']
       this.sortType = 'desc'
       this.sortClass = 'integrated'
       this.priceHigh = 0
@@ -396,7 +396,7 @@ export default {
         font-family PingFangSC
         font-size 1.4rem
         font-weight 500
-        color #7587 f
+        color #7587
         margin-left 1.2rem
         margin-top 20px
       .box
