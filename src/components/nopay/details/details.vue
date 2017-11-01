@@ -583,7 +583,15 @@ export default {
             title: '温馨提示',
             content: '信息还在审核中,请耐心等待...',
           })
-        } else {
+        } else if (res.taobaoStatus === 3) {
+          this.$vux.alert.show({
+            title: '温馨提示',
+            content: '您还未绑定淘宝/天猫,点击前往进行绑定',
+            onHide() {
+              that.$router.push({ name: 'registerThree' })
+            }
+          })
+        }else {
 
 
 
@@ -972,7 +980,15 @@ export default {
             title: '温馨提示',
             content: '信息还在审核中,请耐心等待...',
           })
-        } else {
+        }else if (res.taobaoStatus === 3) {
+          this.$vux.alert.show({
+            title: '温馨提示',
+            content: '您还未绑定淘宝/天猫,点击前往进行绑定',
+            onHide() {
+              that.$router.push({ name: 'registerThree' })
+            }
+          })
+        }else {
           //请求查询金币的接口
           this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
             userId: this.userInfo.buyerUserId
