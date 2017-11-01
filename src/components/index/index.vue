@@ -32,13 +32,13 @@
               <li @click="toClassPage(4)"><img src="./font/plus.svg" alt=" ">
                 <span>Plus专享</span>
               </li>
-              <li @click="toClassPage(5)"><img src="./font/level3.svg" alt="">
-                <span>每日任务</span>
+              <li @click="toClassPage(5)"><img src="./font/help.svg" alt="">
+                <span>新手指引</span>
               </li>
             </ul>
           </div>
           <div class="cont_show1">
-            <div class="cont_show_title" style="background-image:url(https://static.vux.li/demo/1.jpg)">
+            <div class="cont_show_title" style="background-image:url(http://img4.imgtn.bdimg.com/it/u=3933909600,1773650585&fm=214&gp=0.jpg)">
               <h2 class="m_title">抽商品欧皇就是你</h2>
               <span class="m_all" @click="toClassPage(1)">查看全部&nbsp;&gt;</span>
             </div>
@@ -51,7 +51,7 @@
             </div>
           </div>
           <div class="cont_show1">
-            <div class="cont_show_title" style="background-image:url(https://static.vux.li/demo/1.jpg)">
+            <div class="cont_show_title" style="background-image:url(http://img.bbs.wisenjoy.com/forum/201401/05/084533euz37f1lvh1juku1.jpg)">
               <h2 class="m_title">必中爱上就不错过</h2>
               <span class="m_all" @click="toClassPage(3)">查看全部&nbsp;&gt;</span>
             </div>
@@ -75,7 +75,7 @@
           <div class="cont_show1">
             <h3 @click="toClassPage(0)">潮流女装&nbsp;&gt;</h3>
             <div class="cont_show_title">
-              <img src="https://static.vux.li/demo/1.jpg" alt="">
+              <img src="http://img2.imgtn.bdimg.com/it/u=4095006314,944966500&fm=214&gp=0.jpg" alt="">
             </div>
             <div class="cont_show_scroll">
               <slider class="scroll-content" :arr="arrImg4" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
@@ -88,7 +88,7 @@
           <div class="cont_show1">
             <h3 @click="toClassPage(0)">时尚男装&nbsp;&gt;</h3>
             <div class="cont_show_title">
-              <img src="https://static.vux.li/demo/1.jpg" alt="">
+              <img src="http://pic.qiantucdn.com/58pic/19/76/32/571241ca47377_1024.jpg" alt="">
             </div>
             <div class="cont_show_scroll">
               <slider class="scroll-content" :arr="arrImg5" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
@@ -160,10 +160,16 @@ export default {
       defaultMargin: 0,
       scrollImgs: [{
         url: 'javascript:',
-        img: 'https://static.vux.li/demo/1.jpg'
+        img: 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1509517433&di=c0de1a6c7a86b4409f32a335c906343d&src=http://pic.58pic.com/58pic/17/35/16/60758PICtm5_1024.jpg'
       }, {
         url: 'javascript:',
-        img: 'https://static.vux.li/demo/3.jpg'
+        img: 'http://pic2.ooopic.com/13/19/36/88b4OOOPIC4d.jpg'
+      }, {
+        url: 'javascript:',
+        img: 'http://image.tupian114.com/20160825/2016082509/09145367.jpg'
+      }, {
+        url: 'javascript:',
+        img: 'http://pic2.ooopic.com/10/67/08/30b1OOOPICcb.jpg'
       }],
       swiperHeight: "12rem", //轮播图高度
     }
@@ -190,7 +196,7 @@ export default {
         } else {
           _this.$vux.alert.show({
             title: '提示',
-            content: '今日暂无广告!',
+            content: data.message,
             onShow() {
               console.log('Plugin: I\'m showing')
             },
@@ -487,6 +493,7 @@ export default {
     overflow auto
     height 12rem
     color #fff
+    background-size cover
     .m_title
       font-size 2rem
       color #fff

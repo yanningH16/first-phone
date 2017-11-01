@@ -91,6 +91,18 @@ export default {
       })
     })
   },
+  watch: {
+    goodsImg: {
+      handler(val) {
+        if (val.length > 3) {
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        }
+      },
+      deep: true
+    }
+  },
   //接口请求部分结束
   methods: {
     next() {

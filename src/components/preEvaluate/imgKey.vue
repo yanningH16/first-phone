@@ -94,6 +94,18 @@ export default {
       console.log(err)
     })
   },
+  watch: {
+    goodsImg: {
+      handler(val) {
+        if (val.length > 3) {
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        }
+      },
+      deep: true
+    }
+  },
   methods: {
     doNext() {
       let that = this;
@@ -124,7 +136,6 @@ export default {
           content: '请完善相关信息!',
         })
       }
-
     }
   }
 }
