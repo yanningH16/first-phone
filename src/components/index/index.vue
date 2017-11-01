@@ -10,7 +10,7 @@
             <div class="imgScroll">
               <Swiper :list="scrollImgs" :auto="true" :loop="true" :height="swiperHeight"></Swiper>
             </div>
-            <div class="movement">
+            <!-- <div class="movement">
               <img src="./img/menu.png" alt="userImg">
               <div class="scrollFont">
                 <marquee>
@@ -18,7 +18,7 @@
                   </marquee-item>
                 </marquee>
               </div>
-            </div>
+            </div> -->
             <ul class="top_btn">
               <li @click="toClassPage(1)"><img src="./font/quane.svg" alt="">
                 <span>全额返</span>
