@@ -50,7 +50,7 @@ import { mapActions } from 'vuex'
 import index from "../../router/index/index"
 import { scrollPages } from '../../assets/js/mixin'
 const list = () => ['全部', '全额返', '超额返', '金币拿', 'Plus专享']
-const list1 = () => ['综合', '最新', '价值', '数量', '人气', '筛选']
+const list1 = () => [ '最新', '价值', '数量', '筛选']
 const list3 = () => ["0-49", "50-99", "100-149", "150-200", "200以上"]
 export default {
   mixins: [scrollPages],
@@ -161,19 +161,19 @@ export default {
       }, 400),
         this.pageNo = 1
       this.goods = []
+      // if (index == 0) {
+      //   this.sortType = 'desc'
+      //   this.sortClass = 'integrated'
+      //   this.priceHigh = 0
+      //   this.priceLow = 0
+      //   this.productClassId = 0
+      //   this.postage = 0
+      //   this.format = 0
+      //   this.highLottery = 0
+      //   this.goods = []
+      //   this.getApi()
+      // }
       if (index == 0) {
-        this.sortType = 'desc'
-        this.sortClass = 'integrated'
-        this.priceHigh = 0
-        this.priceLow = 0
-        this.productClassId = 0
-        this.postage = 0
-        this.format = 0
-        this.highLottery = 0
-        this.goods = []
-        this.getApi()
-      }
-      if (index == 1) {
         this.sortType = 'desc'
         this.sortClass = 'newest'
         this.priceHigh = 0
@@ -185,25 +185,25 @@ export default {
         this.getApi()
         this.goods = []
       }
-      if (index == 2) {
+      if (index == 1) {
         if (this.istop) {
           this.sortType = 'asc'
           this.sortClass = 'price'
-          this.priceHigh = 10000
+          this.priceHigh = 0
           this.priceLow = 0
           this.getApi()
           this.goods = []
         } else {
           this.sortType = 'desc'
           this.sortClass = 'price'
-          this.priceHigh = 10000
+          this.priceHigh = 0
           this.priceLow = 0
           this.getApi()
           this.goods = []
         }
         this.istop = !this.istop
       }
-      if (index == 3) {
+      if (index == 2) {
         this.sortType = 'desc'
         this.sortClass = 'sum'
         this.priceHigh = 0
@@ -216,20 +216,20 @@ export default {
         this.goods = []
 
       }
-      if (index == 4) {
-        this.sortType = 'desc'
-        this.sortClass = 'popularity'
-        this.priceHigh = 0
-        this.priceLow = 0
-        this.productClassId = 0
-        this.postage = 0
-        this.format = 0
-        this.highLottery = 0
-        this.getApi()
-        this.goods = []
-      }
+      // if (index == 4) {
+      //   this.sortType = 'desc'
+      //   this.sortClass = 'popularity'
+      //   this.priceHigh = 0
+      //   this.priceLow = 0
+      //   this.productClassId = 0
+      //   this.postage = 0
+      //   this.format = 0
+      //   this.highLottery = 0
+      //   this.getApi()
+      //   this.goods = []
+      // }
       this.checkedIndex = index
-      if (index == 5) {
+      if (index == 3) {
         this.cover = true
       }
     },
