@@ -25,7 +25,7 @@
               </cell>
               <!--收货地址-->
               <!-- <cell :link="userAddress.link" :is-link="userAddress.isLink" :title="userAddress.title" :value="isNull(userAddress.value)">
-                                                          </cell> -->
+                                                                </cell> -->
             </group>
           </div>
           <div class="boxContainer">
@@ -38,11 +38,11 @@
           </div>
           <div class="iconfont">
           </div>
-          <div class="actionBox" v-show="visibility||show">
-            <popup-picker :data="list" @on-change="onChange" :show.sync="showPopupPicker" style="position:absolute"></popup-picker>
-            <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
-            <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility" :min-year="1900" :max-year="2017"></datetime>
-          </div>
+        </div>
+        <div class="actionBox" v-show="visibility||show">
+          <popup-picker :data="list" @on-change="onChange" :show.sync="showPopupPicker"></popup-picker>
+          <actionsheet v-model="show" :menus="menus2" show-cancel></actionsheet>
+          <datetime v-model="age" title="" @on-change="saveAge" :show.sync="visibility" :min-year="1900" :max-year="2017"></datetime>
         </div>
       </scroll>
     </div>
@@ -120,7 +120,7 @@ export default {
           title: '性别',
           link: 'settings/usersex',
           isLink: true,
-          value: (this.userInfo.gender === 0 ? '女' : '男')
+          value: (parseInt(this.userInfo.gender) === 0 ? '女' : '男')
         }
       },
       set(val) {
@@ -133,7 +133,7 @@ export default {
           title: '出生日期',
           link: '',
           isLink: true,
-          value: this.userInfo.birthday
+          value: this.userInfo.birthday ? this.userInfo.birthday.slice(0, 10) : this.userInfo.birthday
         }
       },
       set(val) {

@@ -115,7 +115,7 @@ export default {
       }
     },
     getCode() {
-      if (this.btnCodeState) {
+      if (this.btnSaveState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
           telephone: this.phone,
@@ -146,6 +146,9 @@ export default {
       }
     },
     doRegister() {
+      if (!this.btnSaveState) {
+        return false
+      }
       this.$vux.loading.show({
         text: '请稍后'
       })
@@ -184,7 +187,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-.userContainer 
+.userContainer
   height 100%
   position fixed
   width 100%
@@ -193,25 +196,25 @@ export default {
   top 0
   bottom 0
   z-index 9999
-  background: $color-background
-  &.move-enter-active, .move-leave-active 
+  background $color-background
+  &.move-enter-active, .move-leave-active
     transition all 0.2s linear
     transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave 
+  &.move-enter, .move-leave
     transform translate3d(100%, 0, 0)
-  .userContainerBox 
+  .userContainerBox
     background #eff0f2
     display flex
     flex-direction column
     height 100%
-    .register 
-      .groupBox 
+    .register
+      .groupBox
         margin-top 1.2rem
-        .inputBox 
-          .btn 
+        .inputBox
+          .btn
             border-small($color-text, $border-radius)
             outline 0
-            -webkit-appearance: none
+            -webkit-appearance none
             position relative
             height 3.4rem
             padding 0 1rem
@@ -219,22 +222,22 @@ export default {
             text-align center
             text-decoration none
             color $color-text
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+            -webkit-tap-highlight-color rgba(0, 0, 0, 0)
             font-weight $font-weight
             background $color-theme-white
             position relative
             right -1.5rem
-            &.btn-disabled 
+            &.btn-disabled
               opacity 0.3
-      .btnBox 
+      .btnBox
         width 100%
         padding 0.5rem 1.8rem
         box-sizing border-box
-      .infoText 
+      .infoText
         padding 2rem 0
         text-align center
         font-size $font-size-normal
         color $color-text-d
-        .xieyi 
+        .xieyi
           color $color-text
 </style>
