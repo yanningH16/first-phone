@@ -92,15 +92,16 @@ export default {
         &:first-child
           margin-top 0
         .title
-          height 5rem
-          line-height 5rem
-          padding 0 1.6rem
+          padding 1.8rem 1.6rem
           box-sizing border-box
+          line-height 2.2rem
+          display flex
           .text
             font-size $font-size-medium
-            height $font-size-medium
             display inline-block
+            flex 1
           .icon
+            flex 0 0 2rem
             font-size $font-size-large-x
             float right
         .infoMsg
