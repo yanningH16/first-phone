@@ -115,7 +115,7 @@ export default {
       }
     },
     getCode() {
-      if (this.btnSaveState) {
+      if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
           telephone: this.phone,
