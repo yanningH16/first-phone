@@ -185,7 +185,7 @@ export const sweepstakeOrderOperate = {
       }).then((response) => {
         this.$vux.toast.text(response.data.message, 'middle')
         if (response.data.code === '200') {
-          this.getApi()
+          location.reload()
         }
       }).catch((error) => {
         console.log(error)
@@ -254,9 +254,6 @@ export const rejectOrderOperate = {
       } else if (myIndex > 19 && myIndex <= 24) {
         taskIndex = item.taskNinetId
       }
-      console.log(myIndex)
-      console.log(taskIndex)
-      console.log(orderRouter[taskIndex - 1])
       this.$router.push({ name: orderRouter[parseInt(taskIndex - 1)], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
   }

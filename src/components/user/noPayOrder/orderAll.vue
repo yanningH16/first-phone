@@ -4,12 +4,12 @@
       <div class="orderBoxList" v-for="(item,index) in goodsAll" :key="index">
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
-          <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
             <span class="num">{{item.coinInfo}}</span>金币
           </span>
           <span slot="info" class="infoOrange" v-if="item.coinType===1">
             <span class="num">{{item.coinInfo}}</span>金币兑换
-          </span>
+          </span> -->
           <!--全部-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 0"></div>
           <!--抽奖-->
@@ -20,10 +20,10 @@
             <span class="btn details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
           </div>
           <!--中奖了-->
-          <span slot="info" class="infoRed" v-if="item.coinType===2 && item.orderType === 2">白拿还赚
+          <!-- <span slot="info" class="infoRed" v-if="item.coinType===2 && item.orderType === 2">白拿还赚
             <span class="num">{{item.coinInfo||0}}</span>
             金币
-          </span>
+          </span> -->
           <div class="bottom" slot="bottom" v-if="item.orderType === 2">
             <span class=" details">{{item.lotteryInfo}}</span>
             <!-- <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span> -->
@@ -129,6 +129,7 @@ export default {
           taskEightId: item.taskEightId,
           taskNineId: item.taskNineId,
           listNoState: goodsState.listNoState,
+          // coinInfo:item.
         }
         //无错误信息判断
         if (goodsState.orderType === 2 || item.buyerTaskStatus === '6' || item.buyerTaskStatus === '7') {
@@ -243,11 +244,11 @@ export default {
           goodsState.isLotteryState = 2
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         } else if (item.buyerTaskStatus === '4') {
-          goodsState.stateText = '待提交审核'
-          goodsState.isLotteryState = 2
+          goodsState.stateText = '待提交申请'
+          goodsState.isLotteryState = 0
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         } else if (item.buyerTaskStatus === '5') {
-          goodsState.stateText = '待提交审核'
+          goodsState.stateText = '待提交申请'
           goodsState.isLotteryState = 0
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         }

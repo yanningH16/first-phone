@@ -176,11 +176,11 @@ export default {
         goodsState.isLotteryState = 2
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       } else if (item.buyerTaskStatus === '4') {
-        goodsState.stateText = '待提交审核'
-        goodsState.isLotteryState = 2
+        goodsState.stateText = '待提交申请'
+        goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }else if (item.buyerTaskStatus === '5') {
-        goodsState.stateText = '待提交审核'
+        goodsState.stateText = '待提交申请'
         goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }
