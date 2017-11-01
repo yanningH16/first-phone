@@ -217,11 +217,11 @@ export default {
       if (data.waitingBackDeposit) {
         this.maxMoney(data.waitingBackDeposit, 0)
       }
-      if (data.frozenGold) {
-        this.maxMoney(data.frozenGold, 1)
+      if (data.frozenDeposit) {
+        this.maxMoney(data.frozenDeposit, 1)
       }
-      if (data.frozenGold) {
-        this.maxMoney(data.availableGold, 2)
+      if (data.availableDeposit) {
+        this.maxMoney(data.availableDeposit, 2)
       }
       if (data.availableDeposit) {
         this.boxOne[1].title = `我的资金 ${parseFloat(data.availableDeposit).toFixed(2)}`
