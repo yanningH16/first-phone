@@ -67,8 +67,30 @@ export default {
       orderImgs: [], //订单详情截图
       orderNum: '',
       realPay: '',
-      type: this.$route.query.type
+      type: this.$route.query.type,
+      buyerTaskStatus: 4
     }
+  },
+  created() {
+    //获取与评价的内容
+    this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+      'orderId': this.$route.query.buyerTaskRecordId
+    }).then((data) => {
+      console.log(data)
+      if (data.data.code === '200') {
+        this.buyerTaskStatus = data.data.data.buyerTaskStatus
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '获取信息失败',
+          content: data.data.message,
+        })
+      }
+    }).catch(function (err) {
+      console.log(err)
+    });
   },
   methods: {
     doNext() {
@@ -87,7 +109,8 @@ export default {
         customerServiceChartPicId: that.$route.query.obj.chatImg ? that.$route.query.obj.chatImg : '',
         taobaoOrderPicId: this.orderImgs,
         productOrderNo: this.orderNum,
-        productOrderPrice: this.realPay
+        productOrderPrice: this.realPay,
+        buyerTaskStatus: this.buyerTaskStatus
       }).then((data) => {
         console.log(data)
         if (data.data.code === '200') {
