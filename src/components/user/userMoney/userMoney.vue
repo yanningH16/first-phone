@@ -300,31 +300,32 @@ export default {
     },
     //提现跳转
     doDeposit() {
-      // this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
-      //   buyerUserId: this.userInfo.buyerUserId,
-      //   deposit: this.availableDeposit,
-      //   telephone: this.userInfo.telephone
-      // }).then((response) => {
-      //   const _this = this
-      //   if (response.data.code === '200') {
-      //     this.$vux.alert.show({
-      //       title: '提现成功,点击确定返回个人中心',
-      //       onHide() {
-      //         _this.$router.push({name:'user' })
-      //       }
-      //     })
-      //   } else {
-      //     this.$vux.alert.show({
-      //       title: '错误提示',
-      //       content: response.data.message,
-      //     })
-      //   }
-      // }).catch((error) => {
-      //   this.$vux.alert.show({
-      //     title: '错误提示',
-      //     content: '网络错误',
-      //   })
-      // })
+      this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
+        buyerUserId: this.userInfo.buyerUserId,
+        deposit: this.availableDeposit,
+        telephone: this.userInfo.telephone,
+        withdrawType: 1
+      }).then((response) => {
+        const _this = this
+        if (response.data.code === '200') {
+          this.$vux.alert.show({
+            title: '提现成功,点击确定返回个人中心',
+            onHide() {
+              _this.$router.push({ name: 'user' })
+            }
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: response.data.message,
+          })
+        }
+      }).catch((error) => {
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络错误',
+        })
+      })
     }
   }
 }

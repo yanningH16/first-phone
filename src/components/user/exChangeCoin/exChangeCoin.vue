@@ -22,6 +22,7 @@
 <script type="text/ecmascript-6">
 import MButton from '../../../base/button/button'
 import { XInput, Group, Cell } from 'vux'
+import { mapGetters } from 'vuex'
 export default {
   name: "exChangeCoin",
   components: {
@@ -30,11 +31,24 @@ export default {
     Group,
     Cell
   },
+  computed: {
+    maxValue: {
+      get() {
+        return this.userCoin.availableGold
+      },
+      set(val) {
+        return val
+      }
+    },
+    ...mapGetters([
+      'userInfo',
+      'userCoin'
+    ])
+  },
   data() {
     return {
       isDisabled: true,
-      coinNum: null,
-      maxValue: 32
+      coinNum: null
     }
   },
   watch: {
@@ -48,6 +62,20 @@ export default {
   },
   methods: {
     sureExChange() {
+      // if()
+      this.$axios.post('/api//withdrawApply/buyer/insertWithdrawApply', {
+        withdrawType: 1,
+        buyerUserId: this.userInfo.buyerUserId,
+        deposit: this.coinNum,
+        telephone:this.userInfo.telephone,
+        bankNo: this.userInfo.bankCardNo,
+        bankName: this.userInfo.bankName,
+        fullName:this.userInfo.fullName
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
       console.log('确认转出')
     }
   }
@@ -56,40 +84,40 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .userContainer
+.userContainer
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .userContainerBox
+    background #eff0f2
+    display flex
+    flex-direction column
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active 
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .userContainerBox
-      background #eff0f2
-      display flex
-      flex-direction column
-      height 100%
-      margin-top 1.2rem
+    margin-top 1.2rem
+    box-sizing border-box
+    .iconBox
+      position relative
+      width 1.6rem
+      height 1.6rem
+      margin-right 1.5rem
+      .icon
+        position absolute
+        font-size 2.1rem
+        vertical-align middle
+        top -0.4rem
+    .btnBox
       box-sizing border-box
-      .iconBox
-        position relative
-        width 1.6rem
-        height 1.6rem
-        margin-right 1.5rem
-        .icon
-          position absolute
-          font-size 2.1rem
-          vertical-align middle
-          top -0.4rem
-      .btnBox
-        box-sizing border-box
-        width 100%
-        padding 2rem 1.6rem
+      width 100%
+      padding 2rem 1.6rem
 </style>

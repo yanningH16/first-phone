@@ -37,7 +37,7 @@
           </div>
         </scroll>
         <div class="payMoney border-top-1px">
-          <div class="payBoxMoney" @click="exChangeCoin">兑换成可提现金额</div>
+          <!-- <div class="payBoxMoney" @click="exChangeCoin">兑换成可提现金额</div> -->
           <div class="payBoxMoney payBoxCore" @click="buyCoin">充值金币</div>
         </div>
       </div>
