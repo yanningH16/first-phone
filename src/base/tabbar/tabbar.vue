@@ -51,8 +51,8 @@ export default {
       color $color-text
       &:nth-child(2)
         .iconfont
-          font-size $font-size-medium-x
-          line-height $font-size-medium-x
+          font-size $font-size-large-x
+          line-height $font-size-large-x
       .iconfont
         font-size $font-size-large-x
         line-height $font-size-large-x

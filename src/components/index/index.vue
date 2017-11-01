@@ -196,7 +196,7 @@ export default {
         } else {
           _this.$vux.alert.show({
             title: '提示',
-            content: data.message,
+            content: '今日暂无广告',
             onShow() {
               console.log('Plugin: I\'m showing')
             },
