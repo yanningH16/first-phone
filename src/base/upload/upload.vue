@@ -83,16 +83,17 @@ export default {
         })
         return false
       }
-      if (this.lastImg.indexOf(img1.name) !== -1) {
-        this.$vux.alert.show({
-          title: '错误提示',
-          content: '图片不能重复上传',
-        })
-      } else {
-        this.lastImg.push(img1.name)
-        let picName = img1.lastModified + md5(img1.name)
-        this.getClient(img1, picName)
-      }
+      // if (this.lastImg.indexOf(img1.name) !== -1) {
+      //   this.$vux.alert.show({
+      //     title: '错误提示',
+      //     content: '图片不能重复上传',
+      //   })
+      // } else {
+
+      // }
+      this.lastImg.push(img1.name)
+      let picName = img1.lastModified + md5(img1.name)
+      this.getClient(img1, picName)
     },
     //获得上传参数
     getClient(file, picName) {
