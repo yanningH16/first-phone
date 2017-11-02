@@ -82,7 +82,7 @@
           <h2>四、请将商品加入购物车</h2>
           <ol class="joinCar">
             <li>
-              <img src="https://static.vux.li/demo/1.jpg" alt="">
+              <img src="../img/screenshot_cart.png" alt="">
             </li>
           </ol>
         </div>

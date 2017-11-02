@@ -37,7 +37,7 @@
           </ul>
           <ol class="joinCar">
             <li>
-              <img src="../img/joinCar.png" alt="">
+              <img src="../img/screenshot_cart.png" alt="">
             </li>
           </ol>
         </div>
