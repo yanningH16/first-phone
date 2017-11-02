@@ -213,7 +213,7 @@ export default {
     ul
       float left
       margin-left 1.2rem
-      width 12.6rem
+      width 13.6rem
       li
         font-size 1.4rem
         color #08090a

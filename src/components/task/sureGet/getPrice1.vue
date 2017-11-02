@@ -3,8 +3,8 @@
     <scroll ref="scroll" class="scroll" :click="false">
       <div class="stepOne_box">
         <h2>请在两小时内完成领奖，否则将取消本次中奖资格！</h2>
-        <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加入购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="0"></step>
-        <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加入购物车", "收藏关注", "填写订单信息"]' :stepIndex="0"></step>
+        <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="0"></step>
+        <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加购物车", "收藏关注", "填写订单信息"]' :stepIndex="0"></step>
         <ul class="stepOne" v-if="type==1 || type==2 || type==4 || type ==5">
           <li>
             <h2>一、打开手机淘宝，查找商品</h2>
@@ -267,6 +267,9 @@ export default {
         color #08090a
         line-height 3rem
         margin-left 1.6rem
+        width 18rem
+        display inline-block
+        vertical-align top
       b
         float right
         width 1.6rem
@@ -323,7 +326,7 @@ export default {
     ul
       float left
       margin-left 1.2rem
-      width 12.6rem
+      width 13.6rem
       li
         font-size 1.4rem
         color #08090a

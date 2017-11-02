@@ -2,8 +2,8 @@
   <div class="getprice_box">
     <scroll ref="scroll" class="scroll" :click="false">
       <div class="stepOne_box">
-        <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加入购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="3"></step>
-        <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加入购物车", "收藏关注", "填写订单信息"]' :stepIndex="2"></step>
+        <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="3"></step>
+        <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加购物车", "收藏关注", "填写订单信息"]' :stepIndex="2"></step>
         <div class="step9">
           <h2 v-if="type==1 || type==2 || type==3">九、付款</h2>
           <h2 v-else>八、付款</h2>

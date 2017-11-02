@@ -2,8 +2,8 @@
   <div class="getprice_box">
     <scroll ref="scroll" class="scroll" :click="false">
       <div class="stepOne_box">
-        <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加入购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="1"></step>
-        <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加入购物车", "收藏关注", "填写订单信息"]' :stepIndex="1"></step>
+        <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="1"></step>
+        <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加购物车", "收藏关注", "填写订单信息"]' :stepIndex="1"></step>
         <div class="step8">
           <h2>五、浏览商品详情至少1-3分钟</h2>
         </div>

@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      stepArr: ["搜索核对加入购物车", "收藏关注", "客服聊天", "填写订单信息"],
+      stepArr: ["搜索核对加购物车", "收藏关注", "客服聊天", "填写订单信息"],
       stepIndex: 2,
       isOk: true, //按钮可点击
       chatImg: [], //客服聊天截图
