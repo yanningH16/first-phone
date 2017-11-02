@@ -54,7 +54,7 @@ export default {
       let obj = {
         chatImg: this.chatImg
       }
-      this.$router.push({ name: 'getPriceThreeStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, obj: obj } })
+      this.$router.push({ name: 'getPriceThreeStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, obj: obj } })
     }
   }
 }

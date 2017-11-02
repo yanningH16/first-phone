@@ -59,9 +59,9 @@ export default {
         return false
       }
       if (that.$route.query.type === 1 || that.$route.query.type === 2 || that.$route.query.type === 3) {
-        that.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
+        that.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
       } else {
-        that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
+        that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
       }
     }
   }

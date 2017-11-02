@@ -134,7 +134,8 @@ export default {
       taskIndex: 0,
       showMsg: {},
       seller: '',
-      taoKey: ''
+      taoKey: '',
+      allow: 0
     }
   },
   //接口请求部分开始
@@ -143,11 +144,30 @@ export default {
     //第二步的核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
-    }).then((res) => {
-      let data = res.data
-      if (data.code === "200") {
-        this.twoInfo = data.data
-        this.taoKey = data.data.taokouling
+    }).then((data) => {
+      if (data.data.code === "200") {
+        this.twoInfo = data.data.data
+        this.taoKey = data.data.data.taokouling
+        let isSupportHuabei = data.data.data.isSupportHuabei ? data.data.data.isSupportHuabei : 0
+        let isSupportCredit = data.data.data.isSupportCredit ? data.data.data.isSupportCredit : 0
+        let isSupprotCoupon = data.data.data.isSupprotCoupon ? data.data.data.isSupprotCoupon : 0
+        if (isSupportHuabei == 0 && isSupportCredit == 0 && isSupprotCoupon == 0) {
+          this.allow = 1
+        } else if (isSupportHuabei == 0 && isSupportCredit == 0 && isSupprotCoupon == 1) {
+          this.allow = 2
+        } else if (isSupportHuabei == 0 && isSupportCredit == 1 && isSupprotCoupon == 0) {
+          this.allow = 3
+        } else if (isSupportHuabei == 0 && isSupportCredit == 1 && isSupprotCoupon == 1) {
+          this.allow = 4
+        } else if (isSupportHuabei == 1 && isSupportCredit == 0 && isSupprotCoupon == 0) {
+          this.allow = 5
+        } else if (isSupportHuabei == 1 && isSupportCredit == 0 && isSupprotCoupon == 1) {
+          this.allow = 6
+        } else if (isSupportHuabei == 1 && isSupportCredit == 1 && isSupprotCoupon == 0) {
+          this.allow = 7
+        } else if (isSupportHuabei == 1 && isSupportCredit == 1 && isSupprotCoupon == 1) {
+          this.allow = 8
+        }
       }
       this.$nextTick(() => {
         this.$refs.scroll.refresh()
@@ -228,7 +248,7 @@ export default {
         });
         return false
       } else {
-        that.$router.push({ name: 'getPriceOneStep2', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
+        that.$router.push({ name: 'getPriceOneStep2', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, allow: that.allow, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
       }
 
     },

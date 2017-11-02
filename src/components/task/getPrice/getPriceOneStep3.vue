@@ -56,7 +56,7 @@ export default {
         taoKeyArr: this.$route.query.obj.taoKeyArr,
         chatImg: this.chatImg
       }
-      this.$router.push({ name: 'getPriceOneStep4', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, obj: obj } })
+      this.$router.push({ name: 'getPriceOneStep4', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, obj: obj } })
     }
   }
 }
