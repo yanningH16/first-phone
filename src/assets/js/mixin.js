@@ -24,7 +24,7 @@ export const scrollPages = {
   },
   data() {
     return {
-      pageSize: 3,
+      pageSize: 5,
       maxPageSize: 0,
       pageNo: 1,
       canLoading: false,

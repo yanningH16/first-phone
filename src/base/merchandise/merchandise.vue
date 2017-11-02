@@ -79,7 +79,7 @@ export default {
   justify-content space-between
   margin-top 1.65rem
   .baina
-    border 1px solid $color-error
+    border-1px($color-error,5px)
     color $color-error
     width 3.6rem
     height 1.8rem
@@ -90,13 +90,13 @@ export default {
     margin-top -0.4rem
   .zhuan
     color $color-error
-    font-size 0.8rem
+    font-size 1rem
     margin-top -0.4rem
     span
       font-size 1.5rem
   .hua
     color $color-theme-orange
-    font-size 0.8rem
+    font-size 1rem
     margin-top -0.4rem
     span
       font-size 1.5rem
@@ -104,6 +104,7 @@ export default {
     text-decoration line-through
     color $color-text-l
     font-size 1.4rem
+    margin-top -0.3rem
 h4
   height 1.4rem
   margin-top 0.8rem

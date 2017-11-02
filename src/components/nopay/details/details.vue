@@ -1224,7 +1224,7 @@ export default {
   box-sizing border-box
   display flex
   flex-direction column
-// padding-bottom 5rem
+  // padding-bottom 11.6rem
 .scroll-content
   height 100%
   flex 1
@@ -1260,7 +1260,7 @@ export default {
           text-decoration line-through
           font-weight 100
           display inline-block
-          margin-top 10px
+          margin-top 8px
         .jinbihuan
           margin-right 2rem
           font-size 1.4rem

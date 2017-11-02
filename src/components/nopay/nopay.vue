@@ -371,7 +371,7 @@ export default {
     z-index 100
   .scrollContainer
     height 100%
-    padding-bottom 12.6rem
+    padding-bottom 11.5rem
     position relative
     box-sizing border-box
     .scroll-content
