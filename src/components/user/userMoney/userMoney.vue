@@ -227,6 +227,9 @@ export default {
             } else {
               this.doDeposit()
             }
+          }else{
+            // 
+            this.$router.push({ name: 'getUserMoney' })
           }
         }
       }

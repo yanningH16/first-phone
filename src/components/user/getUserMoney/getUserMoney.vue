@@ -6,20 +6,20 @@
           <scroll class="scroll-content">
             <div class="containerBox">
               <div class="groupBox">
-                <!-- <div class="checkList border-bottom-1px" @click="chooseCheck=1">
-                        <div class="left">提现到银行卡</div>
-                        <div class="right">
-                          <span class="info">中心银行 吴** 6218****0508</span>
-                          <checkbtn :isChecked="chooseCheck===1"></checkbtn>
-                        </div>
-                      </div> -->
-                <div class="checkList">
-                  <div class="left">提现到微信</div>
+                <div class="checkList border-bottom-1px" @click="chooseCheck=1">
+                  <div class="left">提现到银行卡</div>
                   <div class="right">
-                    <span class="info">{{userInfo.wechatNum}}</span>
+                    <span class="info">{{getMoneyInfo}}</span>
                     <checkbtn :isChecked="chooseCheck===1"></checkbtn>
                   </div>
                 </div>
+                <!-- <div class="checkList">
+                      <div class="left">提现到微信</div>
+                      <div class="right">
+                        <span class="info">{{userInfo.wechatNum}}</span>
+                        <checkbtn :isChecked="chooseCheck===1"></checkbtn>
+                      </div>
+                    </div> -->
               </div>
               <div class="groupBox">
                 <group>
@@ -60,7 +60,7 @@ import Vue from 'vue'
 import { XInput, Group, md5 } from 'vux'
 import { mapGetters } from 'vuex'
 export default {
-  name: "userMoney",
+  name: "getUserMoney",
   components: {
     Scroll,
     Checkbtn,
@@ -69,6 +69,14 @@ export default {
     MButton
   },
   computed: {
+    getMoneyInfo: {
+      get() {
+        return `${this.userInfo.bankCardUserName} ${this.userInfo.bankCardNo}`
+      },
+      set(val) {
+        return val
+      }
+    },
     btnSaveState: {
       get() {
         let isSave = false
@@ -153,6 +161,9 @@ export default {
     },
     getUserMoney() {
       var _this = this
+      if(!this.btnSaveState){
+        return false
+      }
       this.$vux.confirm.show({
         title: '核对金额',
         content: `<p>本次提现金额:${parseFloat(_this.money).toFixed(2)}</p><p>实际到账金额:${parseFloat(_this.money * 0.9).toFixed(2)}</p>`,
@@ -163,9 +174,13 @@ export default {
     },
     doDeposit() {
       this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
+        withdrawType: 1,
         buyerUserId: this.userInfo.buyerUserId,
         deposit: this.money,
-        telephone: this.userInfo.telephone
+        telephone: this.userInfo.telephone,
+        bankNo: this.userInfo.bankCardNo,
+        bankName: this.userInfo.bankName,
+        fullName: this.userInfo.fullName
       }).then((response) => {
         const _this = this
         if (response.data.code === '200') {

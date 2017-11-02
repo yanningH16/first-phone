@@ -63,20 +63,33 @@ export default {
   methods: {
     sureExChange() {
       // if()
-      this.$axios.post('/api//withdrawApply/buyer/insertWithdrawApply', {
+      this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
         withdrawType: 1,
         buyerUserId: this.userInfo.buyerUserId,
         deposit: this.coinNum,
-        telephone:this.userInfo.telephone,
+        telephone: this.userInfo.telephone,
         bankNo: this.userInfo.bankCardNo,
         bankName: this.userInfo.bankName,
-        fullName:this.userInfo.fullName
+        fullName: this.userInfo.fullName
       }).then((response) => {
-        console.log(response)
+        let data = response.data
+        if (data.code !== "200") {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: data.message,
+          })
+        } else {
+          this.$vux.toast.show({
+            text: 'Loading',
+            position: 'middle',
+            onHide: () => {
+              this.$router.push({ name: 'user' })
+            }
+          })
+        }
       }).catch((error) => {
         console.log(error)
       })
-      console.log('确认转出')
     }
   }
 }
