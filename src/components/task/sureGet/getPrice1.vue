@@ -128,7 +128,8 @@ export default {
       taoKey: "",
       inputShopName: '',
       msg: "1.点击输入框\r2.长按\r3.粘贴",
-      isOk: true, //按钮可点击
+      isOk: true, //按钮可点击,
+      allow: 0
     }
   },
   created() {
@@ -138,12 +139,34 @@ export default {
       'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
-      this.goodsObj = data.data.data
-      this.shopName = this.goodsObj.shopName
-      this.taoKey = this.goodsObj.taokouling
-      this.$nextTick(() => {
-        this.$refs.scroll.refresh()
-      })
+      if (data.data.code == '200') {
+        this.goodsObj = data.data.data
+        this.shopName = this.goodsObj.shopName
+        this.taoKey = this.goodsObj.taokouling
+        let isSupportHuabei = data.data.data.isSupportHuabei ? data.data.data.isSupportHuabei : 0
+        let isSupportCredit = data.data.data.isSupportCredit ? data.data.data.isSupportCredit : 0
+        let isSupprotCoupon = data.data.data.isSupprotCoupon ? data.data.data.isSupprotCoupon : 0
+        if (isSupportHuabei == 0 && isSupportCredit == 0 && isSupprotCoupon == 0) {
+          this.allow = 1
+        } else if (isSupportHuabei == 0 && isSupportCredit == 0 && isSupprotCoupon == 1) {
+          this.allow = 2
+        } else if (isSupportHuabei == 0 && isSupportCredit == 1 && isSupprotCoupon == 0) {
+          this.allow = 3
+        } else if (isSupportHuabei == 0 && isSupportCredit == 1 && isSupprotCoupon == 1) {
+          this.allow = 4
+        } else if (isSupportHuabei == 1 && isSupportCredit == 0 && isSupprotCoupon == 0) {
+          this.allow = 5
+        } else if (isSupportHuabei == 1 && isSupportCredit == 0 && isSupprotCoupon == 1) {
+          this.allow = 6
+        } else if (isSupportHuabei == 1 && isSupportCredit == 1 && isSupprotCoupon == 0) {
+          this.allow = 7
+        } else if (isSupportHuabei == 1 && isSupportCredit == 1 && isSupprotCoupon == 1) {
+          this.allow = 8
+        }
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      }
     }).catch(function (err) {
       console.log(err)
     })
@@ -190,7 +213,7 @@ export default {
       if (this.type == 1 || this.type == 4) {
         //检查输入域淘口令是否正确
         if (this.msg === this.taoKey) {
-          this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type } })
+          this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type, allow: this.allow } })
         } else {
           this.$vux.alert.show({
             title: '核对商品失败',

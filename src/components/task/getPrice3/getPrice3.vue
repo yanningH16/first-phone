@@ -6,9 +6,12 @@
         <div class="step9">
           <h2>五、付款</h2>
           <div class="warn onlyAllow">
-            <p style="color: #51cc68">允许使用花呗付款</p>
-            <p>不允许使用信用卡付款</p>
-            <p>不允许使用优惠卷付款</p>
+            <p :class="{'allow' : (allow==5 || allow==6 || allow==7 || allow ==8)}">
+              <span v-if="allow==1 || allow==2 || allow==3 || allow==4">不</span>允许使用花呗付款</p>
+            <p :class="{'allow' : (allow==3 || allow==4 || allow==7 || allow ==8)}">
+              <span v-if="allow==1 || allow==2 || allow==5 || allow==6">不</span>允许使用信用卡付款</p>
+            <p :class="{'allow' : (allow==2 || allow==4 || allow==6 || allow ==8)}">
+              <span v-if="allow==1 || allow==3 || allow==5 || allow==7">不</span>允许使用优惠卷付款</p>
           </div>
         </div>
         <div class="step10">
@@ -63,6 +66,7 @@ export default {
       orderNum: '',
       realPay: '',
       orderImgs: [], //订单详情截图
+      allow: this.$route.query.allow
     }
   },
   methods: {
@@ -304,6 +308,8 @@ export default {
       font-size 1.4rem
   .warn
     padding 1rem 1.6rem
+    .allow
+      color #51cc68
     p
       font-size 1.2rem
       line-height 2rem

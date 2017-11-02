@@ -62,7 +62,7 @@ export default {
         focusImg: that.$route.query.obj.focusImg,
         chatImg: that.chatImg
       }
-      that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, obj: obj } })
+      that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, allow: that.$route.query.allow, type: that.$route.query.type, obj: obj } })
       /*}
     }).catch((error) => {
       this.$vux.alert.show({
