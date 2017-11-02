@@ -521,11 +521,6 @@ export default {
     },
 
     btnClick() {
-      //var buyerTaskRecordId = localStorage.getItem("buyerTaskRecordId")
-      var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
-      var weixin = JSON.parse(window.localStorage.getItem('__userInfo__')).wechatStatus
-      var taobao = JSON.parse(window.localStorage.getItem('__userInfo__')).taobaoStatus
-      var phone = JSON.parse(window.localStorage.getItem('__userInfo__')).telephone
       let that = this
       // 做绑定判断,平台端审核的判断
       this.$axios.post('/api/user/loginOrNot', {}).then((res) => {
@@ -535,13 +530,27 @@ export default {
             content: '您未登录，请登录',
             onHide() {
               that.$router.push({ name: 'login' })
-              return false
             }
-
           })
+          return false
         }
       })
-      //      判断是否会弹出提示框的 微信 淘宝 手机号
+
+      if(!window.localStorage.getItem('__userInfo__')) {
+        this.$vux.alert.show({
+            title: '温馨提示',
+            content: '您未登录，请登录',
+            onHide() {
+              that.$router.push({ name: 'login' })
+            }
+          })
+          return false
+      }
+      var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
+      var weixin = JSON.parse(window.localStorage.getItem('__userInfo__')).wechatStatus
+      var taobao = JSON.parse(window.localStorage.getItem('__userInfo__')).taobaoStatus
+      var phone = JSON.parse(window.localStorage.getItem('__userInfo__')).telephone
+      //判断是否会弹出提示框的 微信 淘宝 手机号
       if (this.userInfo.wechatNum === undefined || this.userInfo.taobaoId === undefined || this.userInfo.telephone === undefined) {
         this.wran = true
         return false
