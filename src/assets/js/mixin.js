@@ -225,13 +225,13 @@ export const evaluateOrderOperate = {
     goEvaluate(item) {
       let index = comment.indexOf(item.taskFlag)
       let taskIndex
-      if (index >= 0 && index <= 3) { //预评价
+      if (index >= 0 && index <= 4) { //预评价
         taskIndex = item.taskFiveId
-      } else if (index > 3 && index <= 7) { //评价
+      } else if (index > 4 && index <= 9) { //评价
         taskIndex = item.taskSixId
-      } else if (index > 7 && index <= 11) { //评价+预追评
+      } else if (index > 9 && index <= 14) { //评价+预追评
         taskIndex = item.taskEightId
-      } else if (index > 11 && index <= 15) { //评价+追评
+      } else if (index > 14 && index <= 19) { //评价+追评
         taskIndex = item.taskNineId
       }
       this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
