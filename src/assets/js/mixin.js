@@ -24,7 +24,7 @@ export const scrollPages = {
   },
   data() {
     return {
-      pageSize: 10,
+      pageSize: 3,
       maxPageSize: 0,
       pageNo: 1,
       canLoading: false,
@@ -127,7 +127,7 @@ export const orderOperate = {
   methods: {
     //设置请求的buyerTaskRecords
     setInfo(data) {
-      this.axiosResult = data.buyerTaskRecords
+      this.axiosResult = [...this.axiosResult,...data.buyerTaskRecords]
       this.maxPageSize = data.totalCount
     },
     //api请求商品信息

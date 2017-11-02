@@ -65,12 +65,7 @@ export default {
   },
   data() {
     return {
-      pullup: true,
       axiosResult: [],//获得的数据
-      maxPageSize: 0,
-      pageSize: 5,
-      pageNo: 1,
-      canLoading: true,
       goodsAll: [],
       apiUrl: '/api/orderOperate/getAllBuyerTaskList'
     }
