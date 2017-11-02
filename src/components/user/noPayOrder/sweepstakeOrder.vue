@@ -92,23 +92,23 @@ export default {
   computed: {
     params: {
       get() {
-        if (this.showLotteryIndex === 1) {
+        if (this.showLotteryIndex === 1) {//未抽奖
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "0", "4", "5"
+              '0','4'
             ],
             taskFlags: award,
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
-        } else if (this.showLotteryIndex === 2) {
+        } else if (this.showLotteryIndex === 2) {//再一次
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "2", "3", "6"
+              '5'
             ],
-            taskFlags: award,
+            taskFlags: [award[1],award[2]],
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
@@ -168,20 +168,12 @@ export default {
       if (item.buyerTaskStatus === '0') {
         goodsState.stateText = '待开奖'
         goodsState.isLotteryState = 3
-      } else if (item.buyerTaskStatus === '2') {
-        goodsState.stateText = '未中奖'
-        goodsState.isLotteryState = 0
-        goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
-      } else if (item.buyerTaskStatus === '6') {
-        goodsState.stateText = '超时领奖'
-        goodsState.isLotteryState = 2
-        goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       } else if (item.buyerTaskStatus === '4') {
         goodsState.stateText = '待提交申请'
         goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }else if (item.buyerTaskStatus === '5') {
-        goodsState.stateText = '待提交申请'
+        goodsState.stateText = '未中奖'
         goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }

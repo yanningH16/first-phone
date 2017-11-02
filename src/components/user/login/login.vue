@@ -1,7 +1,7 @@
 <template>
   <transition name="move">
     <div class="userContainer">
-      <div class="userContainerBox">
+      <div class="userContainerBox" @keyup.13="doLogin">
         <div class="login" ref="login">
           <p class="info" @click="goRegister">去注册</p>
           <div class="header">

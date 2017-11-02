@@ -112,34 +112,34 @@ export default {
       let myIndex = comment.indexOf(taskFlag)
 
       if (buyerTaskStatus === '4') {
-        if (myIndex >= 0 && myIndex <= 3) {
+        if (myIndex >= 0 && myIndex <= 4) {
           goodsState.stateText = '待预评价'
           goodsState.isEvaluateState = 0
-        } else if (myIndex > 3 && myIndex <= 7) {
+        } else if (myIndex > 4 && myIndex <= 9) {
           goodsState.stateText = '待评价到淘宝'
           goodsState.isEvaluateState = 1
           goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
-        } else if (myIndex > 7 && myIndex <= 11) {
+        } else if (myIndex > 9 && myIndex <= 14) {
           goodsState.stateText = '待预追评'
           goodsState.isEvaluateState = 2
           goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
-        } else if (myIndex > 11 && myIndex <= 15) {
+        } else if (myIndex > 14 && myIndex <= 19) {
           goodsState.stateText = '待追评到淘宝'
           goodsState.isEvaluateState = 3
           goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
         }
       } else if (buyerTaskStatus === '9') {
-        if (myIndex >= 0 && myIndex <= 3) {
+        if (myIndex >= 0 && myIndex <= 4) {
           goodsState.stateText = '预评价审核中'
           goodsState.isBottom = 4
           goodsState.info = '如有问题，请联系客服'
-        } else if (myIndex > 3 && myIndex <= 7) {
+        } else if (myIndex > 4 && myIndex <= 9) {
           goodsState.stateText = '淘宝评价审核中'
           goodsState.isBottom = 4
-        } else if (myIndex > 7 && myIndex <= 11) {
+        } else if (myIndex > 9 && myIndex <= 14) {
           goodsState.stateText = '预追评审核中'
           goodsState.isBottom = 4
-        } else if (myIndex > 11 && myIndex <= 15) {
+        } else if (myIndex > 14 && myIndex <= 19) {
           goodsState.stateText = '淘宝追评审核中'
           goodsState.isBottom = 4
         }

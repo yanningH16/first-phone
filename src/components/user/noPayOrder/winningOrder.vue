@@ -11,9 +11,9 @@
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-            <span class="num">{{item.coinInfo}}</span>金币</span>
-          <span slot="info" class="infoOrange" v-if="item.coinType===1">
-            <span class="num">{{item.coinInfo}}</span>金币兑换</span> -->
+                    <span class="num">{{item.coinInfo}}</span>金币</span>
+                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
+                    <span class="num">{{item.coinInfo}}</span>金币兑换</span> -->
           <div class="bottom" slot="bottom">
             <span class="details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -32,17 +32,17 @@
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject">{{item.stateText}}</span>
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span>
-          <span slot="info" class="infoOrange" v-if="item.coinType===1">
-            <span class="num">{{item.coinInfo}}</span>
-            金币兑换
-          </span>
-          <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span> -->
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币
+                  </span>
+                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币兑换
+                  </span>
+                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币
+                  </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -52,63 +52,66 @@
         </appendCommon>
       </div>
       <!--必中券订单-->
-      <div class="stateBox" :class="{'isNoBottom':showAwardIndex===3}">
-        <cell title="必中券订单" is-link :arrow-direction="!(showAwardIndex===3)? 'up' : 'down'" @click.native="changeAwardIndex(3,valueMust)">
-          <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueMust}}</span>
-        </cell>
-      </div>
-      <div class="orderBoxList" v-for="(item,index) in goodsMust" :key="index" v-show="showAwardIndex===3">
-        <appendCommon :goodsObj="item">
-          <span slot="state" class="reject">{{item.stateText}}</span>
-          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span>
-          <span slot="info" class="infoOrange" v-if="item.coinType===1">
-            <span class="num">{{item.coinInfo}}</span>
-            金币兑换
-          </span>
-          <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span> -->
-          <div class="bottom" slot="bottom">
-            <span class=" details">{{item.lotteryInfo}}</span>
-            <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-            <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
-            <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
-          </div>
-        </appendCommon>
-      </div>
+      <!--
+              <div class="stateBox" :class="{'isNoBottom':showAwardIndex===3}">
+                <cell title="必中券订单" is-link :arrow-direction="!(showAwardIndex===3)? 'up' : 'down'" @click.native="changeAwardIndex(3,valueMust)">
+                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valueMust}}</span>
+                </cell>
+              </div>-->
+      <!--
+              <div class="orderBoxList" v-for="(item,index) in goodsMust" :key="index" v-show="showAwardIndex===3">
+                <appendCommon :goodsObj="item">
+                  <span slot="state" class="reject">{{item.stateText}}</span>
+                  <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币
+                  </span>
+                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币兑换
+                  </span>
+                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币
+                  </span> -->
+      <!--<div class="bottom" slot="bottom">
+                    <span class=" details">{{item.lotteryInfo}}</span>
+                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
+                    <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
+                    <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
+                  </div>
+                </appendCommon>-->
+      <!-- </div> -->
       <!--Plus会员订单-->
-      <div class="stateBox" :class="{'isNoBottom':showAwardIndex===4}">
-        <cell title="Plus会员订单" is-link :arrow-direction="!(showAwardIndex===4)? 'up' : 'down'" @click.native="changeAwardIndex(4,valuePlus)">
-          <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valuePlus}}</span>
-        </cell>
-      </div>
-      <div class="orderBoxList" v-for="(item,index) in goodsPlus" :key="index" v-show="showAwardIndex===4">
-        <appendCommon :goodsObj="item">
-          <span slot="state" class="reject">{{item.stateText}}</span>
-          <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span>
-          <span slot="info" class="infoOrange" v-if="item.coinType===1">
-            <span class="num">{{item.coinInfo}}</span>
-            金币兑换
-          </span> -->
-          <!-- <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span> -->
-          <div class="bottom" slot="bottom">
-            <span class=" details">{{item.lotteryInfo}}</span>
-            <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
-            <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
-            <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
-          </div>
-        </appendCommon>
-      </div>
+      <!--
+                <div class="stateBox" :class="{'isNoBottom':showAwardIndex===4}">
+                <cell title="Plus会员订单" is-link :arrow-direction="!(showAwardIndex===4)? 'up' : 'down'" @click.native="changeAwardIndex(4,valuePlus)">
+                  <span style="font-size:1.2rem;margin-right:0.5rem;vertical-align: text-bottom;">{{valuePlus}}</span>
+                </cell>
+              </div>
+              <div class="orderBoxList" v-for="(item,index) in goodsPlus" :key="index" v-show="showAwardIndex===4">
+                <appendCommon :goodsObj="item">
+                  <span slot="state" class="reject">{{item.stateText}}</span>
+                  <span slot="info" class="infoRed" v-if="item.coinType===0">多返
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币
+                  </span>
+                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币兑换
+                  </span>
+                  <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
+                    <span class="num">{{item.coinInfo}}</span>
+                    金币
+                  </span>
+                  <div class="bottom" slot="bottom">
+                    <span class=" details">{{item.lotteryInfo}}</span>
+                    <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
+                    <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
+                    <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
+                  </div>
+                </appendCommon>
+              </div>-->
     </div>
   </scroll>
 </template>
@@ -155,7 +158,7 @@ export default {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "4", "9"
+              "4", "9", "1"
             ],
             taskType: 1,
             taskFlags: [awarded[0], awarded[1], awarded[2]],
@@ -166,14 +169,15 @@ export default {
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              "4", "5"
+              "4", "9"
             ],
             taskFlags: [awarded[3], awarded[4], awarded[5]],
             pageSize: this.pageSize,
             pageNo: this.pageNo,
             taskType: 2
           }
-        } else if (this.showAwardIndex === 3) { //中奖了-必中券订单
+        }
+        /*else if (this.showAwardIndex === 3) { //中奖了-必中券订单
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
@@ -184,7 +188,8 @@ export default {
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
-        } else if (this.showAwardIndex === 4) { //中奖了-Plus会员
+        } 
+        else if (this.showAwardIndex === 4) { //中奖了-Plus会员
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
@@ -196,15 +201,15 @@ export default {
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
-        }
+        }*/
       },
       set(val) {
         return val
       }
     }
   },
-  watch:{
-    params(val){
+  watch: {
+    params(val) {
       console.log(val)
     }
   },
@@ -257,17 +262,12 @@ export default {
     //设置内容状态
     setGoodsState(taskFlag, buyerTaskStatus) {
       let goodsState = {}
-      if (buyerTaskStatus === '4') {
+      if (buyerTaskStatus === '4' || buyerTaskStatus === '1') {
         goodsState.stateText = '待领奖'
         goodsState.isLotteryState = 0
       } else if (buyerTaskStatus === '9') {
         goodsState.stateText = '订单审核中'
         goodsState.isBottom = 1
-      } else if (buyerTaskStatus === '5') {
-        goodsState.stateText = '超时领奖'
-        goodsState.isLotteryState = 2
-        goodsState.isBottom = 1
-        goodsState.listNoState = true
       }
       return goodsState
     },

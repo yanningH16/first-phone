@@ -280,22 +280,22 @@ export default {
         let obj = {
           title: item.productName,
           time: item.time,
-          money: item.price,
+          money: item.price.toFixed(2),
           unit: '元'
         }
         mylist.push(obj)
       }
       if (this.checkIndex === 0) {
         this.listArr = mylist
-        this.accountBen = data.total
+        this.accountBen = data.total.toFixed(2)
       }
       if (this.checkIndex === 1) {
         this.listDone = mylist
-        this.accountDone = data.total
+        this.accountDone = data.total.toFixed(2)
       }
       if (this.checkIndex === 2) {
         this.listCan = mylist
-        this.accountCan = data.total
+        this.accountCan = data.total.toFixed(2)
       }
     },
     //提现跳转

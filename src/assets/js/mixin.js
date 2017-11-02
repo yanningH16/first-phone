@@ -85,10 +85,16 @@ export const orderOperate = {
       handler(val) {
         let myArr = []
         if (val.length === (this.axiosResult.length + (this.pageNo - 1) * this.pageSize)) {
-          val.forEach((item, i) => {
-            let obj = Object.assign(item, this.axiosResult[i - (this.pageNo - 1) * this.pageSize])
+          // let obj = Object.assign(item, this.axiosResult[i - (this.pageNo - 1) * this.pageSize])
+          let obj
+          for (let axiosItem of this.axiosResult) {
+            val.forEach((item, i) => {
+              if (axiosItem.buyerTaskRecordId === item.buyerTaskRecordId) {
+                obj = Object.assign(item, axiosItem)
+              }
+            })
             myArr.push(obj)
-          })
+          }
           this.setGoodsList(myArr)
         }
       },

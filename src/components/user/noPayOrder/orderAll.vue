@@ -3,7 +3,7 @@
     <div class="orderBox" v-if="goodsAll.length>0">
       <div class="orderBoxList" v-for="(item,index) in goodsAll" :key="index">
         <appendCommon :goodsObj="item">
-          <span slot="state" class="reject">{{item.stateText}}</span>
+          <span slot="state" class="reject" :class="{'normal':item.stateColor===1}">{{item.stateText}}</span>
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
             <span class="num">{{item.coinInfo}}</span>金币
           </span>
@@ -129,6 +129,7 @@ export default {
           taskEightId: item.taskEightId,
           taskNineId: item.taskNineId,
           listNoState: goodsState.listNoState,
+          stateColor:goodsState.stateColor,
           // coinInfo:item.
         }
         //无错误信息判断
@@ -214,20 +215,16 @@ export default {
         }
       }
       //中奖了的状态
-      else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '9')) {
+      else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '1' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '9')) {
         goodsState.orderType = 2
-        if (item.buyerTaskStatus === '4') {
+        console.log('中奖了')
+        if (item.buyerTaskStatus === '4' ||item.buyerTaskStatus === '1') {
           goodsState.stateText = '待领奖'
           goodsState.isLotteryState = 0
         } else if (item.buyerTaskStatus === '9') {
           goodsState.stateText = '订单审核中'
           goodsState.isBottom = 1
-        } else if (item.buyerTaskStatus === '6') {
-          goodsState.stateText = '超时领奖'
-          goodsState.isLotteryState = 2
-          goodsState.isBottom = 1
-          goodsState.listNoState = true
-        }
+        } 
       }
       //抽奖
       else if (award.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '0' || item.buyerTaskStatus === '2' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '4')) {
@@ -236,19 +233,12 @@ export default {
         if (item.buyerTaskStatus === '0') {
           goodsState.stateText = '待开奖'
           goodsState.isLotteryState = 3
-        } else if (item.buyerTaskStatus === '2') {
-          goodsState.stateText = '未中奖'
-          goodsState.isLotteryState = 0
-        } else if (item.buyerTaskStatus === '6') {
-          goodsState.stateText = '超时领奖'
-          goodsState.isLotteryState = 2
-          goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         } else if (item.buyerTaskStatus === '4') {
           goodsState.stateText = '待提交申请'
           goodsState.isLotteryState = 0
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         } else if (item.buyerTaskStatus === '5') {
-          goodsState.stateText = '待提交申请'
+          goodsState.stateText = '未中奖'
           goodsState.isLotteryState = 0
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         }
@@ -269,6 +259,7 @@ export default {
         goodsState.orderType = 0
         goodsState.stateText = '交易成功'
         goodsState.isBottom = 1
+        goodsState.stateColor = 1
       }
       return goodsState
     },
@@ -343,6 +334,8 @@ export default {
       .reject
         color $color-theme
         font-size $font-size-normal
+        &.normal
+          color #75787f !important
     .noArray
       padding 10rem 0
       font-size 1.2rem
