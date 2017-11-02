@@ -30,7 +30,7 @@
                 <upload :myimgs="imgWW" :max="1" @upload-change="uploadChangeWW" :isShow="false"></upload>
               </div>
             </div>
-            <!-- <div class="groupBox">
+            <div class="groupBox">
               <div class="title">四、填写实名信息</div>
               <div class="inputBox border-bottom-1px">
                 <input type="text" placeholder="姓名，须和银行卡姓名一致" class="input" v-model="xm">
@@ -41,13 +41,13 @@
               <div class="inputBox">
                 <input type="text" placeholder="身份证号码" class="input" v-model="sfz">
               </div>
-            </div> -->
-            <!-- <div class="groupBox">
+            </div>
+            <div class="groupBox">
               <div class="title">五、上传实名认证图片</div>
               <div class="inputBox" style="margin-top:2.4rem">
                 <upload :myimgs="imgSM" :max="1" @upload-change="uploadChangeSM" :isShow="false"></upload>
               </div>
-            </div> -->
+            </div>
             <!-- <div class="groupBox">
               <div class="title">六、上传花呗图片</div>
               <p class="text">花呗未开通也要提交该截图，未开通不影响做</p>
@@ -113,16 +113,16 @@ export default {
         let isHasTb = (this.taobao.length !== 0)
         let isWWImgUrl = (this.imgWW && this.imgWW.length === 1)
         let isLevel = (this.taobaoLevel !== null && this.taobaoLevel.length !== 0)
-        // let isXm = (this.xm.length !== 0)
-        // let isZfb = (this.zfb.length !== 0)
-        // let isSfz = (this.sfz.length !== 0)
-        // let isSMImgUrl = (this.imgSM && this.imgSM.length === 1)
+        let isXm = (this.xm.length !== 0)
+        let isZfb = (this.zfb.length !== 0)
+        let isSfz = (this.sfz.length !== 0)
+        let isSMImgUrl = (this.imgSM && this.imgSM.length === 1)
         // let isHBImgUrl = (this.imgHB && this.imgHB.length >= 1)
         this.$nextTick(() => {
           this.$refs.scrollConent.refresh()
         })
         // if (isHasTb && isWWImgUrl && isLevel && isXm && isZfb && isSfz && isSMImgUrl && isHBImgUrl) {
-        if (isHasTb && isWWImgUrl && isLevel) {
+        if (isHasTb && isWWImgUrl && isLevel && isXm && isZfb && isSfz && isSMImgUrl) {
           return true
         } else {
           return false

@@ -168,7 +168,7 @@ export default {
           //登录成功
           this.setUserPhoneHistory(this.phone)
           // this.$router.push({ name: 'registerTwo', params: { phone: this.phone } })
-          this.$router.push({ name: 'registerTwo' })
+          this.$router.push({ name: 'registerThree' })
         }
       }).catch((error) => {
         this.$vux.loading.hide()
