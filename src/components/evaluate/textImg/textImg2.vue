@@ -1,6 +1,6 @@
 <template>
   <div class="step_box">
-    <scroll ref="scroll" :click="false" style="height: 100%">
+    <scroll ref="scroll" style="height: 100%">
       <div class="box">
         <step :stepArray='["上传评价截图","客观评价"]' :stepIndex="1"></step>
         <div class="stepTwo">
@@ -30,17 +30,23 @@
         </div>
         <div class="stepTwo">
           <h2>四、是否推荐该商品给更多买家</h2>
-          <div class="tuijian" v-show="active==true">
+          <div class="tuijian">
             <div @click="active=true">
-              <img class="red" src="../img/ttw.png" alt="">
+              <!-- <img class="red" src="../img/ttw.png" alt=""> -->
+              <div class="img" :class="{ red: active }">
+                <span class="iconfont icon-recommend"></span>
+              </div>
               <p>推荐</p>
             </div>
             <div @click="active=false">
-              <img class="no" :class="{ red: !active }" src="../img/ttb.png" alt="">
+              <!-- <img class="no" :class="{ red: !active }" src="../img/ttb.png" alt=""> -->
+              <div class="img" :class="{ red: !active }">
+                <span class="iconfont icon-not-recommend"></span>
+              </div>
               <p>不推荐</p>
             </div>
           </div>
-          <div class="tuijian" v-show="active==false">
+          <!-- <div class="tuijian" v-show="active==false">
             <div @click="active=true">
               <img src="../img/ttb.png" alt="">
               <p>推荐</p>
@@ -49,7 +55,7 @@
               <img class="no red" src="../img/ttw.png" alt="">
               <p>不推荐</p>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="stepTwo">
           <h2 style="line-height: 2.8rem;">五、恭喜您获得追评任务！审核通过并完成追评任务可获得
@@ -80,8 +86,8 @@ export default {
       red: 'red', //星星颜色
       active: true, //推荐 or 不推荐
       priceNum: 5, //奖励金币数量
-      goods1: 5,
-      goods2: 5,
+      goods1: 0,
+      goods2: 0,
     }
   },
   methods: {
@@ -218,15 +224,17 @@ export default {
       margin-right 2rem
       margin-left 2rem
       text-align center
-      img
+      .img
         padding 1.5rem
         margin-bottom 0.8rem
-        width 2.5rem
-        height 2.5rem
         border-radius 2px
         border 0.5px solid #d4d5d8
+        span 
+          font-size 2.5rem
       .red
         background red
+        span
+          color #ffffff
       .no
         transform rotate(180deg)
 </style>

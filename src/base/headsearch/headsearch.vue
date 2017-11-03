@@ -1,7 +1,8 @@
 <template>
   <div class="head_search">
     <span class="menu" v-show="!hisShow">
-      <img v-show="menuShow" @click="openMenu" src="./img/menu.png" alt="菜单">
+      <!-- <img v-show="menuShow" @click="openMenu" src="./img/menu.png" alt="菜单"> -->
+      <span class="iconfont icon-more" style="font-size:2rem;" v-show="menuShow" @click="openMenu"></span>
       <i class="iconfont icon-close" v-show="!menuShow" @click="closeMenu"></i>
     </span>
     <div class="search-wrap">
@@ -9,7 +10,7 @@
       <input type="text" @focus="search" placeholder="搜索你想要的好物" @keyup.13="toSearch" v-model="inpKey">
     </div>
     <span class="history">
-      <span v-show="!hisShow" class="iconfont icon-message" @click="toMessage"></span>
+      <span v-show="!hisShow" style="font-size:2rem;" class="iconfont icon-message" @click="toMessage"></span>
       <i v-show="hisShow" @click="openHis">取消</i>
     </span>
     <div class="all-class" v-show="!menuShow">
@@ -115,6 +116,7 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+@import url('./font/iconfont.css')
 .head_search
   height 4.6rem
   width 100%

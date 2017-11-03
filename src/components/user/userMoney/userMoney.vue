@@ -285,6 +285,7 @@ export default {
           })
         }
       }).catch((error) => {
+        console.log(error)
         this.$vux.alert.show({
           title: '错误提示',
           content: '网络错误',
@@ -298,22 +299,22 @@ export default {
         let obj = {
           title: item.productName,
           time: item.time,
-          money: item.price.toFixed(2),
+          money: item.productOrderPrice?item.productOrderPrice.toFixed(2):0.00,
           unit: '元'
         }
         mylist.push(obj)
       }
       if (this.checkIndex === 0) {
         this.listArr = mylist
-        this.accountBen = data.total.toFixed(2)
+        this.accountBen =data.total?data.total.toFixed(2):0.00
       }
       if (this.checkIndex === 1) {
         this.listDone = mylist
-        this.accountDone = data.total.toFixed(2)
+        this.accountDone =data.total?data.total.toFixed(2):0.00
       }
       if (this.checkIndex === 2) {
         this.listCan = mylist
-        this.accountCan = data.total.toFixed(2)
+        this.accountCan =data.total?data.total.toFixed(2):0.00
       }
     },
     //提现跳转
