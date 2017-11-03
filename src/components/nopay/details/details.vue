@@ -147,7 +147,7 @@
 
 
         <!--用户未完成绑定的提示信息-->
-        <alert v-model="wran" :button-text="alerts" @on-hide="hideAlert">
+        <!-- <alert v-model="wran" :button-text="alerts" @on-hide="hideAlert">
           <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">未完成全部绑定</h2>
           <ul class="wran_info">
             <li>
@@ -181,7 +181,7 @@
               </p>
             </li>
           </ul>
-        </alert>
+        </alert> -->
         <!-- 新增进行支付的弹窗开始  后面增加使用   on-confirm='payMoney'确定支付触发的   on-cancel='payQuxiao'取消触发的-->
         <confirm v-model="paycode" @on-confirm="payMoney1" >
        <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
@@ -521,11 +521,13 @@ export default {
     },
 
     btnClick() {
+      // let buyerUserId = this.userInfo.buyerUserId
       let that = this
       // 做绑定判断,平台端审核的判断
       this.$axios.post('/api/user/loginOrNot', {}).then((res) => {
+        console.log(res)
         if (res.data.code !== '200') {
-          this.$vux.alert.show({
+          that.$vux.alert.show({
             title: '温馨提示',
             content: '您未登录，请登录',
             onHide() {
@@ -536,162 +538,161 @@ export default {
         }
       })
 
-      if(!window.localStorage.getItem('__userInfo__')) {
-        this.$vux.alert.show({
-            title: '温馨提示',
-            content: '您未登录，请登录',
-            onHide() {
-              that.$router.push({ name: 'login' })
-            }
-          })
-          return false
-      }
-      var buyerUserId = JSON.parse(window.localStorage.getItem('__userInfo__')).buyerUserId
-      var weixin = JSON.parse(window.localStorage.getItem('__userInfo__')).wechatStatus
-      var taobao = JSON.parse(window.localStorage.getItem('__userInfo__')).taobaoStatus
-      var phone = JSON.parse(window.localStorage.getItem('__userInfo__')).telephone
-      //判断是否会弹出提示框的 微信 淘宝 手机号
-      if (this.userInfo.wechatNum === undefined || this.userInfo.taobaoId === undefined || this.userInfo.telephone === undefined) {
-        this.wran = true
-        return false
-      }
-      this.$axios.post('/api/user/getStatusByUserId', {
-        buyerUserId: this.userInfo.buyerUserId,
-      }).then((data) => {
-        console.log(data)
-        let res = data.data.data
-        if (res.alipayStatus === 0) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '审核未通过,请重新修改信息',
-          })
+      // if(that.userInfo.buyerUserId===undefined) {
+      //   this.$vux.alert.show({
+      //       title: '温馨提示',
+      //       content: '您未登录，请登录',
+      //       onHide() {
+      //         that.$router.push({ name: 'login' })
+      //       }
+      //     })
+      //     return false
+      // }else{
+      // var weixin = this.userInfo.wechatStatus
+      // var taobao = this.userInfo.taobaoStatus
+      // var phone = this.userInfo.telephone
+      // //判断是否会弹出提示框的 微信 淘宝 手机号
+      // if (this.userInfo.wechatNum === undefined || this.userInfo.taobaoId === undefined || this.userInfo.telephone === undefined) {
+      //   this.wran = true
+      //   return false
+      // }
+      // }
+      if (this.userInfo) {
+        this.$axios.post('/api/user/getStatusByUserId', {
+          buyerUserId: this.userInfo.buyerUserId,
+        }).then((data) => {
+          console.log(data)
+          let res = data.data.data
+          if (res.alipayStatus === 0) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '审核未通过,请重新修改信息',
+            })
 
-        } else if (res.alipayStatus === 2) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '信息还在审核中,请耐心等待...',
-          })
+          } else if (res.alipayStatus === 2) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '信息还在审核中,请耐心等待...',
+            })
 
-        } else if (res.alipayStatus === 3) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '支付宝账号未绑定,请先进行绑定',
-          })
+          } else if (res.alipayStatus === 3) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '支付宝账号未绑定,请先进行绑定',
+            })
 
-        } else if (res.taobaoStatus === 0) {
-          let that=this
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '淘宝账号审核未通过,请重新修改信息',
-            onHide() {
-              that.$router.push({ name: 'registerThree' })
-            }
-          })
-        } else if (res.taobaoStatus === 2) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '信息还在审核中,请耐心等待...',
-          })
-        } else if (res.taobaoStatus === 3) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '您还未绑定淘宝/天猫,点击前往进行绑定',
-            onHide() {
-              that.$router.push({ name: 'registerThree' })
-            }
-          })
-        }else {
-
-
-
-          //        状态为我要白拿触发的东西 this.typeFoot===1 申请白拿可用
-          if (this.typeFoot === 1) {
-            //      查询用户是否有必中券 有的话对应的弹出来
-            this.$axios.post('/api/buyerTicket/getUseableBuyerTickets', {
-              maxPriceValue: that.objDeli.price,
-              buyerUserId: this.userInfo.buyerUserId,
-              pageNo: '1',
-              pageSize: '100'
-            }).then((data) => {
-              let res = data.data
-              if (res.code === '200') {
-                if (res.data.buyerTickets.length !== 0) {
-                  for (let i of res.data.buyerTickets) {
-                    this.ticArr.push({
-                      ticObj: {
-                        state: 1,
-                        maxPrice: i.maxPriceValue,
-                        text: '全场通用',
-                        time: i.validendtime,
-                        checked: false,
-                        buyerUserId: i.buyerUserId,
-                        buyerTicketId: i.buyerTicketId
-                      },
-                    })
-                  }
-                  this.pic = true
-                } else {
-                  //没有的话则走 我要白拿的正常任务
-                  this.$axios.post('/api/orderOperate/getFirstOrder', {
-                    sellerTaskId: this.$route.query.sellerTaskId,
-                    buyerUserId: this.userInfo.buyerUserId
-                  }).then((data) => {
-                    // console.log(data);
-                    let that = this
-                    if (data.data.code === '200') {
-                      this.$router.push({
-                        name: 'taskOneStep1',
-                        query: {
-                          buyerTaskRecordId: data.data.data.buyerTaskRecordId,
-                          sellerTaskId: this.$route.query.sellerTaskId,
-                          type: data.data.data.taskId
-                        }
-                      })
-                    } else if (data.data.code === '1701') {
-                      this.$vux.alert.show({
-                        title: '提示',
-                        content: '您还有未完成的任务,请去个人中心查看',
-                        onHide() {
-                          that.$router.push({ name: 'noPayOrder' })
-                        }
-                      })
-                    } else {
-                      this.$vux.alert.show({
-                        title: '提示',
-                        content: data.data.message
-                      })
-                    }
-                  })
-                }
+          } else if (res.taobaoStatus === 0) {
+            let that = this
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '淘宝账号审核未通过,请重新修改信息',
+              onHide() {
+                that.$router.push({ name: 'registerThree' })
               }
             })
-            //         状态为我要白拿触发的东西
-          }
-          //如果底部按钮状态为申请就中奖的时候 即this.typeFoot===3 即拿金币换
-          if (this.typeFoot === 3) {
-            this.jinbizhong()
-          }
-          // 即this.typeFoot===3结束
-
-          // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
-          if (this.typeFoot === 4) {
-            this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
-              userId: this.userInfo.buyerUserId
-            }).then((data) => {
-              let res = data.data
-              this.hasmoney = res.data.availableDeposit
+          } else if (res.taobaoStatus === 2) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '信息还在审核中,请耐心等待...',
             })
-            var isVip = parseInt(this.userInfo.isVip)
-            // console.log(isVip)
-            if (isVip === 1) {
-              this.Plus()
-              //不是vip 提示充值 
-            } else {
-              this.vip = true
+          } else if (res.taobaoStatus === 3) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '您还未绑定淘宝/天猫,点击前往进行绑定',
+              onHide() {
+                that.$router.push({ name: 'registerThree' })
+              }
+            })
+          } else {
+            //        状态为我要白拿触发的东西 this.typeFoot===1 申请白拿可用
+            if (this.typeFoot === 1) {
+              //      查询用户是否有必中券 有的话对应的弹出来
+              this.$axios.post('/api/buyerTicket/getUseableBuyerTickets', {
+                maxPriceValue: that.objDeli.price,
+                buyerUserId: this.userInfo.buyerUserId,
+                pageNo: '1',
+                pageSize: '100'
+              }).then((data) => {
+                let res = data.data
+                if (res.code === '200') {
+                  if (res.data.buyerTickets.length !== 0) {
+                    for (let i of res.data.buyerTickets) {
+                      this.ticArr.push({
+                        ticObj: {
+                          state: 1,
+                          maxPrice: i.maxPriceValue,
+                          text: '全场通用',
+                          time: i.validendtime,
+                          checked: false,
+                          buyerUserId: i.buyerUserId,
+                          buyerTicketId: i.buyerTicketId
+                        },
+                      })
+                    }
+                    this.pic = true
+                  } else {
+                    //没有的话则走 我要白拿的正常任务
+                    this.$axios.post('/api/orderOperate/getFirstOrder', {
+                      sellerTaskId: this.$route.query.sellerTaskId,
+                      buyerUserId: this.userInfo.buyerUserId
+                    }).then((data) => {
+                      // console.log(data);
+                      let that = this
+                      if (data.data.code === '200') {
+                        this.$router.push({
+                          name: 'taskOneStep1',
+                          query: {
+                            buyerTaskRecordId: data.data.data.buyerTaskRecordId,
+                            sellerTaskId: this.$route.query.sellerTaskId,
+                            type: data.data.data.taskId
+                          }
+                        })
+                      } else if (data.data.code === '1701') {
+                        this.$vux.alert.show({
+                          title: '提示',
+                          content: '您还有未完成的任务,请去个人中心查看',
+                          onHide() {
+                            that.$router.push({ name: 'noPayOrder' })
+                          }
+                        })
+                      } else {
+                        this.$vux.alert.show({
+                          title: '提示',
+                          content: data.data.message
+                        })
+                      }
+                    })
+                  }
+                }
+              })
+              //         状态为我要白拿触发的东西
+            }
+            //如果底部按钮状态为申请就中奖的时候 即this.typeFoot===3 即拿金币换
+            if (this.typeFoot === 3) {
+              this.jinbizhong()
+            }
+            // 即this.typeFoot===3结束
+
+            // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
+            if (this.typeFoot === 4) {
+              this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
+                userId: this.userInfo.buyerUserId
+              }).then((data) => {
+                let res = data.data
+                this.hasmoney = res.data.availableDeposit
+              })
+              var isVip = parseInt(this.userInfo.isVip)
+              // console.log(isVip)
+              if (isVip === 1) {
+                this.Plus()
+                //不是vip 提示充值 
+              } else {
+                this.vip = true
+              }
             }
           }
-        }
-      })
+        })
+      }
       // 即this.typeFoot===4结束 Plus白拿结束
     },
     //Plus白拿需要公用出来的部分
@@ -822,15 +823,15 @@ export default {
     },
 
     //    当点击立即去绑定触发的效果  判断微信 手机号 淘宝账号是否绑定了
-    hideAlert() {
-      if (this.userInfo.telephone === undefined) {
-        this.$router.push({ name: 'registerOne' })
-      } else if (this.userInfo.wechatNum === undefined) {
-        this.$router.push({ name: 'registerTwo' })
-      } else if (this.userInfo.taobaoId === undefined) {
-        this.$router.push({ name: 'registerThree' })
-      }
-    },
+    // hideAlert() {
+    //   if (this.userInfo.telephone === undefined) {
+    //     this.$router.push({ name: 'registerOne' })
+    //   } else if (this.userInfo.wechatNum === undefined) {
+    //     this.$router.push({ name: 'registerTwo' })
+    //   } else if (this.userInfo.taobaoId === undefined) {
+    //     this.$router.push({ name: 'registerThree' })
+    //   }
+    // },
     choosePay(index) {
       this.moneyIndex = index
     },
@@ -975,7 +976,7 @@ export default {
           })
 
         } else if (res.taobaoStatus === 0) {
-           let that=this
+          let that = this
           this.$vux.alert.show({
             title: '温馨提示',
             content: '淘宝账号审核未通过,请重新修改信息',
@@ -989,7 +990,7 @@ export default {
             title: '温馨提示',
             content: '信息还在审核中,请耐心等待...',
           })
-        }else if (res.taobaoStatus === 3) {
+        } else if (res.taobaoStatus === 3) {
           this.$vux.alert.show({
             title: '温馨提示',
             content: '您还未绑定淘宝/天猫,点击前往进行绑定',
@@ -997,7 +998,7 @@ export default {
               that.$router.push({ name: 'registerThree' })
             }
           })
-        }else {
+        } else {
           //请求查询金币的接口
           this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
             userId: this.userInfo.buyerUserId
@@ -1233,7 +1234,7 @@ export default {
   box-sizing border-box
   display flex
   flex-direction column
-  // padding-bottom 11.6rem
+// padding-bottom 11.6rem
 .scroll-content
   height 100%
   flex 1
