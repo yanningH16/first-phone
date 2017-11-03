@@ -16,7 +16,7 @@
                     <span class="num">{{item.coinInfo}}</span>金币兑换</span> -->
           <div class="bottom" slot="bottom">
             <span class="details">{{item.lotteryInfo}}</span>
-            <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
+            <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
             <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item)">前去领奖</span>
             <!-- <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span> -->
           </div>
@@ -45,7 +45,7 @@
                   </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
-            <span class="btn" @click="giveUpLottery" v-if="item.isLotteryState!==1">放弃白拿</span>
+            <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
             <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item.buyerTaskRecordId)">前去领奖</span>
             <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
           </div>
@@ -121,11 +121,11 @@ import AppendCommon from '../../../base/appendCommon/appendCommon'
 import Vue from 'vue'
 import { award, awarded, orderRouter } from '../../../assets/data/task'
 import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate, winningOrderOperate } from '../../../assets/js/mixin'
+import { scrollPages, orderOperate, winningOrderOperate,sweepstakeOrderOperate } from '../../../assets/js/mixin'
 import { Cell } from 'vux'
 export default {
   name: "rejectOrder",
-  mixins: [scrollPages, orderOperate, winningOrderOperate],
+  mixins: [scrollPages, orderOperate, winningOrderOperate,sweepstakeOrderOperate],
   components: {
     Scroll,
     AppendCommon,
@@ -229,7 +229,7 @@ export default {
           stateText: goodsState.stateText,
           btnText: goodsState.btnText,
           goodsName: item.productName,
-          temp: typeArr[(parseInt(item.taskType) - 1)] || '无',
+          temp: this.typeArr[(parseInt(item.taskType) - 1)] || '无',
           coinType: 2,
           num: `${item.numPerOrder}件`,
           price: item.price,

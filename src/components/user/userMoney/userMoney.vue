@@ -78,7 +78,7 @@ import List from '../../../base/list/list'
 import CoinSetting from '../../../base/coinSetting/coinSetting'
 import Vue from 'vue'
 import { Tab, TabItem, ConfirmPlugin } from 'vux'
-import { mapGetters } from 'vuex'
+import { mapGetters,mapActions } from 'vuex'
 Vue.use(ConfirmPlugin)
 export default {
   name: "userMoney",
@@ -227,9 +227,24 @@ export default {
             } else {
               this.doDeposit()
             }
-          }else{
-            // 
-            this.$router.push({ name: 'getUserMoney' })
+          } else {
+            if (this.userInfo.bankCardNo && this.userInfo.bankCardUserName) {
+              this.$router.push({ name: 'getUserMoney' })
+            } else {
+              const _this = this
+              this.$vux.confirm.show({
+                title: '未绑定银行卡',
+                content: '只有先绑定银行卡，才有提现资格',
+                confirmText: '立即绑定',
+                cancelText: '暂不绑定',
+                onConfirm() {
+                  _this.setPreurl('userMoney')
+                  _this.$router.push({ name: 'yinHangKa' })
+                }
+              })
+
+            }
+
           }
         }
       }
@@ -329,7 +344,10 @@ export default {
           content: '网络错误',
         })
       })
-    }
+    },
+    ...mapActions([
+      'setPreurl'
+    ])
   }
 }
 </script>

@@ -68,12 +68,15 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userInfo'
+      'userInfo',
+      'preurl'
     ])
+  },
+  mounted(){
+    console.log(this.preurl)
   },
   watch: {
     addressValue(value) {
-      console.log(value)
       this.addressValueString = value2name(value, ChinaAddressV2Data)
       this.checkState()
     },
@@ -103,7 +106,6 @@ export default {
     apply() {
       //ajax请求
       if (this.btnSaveState) {
-        console.log('保存')
         this.$axios.post('/api/user/update', {
           telephone: this.userInfo.telephone,
           bankCardUserName: this.userName,
@@ -123,7 +125,12 @@ export default {
             this.$vux.toast.show({
               text: '保存成功',
               onHide() {
-                _this.$router.push({ name: 'settings' });
+                if (_this.preurl) {
+                  _this.$router.push({ name: _this.preurl });
+                } else {
+                  _this.$router.push({ name: 'user' });
+                }
+
               }
             })
           } else {

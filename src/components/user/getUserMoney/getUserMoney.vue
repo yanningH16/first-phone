@@ -14,12 +14,12 @@
                   </div>
                 </div>
                 <!-- <div class="checkList">
-                      <div class="left">提现到微信</div>
-                      <div class="right">
-                        <span class="info">{{userInfo.wechatNum}}</span>
-                        <checkbtn :isChecked="chooseCheck===1"></checkbtn>
-                      </div>
-                    </div> -->
+                                <div class="left">提现到微信</div>
+                                <div class="right">
+                                  <span class="info">{{userInfo.wechatNum}}</span>
+                                  <checkbtn :isChecked="chooseCheck===1"></checkbtn>
+                                </div>
+                              </div> -->
               </div>
               <div class="groupBox">
                 <group>
@@ -34,13 +34,20 @@
               <div class="line" v-else>
                 您为普通会员，提现金额为100元的整数倍且不少于200元，手续费10%
               </div>
+              <!-- <div class="groupBox">
+                          <group>
+                            <x-input placeholder="输入提现密码" :show-clear="false" v-model="pwd" type="password"></x-input>
+                          </group>
+                        </div> -->
               <div class="groupBox">
                 <group>
-                  <x-input placeholder="输入提现密码" :show-clear="false" v-model="pwd" type="password"></x-input>
                   <x-input placeholder="请输入手机验证码" type="number" class="inputBox" v-model="msg" ref="msg" :show-clear="false">
                     <button slot="right" class="btn" @click="getCode" :class="{'btn-disabled':!btnCodeState}">{{codeText}}</button>
                   </x-input>
                 </group>
+              </div>
+              <div class="line">
+                点击获取按钮，将会给{{userPhone}}发送验证码
               </div>
               <div class="btnBox">
                 <m-Button @my-click="getUserMoney" :class="{'btn-disabled':!btnSaveState}">确定</m-Button>
@@ -80,7 +87,8 @@ export default {
     btnSaveState: {
       get() {
         let isSave = false
-        if (this.money >= 200 && this.money <= this.availableDeposit && this.pwd && this.msg && this.msg.length === 6) {
+        // if (this.money >= 200 && this.money <= this.availableDeposit && this.pwd && this.msg && this.msg.length === 6) {
+        if (this.money >= 200 && this.money <= this.availableDeposit && this.msg && this.msg.length === 6) {
           return true
         }
         return false
@@ -100,6 +108,9 @@ export default {
       set(val) {
         return val
       }
+    },
+    userPhone() {
+      return this.userInfo.telephone
     },
     ...mapGetters([
       'userInfo',
@@ -161,15 +172,43 @@ export default {
     },
     getUserMoney() {
       var _this = this
-      if(!this.btnSaveState){
+      if (!this.btnSaveState) {
         return false
       }
-      this.$vux.confirm.show({
-        title: '核对金额',
-        content: `<p>本次提现金额:${parseFloat(_this.money).toFixed(2)}</p><p>实际到账金额:${parseFloat(_this.money * 0.9).toFixed(2)}</p>`,
-        onConfirm() {
-          _this.doDeposit()
+      this.checkCode().then((res) => {
+        if (res.data.code === '200') {
+          this.$vux.confirm.show({
+            title: '核对金额',
+            content: `<p>本次提现金额:${parseFloat(_this.money).toFixed(2)}</p><p>实际到账金额:${parseFloat(_this.money * 0.9).toFixed(2)}</p>`,
+            onConfirm() {
+              _this.doDeposit()
+            }
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '错误提示',
+            content: res.data.message,
+          })
         }
+      }).catch((err) => {
+        this.$vux.alert.show({
+          title: '错误提示',
+          content: '网络故障',
+        })
+      })
+    },
+    //验证码
+    checkCode() {
+      return new Promise((resolve, reject) => {
+        this.$axios.post('/api/sms/verify', {
+          telephone: this.userInfo.telephone,
+          type: 0,
+          code: this.msg
+        }).then((response) => {
+          resolve(response)
+        }).catch((error) => {
+          reject(error)
+        })
       })
     },
     doDeposit() {
@@ -185,7 +224,8 @@ export default {
         const _this = this
         if (response.data.code === '200') {
           this.$vux.alert.show({
-            title: '提现成功,点击确定返回个人中心',
+            title: '提示',
+            content: '提现成功,点击确定返回个人中心',
             onHide() {
               _this.$router.push({ name: 'user' })
             }
@@ -233,7 +273,7 @@ export default {
       .line
         font-size $font-size-normal
         color $color-text-d
-        padding 1.2rem 1.2rem 0 1.2rem
+        padding 0.8rem 1.2rem 0 1.2rem
         box-sizing border-box
         width 100%
         line-height 2rem

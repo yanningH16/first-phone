@@ -10,3 +10,5 @@ export const userNopay = state => state.userNopay
 export const userCoin = state => state.userCoin
     //搜索历史记录
 export const history = state => state.history
+// 上一个url
+export const preurl = state => state.preurl

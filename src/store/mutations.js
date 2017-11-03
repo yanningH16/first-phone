@@ -18,6 +18,9 @@ const mutations = {
     },
     [types.SET_HISTORY](state, history) {
         state.history = history
+    },
+    [types.SET_PREURL](state, preurl) {
+        state.preurl = preurl
     }
 }
 

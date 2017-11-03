@@ -24,3 +24,7 @@ export const setUserCoin = function({ commit }, coin) {
 export const setHistory = function({ commit }, history) {
     commit(types.SET_HISTORY, setHistoryStorage(history))
 }
+
+export const setPreurl= function({ commit }, preurl) {
+    commit(types.SET_PREURL, preurl)
+}
