@@ -78,7 +78,7 @@ import List from '../../../base/list/list'
 import CoinSetting from '../../../base/coinSetting/coinSetting'
 import Vue from 'vue'
 import { Tab, TabItem, ConfirmPlugin } from 'vux'
-import { mapGetters,mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 Vue.use(ConfirmPlugin)
 export default {
   name: "userMoney",
@@ -299,22 +299,22 @@ export default {
         let obj = {
           title: item.productName,
           time: item.time,
-          money: item.productOrderPrice?item.productOrderPrice.toFixed(2):0.00,
+          money: item.productOrderPrice ? item.productOrderPrice.toFixed(2) : 0.00,
           unit: '元'
         }
         mylist.push(obj)
       }
       if (this.checkIndex === 0) {
         this.listArr = mylist
-        this.accountBen =data.total?data.total.toFixed(2):0.00
+        this.accountBen = data.total ? data.total.toFixed(2) : 0.00
       }
       if (this.checkIndex === 1) {
         this.listDone = mylist
-        this.accountDone =data.total?data.total.toFixed(2):0.00
+        this.accountDone = data.total ? data.total.toFixed(2) : 0.00
       }
       if (this.checkIndex === 2) {
         this.listCan = mylist
-        this.accountCan =data.total?data.total.toFixed(2):0.00
+        this.accountCan = data.total ? data.total.toFixed(2) : 0.00
       }
     },
     //提现跳转

@@ -14,7 +14,7 @@
               <li>
                 <strong>搜索关键词</strong>
                 <span style="display: inline-block; width: 15.4rem; vertical-align:
-                            top">{{showMsg.keyName}}</span>
+                              top">{{showMsg.keyName}}</span>
                 <b><img src="../img/refresh.png" alt=""></b>
               </li>
               <li>

@@ -10,19 +10,19 @@
       </div>
     </div>
     <div class="nav-sec" ref="navSec">
-      <span v-for="(item,index) in list1" @click="tap(index)" :class="{'checked':index === checkedIndex,'top':index===1&&istop,'foot':index===1&&!istop}" :key="index" >{{item}}</span>
+      <span v-for="(item,index) in list1" @click="tap(index)" :class="{'checked':index === checkedIndex,'top':index===1&&istop,'foot':index===1&&!istop}" :key="index">{{item}}</span>
     </div>
     <div class="covers" v-show="covers"></div>
     <div class="line"></div>
     <div class="scrollContainer" ref="scrollContainer">
-      <scroll ref="scroll" class="scroll-content" @scroll="boxScroll" :probeType="probeType"  @scrollToEnd="scrollLoad" :pullup="pullup">
+      <scroll ref="scroll" class="scroll-content" @scroll="boxScroll" :probeType="probeType" @scrollToEnd="scrollLoad" :pullup="pullup">
         <Merchandise :goods="goods" @myrouter="show">
         </Merchandise>
       </scroll>
     </div>
     <div class="cover" v-show="cover">
       <div class="conten">
-          <h2>活动和服务</h2>
+        <h2>活动和服务</h2>
         <div class="box">
           <span @click="isCked1=!isCked1" :class="{'chooses':isCked1}">包邮</span>
           <span @click="isCked2 =!isCked2" :class="{'chooses':isCked2}">不限规格</span>
@@ -50,7 +50,7 @@ import { mapActions } from 'vuex'
 import index from "../../router/index/index"
 import { scrollPages } from '../../assets/js/mixin'
 const list = () => ['全部', '全额返', '超额返', '金币拿', 'Plus专享']
-const list1 = () => [ '最新', '价值', '数量', '筛选']
+const list1 = () => ['最新', '价值', '数量', '筛选']
 const list3 = () => ["0-49", "50-99", "100-149", "150-200", "200以上"]
 export default {
   mixins: [scrollPages],
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       disabled: false,
-      covers:false,
+      covers: false,
       probeType: 3,
       list2: list(),
       list1: list1(),
@@ -155,9 +155,9 @@ export default {
       'setUserNopay'
     ]),
     tap(index) {
-      this.covers=true
+      this.covers = true
       setTimeout(() => {
-        this.covers=false
+        this.covers = false
       }, 400),
         this.pageNo = 1
       this.goods = []
@@ -344,7 +344,7 @@ export default {
     margin-top -20px
     .vux-tab-item
       color #eff0f2
-      font-size 1.4rem     
+      font-size 1.4rem
   .nav-sec
     display flex
     position relative
@@ -361,7 +361,7 @@ export default {
     .foot:after
       content '↓'
       padding-left 0.5rem
-   .covers
+  .covers
     position absolute
     top 8.4rem
     left 0

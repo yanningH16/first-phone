@@ -35,7 +35,8 @@
         </div>
         <div class="step2" style="padding-bottom: 0">
           <h2>三、将图片上传到手机淘宝</h2>
-          <p>完成该步骤可额外获得<span style="color:red">{{ twoInfo.additionalTaskCost ? twoInfo.additionalTaskCost : '' }}</span>金币奖励</p>
+          <p>完成该步骤可额外获得
+            <span style="color:red">{{ twoInfo.additionalTaskCost ? twoInfo.additionalTaskCost : '' }}</span>金币奖励</p>
           <div class="showImg">
             <img v-for="(item,index) in picArrList" :key="index" :src="item" alt="">
           </div>
@@ -75,7 +76,7 @@ export default {
   methods: {
     next() {
       var that = this;
-      if(this.goodsImg.length === 0) {
+      if (this.goodsImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传评论截图'

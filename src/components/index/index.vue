@@ -11,14 +11,14 @@
               <Swiper :list="scrollImgs" :auto="true" :loop="true" :height="swiperHeight"></Swiper>
             </div>
             <!-- <div class="movement">
-              <img src="./img/menu.png" alt="userImg">
-              <div class="scrollFont">
-                <marquee>
-                  <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)" class="align-middle">hello world {{i}}
-                  </marquee-item>
-                </marquee>
-              </div>
-            </div> -->
+                <img src="./img/menu.png" alt="userImg">
+                <div class="scrollFont">
+                  <marquee>
+                    <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)" class="align-middle">hello world {{i}}
+                    </marquee-item>
+                  </marquee>
+                </div>
+              </div> -->
             <ul class="top_btn">
               <li @click="toClassPage(1)"><img src="./font/quane.svg" alt="">
                 <span>全额返</span>
@@ -126,36 +126,36 @@ export default {
   data() {
     return {
       scrollX: true,
-      arrImg1: [{imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
-              vip: 0,
-              info: 'HeadImg',
-              progress: '20',
-              sellerTaskId: 'UN201710290180926516',
-              msg: {pric: '20',state: '0',zhuan: '2',baina: '白拿'}}],
-      arrImg2: [{imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
-              vip: 0,
-              info: 'HeadImg',
-              progress: '20',
-              sellerTaskId: 'UN201710290180926516',
-              msg: {pric: '20',state: '0',zhuan: '2',baina: '白拿'}}],
-      arrImg3: [{imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
-              vip: 0,
-              info: 'HeadImg',
-              progress: '20',
-              sellerTaskId: 'UN201710290180926516',
-              msg: {pric: '20',state: '0',zhuan: '2',baina: '白拿'}}],
-      arrImg4: [{imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
-              vip: 0,
-              info: 'HeadImg',
-              progress: '20',
-              sellerTaskId: 'UN201710290180926516',
-              msg: {pric: '20',state: '0',zhuan: '2',baina: '白拿'}}],
-      arrImg5: [{imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
-              vip: 0,
-              info: 'HeadImg',
-              progress: '20',
-              sellerTaskId: 'UN201710290180926516',
-              msg: {pric: '20',state: '0',zhuan: '2',baina: '白拿'}}],
+      arrImg1: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        vip: 0,
+        info: 'HeadImg',
+        progress: '20',
+        sellerTaskId: 'UN201710290180926516',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
+      arrImg2: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        vip: 0,
+        info: 'HeadImg',
+        progress: '20',
+        sellerTaskId: 'UN201710290180926516',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
+      arrImg3: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        vip: 0,
+        info: 'HeadImg',
+        progress: '20',
+        sellerTaskId: 'UN201710290180926516',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
+      arrImg4: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        vip: 0,
+        info: 'HeadImg',
+        progress: '20',
+        sellerTaskId: 'UN201710290180926516',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
+      arrImg5: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        vip: 0,
+        info: 'HeadImg',
+        progress: '20',
+        sellerTaskId: 'UN201710290180926516',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
       defaultWidth: 139,
       defaultMargin: 0,
       scrollImgs: [{
@@ -181,7 +181,7 @@ export default {
       this.$axios.get('/api/homePage/getBanner').then(function (data) {
         if (data.data.code === '200') {
           let arrData = data.data.data
-          if(!data.data.data){
+          if (!data.data.data) {
             return false
           }
           let imgArr = [];
@@ -226,7 +226,7 @@ export default {
         //console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
-          if(!data.data.data){
+          if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
@@ -262,7 +262,7 @@ export default {
       this.$axios.get('/api/homePage/getRecommendSure').then(function (data) {
         if (data.data.code === '200') {
           let arrList = [];
-          if(!data.data.data){
+          if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
@@ -299,7 +299,7 @@ export default {
         console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
-          if(!data.data.data){
+          if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
@@ -346,7 +346,7 @@ export default {
         //console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
-          if(!data.data.data){
+          if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
@@ -383,7 +383,7 @@ export default {
         //console.log(data);
         if (data.data.code === '200') {
           let arrList = [];
-          if(!data.data.data){
+          if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {

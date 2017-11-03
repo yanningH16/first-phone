@@ -446,9 +446,6 @@ export default {
           color #08090a
           line-height 3rem
           margin-left 1.6rem
-          width 18rem
-          display inline-block
-          vertical-align top
         b
           float right
           width 1.6rem
@@ -501,7 +498,7 @@ export default {
     ul
       float left
       margin-left 1.2rem
-      width 12.6rem
+      width 13.6rem
       li
         font-size 1.4rem
         color #08090a

@@ -28,40 +28,40 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import "../../assets/stylus/variable"
-@import "../../assets/stylus/mixin"
-  .tab
+@import '../../assets/stylus/variable'
+@import '../../assets/stylus/mixin'
+.tab
+  display flex
+  flex 0 0 5rem
+  height 5rem
+  line-height 5rem
+  width 100%
+  border-top-1px(rgba(7, 17, 27, 0.1))
+  font-size 0
+  background #fff
+  z-index 99
+  position fixed
+  bottom 0
+  .tab-item
+    flex 1
+    text-align center
     display flex
-    flex 0 0 5rem
-    height 5rem
-    line-height 5rem
-    width 100%
-    border-top-1px(rgba(7,17,27,0.1))
-    font-size 0
-    background #fff
-    z-index 99
-    position fixed
-    bottom 0
-    .tab-item
-      flex: 1
-      text-align center
-      display flex
-      flex-direction column
-      justify-content center
-      color $color-text
-      &:nth-child(2)
-        .iconfont
-          font-size $font-size-large-x
-          line-height $font-size-large-x
+    flex-direction column
+    justify-content center
+    color $color-text
+    &:nth-child(2)
       .iconfont
         font-size $font-size-large-x
         line-height $font-size-large-x
-      .tab-link
-        margin-top $margin-top-5
-        color $color-text
-        line-height $font-size-small
-        font-size $font-size-small
-      &.router-link-active
-        .iconfont,.tab-link
-          color $color-theme
+    .iconfont
+      font-size $font-size-large-x
+      line-height $font-size-large-x
+    .tab-link
+      margin-top $margin-top-5
+      color $color-text
+      line-height $font-size-small
+      font-size $font-size-small
+    &.router-link-active
+      .iconfont, .tab-link
+        color $color-theme
 </style>

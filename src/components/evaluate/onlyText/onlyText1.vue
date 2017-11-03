@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     doNext() {
-      if(this.commonImg.length === 0) {
+      if (this.commonImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传评论截图'

@@ -32,30 +32,18 @@
           <h2>四、是否推荐该商品给更多买家</h2>
           <div class="tuijian">
             <div @click="active=true">
-              <!-- <img class="red" src="../img/ttw.png" alt=""> -->
               <div class="img" :class="{ red: active }">
                 <span class="iconfont icon-recommend"></span>
               </div>
               <p>推荐</p>
             </div>
             <div @click="active=false">
-              <!-- <img class="no" :class="{ red: !active }" src="../img/ttb.png" alt=""> -->
               <div class="img" :class="{ red: !active }">
                 <span class="iconfont icon-not-recommend"></span>
               </div>
               <p>不推荐</p>
             </div>
           </div>
-          <!-- <div class="tuijian" v-show="active==false">
-            <div @click="active=true">
-              <img src="../img/ttb.png" alt="">
-              <p>推荐</p>
-            </div>
-            <div @click="active=false">
-              <img class="no red" src="../img/ttw.png" alt="">
-              <p>不推荐</p>
-            </div>
-          </div> -->
         </div>
         <div class="stepTwo">
           <h2 style="line-height: 2.8rem;">五、恭喜您获得追评任务！审核通过并完成追评任务可获得
@@ -229,7 +217,7 @@ export default {
         margin-bottom 0.8rem
         border-radius 2px
         border 0.5px solid #d4d5d8
-        span 
+        span
           font-size 2.5rem
       .red
         background red

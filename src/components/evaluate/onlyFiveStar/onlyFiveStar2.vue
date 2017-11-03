@@ -215,7 +215,7 @@ export default {
         margin-bottom 0.8rem
         border-radius 2px
         border 0.5px solid #d4d5d8
-        span 
+        span
           font-size 2.5rem
       .red
         background red
