@@ -25,7 +25,7 @@
         </div>
         <div class="step2" style="padding-bottom: 0">
           <h2>四、上传收藏商品截图</h2>
-          <upload :myimgs="commonImg" :max="1" :showNum="false"></upload>
+          <upload :myimgs="commonImg" :max="1" :isShow="false"></upload>
         </div>
         <div class="next">
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="next">提交</button>
@@ -71,7 +71,10 @@ export default {
         title: '错误提示',
         content: '服务器错误',
       })
-    })
+    });
+    if(this.$route.query.rbObj) {
+      this.commonImg = JSON.parse(this.$route.query.rbObj.storeProductPicId)
+    }
   },
   //接口请求部分结束
   methods: {
@@ -81,7 +84,7 @@ export default {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
           additionalFavorText: that.$route.query.text,
-          additionalFavorPicId: this.commonImg
+          addfavorCheckId: this.commonImg
         }).then((res) => {
           console.log(res)
           if (res.data.code == 200) {

@@ -61,7 +61,8 @@ export default {
       msgCont: '',
       goodsObj: {},
       shopName: '',
-      goodCommon: ''
+      goodCommon: '',
+      rbObj: {}
     }
   },
   created() {
@@ -85,7 +86,28 @@ export default {
       }
     }).catch(function (err) {
       console.log(err)
-    })
+    });
+    if (this.$route.query.rb) {
+      //获取与评价的内容
+      this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+        'orderId': this.$route.query.buyerTaskRecordId
+      }).then((data) => {
+        if (data.data.code == '200') {
+          this.rbObj = data.data.data
+          this.goodCommon = this.rbObj.favorText
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '获取信息失败',
+            content: data.data.message,
+          })
+        }
+      }).catch(function (err) {
+        console.log(err)
+      });
+    }
   },
   methods: {
     doNext() {
