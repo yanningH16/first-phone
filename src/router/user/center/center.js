@@ -18,11 +18,22 @@ const RegisterThree = (resolve) => {
     resolve(module)
   })
 }
+const ForgetPwd = (resolve) => {
+  import ('@/components/user/forgetPwd/forgetPwd').then((module) => {
+    resolve(module)
+  })
+}
 const settings = [{
     path: '/user/login',
     component: Login,
     name: 'login',
     meta: { title: '登录' },
+  },
+  {
+    path: '/user/forgetPwd',
+    component: ForgetPwd,
+    name: 'forgetPwd',
+    meta: { title: '忘记密码' },
   },
   {
     path: '/user/registerOne',

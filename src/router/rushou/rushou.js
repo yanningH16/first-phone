@@ -1,4 +1,8 @@
-import Rushou from '@/components/rushou/rushou'
+const Rushou = (resolve) => {
+  import ('@/components/rushou/rushou').then((module) => {
+    resolve(module)
+  })
+}
 const rushou = [{
   path: '/rushou',
   component: Rushou,

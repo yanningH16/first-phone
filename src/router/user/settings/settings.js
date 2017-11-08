@@ -48,6 +48,21 @@ const UpdateUserPwd = (resolve) => {
     resolve(module)
   })
 }
+const HelpCenter = (resolve) => {
+  import ('@/components/user/helpCenter/helpCenter').then((module) => {
+    resolve(module)
+  })
+}
+const HelpInfo = (resolve) => {
+  import ('@/components/user/helpCenter/helpInfo').then((module) => {
+    resolve(module)
+  })
+}
+const UserSuggest = (resolve) => {
+  import ('@/components/user/userSuggest/userSuggest').then((module) => {
+    resolve(module)
+  })
+}
 const settings = [{
     path: '/user/settings',
     component: Settings,
@@ -85,12 +100,6 @@ const settings = [{
     meta: { title: '账号安全' },
   },
   {
-    path: '/user/userSafe',
-    component: UserSafe,
-    name: 'userSafe',
-    meta: { title: '账号安全' },
-  },
-  {
     path: '/user/settings/userSafe/zhifubao',
     component: Zhifubao,
     name: 'zhifubao',
@@ -113,6 +122,23 @@ const settings = [{
     component: UpdateUserPwd,
     name: 'updateUserPwd',
     meta: { title: '更改登录密码' },
-  }
+  },
+  {
+    path: '/user/helpCenter',
+    component: HelpCenter,
+    name: 'helpCenter',
+    meta: { title: '帮助中心' },
+  },
+  {
+    path: '/user/helpInfo',
+    component: HelpInfo,
+    name: 'helpInfo'
+  },
+  {
+    path: '/user/userSuggest',
+    component: UserSuggest,
+    name: 'userSuggest',
+    meta: { title: '意见反馈' },
+  },
 ]
 export default settings

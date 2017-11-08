@@ -5,7 +5,7 @@
         <div class="headerBox" ref="headerBox">
           <p class="info">
             <span class="text">可提现金额（单位：元）</span>
-            <router-link tag="span" class="btn" :to="{name:'desPostList'}">提现明细</router-link>
+            <router-link tag="span" class="btn" :to="{name:'desPostList'}" style="color:#fff">提现明细</router-link>
           </p>
           <p class="coin">
             <span class="text">{{availableDeposit}}</span>

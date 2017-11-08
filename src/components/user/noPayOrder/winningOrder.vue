@@ -335,7 +335,7 @@ export default {
       font-size $font-size-large
       margin-left 0
   .bottom
-    padding 1.2rem 0
+    display inline-flex
     .btn
       padding 0.8rem 1.2rem
       font-size $font-size-medium

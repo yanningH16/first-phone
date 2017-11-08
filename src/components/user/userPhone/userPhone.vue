@@ -251,6 +251,7 @@ export default {
           background $color-theme-white
           position relative
           right -1.5rem
+          border none
         .btn-disabled
           opacity 0.3
       .btnBox
@@ -273,6 +274,7 @@ export default {
           -webkit-tap-highlight-color rgba(0, 0, 0, 0)
           background-color $color-theme
           font-weight $font-weight
+          border none
         .btn-disabled
           background-color $color-theme-disabled
           color rgba(255, 255, 255, 0.3)

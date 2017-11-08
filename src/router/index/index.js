@@ -1,4 +1,8 @@
-import Index from '@/components/index/index'
+const Index = (resolve) => {
+  import ('@/components/index/index').then((module) => {
+    resolve(module)
+  })
+}
 const index = [{
   path: '/index',
   component: Index,

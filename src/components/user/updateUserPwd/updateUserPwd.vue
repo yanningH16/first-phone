@@ -33,7 +33,7 @@ import Scroll from '../../../base/scroll/scroll'
 import Step from '../../../base/step/step'
 import MButton from '../../../base/button/button'
 import Info from '../../../base/info/info'
-import { XInput, Group ,md5} from 'vux'
+import { XInput, Group, md5 } from 'vux'
 import { mapGetters } from 'vuex'
 export default {
   name: "updateUserPwd",
@@ -62,12 +62,12 @@ export default {
   },
   computed: {
     userPwdPhone: {
-      get: function() {
+      get: function () {
         let reg = /^(\d{3})\d{4}(\d{4})$/;
         let tel = this.userInfo.telephone.replace(reg, "$1^-^$2");
         return tel
       },
-      set: function() {
+      set: function () {
         return
       }
     },
@@ -181,7 +181,7 @@ export default {
             title: '错误提示',
             content: response.data.message,
           })
-        }else{
+        } else {
           this.stepIndex = 1
         }
       }).catch((error) => {
@@ -206,10 +206,10 @@ export default {
         } else {
           let _this = this
           this.$vux.toast.show({
-            text:'修改成功',
-            type:'success',
-            time:1000,
-            onHide(){
+            text: '修改成功',
+            type: 'success',
+            time: 1000,
+            onHide() {
               _this.$router.push({ name: 'user' })
             }
           })
@@ -225,66 +225,50 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '../../../assets/stylus/variable';
-@import '../../../assets/stylus/mixin';
-
-.settings {
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 9999;
-  background: $color-background;
-
-  &.move-enter-active, .move-leave-active {
-    transition: all 0.2s linear;
-    transform: translate3d(0, 0, 0);
-  }
-
-  &.move-enter, .move-leave {
-    transform: translate3d(100%, 0, 0);
-  }
-
-  .scroll-content {
-    height: 100%;
-
-    .userBox {
-      .InputBox {
-        margin-top: 1.2rem;
-
-        .btn {
-          outline: 0;
-          -webkit-appearance: none;
-          position: relative;
-          height: 3.4rem;
-          padding: 0 1rem;
-          font-size: $font-size-medium;
-          text-align: center;
-          text-decoration: none;
-          color: $color-text;
-          border-radius: $border-radius;
-          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-          font-weight: $font-weight;
-          background: $color-theme-white;
-          position: relative;
-          right: -1.5rem;
-          border-1px($color-text, $border-radius);
-        }
-
-        .btn-disabled {
-          opacity: 0.3;
-        }
-      }
-
-      .btnBox {
-        width: 100%;
-        padding: 0.8rem 1.8rem;
-        box-sizing: border-box;
-      }
-    }
-  }
-}
+@import '../../../assets/stylus/variable'
+@import '../../../assets/stylus/mixin'
+.settings
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .scroll-content
+    height 100%
+    .userBox
+      .InputBox
+        margin-top 1.2rem
+        .btn
+          outline 0
+          -webkit-appearance none
+          position relative
+          height 3.4rem
+          padding 0 1rem
+          font-size $font-size-medium
+          text-align center
+          text-decoration none
+          color $color-text
+          border-radius $border-radius
+          -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+          font-weight $font-weight
+          background $color-theme-white
+          position relative
+          right -1.5rem
+          border-1px($color-text, $border-radius)
+          border none
+        .btn-disabled
+          opacity 0.3
+      .btnBox
+        width 100%
+        padding 0.8rem 1.8rem
+        box-sizing border-box
 </style>

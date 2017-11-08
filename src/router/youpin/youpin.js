@@ -1,4 +1,8 @@
-import Youpin from '@/components/youpin/youpin'
+const Youpin = (resolve) => {
+  import ('@/components/youpin/youpin').then((module) => {
+    resolve(module)
+  })
+}
 const youpin = [{
   path: '/youpin',
   component: Youpin,

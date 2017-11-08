@@ -3,6 +3,11 @@ const UserMoney = (resolve) => {
     resolve(module)
   })
 }
+const DesPostList = (resolve) => {
+  import ('@/components/user/desPostList/desPostList').then((module) => {
+    resolve(module)
+  })
+}
 const UserCoin = (resolve) => {
   import ('@/components/user/userCoin/userCoin').then((module) => {
     resolve(module)
@@ -48,11 +53,27 @@ const BuyPlus = (resolve) => {
     resolve(module)
   })
 }
+const GetUserMoney = (resolve) => {
+  import ('@/components/user/getUserMoney/getUserMoney').then((module) => {
+    resolve(module)
+  })
+}
+const State = (resolve) => {
+  import ('@/components/state/state').then((module) => {
+    resolve(module)
+  })
+}
 const coin = [{
     path: '/user/userMoney',
     component: UserMoney,
     name: 'userMoney',
     meta: { title: '我的资金' },
+  },
+  {
+    path: '/user/desPostList',
+    component: DesPostList,
+    name: 'desPostList',
+    meta: { title: '提现明细', isLogin: true },
   },
   {
     path: '/user/userCoin',
@@ -106,6 +127,18 @@ const coin = [{
     component: BuyPlus,
     name: 'buyPlus',
     meta: { title: '充值Plus会员' },
+  },
+  {
+    path: '/user/getUserMoney',
+    component: GetUserMoney,
+    name: 'getUserMoney',
+    meta: { title: '提现' },
+  },
+  { //state
+    path: '/state/state',
+    component: State,
+    name: 'state',
+    meta: { title: '' }
   },
 ]
 export default coin
