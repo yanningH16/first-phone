@@ -50,7 +50,8 @@ export default {
       &:last-of-type
         border-bottom-1px($color-theme-white)
       .listInfo
-        flex 1
+        width 200px 
+        flex 0 0 200px
         font-size 0
         display flex
         flex-direction column

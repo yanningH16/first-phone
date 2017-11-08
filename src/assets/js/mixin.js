@@ -83,19 +83,17 @@ export const orderOperate = {
     },
     orderList: {
       handler(val) {
-        let myArr = []
         if (val.length === (this.axiosResult.length + (this.pageNo - 1) * this.pageSize)) {
-          // let obj = Object.assign(item, this.axiosResult[i - (this.pageNo - 1) * this.pageSize])
-          let obj
-          for (let axiosItem of this.axiosResult) {
-            val.forEach((item, i) => {
-              if (axiosItem.buyerTaskRecordId === item.buyerTaskRecordId) {
-                obj = Object.assign(item, axiosItem)
+          for (let i in val) {
+            if (i >= (this.pageNo - 1) * this.pageSize) {
+              for (let axiosItem of this.axiosResult) {
+                if (axiosItem.buyerTaskRecordId === val[i].buyerTaskRecordId) {
+                  val[i] = Object.assign(val[i], axiosItem)
+                }
               }
-            })
-            myArr.push(obj)
+            }
           }
-          this.setGoodsList(myArr)
+          this.setGoodsList(val)
         }
       },
       deep: true
@@ -127,7 +125,7 @@ export const orderOperate = {
   methods: {
     //设置请求的buyerTaskRecords
     setInfo(data) {
-      this.axiosResult = [...this.axiosResult, ...data.buyerTaskRecords]
+      this.axiosResult = [...data.buyerTaskRecords]
       this.maxPageSize = data.totalCount
     },
     //api请求商品信息
@@ -260,7 +258,7 @@ export const rejectOrderOperate = {
       } else if (myIndex > 19 && myIndex <= 24) {
         taskIndex = item.taskNinetId
       }
-      this.$router.push({ name: orderRouter[parseInt(taskIndex - 1)], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
+      this.$router.push({ name: orderRouter[parseInt(taskIndex - 1)], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType, rb: 1 } })
     },
   }
 };

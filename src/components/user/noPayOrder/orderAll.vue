@@ -26,9 +26,9 @@
           </span> -->
           <div class="bottom" slot="bottom" v-if="item.orderType === 2">
             <span class=" details">{{item.lotteryInfo}}</span>
-            <!-- <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span> -->
+            <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
             <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item)">前去领奖</span>
-            <!-- <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span> -->
+            <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
           </div>
           <!--评价-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 3">
@@ -125,6 +125,7 @@ export default {
           taskNineId: item.taskNineId,
           listNoState: goodsState.listNoState,
           stateColor:goodsState.stateColor,
+          isLotteryState: goodsState.isLotteryState
           // coinInfo:item.
         }
         //无错误信息判断
@@ -210,9 +211,8 @@ export default {
         }
       }
       //中奖了的状态
-      else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '1' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '9')) {
+      else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '1' || item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
         goodsState.orderType = 2
-        console.log('中奖了')
         if (item.buyerTaskStatus === '4' ||item.buyerTaskStatus === '1') {
           goodsState.stateText = '待领奖'
           goodsState.isLotteryState = 0
@@ -222,7 +222,7 @@ export default {
         } 
       }
       //抽奖
-      else if (award.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '0' || item.buyerTaskStatus === '2' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '4')) {
+      else if (award.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '0' ||  item.buyerTaskStatus === '5' || item.buyerTaskStatus === '4')) {
         let myIndex = notify.indexOf(item.taskFlag)
         goodsState.orderType = 1
         if (item.buyerTaskStatus === '0') {
