@@ -65,7 +65,16 @@ export default {
       orderImgs: [],
       orderNum: '',
       realPay: '',
-      allow: this.$route.query.allow
+      allow: this.$route.query.allow,
+      buyerTaskStatus: 4
+    }
+  },
+  created() {
+    if (this.$route.query.rbObj) {
+      this.orderNum = this.$route.query.rbObj.productOrderNo
+      this.orderImgs = JSON.parse(this.$route.query.rbObj.taobaoOrderPicId)
+      this.realPay = this.$route.query.rbObj.productOrderPrice
+      this.buyerTaskStatus = this.$route.query.rbObj.buyerTaskStatus
     }
   },
   methods: {
@@ -85,7 +94,8 @@ export default {
         customerServiceChartPicId: that.$route.query.obj.chatImg,
         taobaoOrderPicId: this.orderImgs,
         productOrderNo: this.orderNum,
-        productOrderPrice: this.realPay
+        productOrderPrice: this.realPay,
+        buyerTaskStatus: this.buyerTaskStatus
       }).then((data) => {
         console.log(data)
         if (data.data.code === '200') {

@@ -64,7 +64,8 @@ export default {
       isOk: true, //按钮可点击
       twoInfo: {},
       text: '',
-      keyWord: ''
+      keyWord: '',
+      rbObj: {}
     }
   },
   //接口请求部分开始
@@ -83,7 +84,28 @@ export default {
         title: '错误提示',
         content: '服务器错误',
       })
-    })
+    });
+    if (this.$route.query.rb) {
+      //获取与评价的内容
+      this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+        'orderId': this.$route.query.buyerTaskRecordId
+      }).then((data) => {
+        if (data.data.code == '200') {
+          this.rbObj = data.data.data
+          this.text = this.rbObj.additionalFavorText
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '获取信息失败',
+            content: data.data.message,
+          })
+        }
+      }).catch(function (err) {
+        console.log(err)
+      });
+    }
   },
   //接口请求部分结束
   methods: {

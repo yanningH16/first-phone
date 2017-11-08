@@ -59,6 +59,9 @@ export default {
   },
   watch: {
     imgs(newVal) {
+      if (newVal.length == this.max) {
+        this.isMax = false;
+      }
       this.$emit('upload-change', newVal)
     },
     myimgs(newVal) {

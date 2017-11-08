@@ -129,7 +129,8 @@ export default {
       inputShopName: '',
       msg: "1.点击输入框\r2.长按\r3.粘贴",
       isOk: true, //按钮可点击,
-      allow: 0
+      allow: 0,
+      rbObj: {}
     }
   },
   created() {
@@ -143,6 +144,10 @@ export default {
         this.goodsObj = data.data.data
         this.shopName = this.goodsObj.shopName
         this.taoKey = this.goodsObj.taokouling
+        if (this.$route.query.rb) {
+          this.inputShopName = this.goodsObj.shopName
+          this.msg = this.goodsObj.taokouling
+        }
         let isSupportHuabei = data.data.data.isSupportHuabei ? data.data.data.isSupportHuabei : 0
         let isSupportCredit = data.data.data.isSupportCredit ? data.data.data.isSupportCredit : 0
         let isSupprotCoupon = data.data.data.isSupprotCoupon ? data.data.data.isSupprotCoupon : 0
@@ -169,7 +174,7 @@ export default {
       }
     }).catch(function (err) {
       console.log(err)
-    })
+    });
 
     //获取关键词
     this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
@@ -195,7 +200,27 @@ export default {
         title: '错误提示',
         content: '服务器错误',
       })
-    })
+    });
+    if (this.$route.query.rb) {
+      //获取与评价的内容
+      this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
+        'orderId': this.$route.query.buyerTaskRecordId
+      }).then((data) => {
+        if (data.data.code == '200') {
+          this.rbObj = data.data.data
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        } else {
+          this.$vux.alert.show({
+            title: '获取信息失败',
+            content: data.data.message,
+          })
+        }
+      }).catch(function (err) {
+        console.log(err)
+      });
+    }
   },
   methods: {
     doCopy() {
@@ -213,8 +238,11 @@ export default {
       if (this.type == 1 || this.type == 4) {
         //检查输入域淘口令是否正确
         if (this.msg === this.taoKey) {
-          this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type, allow: this.allow } })
-        } else {
+          if (this.$route.query.rb) {
+            this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type, allow: this.allow, rbObj: this.rbObj } })
+          } else {
+            this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type, allow: this.allow } })
+          }
           this.$vux.alert.show({
             title: '核对商品失败',
             content: '复制的淘口令有误',
@@ -228,8 +256,12 @@ export default {
           })
         }
       } else {
-        if (this.inputShopName === this.shopName) {
-          this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type } })
+        if (this.inputShopName == this.shopName) {
+          if (this.$route.query.rb) {
+            this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type, allow: this.allow, rbObj: this.rbObj } })
+          } else {
+            this.$router.push({ name: 'sureGetStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.type, allow: this.allow } })
+          }
         } else {
           this.$vux.alert.show({
             title: '核对店铺失败',

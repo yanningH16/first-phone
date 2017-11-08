@@ -76,25 +76,12 @@ export default {
     }
   },
   created() {
-    //获取与评价的内容
-    this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-      'orderId': this.$route.query.buyerTaskRecordId
-    }).then((data) => {
-      console.log(data)
-      if (data.data.code === '200') {
-        this.buyerTaskStatus = data.data.data.buyerTaskStatus
-        this.$nextTick(() => {
-          this.$refs.scroll.refresh()
-        })
-      } else {
-        this.$vux.alert.show({
-          title: '获取信息失败',
-          content: data.data.message,
-        })
-      }
-    }).catch(function (err) {
-      console.log(err)
-    });
+    if (this.$route.query.rbObj) {
+      this.orderNum = this.$route.query.rbObj.productOrderNo
+      this.orderImgs = JSON.parse(this.$route.query.rbObj.taobaoOrderPicId)
+      this.realPay = this.$route.query.rbObj.productOrderPrice
+      this.buyerTaskStatus = this.$route.query.rbObj.buyerTaskStatus
+    }
   },
   methods: {
     doNext() {

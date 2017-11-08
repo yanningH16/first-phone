@@ -55,7 +55,7 @@ export default {
           focusImg: this.$route.query.obj.focusImg,
           taoKeyArr: [this.goodsOneKey, this.goodsTwoKey, this.goodsThreeKey]
         }
-        this.$router.push({ name: 'getPriceOneStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, obj: obj } })
+        this.$router.push({ name: 'getPriceOneStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, obj: obj, rbObj: this.$route.query.rbObj } })
       }
     }
   }

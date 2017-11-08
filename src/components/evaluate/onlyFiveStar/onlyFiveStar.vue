@@ -31,7 +31,7 @@
         </div>
         <div class="step2" style="padding-bottom: 0">
           <h2>二、上传五星好评页面截图</h2>
-          <upload :myimgs="commonImg" :max="1" :showNum="false"></upload>
+          <upload :myimgs="commonImg" :max="1" :isShow="false"></upload>
         </div>
         <div class="warn">
           <p>
