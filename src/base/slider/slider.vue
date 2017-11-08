@@ -21,6 +21,10 @@ export default {
     defaultMargin: {
       type: Number,
       default: 0
+    },
+    defaultUnit:{
+      type:String,
+      default:'px'
     }
   },
   methods: {
@@ -38,7 +42,7 @@ export default {
         let picWidth = this.defaultWidth
         let margin = this.defaultMargin
         let width = (picWidth + margin) * this.arr.length - margin
-        this.$refs.wrapperContainer.style.width = width + 'px'
+        this.$refs.wrapperContainer.style.width = width + this.defaultUnit
         this.wrapper = new Bscroll(this.$refs.wrapper, {
           scrollX: true,
           eventPassthrough: 'vertical',

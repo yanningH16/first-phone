@@ -278,6 +278,7 @@ export const winningOrderOperate = {
         'sureGetStep1'
       ]
       let index = awarded.indexOf(item.taskFlag)
+      console.log(item)
       this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     //删除订单

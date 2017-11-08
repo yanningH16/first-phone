@@ -129,8 +129,7 @@ export default {
       showMsg: {},
       seller: '',
       taoKey: '',
-      allow: 0,
-      rbObj: {}
+      allow: 0
     }
   },
   //接口请求部分开始
@@ -143,10 +142,6 @@ export default {
       if (data.data.code === "200") {
         this.twoInfo = data.data.data
         this.taoKey = data.data.data.taokouling
-        if (this.$route.query.rb) {
-          this.shopName = this.twoInfo.shopName
-          this.msg = this.twoInfo.taokouling
-        }
         let isSupportHuabei = data.data.data.isSupportHuabei ? data.data.data.isSupportHuabei : 0
         let isSupportCredit = data.data.data.isSupportCredit ? data.data.data.isSupportCredit : 0
         let isSupprotCoupon = data.data.data.isSupprotCoupon ? data.data.data.isSupprotCoupon : 0
@@ -190,28 +185,7 @@ export default {
       }
     }).catch((error) => {
       console.log(error)
-    });
-    if (this.$route.query.rb) {
-      //获取与评价的内容
-      this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-        'orderId': this.$route.query.buyerTaskRecordId
-      }).then((data) => {
-        if (data.data.code == '200') {
-          console.log(data)
-          this.rbObj = data.data.data
-          this.$nextTick(() => {
-            this.$refs.scroll.refresh()
-          })
-        } else {
-          this.$vux.alert.show({
-            title: '获取信息失败',
-            content: data.data.message,
-          })
-        }
-      }).catch(function (err) {
-        console.log(err)
-      });
-    }
+    })
   },
   //接口请求部分结束
   methods: {
@@ -267,11 +241,7 @@ export default {
         let obj = {
           taoKey: [this.goodsOneKey, this.goodsTwoKey, this.goodsThreeKey]
         }
-        if (this.$route.query.rb) {
-          this.$router.push({ name: 'getPriceTwoStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow, obj: obj, rbObj: this.rbObj } })
-        } else {
-          this.$router.push({ name: 'getPriceTwoStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow, obj: obj } })
-        }
+        this.$router.push({ name: 'getPriceTwoStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow, obj: obj } })
       }
 
     },

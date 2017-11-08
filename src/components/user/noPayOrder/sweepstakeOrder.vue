@@ -202,6 +202,7 @@ export default {
         this.showLotteryIndex = 0
         return false
       }
+      this.axiosResult = []
       this.showLotteryIndex = index
       this.getApi()
     },

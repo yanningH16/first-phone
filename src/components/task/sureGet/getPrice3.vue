@@ -41,11 +41,6 @@ export default {
       chatImg: [], //客服聊天截图
     }
   },
-  created() {
-    if (this.$route.query.rbObj) {
-      this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
-    }
-  },
   methods: {
     doNext() {
       //var buyerTaskRecordId = this.$route.query.buyerTaskRecordId || localStorage.getItem("buyerTaskRecordId")bitslapOrderSubmit
@@ -67,7 +62,7 @@ export default {
         focusImg: that.$route.query.obj.focusImg,
         chatImg: that.chatImg
       }
-      that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, allow: that.$route.query.allow, type: that.$route.query.type, obj: obj, rbObj: that.$route.query.rbObj } })
+      that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, allow: that.$route.query.allow, type: that.$route.query.type, obj: obj } })
       /*}
     }).catch((error) => {
       this.$vux.alert.show({

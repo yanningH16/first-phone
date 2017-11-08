@@ -40,7 +40,7 @@
             <div class="shopName">
               <h2>验证店铺</h2>
               <div class="inputCompet">
-                <input @input="showIsPass" placeholder="输入店铺全称..." type="text" v-model="shopName">
+                <input @input="showIsPass" placeholder="输入店铺全称..." type="text">
                 <button v-show="isPass" @click="onInput">验证</button>
                 <button v-show="isRight" style="border-color: #51cc68"><img src="../img/ok.png" alt=""></button>
                 <button v-show="isWrong" style="border-color: #ff3340"><img src="../img/wrong.png" alt=""></button>
@@ -118,8 +118,7 @@ export default {
       showMsg: {},
       seller: '',
       taoKey: '',
-      allow: 0,
-      rbObj: {}
+      allow: 0
     }
   },
   //接口请求部分开始
@@ -132,10 +131,6 @@ export default {
       if (data.data.code === "200") {
         this.twoInfo = data.data.data
         this.taoKey = data.data.data.taokouling
-        if (this.$route.query.rb) {
-          this.shopName = this.twoInfo.shopName
-          this.msg = this.twoInfo.taokouling
-        }
         let isSupportHuabei = data.data.data.isSupportHuabei ? data.data.data.isSupportHuabei : 0
         let isSupportCredit = data.data.data.isSupportCredit ? data.data.data.isSupportCredit : 0
         let isSupprotCoupon = data.data.data.isSupprotCoupon ? data.data.data.isSupprotCoupon : 0
@@ -179,28 +174,8 @@ export default {
       }
     }).catch((error) => {
       console.log(error)
-    });
-    if (this.$route.query.rb) {
-      //获取与评价的内容
-      this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-        'orderId': this.$route.query.buyerTaskRecordId
-      }).then((data) => {
-        if (data.data.code == '200') {
-          console.log(data)
-          this.rbObj = data.data.data
-          this.$nextTick(() => {
-            this.$refs.scroll.refresh()
-          })
-        } else {
-          this.$vux.alert.show({
-            title: '获取信息失败',
-            content: data.data.message,
-          })
-        }
-      }).catch(function (err) {
-        console.log(err)
-      });
-    }
+    })
+
   },
   //接口请求部分结束
   methods: {
@@ -246,16 +221,12 @@ export default {
           },
         })
       } else {
-        if(this.$route.query.rb) {
-          this.$router.push({ name: 'getPriceThreeStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow, rbObj: this.rbObj } })
-        } else {
-          this.$router.push({ name: 'getPriceThreeStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow } })
-        }
+        this.$router.push({ name: 'getPriceThreeStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow } })
       }
     },
     onInput() {
       //如果通过显示通过按钮
-      if (this.shopName === this.twoInfo.shopName) {
+      if (this.seller === this.twoInfo.shopName) {
         this.isPass = false
         this.isRight = true
         this.isWrong = false

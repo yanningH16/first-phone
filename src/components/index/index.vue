@@ -11,14 +11,14 @@
               <Swiper :list="scrollImgs" :auto="true" :loop="true" :height="swiperHeight"></Swiper>
             </div>
             <!-- <div class="movement">
-                <img src="./img/menu.png" alt="userImg">
-                <div class="scrollFont">
-                  <marquee>
-                    <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)" class="align-middle">hello world {{i}}
-                    </marquee-item>
-                  </marquee>
-                </div>
-              </div> -->
+                  <img src="./img/menu.png" alt="userImg">
+                  <div class="scrollFont">
+                    <marquee>
+                      <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)" class="align-middle">hello world {{i}}
+                      </marquee-item>
+                    </marquee>
+                  </div>
+                </div> -->
             <ul class="top_btn">
               <li @click="toClassPage(1)"><img src="./font/quane.svg" alt="">
                 <span>全额返</span>
@@ -43,7 +43,7 @@
               <span class="m_all" @click="toClassPage(1)">查看全部&nbsp;&gt;</span>
             </div>
             <div class="cont_show_scroll">
-              <slider class="scroll-content" :arr="arrImg1" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
+              <slider class="scroll-content" :arr="arrImg1" :defaultUnit="defaultUnit" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
                 <div class="scroll_item" v-for="(item, index) in arrImg1" @click="goDetail(item)" :key="index">
                   <merchandise :obj="item"></merchandise>
                 </div>
@@ -56,7 +56,7 @@
               <span class="m_all" @click="toClassPage(3)">查看全部&nbsp;&gt;</span>
             </div>
             <div class="cont_show_scroll">
-              <slider class="scroll-content" :arr="arrImg2" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
+              <slider class="scroll-content" :arr="arrImg2" :defaultUnit="defaultUnit" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
                 <div class="scroll_item" v-for="(item, index) in arrImg2" @click="goDetail(item)" :key="index">
                   <merchandise :obj="item"></merchandise>
                 </div>
@@ -78,7 +78,7 @@
               <img src="http://img2.imgtn.bdimg.com/it/u=4095006314,944966500&fm=214&gp=0.jpg" alt="">
             </div>
             <div class="cont_show_scroll">
-              <slider class="scroll-content" :arr="arrImg4" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
+              <slider class="scroll-content" :arr="arrImg4" :defaultUnit="defaultUnit" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
                 <div class="scroll_item" v-for="(item, index) in arrImg4" @click="goDetail(item)" :key="index">
                   <merchandise :obj="item"></merchandise>
                 </div>
@@ -91,7 +91,7 @@
               <img src="http://pic.qiantucdn.com/58pic/19/76/32/571241ca47377_1024.jpg" alt="">
             </div>
             <div class="cont_show_scroll">
-              <slider class="scroll-content" :arr="arrImg5" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
+              <slider class="scroll-content" :arr="arrImg5" :defaultUnit="defaultUnit" :defaultWidth="defaultWidth" :defaultMargin="defaultMargin">
                 <div class="scroll_item" v-for="(item, index) in arrImg5" @click="goDetail(item)" :key="index">
                   <merchandise :obj="item"></merchandise>
                 </div>
@@ -126,12 +126,48 @@ export default {
   data() {
     return {
       scrollX: true,
-      arrImg1: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
-        vip: 0,
-        info: 'HeadImg',
-        progress: '20',
-        sellerTaskId: 'UN201710290180926516',
-        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
+      arrImg1: [
+        {
+          imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+          vip: 0,
+          info: 'HeadImg',
+          progress: '20',
+          sellerTaskId: 'UN201710290180926516',
+          msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+        },
+        {
+          imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+          vip: 0,
+          info: 'HeadImg',
+          progress: '20',
+          sellerTaskId: 'UN201710290180926516',
+          msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+        },
+        {
+          imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+          vip: 0,
+          info: 'HeadImg',
+          progress: '20',
+          sellerTaskId: 'UN201710290180926516',
+          msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+        },
+        {
+          imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+          vip: 0,
+          info: 'HeadImg',
+          progress: '20',
+          sellerTaskId: 'UN201710290180926516',
+          msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+        },
+        {
+          imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+          vip: 0,
+          info: 'HeadImg',
+          progress: '20',
+          sellerTaskId: 'UN201710290180926516',
+          msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+        }
+      ],
       arrImg2: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
         vip: 0,
         info: 'HeadImg',
@@ -156,7 +192,8 @@ export default {
         progress: '20',
         sellerTaskId: 'UN201710290180926516',
         msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
-      defaultWidth: 139,
+      defaultWidth: 13.9,
+      defaultUnit: 'rem',
       defaultMargin: 0,
       scrollImgs: [{
         url: 'javascript:',

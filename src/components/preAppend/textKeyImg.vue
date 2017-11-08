@@ -35,7 +35,7 @@
         </div>
         <div class="step2" style="padding-bottom: 0">
           <h2>三、上传商品图片(至少三张)</h2>
-          <upload :myimgs="goodsImg" :max="5" :isShow="true"></upload>
+          <upload :myimgs="goodsImg" :max="5" :showNum="true"></upload>
         </div>
         <div class="warn">
           <p>
@@ -69,8 +69,7 @@ export default {
       goodsImg: [],
       twoInfo: {},
       text: '',
-      keyWord: '',
-      rbObj: {}
+      keyWord: ''
     }
   },
   //接口请求部分开始
@@ -89,29 +88,7 @@ export default {
         title: '错误提示',
         content: '服务器错误',
       })
-    });
-    if (this.$route.query.rb) {
-      //获取与评价的内容
-      this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-        'orderId': this.$route.query.buyerTaskRecordId
-      }).then((data) => {
-        if (data.data.code == '200') {
-          this.rbObj = data.data.data
-          this.text = this.rbObj.additionalFavorText
-          this.goodsImg = JSON.parse(this.rbObj.addfavorCheckId)
-          this.$nextTick(() => {
-            this.$refs.scroll.refresh()
-          })
-        } else {
-          this.$vux.alert.show({
-            title: '获取信息失败',
-            content: data.data.message,
-          })
-        }
-      }).catch(function (err) {
-        console.log(err)
-      });
-    }
+    })
   },
   watch: {
     goodsImg: {
@@ -133,7 +110,7 @@ export default {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
           additionalFavorText: this.text,
-          addfavorCheckId: this.goodsImg
+          evaluateProductPicId: this.goodsImg
         }).then((res) => {
           console.log(res)
           if (res.data.code == 200) {

@@ -53,8 +53,7 @@ export default {
     return {
       isOk: true,
       goodsObj: {},
-      shopName: '',
-      rbObj: {}
+      shopName: ''
     }
   },
   created() {
@@ -78,7 +77,7 @@ export default {
       }
     }).catch(function (err) {
       console.log(err)
-    });
+    })
   },
   methods: {
     doNext() {

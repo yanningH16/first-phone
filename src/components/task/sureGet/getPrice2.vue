@@ -10,13 +10,13 @@
         <div class="step8">
           <h2>六、上传收藏商品截图</h2>
           <div>
-            <upload :max="1" :isShow="false" :myimgs="favImg"></upload>
+            <upload :max="1" :showNum="false" :myimgs="favImg"></upload>
           </div>
         </div>
         <div class="step8">
           <h2>七、上传关注店铺截图</h2>
           <div>
-            <upload :max="1" :isShow="false" :myimgs="focusImg"></upload>
+            <upload :max="1" :showNum="false" :myimgs="focusImg"></upload>
           </div>
         </div>
         <div class="next">
@@ -48,26 +48,20 @@ export default {
       type: this.$route.query.type
     }
   },
-  created() {
-    if (this.$route.query.rbObj) {
-      this.favImg = JSON.parse(this.$route.query.rbObj.storeProductPicId);
-      this.focusImg = JSON.parse(this.$route.query.rbObj.concernShopPicId);
-    }
-  },
   methods: {
     doNext() {
       let that = this;
-      if (this.favImg.length == 0 || that.focusImg.length == 0) {
+      if (this.favImg.length === 0 || that.focusImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传完整截图'
         });
         return false
       }
-      if (that.$route.query.type == 1 || that.$route.query.type == 2 || that.$route.query.type == 3) {
-        that.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg }, rbObj: that.$route.query.rbObj } })
+      if (that.$route.query.type === 1 || that.$route.query.type === 2 || that.$route.query.type === 3) {
+        that.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
       } else {
-        that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg }, rbObj: that.$route.query.rbObj } })
+        that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg } } })
       }
     }
   }

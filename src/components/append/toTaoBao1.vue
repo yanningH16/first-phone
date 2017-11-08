@@ -35,7 +35,7 @@
         </div>
         <div class="step2" style="padding-bottom: 0">
           <h2>三、上传评价页面截图</h2>
-          <upload :myimgs="goodsImg" :max="1" :isShow="false"></upload>
+          <upload :myimgs="goodsImg" :max="1" :showNum="false"></upload>
         </div>
         <div class="next">
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="next">提交</button>

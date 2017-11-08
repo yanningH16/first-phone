@@ -42,11 +42,6 @@ export default {
       chatImg: [], //客服聊天截图
     }
   },
-  created() {
-    if (this.$route.query.rbObj) {
-      this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
-    }
-  },
   methods: {
     doNext() {
       if (this.chatImg.length === 0) {
@@ -60,7 +55,7 @@ export default {
         taoKeyArr: this.$route.query.obj.taoKeyArr,
         chatImg: this.chatImg
       }
-      this.$router.push({ name: 'getPriceTwoStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, obj: obj, rbObj: this.$route.query.rbObj } })
+      this.$router.push({ name: 'getPriceTwoStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, obj: obj } })
     }
   }
 }
