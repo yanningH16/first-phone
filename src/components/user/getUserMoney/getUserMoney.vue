@@ -302,7 +302,7 @@ export default {
             color $color-text-d
         .inputBox
           .btn
-            border-small($color-text, $border-radius)
+            border-1px($color-text, $border-radius)
             outline 0
             -webkit-appearance none
             position relative

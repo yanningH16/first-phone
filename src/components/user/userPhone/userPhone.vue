@@ -235,7 +235,7 @@ export default {
         padding 0 1.8rem
       .addressInputBox
         .btn
-          border-small($color-text, $border-radius)
+          border-1px($color-text, $border-radius)
           outline 0
           -webkit-appearance none
           position relative

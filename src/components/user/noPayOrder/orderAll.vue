@@ -15,9 +15,9 @@
           <!--抽奖-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 1">
             <span class="details">{{item.lotteryInfo}}</span>
-            <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
+            <span class="btn " @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
             <span class="btn details" v-if="item.isLotteryState===0" @click="getLottery(item)">继续申请</span>
-            <span class="btn details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
+            <span class="btn  details" v-if="item.isLotteryState===1" @click="doTask(item)">去做任务</span>
           </div>
           <!--中奖了-->
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===2 && item.orderType === 2">白拿还赚
@@ -28,20 +28,20 @@
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
             <span class="btn details" v-if="item.isLotteryState===0" @click="getAward(item)">前去领奖</span>
-            <span class="btn" v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
+            <span class="btn " v-if="item.isLotteryState===1" @click="deleteOrder(item)">删除订单</span>
           </div>
           <!--评价-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 3">
             <span class="details">{{item.evaluateInfo}}</span>
-            <span class="btn details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
-            <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
-            <span class="btn details" v-else-if="item.isEvaluateState===2" @click="goEvaluate(item)">去预追评</span>
-            <span class="btn details" v-else-if="item.isEvaluateState===3" @click="goEvaluate(item)">追评到淘宝</span>
-            <!-- <span class="btn" v-else-if="item.isEvaluateState===4" @click="applyCustomer(item)">申请售后</span> -->
+            <span class="btn  details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
+            <span class="btn  details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
+            <span class="btn  details" v-else-if="item.isEvaluateState===2" @click="goEvaluate(item)">去预追评</span>
+            <span class="btn  details" v-else-if="item.isEvaluateState===3" @click="goEvaluate(item)">追评到淘宝</span>
+            <!-- <span class="btn border-1px" v-else-if="item.isEvaluateState===4" @click="applyCustomer(item)">申请售后</span> -->
           </div>
           <!--驳回-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 4">
-            <span class="btn details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
+            <span class="btn  details" @click="rejectOperate(item,item.taskFlag)">{{item.btnText}}</span>
           </div>
         </appendCommon>
       </div>
@@ -319,10 +319,10 @@ export default {
           display inline-block
           color $color-text
           margin-left 1.2rem
-          border-small($color-text, $border-radius)
+          border-1px($color-text, $border-radius)
           &.details
             color $color-theme
-            border-small($color-theme, $border-radius)
+            border-1px($color-theme, $border-radius)
         .details
           color $color-theme
           font-size $font-size-medium

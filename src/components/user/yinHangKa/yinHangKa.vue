@@ -72,9 +72,6 @@ export default {
       'preurl'
     ])
   },
-  mounted(){
-    console.log(this.preurl)
-  },
   watch: {
     addressValue(value) {
       this.addressValueString = value2name(value, ChinaAddressV2Data)

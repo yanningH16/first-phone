@@ -271,7 +271,7 @@ export default {
           background: $color-theme-white;
           position: relative;
           right: -1.5rem;
-          border-small($color-text, $border-radius);
+          border-1px($color-text, $border-radius);
         }
 
         .btn-disabled {

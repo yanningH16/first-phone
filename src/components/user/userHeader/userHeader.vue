@@ -40,6 +40,7 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+@import '../../../assets/stylus/mixin'
   .userHeader
     font-family PingFangSC
     width 100%
@@ -88,6 +89,7 @@ export default {
           margin-left 1rem
           background transparent
           border 1px solid #fff
+          extend-click()
     .btn
       flex 0 0 2.5rem
       line-height 7rem
@@ -95,4 +97,5 @@ export default {
         width 2.5rem
         height 2.5rem
         vertical-align middle
+        extend-click()
 </style>

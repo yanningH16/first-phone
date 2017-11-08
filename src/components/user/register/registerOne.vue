@@ -212,7 +212,7 @@ export default {
         margin-top 1.2rem
         .inputBox
           .btn
-            border-small($color-text, $border-radius)
+            border-1px($color-text, $border-radius)
             outline 0
             -webkit-appearance none
             position relative

@@ -271,7 +271,7 @@ export default {
           position relative
           border-bottom-1px($color-text-ll)
           .btn
-            border-small($color-text, $border-radius)
+            border-1px($color-text, $border-radius)
             outline 0
             -webkit-appearance none
             position relative

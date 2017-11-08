@@ -164,10 +164,10 @@ export default {
       padding 0.8rem 1.2rem
       color $color-text
       margin-left 1.2rem
-      border-small($color-text, $border-radius)
+      border-1px($color-text, $border-radius)
       &.details
         color $color-theme
-        border-small($color-theme, $border-radius)
+        border-1px($color-theme, $border-radius)
     .details
       color $color-theme
       font-size $font-size-medium

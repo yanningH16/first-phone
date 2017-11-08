@@ -126,10 +126,11 @@ export default {
   .good_intro
     padding-top 1.2rem
     padding-bottom 1.2rem
+    display flex
     border-bottom-1px(#d4d5d8)
     overflow hidden
     img
-      float left
+      flex 0 0 8.3rem
       width 8.3rem
       height 8.3rem
       border-radius 2px
@@ -145,8 +146,7 @@ export default {
       line-height 8.3rem
       color #b7b9bf
     > div
-      float left
-      width 19.3rem
+      flex 1
       margin-left 1.2rem
       margin-right 1.6rem
       position relative
@@ -196,7 +196,8 @@ export default {
       padding-right 0.8rem
       background #fff
       border none
-      border-1px(#383a3f)
+      border-1px(#383a3f,4px)
+      extend-click()
   .subBtn
     text-align right
     overflow hidden

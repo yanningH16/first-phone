@@ -97,8 +97,13 @@ export default {
     .listBox
       flex 1
       overflow hidden
+      position relative
       .scroll-content
         height 100%
+        position absolute
+        width 100%
+        top 0
+        right 0
       .infoRed
         color $color-theme
         .num
@@ -118,10 +123,10 @@ export default {
           padding 0.8rem 1.2rem
           color $color-text
           margin-left 1.2rem
-          border-small($color-text, $border-radius)
+          border-1px($color-text, $border-radius)
           &.details
             color $color-theme
-            border-small($color-theme, $border-radius)
+            border-1px($color-theme, $border-radius)
         .details
           color $color-theme
           font-size $font-size-medium

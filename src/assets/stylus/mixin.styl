@@ -16,61 +16,10 @@ extend-click()
   &:before
     content: ''
     position: absolute
-    top: -10px
-    left: -10px
-    right: -10px
-    bottom: -10px
-
-//border优化   
-border-small($color,$radius)
-  position relative
-  border none
-  @media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)
-    &:before
-      content: ""
-      position: absolute
-      top: -50%
-      bottom: -50%
-      left: -50%
-      right: -50%
-      -webkit-transform: scale(0.7)
-      transform: scale(0.7)
-      border-style: solid
-      border-width: 1px
-      border-color: $color
-      -webkit-border-radius: $radius
-      border-radius: $radius
-  @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2)
-    &:before
-      content: ""
-      position: absolute
-      top: -50%
-      bottom: -50%
-      left: -50%
-      right: -50%
-      -webkit-transform: scale(0.5)
-      transform: scale(0.5)
-      border-style: solid
-      border-width: 1px
-      border-color: $color
-      -webkit-border-radius: $radius
-      border-radius: $radius
-  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3)
-    &:before
-      content: ""
-      position: absolute
-      top: -50%
-      bottom: -50%
-      left: -50%
-      right: -50%
-      -webkit-transform: scale(0.333)
-      transform: scale(0.333)
-      border-style: solid
-      border-width: 1px
-      border-color: $color
-      -webkit-border-radius: $radius
-      border-radius: $radius
-
+    top: -1rem
+    left: -1rem
+    right: -1rem
+    bottom: -1rem
 //计算flex
 flex-fix()
   -ms-flex: 1 1 0.000000001px
