@@ -11,7 +11,7 @@
         <slot name="state"></slot>
       </div>
     </div>
-    <div class="good_intro border-bottom-1px">
+    <div class="good_intro ">
       <img :src="goodsObj.goodsImg" alt="goodImg">
       <div class="imgForbidden" v-if="goodsObj.listNoState">失效</div>
       <div>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="good_num border-bottom-1px" v-if="goodsObj.orderNum">
+    <div class="good_num border-top-1px" v-if="goodsObj.orderNum">
       <div>
         <strong>订单编号</strong>
         <span>{{goodsObj.orderNum}}</span>
@@ -48,7 +48,7 @@
         </p>
       </div>
     </div>
-    <div class="subBtn" v-if="!goodsObj.isBottom">
+    <div class="subBtn border-top-1px" v-if="!goodsObj.isBottom">
       <slot name="bottom"></slot>
     </div>
   </div>
@@ -127,6 +127,7 @@ export default {
     padding-top 1.2rem
     padding-bottom 1.2rem
     display flex
+    position relative
     border-bottom-1px(#d4d5d8)
     overflow hidden
     img
@@ -174,7 +175,7 @@ export default {
     padding-bottom 1.2rem
     padding-right 1.6rem
     overflow hidden
-    border-bottom-1px(#d4d5d8)
+    border-top-1px(#d4d5d8)
     strong, span
       font-size 1.2rem
       color #75787f
@@ -199,6 +200,7 @@ export default {
       border-1px(#383a3f,4px)
       extend-click()
   .subBtn
+    border-top-1px(#d4d5d8)
     text-align right
     overflow hidden
     padding-top 1.2rem
