@@ -10,7 +10,7 @@ const defaultUser = [{
   path: '/user',
   component: User,
   name: 'user',
-  meta: { title: '我的' }
+  meta: { title: '我的',isLogin: true }
 }]
 const user = [...defaultUser, ...Settings, ...Coin, ...Center]
 export default user

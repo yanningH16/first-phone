@@ -1,5 +1,5 @@
 const Index = (resolve) => {
-  import ('@/components/index/index').then((module) => {
+  import('@/components/index/index').then((module) => {
     resolve(module)
   })
 }
