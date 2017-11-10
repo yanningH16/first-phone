@@ -66,9 +66,8 @@ export default {
   },
   // 接口请求部分开始
   created () {
-    var that = this
     this.$axios.post('/api/orderOperate/getBuyerTask', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+      buyerTaskRecordId: this.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
       if (data.code === '200') {
@@ -81,7 +80,7 @@ export default {
     })
     // 核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+      buyerTaskRecordId: this.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
       if (data.code === '200') {
@@ -95,7 +94,7 @@ export default {
     })
     // 获取与评价的内容
     this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-      'orderId': that.$route.query.buyerTaskRecordId
+      'orderId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
@@ -119,7 +118,6 @@ export default {
   // 接口请求部分结束
   methods: {
     next () {
-      var that = this
       if (this.goodsImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
@@ -128,8 +126,8 @@ export default {
         return false
       }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        additionalFavorPicId: that.goodsImg
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+        additionalFavorPicId: this.goodsImg
       }).then((res) => {
         if (res.data.code === '200') {
           this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate1' } })

@@ -10,8 +10,8 @@
           <upload :myimgs="favImg" :max="3" :showNum="true"></upload>
         </div>
         <!-- <div class="warn">
-              <p>提示：如果店铺商品不足3个，可复制其他店铺同类商品提交</p>
-            </div> -->
+                  <p>提示：如果店铺商品不足3个，可复制其他店铺同类商品提交</p>
+                </div> -->
         <div class="sureBtn">
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">提交申请</button>
         </div>
@@ -46,9 +46,8 @@ export default {
         })
         return false
       }
-      let that = this
       this.$axios.post('/api/orderOperate/seventhOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
         storeProductPicId: this.favImg
       }).then((res) => {
         console.log(res)

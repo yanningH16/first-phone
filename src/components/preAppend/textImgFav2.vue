@@ -72,18 +72,17 @@ export default {
       })
     })
     if (this.$route.query.rbObj) {
-      this.commonImg = JSON.parse(this.$route.query.rbObj.storeProductPicId)
+      this.commonImg = JSON.parse(sessionStorage.getItem('__rbObjP1__')).storeProductPicId
     }
   },
   // 接口请求部分结束
   methods: {
     next () {
-      let that = this
       if (this.commonImg.length > 0) {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
-          buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-          addfavorCheckId: that.$route.query.goodsImg,
-          additionalFavorText: that.$route.query.text,
+          buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+          addfavorCheckId: this.$route.query.goodsImg,
+          additionalFavorText: this.$route.query.text,
           additionalFavorPicId: this.commonImg
         }).then((res) => {
           console.log(res)

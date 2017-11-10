@@ -80,16 +80,14 @@ export default {
   },
   methods: {
     doNext () {
-      let that = this
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
         favorText: this.$route.query.commonMsg,
         favorPicId: this.$route.query.commonImg,
         evaluationRealityScore: this.goods1,
         evaluationRichScore: this.goods2,
         isRecommendOtherBuyer: this.active ? 1 : 0
       }).then((data) => {
-        console.log(data)
         if (data.data.code === '200') {
           this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate2' } })
         } else {

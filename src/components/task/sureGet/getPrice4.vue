@@ -1,6 +1,6 @@
 <template>
   <div class="getprice_box">
-    <scroll ref="scroll" class="scroll" :click="false">
+    <scroll ref="scroll" class="scroll" :click="false" :preventDefaultException="preventDefaultException">
       <div class="stepOne_box">
         <step v-if="type==1 || type==2 || type==3" :stepArray='["搜索核对加购物车", "收藏关注", "客服聊天", "填写订单信息"]' :stepIndex="3"></step>
         <step v-if="type==4 || type==5 || type==6" :stepArray='["搜索核对加购物车", "收藏关注", "填写订单信息"]' :stepIndex="2"></step>
@@ -72,20 +72,20 @@ export default {
       realPay: '',
       type: this.$route.query.type,
       buyerTaskStatus: 4,
-      allow: this.$route.query.allow
+      allow: this.$route.query.allow,
+      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN|IMG)$/ }
     }
   },
   created () {
     if (this.$route.query.rbObj) {
-      this.orderNum = this.$route.query.rbObj.productOrderNo
-      this.orderImgs = JSON.parse(this.$route.query.rbObj.taobaoOrderPicId)
-      this.realPay = this.$route.query.rbObj.productOrderPrice
-      this.buyerTaskStatus = this.$route.query.rbObj.buyerTaskStatus
+      this.orderNum = JSON.parse(sessionStorage.getItem('__rbObjG1__')).productOrderNo
+      this.orderImgs = JSON.parse(sessionStorage.getItem('__rbObjG1__')).taobaoOrderPicId
+      this.realPay = JSON.parse(sessionStorage.getItem('__rbObjG1__')).productOrderPrice
+      this.buyerTaskStatus = JSON.parse(sessionStorage.getItem('__rbObjG1__')).buyerTaskStatus
     }
   },
   methods: {
     doNext () {
-      let that = this
       if (this.orderImgs.length === 0 || this.orderNum.length === 0 || this.realPay.length === 0) {
         this.$vux.alert.show({
           title: '提示',
@@ -94,10 +94,10 @@ export default {
         return false
       }
       this.$axios.post('/api/orderOperate/fourthOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        storeProductPicId: that.$route.query.obj.favImg,
-        concernShopPicId: that.$route.query.obj.focusImg,
-        customerServiceChartPicId: that.$route.query.obj.chatImg ? that.$route.query.obj.chatImg : '',
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+        storeProductPicId: this.$route.query.obj.favImg,
+        concernShopPicId: this.$route.query.obj.focusImg,
+        customerServiceChartPicId: this.$route.query.obj.chatImg ? this.$route.query.obj.chatImg : '',
         taobaoOrderPicId: this.orderImgs,
         productOrderNo: this.orderNum,
         productOrderPrice: this.realPay,

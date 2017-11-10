@@ -1,6 +1,6 @@
 <template>
   <div class="getprice_box">
-    <scroll ref="scroll" class="scroll" :click="false">
+    <scroll ref="scroll" class="scroll" :click="false" :preventDefaultException="preventDefaultException">
       <div class="stepFour_box">
         <step :stepArray='stepArr' :stepIndex="stepIndex"></step>
         <div class="step9">
@@ -66,15 +66,17 @@ export default {
       orderNum: '',
       realPay: '',
       allow: this.$route.query.allow,
-      buyerTaskStatus: 4
+      buyerTaskStatus: 4,
+      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN|IMG)$/ }
     }
   },
   created () {
     if (this.$route.query.rbObj) {
-      this.orderNum = this.$route.query.rbObj.productOrderNo
-      this.orderImgs = JSON.parse(this.$route.query.rbObj.taobaoOrderPicId)
-      this.realPay = this.$route.query.rbObj.productOrderPrice
-      this.buyerTaskStatus = this.$route.query.rbObj.buyerTaskStatus
+      let obj = JSON.parse(sessionStorage.getItem('__rbObjG1__'))
+      this.orderNum = obj.productOrderNo
+      this.orderImgs = obj.taobaoOrderPicId
+      this.realPay = obj.productOrderPrice
+      this.buyerTaskStatus = obj.buyerTaskStatus
     }
   },
   methods: {

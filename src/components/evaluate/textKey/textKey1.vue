@@ -89,7 +89,7 @@ export default {
           content: data.data.message
         })
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       console.log(err)
     })
     // 获取与评价的内容
@@ -108,7 +108,7 @@ export default {
           content: data.data.message
         })
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       console.log(err)
     })
   },

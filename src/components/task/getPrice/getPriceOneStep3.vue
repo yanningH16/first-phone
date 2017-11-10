@@ -43,7 +43,8 @@ export default {
   },
   created () {
     if (this.$route.query.rbObj) {
-      this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
+      this.chatImg = JSON.parse(sessionStorage.getItem('__rbObjG1__')).customerServiceChartPicId
+      // this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
     }
   },
   methods: {

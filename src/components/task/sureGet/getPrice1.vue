@@ -12,7 +12,7 @@
           <li>
             <strong>搜索关键词</strong>
             <span style="display: inline-block; width: 15.4rem; vertical-align: top">{{ keyName }}</span>
-            <b><img src="../img/refresh.png" alt=""></b>
+            <!-- <b><img src="../img/refresh.png" alt=""></b> -->
           </li>
           <li>
             <span style="margin-left: 1rem">筛选条件：</span>
@@ -129,10 +129,9 @@ export default {
     }
   },
   created () {
-    let that = this
-    that.type = that.$route.query.type
+    this.type = this.$route.query.type
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
+      'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
@@ -167,13 +166,13 @@ export default {
           this.$refs.scroll.refresh()
         })
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       console.log(err)
     })
 
     // 获取关键词
     this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
-      sellerTaskId: that.$route.query.sellerTaskId
+      sellerTaskId: this.$route.query.sellerTaskId
     }).then((data) => {
       console.log(data)
       this.keyWordArr = data.data.data
@@ -203,6 +202,7 @@ export default {
       }).then((data) => {
         if (data.data.code === '200') {
           this.rbObj = data.data.data
+          sessionStorage.setItem('__rbObjG1__', JSON.stringify(this.rbObj))
           this.$nextTick(() => {
             this.$refs.scroll.refresh()
           })
@@ -212,7 +212,7 @@ export default {
             content: data.data.message
           })
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }
@@ -220,9 +220,8 @@ export default {
   methods: {
     doCopy () {
       let clipboard = new Clipboard('.copy')
-      let that = this
-      clipboard.on('success', function (e) {
-        that.$vux.toast.text('复制成功!', 'middle')
+      clipboard.on('success', (e) => {
+        this.$vux.toast.text('复制成功!', 'middle')
       })
     },
     mathRandom () {

@@ -43,13 +43,11 @@ export default {
   },
   created () {
     if (this.$route.query.rbObj) {
-      this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
+      this.chatImg = JSON.parse(sessionStorage.getItem('__rbObjG1__')).customerServiceChartPicId
     }
   },
   methods: {
     doNext () {
-      // var buyerTaskRecordId = this.$route.query.buyerTaskRecordId || localStorage.getItem("buyerTaskRecordId")bitslapOrderSubmit
-      let that = this
       if (this.chatImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
@@ -58,16 +56,16 @@ export default {
         return false
       }
       /* this.$axios.post('/api/orderOperate/bitslapOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        chatImg: that.chatImg
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+        chatImg: this.chatImg
       }).then((res) => {
         if (res.data.code=== "200") { */
       let obj = {
-        favImg: that.$route.query.obj.favImg,
-        focusImg: that.$route.query.obj.focusImg,
-        chatImg: that.chatImg
+        favImg: this.$route.query.obj.favImg,
+        focusImg: this.$route.query.obj.focusImg,
+        chatImg: this.chatImg
       }
-      that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, allow: that.$route.query.allow, type: that.$route.query.type, obj: obj, rbObj: that.$route.query.rbObj } })
+      this.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.$route.query.allow, type: this.$route.query.type, obj: obj, rbObj: this.$route.query.rbObj } })
       /* }
     }).catch((error) => {
       this.$vux.alert.show({

@@ -1,6 +1,6 @@
 <template>
   <div class="getprice_box">
-    <scroll ref="scroll" class="scroll" :click="false">
+    <scroll ref="scroll" class="scroll" :click="false" :preventDefaultException="preventDefaultException">
       <div class="stepOne_box">
         <step :stepArray='stepArr' :stepIndex="stepIndex"></step>
         <div class="step9">
@@ -67,20 +67,20 @@ export default {
       realPay: '',
       orderImgs: [], // 订单详情截图
       allow: this.$route.query.allow,
-      buyerTaskStatus: 4
+      buyerTaskStatus: 4,
+      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN|IMG)$/ }
     }
   },
   created () {
     if (this.$route.query.rbObj) {
-      this.orderNum = this.$route.query.rbObj.productOrderNo
-      this.orderImgs = JSON.parse(this.$route.query.rbObj.taobaoOrderPicId)
-      this.realPay = this.$route.query.rbObj.productOrderPrice
-      this.buyerTaskStatus = this.$route.query.rbObj.buyerTaskStatus
+      this.orderNum = JSON.parse(sessionStorage.getItem('__rbObjG1__')).productOrderNo
+      this.orderImgs = JSON.parse(sessionStorage.getItem('__rbObjG1__')).taobaoOrderPicId
+      this.realPay = JSON.parse(sessionStorage.getItem('__rbObjG1__')).productOrderPrice
+      this.buyerTaskStatus = JSON.parse(sessionStorage.getItem('__rbObjG1__')).buyerTaskStatus
     }
   },
   methods: {
     next () {
-      let that = this
       if (this.orderImgs.length === 0 || this.orderNum.length === 0 || this.realPay.length === 0) {
         this.$vux.alert.show({
           title: '提示',
@@ -89,8 +89,8 @@ export default {
         return false
       }
       this.$axios.post('/api/orderOperate/fourthOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        customerServiceChartPicId: that.$route.query.obj.chatImg,
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+        customerServiceChartPicId: this.$route.query.obj.chatImg,
         taobaoOrderPicId: this.orderImgs,
         productOrderNo: this.orderNum,
         productOrderPrice: this.realPay,

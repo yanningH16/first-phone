@@ -67,9 +67,8 @@ export default {
   },
   created () {
     // 获取商品详情
-    let that = this
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
+      'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
@@ -84,7 +83,7 @@ export default {
           content: data.data.message
         })
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       console.log(err)
     })
     if (this.$route.query.rb) {
@@ -104,14 +103,13 @@ export default {
             content: data.data.message
           })
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }
   },
   methods: {
     doNext () {
-      let that = this
       if (this.goodCommon === '') {
         this.$vux.alert.show({
           title: '提示',
@@ -120,7 +118,7 @@ export default {
         return false
       }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
         favorText: this.goodCommon
       }).then((data) => {
         console.log(data)
