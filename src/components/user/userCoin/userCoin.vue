@@ -10,10 +10,10 @@
         <scroll class="scrollContent" ref="scrollContent" @scrollToEnd="scrollLoad" :pullup="pullup">
           <div class="scrollBox">
             <!-- <div class="tabContainer" ref="tabContainer">
-                                              <tab active-color="#08090a" bar-active-color="#08090a" custom-bar-width="6rem">
-                                                <tab-item :selected="(index===checkIndex)" :line-width="1" v-for="(item,index) in tabArr" :key="index" @on-item-click="choose">{{item}}</tab-item>
-                                              </tab>
-                                            </div> -->
+                      <tab active-color="#08090a" bar-active-color="#08090a" custom-bar-width="6rem">
+                        <tab-item :selected="(index===checkIndex)" :line-width="1" v-for="(item,index) in tabArr" :key="index" @on-item-click="choose">{{item}}</tab-item>
+                      </tab>
+                    </div> -->
             <div class="listBox">
               <!-- <div class="moneyList" v-if="checkIndex===0" ref="rechargeArr"> -->
               <div class="moneyList" ref="rechargeArr">
@@ -22,17 +22,17 @@
                 </list>
               </div>
               <!-- <div class="moneyList" v-else-if="checkIndex===1" ref="coinArr">
-                                                <list :list="coinArr">
-                                                  <p class="text" v-show="coinArr.length===0">暂无记录</p>
-                                                </list>
-                                              </div>
-                                              <div class="moneyList" v-else>
-                                                <list :list="payArr">
-                                                  <slot>
-                                                    <p class="text" v-show="payArr.length===0">暂无记录</p>
-                                                  </slot>
-                                                </list>
-                                              </div> -->
+                <list :list="coinArr">
+                  <p class="text" v-show="coinArr.length===0">暂无记录</p>
+                </list>
+              </div>
+              <div class="moneyList" v-else>
+                <list :list="payArr">
+                  <slot>
+                    <p class="text" v-show="payArr.length===0">暂无记录</p>
+                  </slot>
+                </list>
+              </div> -->
             </div>
           </div>
         </scroll>
@@ -97,7 +97,6 @@ export default {
     }
   },
   mounted () {
-    this.getApi()
     this.$nextTick(() => {
       this.$refs.scrollContent.refresh()
     })

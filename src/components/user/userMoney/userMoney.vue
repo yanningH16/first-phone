@@ -4,11 +4,11 @@
       <div class="userMoneyBox">
         <div class="headerBox" ref="headerBox">
           <p class="info">
-            <span class="text">可提现金额（单位：元）</span>
+            <span class="text">可提现金额（单位：{{depositUnit}}）</span>
             <router-link tag="span" class="btn" :to="{name:'desPostList'}" style="color:#fff">提现明细</router-link>
           </p>
           <p class="coin">
-            <span class="text">{{availableDeposit}}</span>
+            <span class="text" ref="depositEle">{{availableDeposit}}</span>
             <span class="btn right" @click="deposit" :class="{'disabled':availableDeposit===0}">提现</span>
           </p>
         </div>
@@ -157,6 +157,10 @@ export default {
         let deposit = 0
         if (this.userCoin.availableDeposit) {
           deposit = parseFloat(this.userCoin.availableDeposit).toFixed(2)
+          if (deposit > 10000) {
+            deposit = (deposit / 10000).toFixed(2)
+            this.depositUnit = '万元'
+          }
         }
         return deposit
       },
@@ -176,6 +180,7 @@ export default {
         '冻结金额',
         '解冻金额'
       ],
+      depositUnit: '元',
       showToast: false,
       listArr: [],
       listDone: [],
@@ -313,6 +318,7 @@ export default {
         this.accountCan = data.total ? data.total.toFixed(2) : 0.00
       }
     },
+
     // 提现跳转
     doDeposit () {
       this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
