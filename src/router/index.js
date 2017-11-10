@@ -25,7 +25,6 @@ let router = new Router({
 })
   // 设置title
 router.beforeEach((to, from, next) => {
-  
   if (to.meta.isLogin) {
     axios.post('/api/user/loginOrNot', {}).then((res) => {
       if (res.data.code !== '200' || !loadUserInfo()) {
