@@ -37,7 +37,7 @@ import Step from '../../../base/step/step'
 import { XInput, Group } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: "userQq",
+  name: 'userPhone',
   components: {
     Scroll,
     XInput,
@@ -45,43 +45,43 @@ export default {
     Step
   },
   watch: {
-    userMsg(val) {
-      if (val.length == 6) {
+    userMsg (val) {
+      if (val.length === 6) {
         this.btnSaveState = true
         return false
       }
       this.btnSaveState = false
     },
-    userNewPhone(val) {
+    userNewPhone (val) {
       if (this.$refs.userNewPhone.valid) {
         this.btnNewCodeState = true
       }
     },
-    userNewMsg(val) {
-      if (val.length == 6 && this.$refs.userNewPhone.valid) {
+    userNewMsg (val) {
+      if (val.length === 6 && this.$refs.userNewPhone.valid) {
         this.btnSureState = true
         return false
       }
       this.btnSureState = false
-    },
+    }
   },
   computed: {
     userPwdPhone: {
       get: function () {
-        let reg = /^(\d{3})\d{4}(\d{4})$/;
-        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2");
+        let reg = /^(\d{3})\d{4}(\d{4})$/
+        let tel = this.userInfo.telephone.replace(reg, '$1^-^$2')
         return tel
       },
       set: function (v) {
       }
     },
-    //获取已经存储手机号
+    // 获取已经存储手机号
     ...mapGetters([
       'userPhone',
       'userInfo'
     ])
   },
-  data() {
+  data () {
     return {
       stepArray: ['验证身份', '绑定新手机'],
       stepIndex: 0,
@@ -100,8 +100,8 @@ export default {
     }
   },
   methods: {
-    //获取短信验证码
-    getCode(phone, state) {
+    // 获取短信验证码
+    getCode (phone, state) {
       this.$vux.toast.text('短信已发送', 'middle')
       this.$axios.post('/api/sms/send', {
         telephone: phone,
@@ -118,7 +118,7 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
       }).catch((error) => {
@@ -126,11 +126,11 @@ export default {
         this.btnCodeState = true
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },
-    timeGo() {
+    timeGo () {
       if (this.time >= 0) {
         this.codeText = `${this.time}(s)`
         this.time--
@@ -146,19 +146,18 @@ export default {
         }
       }
     },
-    //验证验证码
-    checkCode(newMsg, phone, state) {
-      if (state === 1 && this.btnSaveState || state === 2 && this.btnSureState) {
+    // 验证验证码
+    checkCode (newMsg, phone, state) {
+      if (((state === 1) && this.btnSaveState) || ((state === 2) && this.btnSureState)) {
         this.$axios.post('/api/sms/verify', {
           telephone: phone,
           code: newMsg,
           type: 0
         }).then((response) => {
-          let _this = this
           if (response.data.code !== '200') {
             this.$vux.alert.show({
               title: '错误提示',
-              content: response.data.message,
+              content: response.data.message
             })
           } else {
             if (state === 1) {
@@ -176,8 +175,8 @@ export default {
         })
       }
     },
-    updatePhone(phone) {
-      //做请求
+    updatePhone (phone) {
+      // 做请求
       this.$axios.post('/api/user/updateTelephoneByUserId', {
         buyerUserId: this.userInfo.buyerUserId,
         telephone: this.userNewPhone

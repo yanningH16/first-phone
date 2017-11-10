@@ -36,41 +36,40 @@
 import Scroll from '../../../base/scroll/scroll'
 import List from '../../../base/list/list'
 import Vue from 'vue'
-import { Tab, TabItem, ConfirmPlugin } from 'vux'
+import { ConfirmPlugin } from 'vux'
 import { scrollPages } from '../../../assets/js/mixin'
-import { mapGetters } from 'vuex'
 Vue.use(ConfirmPlugin)
 export default {
-  name: "desPostList",
+  name: 'desPostList',
   mixins: [scrollPages],
   components: {
     Scroll,
-    List,
+    List
   },
-  data() {
+  data () {
     return {
       showToast: false,
       list: [],
-      apiUrl: '/api/withdrawApply/buyer/getBuyerApplyRecord',
+      apiUrl: '/api/withdrawApply/buyer/getBuyerApplyRecord'
     }
   },
   computed: {
     params: {
-      get() {
+      get () {
         return {
           buyerUserId: this.userInfo.buyerUserId,
           pageNo: this.pageNo,
           pageSize: this.pageSize
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
   methods: {
-    //设置信息
-    setInfo(data) {
+    // 设置信息
+    setInfo (data) {
       let mylist = []
       this.maxPageSize = data.totalCount
       for (let item of data.datas) {
@@ -98,7 +97,7 @@ export default {
         this.$refs.listArr.refresh()
         this.canLoading = true
       })
-    },
+    }
   }
 }
 </script>

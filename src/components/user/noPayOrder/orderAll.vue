@@ -5,11 +5,11 @@
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject" :class="{'normal':item.stateColor===1}">{{item.stateText}}</span>
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-            <span class="num">{{item.coinInfo}}</span>金币
-          </span>
-          <span slot="info" class="infoOrange" v-if="item.coinType===1">
-            <span class="num">{{item.coinInfo}}</span>金币兑换
-          </span> -->
+                                                                <span class="num">{{item.coinInfo}}</span>金币
+                                                              </span>
+                                                              <span slot="info" class="infoOrange" v-if="item.coinType===1">
+                                                                <span class="num">{{item.coinInfo}}</span>金币兑换
+                                                              </span> -->
           <!--全部-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 0"></div>
           <!--抽奖-->
@@ -21,9 +21,9 @@
           </div>
           <!--中奖了-->
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===2 && item.orderType === 2">白拿还赚
-            <span class="num">{{item.coinInfo||0}}</span>
-            金币
-          </span> -->
+                                                                <span class="num">{{item.coinInfo||0}}</span>
+                                                                金币
+                                                              </span> -->
           <div class="bottom" slot="bottom" v-if="item.orderType === 2">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -52,41 +52,39 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
-import Vue from 'vue'
-import { award, awarded, comment, notify, orderRouter } from '../../../assets/data/task'
-import { mapGetters } from 'vuex'
+import { award, awarded, comment, notify } from '../../../assets/data/task'
 import { scrollPages, orderOperate, sweepstakeOrderOperate, evaluateOrderOperate, rejectOrderOperate, winningOrderOperate } from '../../../assets/js/mixin'
 export default {
-  name: "rejectOrder",
+  name: 'rejectOrder',
   mixins: [scrollPages, orderOperate, sweepstakeOrderOperate, evaluateOrderOperate, rejectOrderOperate, winningOrderOperate],
   components: {
     Scroll,
     AppendCommon
   },
-  data() {
+  data () {
     return {
-      axiosResult: [],//获得的数据
+      axiosResult: [], // 获得的数据
       goodsAll: [],
       apiUrl: '/api/orderOperate/getAllBuyerTaskList'
     }
   },
   computed: {
     params: {
-      get() {
+      get () {
         return {
           buyerUserId: this.userInfo.buyerUserId,
           pageSize: this.pageSize,
           pageNo: this.pageNo
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
   methods: {
-    //存数据
-    setGoodsList(data) {
+    // 存数据
+    setGoodsList (data) {
       // console.log(data)
       let goodsDramArr = []
       for (let item of data) {
@@ -124,11 +122,10 @@ export default {
           taskEightId: item.taskEightId,
           taskNineId: item.taskNineId,
           listNoState: goodsState.listNoState,
-          stateColor:goodsState.stateColor,
-          isLotteryState: goodsState.isLotteryState
+          stateColor: goodsState.stateColor
           // coinInfo:item.
         }
-        //无错误信息判断
+        // 无错误信息判断
         if (goodsState.orderType === 2 || item.buyerTaskStatus === '6' || item.buyerTaskStatus === '7') {
           obj.errInfo = ''
           obj.info = ''
@@ -141,8 +138,8 @@ export default {
         this.canLoading = true
       })
     },
-    //设置内容状态
-    setGoodsState(item) {
+    // 设置内容状态
+    setGoodsState (item) {
       let goodsState = {}
       if (notify.indexOf(item.taskFlag) !== -1 && item.buyerTaskStatus === '12') {
         let myIndex = notify.indexOf(item.taskFlag)
@@ -173,10 +170,8 @@ export default {
             goodsState.isBottom = true
             goodsState.errInfo = '评价有问题，待平台与您联系'
           }
-        }
-      }
-      //评价的状态
-      else if (comment.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
+        } // 评价的状态
+      } else if (comment.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
         let myIndex = comment.indexOf(item.taskFlag)
         goodsState.orderType = 3
         if (item.buyerTaskStatus === '4') {
@@ -208,22 +203,17 @@ export default {
             goodsState.stateText = '淘宝追评审核中'
             goodsState.isBottom = 4
           }
-        }
-      }
-      //中奖了的状态
-      else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '1' || item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
+        } // 中奖了的状态
+      } else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '1' || item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
         goodsState.orderType = 2
-        if (item.buyerTaskStatus === '4' ||item.buyerTaskStatus === '1') {
+        if (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '1') {
           goodsState.stateText = '待领奖'
           goodsState.isLotteryState = 0
         } else if (item.buyerTaskStatus === '9') {
           goodsState.stateText = '订单审核中'
           goodsState.isBottom = 1
-        } 
-      }
-      //抽奖
-      else if (award.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '0' ||  item.buyerTaskStatus === '5' || item.buyerTaskStatus === '4')) {
-        let myIndex = notify.indexOf(item.taskFlag)
+        } // 抽奖
+      } else if (award.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '0' || item.buyerTaskStatus === '5' || item.buyerTaskStatus === '4')) {
         goodsState.orderType = 1
         if (item.buyerTaskStatus === '0') {
           goodsState.stateText = '待开奖'
@@ -237,27 +227,24 @@ export default {
           goodsState.isLotteryState = 0
           goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
         }
-      }
-      else if (item.buyerTaskStatus === '2') {
+      } else if (item.buyerTaskStatus === '2') {
         goodsState.orderType = 0
         goodsState.stateText = '未中奖'
         goodsState.isBottom = 1
         goodsState.listNoState = true
-      }
-      else if (item.buyerTaskStatus === '6') {
+      } else if (item.buyerTaskStatus === '6') {
         goodsState.orderType = 0
         goodsState.stateText = '已放弃白拿'
         goodsState.isBottom = 1
         goodsState.listNoState = true
-      }
-      else if (item.buyerTaskStatus === '7') {
+      } else if (item.buyerTaskStatus === '7') {
         goodsState.orderType = 0
         goodsState.stateText = '交易成功'
         goodsState.isBottom = 1
         goodsState.stateColor = 1
       }
       return goodsState
-    },
+    }
   }
 }
 </script>

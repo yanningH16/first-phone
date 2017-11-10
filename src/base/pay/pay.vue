@@ -3,8 +3,8 @@
     <div class="payMoney">
       <h1 class="title">{{title}}</h1>
       <div class="payMoneyBox">
-        <checker v-model="myMoneyIndex" :max="1"  type="radio" :radio-required="radioRequired" default-item-class="pay-item" selected-item-class="pay-item-selected">
-          <checker-item :value="index" v-for="(item, index) in moneyBox" :key="index" >
+        <checker v-model="myMoneyIndex" :max="1" type="radio" :radio-required="radioRequired" default-item-class="pay-item" selected-item-class="pay-item-selected">
+          <checker-item :value="index" v-for="(item, index) in moneyBox" :key="index">
             <div class="typeOne" v-show="type === 0">
               <p class="price">{{item.price}}</p>
               <p class="oldPrice">原价{{item.oldPrice}}</p>
@@ -62,10 +62,10 @@
 </template>
 <script type="text/ecmascript-6">
 import { Checker, CheckerItem, XButton, XSwitch } from 'vux'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import Checkbtn from '../checkbtn/checkbtn'
 export default {
-  name: "pay",
+  name: 'pay',
   props: {
     title: {
       type: String,
@@ -110,35 +110,35 @@ export default {
   computed: {
     ...mapGetters([
       'userInfo'
-    ]),
+    ])
   },
-  created() {
+  created () {
     this.myMoneyIndex = this.moneyIndex
     this.isMyChecked = this.isChecked
     this.isMyChosed = this.isChosed
   },
   watch: {
-    myMoneyIndex(newval) {
+    myMoneyIndex (newval) {
       console.log(newval)
       this.$emit('index-change', newval)
     },
-    moneyIndex(newval) {
+    moneyIndex (newval) {
       this.myMoneyIndex = newval
     },
-    isMyChecked(newval) {
+    isMyChecked (newval) {
       this.$emit('checked-change', newval)
     },
-    isChecked(newval) {
+    isChecked (newval) {
       this.isMyChecked = newval
     },
-    isMyChosed(newval) {
+    isMyChosed (newval) {
       this.$emit('isChosed-change', newval)
     },
-    isChosed(newval) {
+    isChosed (newval) {
       this.isMyChosed = newval
-    },
+    }
   },
-  data() {
+  data () {
     return {
       myMoneyIndex: null,
       isMyChecked: null,
@@ -147,7 +147,7 @@ export default {
     }
   },
   methods: {
-    doOpacity(val) {
+    doOpacity (val) {
       if (val) {
         return 1
       }
@@ -377,6 +377,8 @@ export default {
         height 3rem
         line-height 3rem
         text-align right
+        .pLine
+          display flex
         .text
           font-size $font-size-small
           color $color-text-d

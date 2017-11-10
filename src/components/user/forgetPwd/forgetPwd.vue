@@ -26,7 +26,7 @@ import Scroll from '../../../base/scroll/scroll'
 import MButton from '../../../base/button/button'
 import { mapActions } from 'vuex'
 export default {
-  name: "registerOne",
+  name: 'registerOne',
   components: {
     XInput,
     Group,
@@ -34,7 +34,7 @@ export default {
     Scroll
   },
   watch: {
-    phone(val) {
+    phone (val) {
       if (this.$refs.phone.valid) {
         this.btnCodeState = true
         return false
@@ -42,14 +42,14 @@ export default {
       this.btnCodeState = false
       this.checkState()
     },
-    msg() {
+    msg () {
       this.checkState()
     },
-    pwd() {
+    pwd () {
       this.checkState()
     }
   },
-  data() {
+  data () {
     return {
       btnCodeState: false,
       btnSaveState: false,
@@ -58,7 +58,7 @@ export default {
       msgType: (val) => {
         if (val.length === 6) {
           return {
-            valid: true,
+            valid: true
           }
         } else {
           return {
@@ -72,7 +72,7 @@ export default {
         let str = /((?=.*\d)(?=.*\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,16}$/
         if (str.test(val)) {
           return {
-            valid: true,
+            valid: true
           }
         } else {
           return {
@@ -88,7 +88,7 @@ export default {
     }
   },
   methods: {
-    checkState() {
+    checkState () {
       let isPhone = this.$refs.phone.valid
       let isMsg = this.$refs.msg.valid
       let isPwd = this.$refs.pwd.valid
@@ -98,7 +98,7 @@ export default {
         this.btnSaveState = false
       }
     },
-    getCode() {
+    getCode () {
       if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
@@ -107,23 +107,23 @@ export default {
         }).then((response) => {
           if (response.data.code === '200') {
             this.timer = setInterval(this.timeGo, 1000)
-          }else{
+          } else {
             this.btnCodeState = true
             this.$vux.alert.show({
-            title: '错误提示',
-            content: response.data.message,
-          })
+              title: '错误提示',
+              content: response.data.message
+            })
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.btnCodeState = true
           this.$vux.alert.show({
             title: '错误提示',
-            content: '服务器错误',
+            content: '服务器错误'
           })
         })
       }
     },
-    timeGo() {
+    timeGo () {
       if (this.time >= 0) {
         this.codeText = `已发送(${this.time}`
         this.time--
@@ -135,8 +135,8 @@ export default {
         this.btnCodeState = true
       }
     },
-    uploadPwd() {
-      if(!this.btnSaveState) return false
+    uploadPwd () {
+      if (!this.btnSaveState) return false
       this.$vux.loading.show({
         text: '请稍后'
       })
@@ -149,37 +149,37 @@ export default {
         if (response.data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
-        }else{
+        } else {
           this.savePwd()
         }
       }).catch((error) => {
         console.log(error)
       })
     },
-    savePwd(){
+    savePwd () {
       this.$axios.post('/api/user/resetPassword', {
         telephone: this.phone,
-        password: md5(this.pwd),
+        password: md5(this.pwd)
       }).then((response) => {
         this.$vux.loading.hide()
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
-          //登录成功
+          // 登录成功
           this.setUserPhoneHistory(this.phone)
           this.$router.push({ name: 'login' })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.loading.hide()
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },
@@ -192,7 +192,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-.userContainer 
+.userContainer
   height 100%
   position fixed
   width 100%
@@ -201,25 +201,25 @@ export default {
   top 0
   bottom 0
   z-index 9999
-  background: $color-background
-  &.move-enter-active, .move-leave-active 
+  background $color-background
+  &.move-enter-active, .move-leave-active
     transition all 0.2s linear
     transform translate3d(0, 0, 0)
-  &.move-enter, .move-leave 
+  &.move-enter, .move-leave
     transform translate3d(100%, 0, 0)
-  .userContainerBox 
+  .userContainerBox
     background #eff0f2
     display flex
     flex-direction column
     height 100%
-    .register 
-      .groupBox 
+    .register
+      .groupBox
         margin-top 1.2rem
-        .inputBox 
-          .btn 
+        .inputBox
+          .btn
             border-1px($color-text, $border-radius)
             outline 0
-            -webkit-appearance: none
+            -webkit-appearance none
             position relative
             height 3.4rem
             padding 0 1rem
@@ -227,14 +227,14 @@ export default {
             text-align center
             text-decoration none
             color $color-text
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+            -webkit-tap-highlight-color rgba(0, 0, 0, 0)
             font-weight $font-weight
             background $color-theme-white
             position relative
             right -1.5rem
-            &.btn-disabled 
+            &.btn-disabled
               opacity 0.3
-      .btnBox 
+      .btnBox
         width 100%
         padding 0.5rem 1.8rem
         box-sizing border-box

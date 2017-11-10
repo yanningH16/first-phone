@@ -20,12 +20,11 @@
   </transition>
 </template>
 <script type="text/ecmascript-6">
-import avatarSrc from '../userHeader/avator.png'
 import Scroll from '../../../base/scroll/scroll'
 import { Cell, Group, Actionsheet, Datetime } from 'vux'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
-  name: "settings",
+  name: 'settings',
   mixins: [userInfoMixin],
   components: {
     Group,
@@ -34,7 +33,7 @@ export default {
     Actionsheet,
     Datetime
   },
-  created() {
+  created () {
     // 提现密码设置
     if (this.userInfo.depositPassword) {
       this.boxTwo[0].state = 1
@@ -44,9 +43,9 @@ export default {
   },
   computed: {
     boxOne: {
-      get() {
+      get () {
         let arr = []
-        //淘宝账号状态判断
+        // 淘宝账号状态判断
         if (this.userInfo.taobaoId) {
           let obj = {
             title: `绑定淘宝买号：${this.userInfo.taobaoId}`
@@ -77,12 +76,12 @@ export default {
           }
           arr.push(obj)
         }
-        //银行卡状态判断
+        // 银行卡状态判断
         if (this.userInfo.bankCardNo) {
           let reg = /^(\d{4})[\d]*(\d{4})$/
-          let account = this.userInfo.bankCardNo.replace(reg, "$1^-^$2");
+          let account = this.userInfo.bankCardNo.replace(reg, '$1^-^$2')
           let obj = {
-            title: `绑定银行卡：${account}`,
+            title: `绑定银行卡：${account}`
           }
           if (this.userInfo.bankCheckStatus === 1) {
             obj.state = 2
@@ -92,7 +91,7 @@ export default {
             obj.state = 0
             obj.isLink = true
             obj.value = '未通过审核'
-            link: 'userSafe/yinHangKa'
+            obj.link = 'userSafe/yinHangKa'
           } else {
             obj.state = 1
             obj.isLink = true
@@ -112,14 +111,14 @@ export default {
         }
         return arr
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     boxTwo: {
-      get() {
+      get () {
         let arr = []
-        //淘宝账号状态判断
+        // 淘宝账号状态判断
         if (this.userInfo.depositPassword) {
           let obj = {
             title: '设置提现密码',
@@ -148,19 +147,19 @@ export default {
         )
         return arr
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
-  data() {
+  data () {
     return {
       stateClass: ['classError', 'classProgress', 'classSuccess']
     }
   },
   methods: {
-    //判断是否有值
-    isNull(value) {
+    // 判断是否有值
+    isNull (value) {
       if (value === '@') {
         return ''
       } else if (value) {

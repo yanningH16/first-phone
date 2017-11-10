@@ -33,85 +33,85 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 export default {
-  name: "buyCoin",
+  name: 'buyCoin',
   components: {
     Scroll
   },
-  data(){
+  data () {
     return {
-      questions:[
+      questions: [
         {
-          icon:'',
-          text:'新手问题',
-          list:[
+          icon: '',
+          text: '新手问题',
+          list: [
             {
-              name:'申请需要什么条件?',
+              name: '申请需要什么条件?'
             },
             {
-              name:'申请需要交钱吗？',
+              name: '申请需要交钱吗？'
             }
           ]
         },
         {
-          icon:'',
-          text:'试用申请',
-          list:[
+          icon: '',
+          text: '试用申请',
+          list: [
             {
-              name:'如何申请商品？',
+              name: '如何申请商品？'
             },
             {
-              name:'每天最多可以得到几个商品呢？',
+              name: '每天最多可以得到几个商品呢？'
             }
           ]
         },
         {
-          icon:'',
-          text:'下单领取',
-          list:[
+          icon: '',
+          text: '下单领取',
+          list: [
             {
-              name:'中奖商品有下单时间限制要求吗？',
-              link:''
+              name: '中奖商品有下单时间限制要求吗？',
+              link: ''
             },
             {
-              name:'下单时可以使用信用卡付款吗？',
-              link:''
+              name: '下单时可以使用信用卡付款吗？',
+              link: ''
             }
           ]
         },
         {
-          icon:'',
-          text:'收货评价',
-          list:[
+          icon: '',
+          text: '收货评价',
+          list: [
             {
-              name:'商品对评价有什么要求吗？',
-              link:''
+              name: '商品对评价有什么要求吗？',
+              link: ''
             },
             {
-              name:'图文好评任务评价时需要注意些什么呢？',
-              link:''
+              name: '图文好评任务评价时需要注意些什么呢？',
+              link: ''
             }
           ]
         },
         {
-          icon:'',
-          text:'返款/提现',
-          list:[
+          icon: '',
+          text: '返款/提现',
+          list: [
             {
-              name:'银行卡不小心绑定错误了怎么办？',
-              link:''
+              name: '银行卡不小心绑定错误了怎么办？',
+              link: ''
             },
             {
-              name:'任务完成后什么时候返款？',
-              link:''
+              name: '任务完成后什么时候返款？',
+              link: ''
             }
           ]
         }
       ]
     }
   },
-  methods:{
-    goInfo(index,chooseIndex){
-      this.$router.push({ name: 'helpInfo' ,query:{index:index,chooseIndex:chooseIndex}})
+  methods: {
+    goInfo (index, chooseIndex) {
+      this.$router.push({ name: 'helpInfo', query: { index: index, chooseIndex: chooseIndex } })
     }
   }
 }

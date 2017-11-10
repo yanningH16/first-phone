@@ -30,12 +30,12 @@ import CheckBox from '../../../base/checkbtn/checkbtn'
 import Scroll from '../../../base/scroll/scroll'
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: "usersex",
+  name: 'usersex',
   components: {
     Scroll,
     CheckBox
   },
-  data() {
+  data () {
     return {
       chooseChecked: true,
       btnState: false
@@ -47,7 +47,7 @@ export default {
     ])
   },
   methods: {
-    setSex() {
+    setSex () {
       this.$axios.post('/api/user/update', {
         telephone: this.userInfo.telephone,
         gender: this.chooseChecked
@@ -60,17 +60,16 @@ export default {
           this.setUserInfo(obj)
           this.$vux.toast.show({
             text: '保存成功',
-            onHide() {
-              _this.$router.push({ name: 'settings' });
+            onHide () {
+              _this.$router.push({ name: 'settings' })
             }
           })
         } else {
           this.$vux.toast.show({
             text: '设置失败，请重试',
-            type: 'warn',
+            type: 'warn'
           })
         }
-
       }).catch((error) => {
         console.log(error)
       })
@@ -79,7 +78,7 @@ export default {
       'setUserInfo'
     ])
   },
-  created() {
+  created () {
     if (this.userInfo.gender === 1) {
       this.chooseChecked = 1
     } else {

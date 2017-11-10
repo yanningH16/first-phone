@@ -20,9 +20,9 @@ const defaultRouter = [{
 const routes = [...defaultRouter, ...Index, ...Nopay, ...Rushou, ...Youpin, ...User]
 Vue.use(Router)
 let router = new Router({
-    routes,
-    mode: 'history'
-  })
+  routes,
+  mode: 'history'
+})
   // 设置title
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
@@ -31,14 +31,14 @@ router.beforeEach((to, from, next) => {
         Vue.$vux.alert.show({
           title: '温馨提示',
           content: '您未登录，请登录',
-          onHide() {
+          onHide () {
             router.push({ name: 'login' })
             next()
           }
         })
       } else {
         if (to.matched.length === 0) {
-          from.name ? next({ name: from.name }) : next('/') //未定义路由条状到首页
+          from.name ? next({ name: from.name }) : next('/') // 未定义路由条状到首页
         }
         next()
       }
@@ -46,11 +46,10 @@ router.beforeEach((to, from, next) => {
       Vue.$vux.alert.show({
         title: '温馨提示',
         content: '网路故障',
-        onHide() {
+        onHide () {
           router.push({ name: 'index' })
         }
       })
-
     })
   } else {
     next()

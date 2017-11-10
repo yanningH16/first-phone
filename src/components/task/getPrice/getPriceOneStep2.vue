@@ -20,34 +20,31 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
 export default {
-  name: "getPriceOneStep2",
+  name: 'getPriceOneStep2',
   components: {
     Scroll,
     Step
   },
-  data() {
+  data () {
     return {
-      stepArr: ["核对商品收藏关注", "浏览店铺", "客服聊天", "填写订单信息"],
+      stepArr: ['核对商品收藏关注', '浏览店铺', '客服聊天', '填写订单信息'],
       stepIndex: 1,
-      goodsOneKey: "",
-      goodsTwoKey: "",
-      goodsThreeKey: "",
-      isOk: true, //按钮可点击
       goodsOneKey: '',
       goodsTwoKey: '',
       goodsThreeKey: '',
+      isOk: true // 按钮可点击
     }
   },
   methods: {
-    next() {
-      if (this.goodsOneKey === "" || this.goodsTwoKey === "" || this.goodsThreeKey === "") {
+    next () {
+      if (this.goodsOneKey === '' || this.goodsTwoKey === '' || this.goodsThreeKey === '') {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '淘口令内容不能为空',
-        });
+          content: '淘口令内容不能为空'
+        })
         return false
       } else {
         let obj = {

@@ -40,7 +40,7 @@ import Pwdbox from '../../../base/pwdbox/pwdbox'
 import { XInput, Group, md5 } from 'vux'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
-  name: "userQq",
+  name: 'setPayPwd',
   mixins: [userInfoMixin],
   components: {
     Scroll,
@@ -52,21 +52,21 @@ export default {
     Pwdbox
   },
   watch: {
-    userMsg(val) {
-      if (val.length == 6) {
+    userMsg (val) {
+      if (val.length === 6) {
         this.btnSaveState = true
         return false
       }
       this.btnSaveState = false
     },
-    pwd(val) {
+    pwd (val) {
       if (val.length === this.maxLength) {
         this.btnNexteState = true
         return false
       }
       this.btnNexteState = false
     },
-    rePwd(val) {
+    rePwd (val) {
       if (val === this.pwd) {
         this.btnSureState = true
         return false
@@ -77,8 +77,8 @@ export default {
   computed: {
     userPwdPhone: {
       get: function () {
-        let reg = /^(\d{3})\d{4}(\d{4})$/;
-        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2")
+        let reg = /^(\d{3})\d{4}(\d{4})$/
+        let tel = this.userInfo.telephone.replace(reg, '$1^-^$2')
         return tel
       },
       set: function (v) {
@@ -86,14 +86,14 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       stepArray: ['验证身份', '设置密码', '确认密码'],
       infos: [
         '为保障你的账号安全，变更重要信息需要身份验证',
         '有疑问请联系在线客服'
       ],
-      stepIndex: 0,//进度
+      stepIndex: 0, // 进度
       btnSaveState: false,
       btnCodeState: true,
       btnNexteState: false,
@@ -103,13 +103,13 @@ export default {
       time: 60,
       codeText: '获取',
       timer: null,
-      pwd: '',//密码
+      pwd: '', // 密码
       maxLength: 6,
-      rePwd: '',
+      rePwd: ''
     }
   },
   methods: {
-    getCode() {
+    getCode () {
       if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
@@ -121,19 +121,19 @@ export default {
           } else {
             this.$vux.alert.show({
               title: '错误提示',
-              content: response.data.message,
+              content: response.data.message
             })
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.btnCodeState = true
           this.$vux.alert.show({
             title: '错误提示',
-            content: '服务器错误',
+            content: '服务器错误'
           })
         })
       }
     },
-    timeGo() {
+    timeGo () {
       if (this.time >= 0) {
         this.codeText = `${this.time}(s)`
         this.time--
@@ -145,7 +145,7 @@ export default {
         this.btnCodeState = true
       }
     },
-    nextOne() {
+    nextOne () {
       this.$axios.post('/api/sms/verify', {
         telephone: this.userPhone,
         code: this.userMsg,
@@ -154,7 +154,7 @@ export default {
         if (response.data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         } else {
           this.stepIndex = 1
@@ -163,26 +163,27 @@ export default {
         console.log(error)
       })
     },
-    nextTwo() {
+    nextTwo () {
       this.stepIndex = 2
       this.rePwd = ''
     },
-    sure() {
+    sure () {
       this.$axios.post('/api/user/resetDepositWord', {
         telephone: this.userPhone,
-        depositPassword: md5(this.pwd),
+        depositPassword: md5(this.pwd)
       }).then((response) => {
         if (response.data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         } else {
+          const _this = this
           this.$vux.toast.show({
             text: '修改成功',
             type: 'success',
             time: 1000,
-            onHide() {
+            onHide () {
               _this.$router.push({ name: 'user' })
             }
           })

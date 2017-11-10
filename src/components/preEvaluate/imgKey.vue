@@ -51,17 +51,17 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Step from "../../base/step/step.vue"
+import Step from '../../base/step/step.vue'
 import Scroll from '../../base/scroll/scroll.vue'
 import Upload from '../../base/upload/upload.vue'
 export default {
-  name: "textImg",
+  name: 'textImg',
   components: {
     Step,
     Scroll,
     Upload
   },
-  data() {
+  data () {
     return {
       isOk: true,
       keyWords: '关键字',
@@ -72,13 +72,12 @@ export default {
       rbObj: {}
     }
   },
-  created() {
-    //获取商品详情
-    let that = this;
+  created () {
+    // 获取商品详情
+    let that = this
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
     }).then((data) => {
-      console.log(data)
       if (data.data.code === '200') {
         this.goodsObj = data.data.data
         this.shopName = this.goodsObj.shopName
@@ -88,18 +87,18 @@ export default {
       } else {
         this.$vux.alert.show({
           title: '获取信息失败',
-          content: data.data.message,
+          content: data.data.message
         })
       }
     }).catch(function (err) {
       console.log(err)
-    });
+    })
     if (this.$route.query.rb) {
-      //获取与评价的内容
+      // 获取与评价的内容
       this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
         'orderId': this.$route.query.buyerTaskRecordId
       }).then((data) => {
-        if (data.data.code == '200') {
+        if (data.data.code === '200') {
           this.rbObj = data.data.data
           this.goodCommon = this.rbObj.favorText
           this.goodsImg = JSON.parse(this.rbObj.favorCheckId)
@@ -109,17 +108,17 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '获取信息失败',
-            content: data.data.message,
+            content: data.data.message
           })
         }
       }).catch(function (err) {
         console.log(err)
-      });
+      })
     }
   },
   watch: {
     goodsImg: {
-      handler(val) {
+      handler (val) {
         if (val.length > 3) {
           this.$nextTick(() => {
             this.$refs.scroll.refresh()
@@ -130,8 +129,8 @@ export default {
     }
   },
   methods: {
-    doNext() {
-      let that = this;
+    doNext () {
+      let that = this
       if (this.goodCommon !== '' && this.goodsImg.length > 2) {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
@@ -144,19 +143,19 @@ export default {
           } else {
             this.$vux.alert.show({
               title: '提交失败',
-              content: data.data.message,
+              content: data.data.message
             })
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.$vux.alert.show({
             title: '错误提示',
-            content: '服务器错误',
+            content: '服务器错误'
           })
         })
       } else {
         this.$vux.alert.show({
           title: '提示',
-          content: '请完善相关信息!',
+          content: '请完善相关信息!'
         })
       }
     }

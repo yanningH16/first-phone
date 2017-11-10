@@ -1,5 +1,5 @@
 const Rushou = (resolve) => {
-  import ('@/components/rushou/rushou').then((module) => {
+  import('@/components/rushou/rushou').then((module) => {
     resolve(module)
   })
 }

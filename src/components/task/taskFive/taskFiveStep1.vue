@@ -86,46 +86,46 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 
 const typeArr = ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先']
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["找到商品", "收藏商品"],
+      stepArr: ['找到商品', '收藏商品'],
       stepIndex: 0,
-      isOk: true, //按钮可点击
-      openIt: false, //打开找不到商品按钮
-      isPass: true, //验证店铺按钮
-      isRight: false, //验证通过
-      isWrong: false, //验证错误
+      isOk: true, // 按钮可点击
+      openIt: false, // 打开找不到商品按钮
+      isPass: true, // 验证店铺按钮
+      isRight: false, // 验证通过
+      isWrong: false, // 验证错误
       goodsOneKey: '',
       goodsTwoKey: '',
       goodsThreeKey: '',
-      shopName: "",
+      shopName: '',
       twoInfo: {},
       task: [],
       taskIndex: 0,
       showMsg: {},
-      seller: '',
+      seller: ''
     }
   },
   //    接口请求部分开始
-  created() {
-    let that = this;
+  created () {
+    let that = this
     this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
       sellerTaskId: that.$route.query.sellerTaskId
     }).then((response) => {
       let data = response.data
-      if (data.code == 200) {
+      if (data.code === '200') {
         let arr = data.data
         this.task = arr
         this.taskIndex = this.mathRandom()
@@ -140,12 +140,12 @@ export default {
     }).then((res) => {
       console.log(res)
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
     })
     //      第二步的核对商品的接口
@@ -153,43 +153,40 @@ export default {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
         this.twoInfo = data.data
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
     })
-    //      展开搜索的接口
-
-
   },
   methods: {
-    open() {
-      this.openIt = !this.openIt;
-      //获取关键词
+    open () {
+      this.openIt = !this.openIt
+      // 获取关键词
       this.$nextTick(() => {
         this.$refs.scroll.refresh()
       })
     },
-    //设置taskindex
-    //生成数随机数
-    mathRandom() {
+    // 设置taskindex
+    // 生成数随机数
+    mathRandom () {
       let length = this.task.length
       return Math.floor((Math.random() * length))
     },
-    //将数据改变成自己的数据
-    changeMsg() {
+    // 将数据改变成自己的数据
+    changeMsg () {
       let nowMsg = this.task[this.taskIndex]
       console.log(nowMsg)
       this.showMsg.discountsKeyword = JSON.parse(nowMsg.discountsKeyword).join(' ')
       this.showMsg.sendPlace = nowMsg.sendPlace
-      //遍历排序方式
+      // 遍历排序方式
       this.showMsg.sortType = typeArr[(parseInt(nowMsg.sortType) - 1)]
       //      保留两位小数的值
-      this.showMsg.price = (nowMsg.priceLower) + "-" + (nowMsg.priceLower) + '元'
+      this.showMsg.price = (nowMsg.priceLower) + '-' + (nowMsg.priceLower) + '元'
       this.showMsg.sellerTaskId = nowMsg.sellerTaskId
       var keyWordObj = JSON.parse(nowMsg.keyword)
       let keyName = ''
@@ -199,8 +196,8 @@ export default {
       this.showMsg.keyName = keyName
       console.log(this.showMsg)
     },
-    onInput() {
-      //如果通过显示通过按钮
+    onInput () {
+      // 如果通过显示通过按钮
       if (this.seller === this.twoInfo.shopName) {
         this.isPass = false
         this.isRight = true
@@ -212,11 +209,11 @@ export default {
       }
     },
 
-    showIsPass() {
+    showIsPass () {
       this.isPass = true
       this.isRight = false
       this.isWrong = false
-    },
+    }
   }
 }
 </script>

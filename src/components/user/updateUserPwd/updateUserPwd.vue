@@ -36,7 +36,7 @@ import Info from '../../../base/info/info'
 import { XInput, Group, md5 } from 'vux'
 import { mapGetters } from 'vuex'
 export default {
-  name: "updateUserPwd",
+  name: 'updateUserPwd',
   components: {
     Scroll,
     XInput,
@@ -46,44 +46,44 @@ export default {
     Info
   },
   watch: {
-    userMsg(val) {
-      if (val.length == 6) {
+    userMsg (val) {
+      if (val.length === 6) {
         this.btnNextState = true
         return false
       }
       this.btnNextState = false
     },
-    pwd(val) {
+    pwd (val) {
       this.checkState()
     },
-    rePwd(val) {
+    rePwd (val) {
       this.checkState()
     }
   },
   computed: {
     userPwdPhone: {
       get: function () {
-        let reg = /^(\d{3})\d{4}(\d{4})$/;
-        let tel = this.userInfo.telephone.replace(reg, "$1^-^$2");
+        let reg = /^(\d{3})\d{4}(\d{4})$/
+        let tel = this.userInfo.telephone.replace(reg, '$1^-^$2')
         return tel
       },
-      set: function () {
-        return
+      set: function (val) {
+        return val
       }
     },
-    //获取已经存储手机号
+    // 获取已经存储手机号
     ...mapGetters([
       'userInfo'
     ])
   },
-  created() {
+  created () {
     if (this.userInfo.telephone.length) {
       this.userMyPhone = this.userInfo.telephone
     } else {
-      this.userMyPhone = '15345812564'//应让其登录
+      this.userMyPhone = '15345812564' // 应让其登录
     }
   },
-  data() {
+  data () {
     return {
       stepArray: ['验证身份', '设置新密码'],
       infos: [
@@ -91,7 +91,7 @@ export default {
         '有疑问请联系在线客服'
       ],
       userMyPhone: '',
-      stepIndex: 0,//进度
+      stepIndex: 0, // 进度
       btnCodeState: true,
       btnNextState: false,
       btnSaveState: false,
@@ -100,10 +100,10 @@ export default {
       time: 60,
       codeText: '获取',
       timer: null,
-      pwd: '',//密码
+      pwd: '', // 密码
       rePwd: '',
       pwdType: (val) => {
-        let reg = new RegExp(/((?=.*\d)(?=.*\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,16}$/);
+        let reg = new RegExp(/((?=.*\d)(?=.*\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,16}$/)
         if (reg.test(val)) {
           return {
             valid: true
@@ -124,12 +124,12 @@ export default {
           valid: false,
           msg: '两次密码不一致'
         }
-      },
+      }
     }
   },
   methods: {
     // 发送验证码
-    getCode() {
+    getCode () {
       if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
@@ -139,17 +139,17 @@ export default {
           if (response.data.code === '200') {
             this.timer = setInterval(this.timeGo, 1000)
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.btnCodeState = true
           this.$vux.alert.show({
             title: '错误提示',
-            content: '服务器错误',
+            content: '服务器错误'
           })
         })
       }
     },
     // 倒计时
-    timeGo() {
+    timeGo () {
       if (this.time >= 0) {
         this.codeText = `${this.time}(s)`
         this.time--
@@ -161,16 +161,16 @@ export default {
         this.btnCodeState = true
       }
     },
-    //检查状态
-    checkState() {
+    // 检查状态
+    checkState () {
       if (this.$refs.pwd.valid && this.$refs.rePwd.valid) {
         this.btnSaveState = true
         return false
       }
       this.btnSaveState = false
     },
-    //下一步(验证验证码是否正确)
-    next() {
+    // 下一步(验证验证码是否正确)
+    next () {
       this.$axios.post('/api/sms/verify', {
         telephone: this.userMyPhone,
         code: this.userMsg,
@@ -179,7 +179,7 @@ export default {
         if (response.data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         } else {
           this.stepIndex = 1
@@ -188,20 +188,20 @@ export default {
         console.log(error)
       })
     },
-    //修改密码
-    save() {
+    // 修改密码
+    save () {
       if (!this.btnSaveState) {
         return false
       }
       this.$axios.post('/api/user/resetPassword', {
         telephone: this.userMyPhone,
-        password: md5(this.pwd),
+        password: md5(this.pwd)
       }).then((response) => {
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
           let _this = this
@@ -209,15 +209,15 @@ export default {
             text: '修改成功',
             type: 'success',
             time: 1000,
-            onHide() {
+            onHide () {
               _this.$router.push({ name: 'user' })
             }
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }

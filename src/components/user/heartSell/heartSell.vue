@@ -246,12 +246,11 @@
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
 import { Tab, TabItem, Cell } from 'vux'
-import Vue from 'vue'
-import { __taskState__, allTask, award, awarded, comment, notify } from '../../../assets/data/task'
+import { allTask, award, awarded, comment, notify } from '../../../assets/data/task'
 const typeArr = ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先']
 import { mapGetters } from 'vuex'
 export default {
-  name: "userMoney",
+  name: 'userMoney',
   components: {
     Tab,
     TabItem,
@@ -261,18 +260,18 @@ export default {
   },
   computed: {
     valueLength: {
-      get() {
+      get () {
         return `(${this.goodsLottery.length})`
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     valueLengthNext: {
-      get() {
+      get () {
         return `(${this.goodsLotteryNext.length})`
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
@@ -280,7 +279,7 @@ export default {
       'userInfo'
     ])
   },
-  created() {
+  created () {
     if (this.$route.params.checkIndex) {
       this.checkIndex = this.$route.params.checkIndex
     }
@@ -289,34 +288,34 @@ export default {
       this.getColums()
     }
   },
-  data() {
+  data () {
     return {
       pullup: true,
-      axiosResult: [],//获得的数据
+      axiosResult: [], // 获得的数据
       maxPageSize: 0,
       pageSize: 5,
       pageNo: 1,
       canLoading: true,
-      goodsDrawResult: [],//
+      goodsDrawResult: [],
       tabArr: ['全部', '抽奖', '中奖了', '评价', '驳回'],
       checkIndex: 3,
       goodsAll: [],
-      //驳回
+      // 驳回
       goodsReject: [],
       goodsEvaluate: [],
       // 未抽奖
       goodsLottery: [],
-      //再一次抽奖
+      // 再一次抽奖
       goodsLotteryNext: [],
       // 抽奖订单
       showAwardIndex: 0,
       showLotteryIndex: 0,
       goodsDraw: [],
-      //金币拿订单
+      // 金币拿订单
       goodsCoin: [],
-      //必中券订单
+      // 必中券订单
       goodsMust: [],
-      //Plus订单
+      // Plus订单
       goodsPlus: [],
       valueDraw: 0,
       valueCoin: 0,
@@ -325,9 +324,9 @@ export default {
     }
   },
   watch: {
-    //监测获得数据变化
+    // 监测获得数据变化
     axiosResult: {
-      handler(val) {
+      handler (val) {
         for (let i of val) {
           this.doInfo(i.buyerTaskRecordId)
         }
@@ -335,7 +334,7 @@ export default {
       deep: true
     },
     goodsDrawResult: {
-      handler(val) {
+      handler (val) {
         let myArr = []
         val.forEach((item, i) => {
           let obj = Object.assign(item, this.axiosResult[i])
@@ -350,7 +349,7 @@ export default {
   },
   methods: {
     // 切换
-    choose(index) {
+    choose (index) {
       this.checkIndex = index
       this.$nextTick(() => {
         this.$refs.scrollBox1.refresh()
@@ -362,7 +361,7 @@ export default {
       this.pageNo = 1
       this.doChangeIndex()
     },
-    changeLotteryIndex(index) {
+    changeLotteryIndex (index) {
       if (this.showLotteryIndex === index) {
         this.showLotteryIndex = 0
         return false
@@ -373,8 +372,8 @@ export default {
         this.$refs.goodsLottery.refresh()
       })
     },
-    //中奖了模块显示
-    changeAwardIndex(index) {
+    // 中奖了模块显示
+    changeAwardIndex (index) {
       if (this.showAwardIndex === index) {
         this.showAwardIndex = 0
         return false
@@ -382,22 +381,22 @@ export default {
       this.showAwardIndex = index
       this.doChangeIndex()
     },
-    //放弃白拿
-    giveUpLottery() {
+    // 放弃白拿
+    giveUpLottery () {
       this.$vux.confirm.show({
         // 组件除show外的属性
         title: '确认放弃白拿？',
         content: '放弃的商品不能再次申请',
-        onCancel() {
+        onCancel () {
           console.log('取消')
         },
-        onConfirm() {
+        onConfirm () {
           console.log('确认')
         }
       })
     },
-    //继续申请
-    getLottery(item) {
+    // 继续申请
+    getLottery (item) {
       const lotteryRouter = [
         'taskOneStep1',
         'taskTwoStep1',
@@ -412,17 +411,17 @@ export default {
       }
       // this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId ,sellerTaskId:item.sellerTaskId,type:item.taskType} })
     },
-    //去做任务
-    doTask() {
+    // 去做任务
+    doTask () {
       console.log('做任务')
     },
-    //前去领奖
-    getAward(item) {
+    // 前去领奖
+    getAward (item) {
       if (this.checkIndex === 2) {
         this.doCheckTwo(item)
       }
     },
-    doCheckTwo(item) {
+    doCheckTwo (item) {
       const routerLink = [
         'getPriceOneStep1',
         'getPriceTwoStep1',
@@ -434,21 +433,21 @@ export default {
       let index = awarded.indexOf(item.taskFlag)
       this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
-    //删除任务
-    deleteOrder() {
+    // 删除任务
+    deleteOrder () {
       this.$vux.confirm.show({
         title: '确认删除订单？',
         content: '删除之后将不能恢复',
-        onCancel() {
+        onCancel () {
           console.log('取消')
         },
-        onConfirm() {
+        onConfirm () {
           console.log('确认')
         }
       })
     },
     // 去预评价
-    goEvaluate(item) {
+    goEvaluate (item) {
       // this.$router.push({ name: 'preOnlyText' })
       const routerLink = [
         'taskOneStep1', 'taskOneStep1', 'taskOneStep1', 'taskTwoStep1', '', 'taskThreeStep1', '', '', 'getPriceOneStep1', 'getPriceTwoStep1', 'getPriceThreeStep1',
@@ -459,19 +458,19 @@ export default {
       ]
       let index = comment.indexOf(item.taskFlag)
       let taskIndex
-      if (index >= 0 && index < 3) {//预评价
+      if (index >= 0 && index < 3) {  // 预评价
         taskIndex = item.taskFiveId
-      } else if (index >= 3 && index < 7) {//评价
+      } else if (index >= 3 && index < 7) { // 评价
         taskIndex = item.taskSixId
-      } else if (index >= 7 && index < 11) {//评价+预追评
+      } else if (index >= 7 && index < 11) {  // 评价+预追评
         taskIndex = item.taskSevenId
-      } else if (index >= 11 && index < 15) {//评价+追评
+      } else if (index >= 11 && index < 15) { // 评价+追评
         taskIndex = item.taskEightId
       }
       this.$router.push({ name: routerLink[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
-    //修改驳回
-    rejectOperate(item) {
+    // 修改驳回
+    rejectOperate (item) {
       const routerLink = [
         'taskOneStep1', 'taskOneStep1', 'taskOneStep1', 'taskTwoStep1', '', 'taskThreeStep1', '', '', 'getPriceOneStep1', 'getPriceTwoStep1', 'getPriceThreeStep1',
         'preOnlyFiveStar', 'preOnlyText', 'preTextImg', 'preTextKey', 'preImgKey', 'onlyFiveStar', 'onlyText1', 'textImg1', 'textKey1', 'textImg1', '',
@@ -485,7 +484,7 @@ export default {
         'taskThreeStep1',
         ''
       ]
-      let myIndex = notify.indexOf(taskFlag)
+      let myIndex = notify.indexOf(item.taskFlag)
       let taskIndex
       if (myIndex >= 0 && myIndex <= 3) {
         taskIndex = item.taskFiveId
@@ -503,16 +502,16 @@ export default {
       this.$router.push({ name: routerLink[taskIndex], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
     // 申请售后
-    applyCustomer() {
+    applyCustomer () {
       this.$router.push({ name: 'applyCustomer' })
     },
-    //评价到淘宝
-    evaluateTaobao() {
+    // 评价到淘宝
+    evaluateTaobao () {
 
     },
-    //切换获取数据
-    doChangeIndex() {
-      //全部
+    // 切换获取数据
+    doChangeIndex () {
+      // 全部
       if (this.checkIndex === 0) {
         this.doAxios({
           buyerUserId: this.userInfo.buyerUserId,
@@ -628,7 +627,7 @@ export default {
       }
     },
     //(特殊tarbar)获得条数
-    getColums() {
+    getColums () {
       this.$axios.post('/api/orderOperate/getWinningCountDetail', {
         buyerUserId: this.userInfo.buyerUserId
       }).then((response) => {
@@ -650,7 +649,7 @@ export default {
       })
     },
     //api请求list数据
-    doAxios(stateObj) {
+    doAxios (stateObj) {
       this.$axios.post('/api/orderOperate/getBuyerTaskListByStatusAndTaskFlag', stateObj).then((response) => {
         let data = response.data
         if (data.code !== "200") {
@@ -667,7 +666,7 @@ export default {
       })
     },
     //api请求商品信息
-    doInfo(infoId) {
+    doInfo (infoId) {
       this.$vux.loading.show({
         text: '加载中，请稍后'
       })
@@ -684,7 +683,7 @@ export default {
       })
     },
     //设置订单
-    setGoodsDraw(arr) {
+    setGoodsDraw (arr) {
       let goodsDramArr = []
       for (let item of arr) {
         let goodsState, isBottom
@@ -766,7 +765,7 @@ export default {
         this.canLoading = true
       })
     },
-    setGoodsState(taskFlag, buyerTaskStatus) {
+    setGoodsState (taskFlag, buyerTaskStatus) {
       // 设置驳回stateText
       let goodsState = {}
       //驳回的状态
@@ -854,7 +853,7 @@ export default {
       return goodsState
     },
     //下滑结束加载数据
-    scrollLoad() {
+    scrollLoad () {
       if (!this.canLoading) {
         return false
       }

@@ -28,7 +28,7 @@ import MButton from '../../../base/button/button'
 import { XInput, Group, XAddress, ChinaAddressV2Data, Value2nameFilter as value2name } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: "yinHangKa",
+  name: 'yinHangKa',
   components: {
     Scroll,
     XInput,
@@ -38,7 +38,7 @@ export default {
     Upload,
     XAddress
   },
-  data() {
+  data () {
     return {
       infos: [
         '只支持提现到借记卡（普通存储卡）。不支持提现到信用卡到农村信用社',
@@ -73,22 +73,22 @@ export default {
     ])
   },
   watch: {
-    addressValue(value) {
+    addressValue (value) {
       this.addressValueString = value2name(value, ChinaAddressV2Data)
       this.checkState()
     },
-    userName() {
+    userName () {
       this.checkState()
     },
-    userBsName() {
+    userBsName () {
       this.checkState()
     },
-    userAccount() {
+    userAccount () {
       this.checkState()
     }
   },
   methods: {
-    checkState() {
+    checkState () {
       let isUserName = this.$refs.userName.valid
       let isAccount = this.$refs.userAccount.valid
       let isAddressValueString = this.addressValueString.length > 0
@@ -99,9 +99,9 @@ export default {
       }
       this.btnSaveState = false
     },
-    //保存地址
-    apply() {
-      //ajax请求
+    // 保存地址
+    apply () {
+      // ajax请求
       if (this.btnSaveState) {
         this.$axios.post('/api/user/update', {
           telephone: this.userInfo.telephone,
@@ -121,22 +121,20 @@ export default {
             this.setUserInfo(obj)
             this.$vux.toast.show({
               text: '保存成功',
-              onHide() {
+              onHide () {
                 if (_this.preurl) {
-                  _this.$router.push({ name: _this.preurl });
+                  _this.$router.push({ name: _this.preurl })
                 } else {
-                  _this.$router.push({ name: 'user' });
+                  _this.$router.push({ name: 'user' })
                 }
-
               }
             })
           } else {
             this.$vux.toast.show({
               text: '设置失败，请重试',
-              type: 'warn',
+              type: 'warn'
             })
           }
-
         }).catch((error) => {
           console.log(error)
         })

@@ -27,44 +27,44 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Scroll,
     Upload
   },
-  data() {
+  data () {
     return {
-      stepArr: ["搜索核对加入购物车", "收藏关注", "客服聊天", "填写订单信息"],
+      stepArr: ['搜索核对加入购物车', '收藏关注', '客服聊天', '填写订单信息'],
       stepIndex: 1,
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       favImg: [],
       focusImg: [],
       type: this.$route.query.type
     }
   },
-  created() {
+  created () {
     if (this.$route.query.rbObj) {
-      this.favImg = JSON.parse(this.$route.query.rbObj.storeProductPicId);
-      this.focusImg = JSON.parse(this.$route.query.rbObj.concernShopPicId);
+      this.favImg = JSON.parse(this.$route.query.rbObj.storeProductPicId)
+      this.focusImg = JSON.parse(this.$route.query.rbObj.concernShopPicId)
     }
   },
   methods: {
-    doNext() {
-      let that = this;
-      if (this.favImg.length == 0 || that.focusImg.length == 0) {
+    doNext () {
+      let that = this
+      if (this.favImg.length === 0 || that.focusImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传完整截图'
-        });
+        })
         return false
       }
-      if (that.$route.query.type == 1 || that.$route.query.type == 2 || that.$route.query.type == 3) {
+      if (that.$route.query.type === 1 || that.$route.query.type === 2 || that.$route.query.type === 3) {
         that.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg }, rbObj: that.$route.query.rbObj } })
       } else {
         that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg }, rbObj: that.$route.query.rbObj } })

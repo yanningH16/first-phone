@@ -14,14 +14,9 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Vue from "vue"
-import crypto from 'crypto'
-import { Alert, md5 } from "vux"
-import { Icon } from 'vux'
-import { co } from 'co'
-import { getStore } from '../../assets/js/upload'
+import { Alert, md5, Icon } from 'vux'
 export default {
-  name: "Uploader",
+  name: 'Uploader',
   components: {
     Alert,
     Icon
@@ -46,7 +41,7 @@ export default {
       default: true
     }
   },
-  data() {
+  data () {
     return {
       imgs: [],
       isMax: true,
@@ -54,35 +49,36 @@ export default {
       uploadImgs: []
     }
   },
-  mounted() {
+  mounted () {
     this.imgs = this.myimgs
   },
   watch: {
-    imgs(newVal) {
-      if (newVal.length == this.max) {
-        this.isMax = false;
+    imgs (newVal) {
+      if (newVal.length === this.max) {
+        this.isMax = false
       }
       this.$emit('upload-change', newVal)
     },
-    myimgs(newVal) {
+    myimgs (newVal) {
       this.imgs = newVal
     }
   },
   methods: {
-    delete_img(item) {
-      this.$refs.chooseImg.value = '' //修复upload删除之后无法选取上一个
+    delete_img (item) {
+      this.$refs.chooseImg.value = '' // 修复upload删除之后无法选取上一个
       this.imgs.splice(item, 1)
       if (this.imgs.length < this.max) {
-        this.isMax = true;
+        this.isMax = true
       }
     },
-    add_img(event) {
+    add_img (event) {
       let reader = new FileReader()
+      console.log(reader)
       let img1 = event.target.files[0]
       if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(img1.name)) {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '图片格式只能为gif，jpg，jpeg，png',
+          content: '图片格式只能为gif，jpg，jpeg，png'
         })
         return false
       }
@@ -98,9 +94,8 @@ export default {
       let picName = img1.lastModified + md5(img1.name)
       this.getClient(img1, picName)
     },
-    //获得上传参数
-    getClient(file, picName) {
-      const _this = this
+    // 获得上传参数
+    getClient (file, picName) {
       this.$axios.get('/api/picManage/getStsInfo').then((response) => {
         console.log(response.data.code === '200')
         if (response.data.code === '200') {
@@ -108,19 +103,19 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: '上传失败',
+            content: '上传失败'
           })
         }
       }).catch((error) => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
         console.log('error:' + error)
       })
     },
-    //上传图片
-    uploadFile(data, file, name) {
+    // 上传图片
+    uploadFile (data, file, name) {
       let _this = this
       var OSS = window.OSS.Wrapper
       var client = new OSS({
@@ -135,7 +130,7 @@ export default {
         if (_this.imgs.length > _this.max - 1) {
           _this.$vux.alert.show({
             title: '提示',
-            content: "最多添加" + that.max + "张图片",
+            content: '最多添加' + _this.max + '张图片'
           })
         } else {
           _this.imgs.push(`http://baoyitech.oss-cn-hangzhou.aliyuncs.com/${res.name}`)
@@ -143,10 +138,10 @@ export default {
             _this.isMax = false
           }
         }
-      }).catch((err) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     }

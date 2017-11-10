@@ -23,37 +23,37 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice2",
+  name: 'getPrice2',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["核对商品浏览店铺", "客服聊天", "填写订单信息"],
+      stepArr: ['核对商品浏览店铺', '客服聊天', '填写订单信息'],
       stepIndex: 1,
-      isOk: true, //按钮可点击
-      chatImg: [], //客服聊天截图
+      isOk: true, // 按钮可点击
+      chatImg: [] // 客服聊天截图
     }
   },
-  created() {
+  created () {
     if (this.$route.query.rbObj) {
       this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
     }
   },
   methods: {
-    doNext() {
+    doNext () {
       if (this.chatImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
-          content: '请上传完整截图',
-        });
+          content: '请上传完整截图'
+        })
         return false
       }
       let obj = {

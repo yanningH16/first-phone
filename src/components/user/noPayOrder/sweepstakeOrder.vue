@@ -40,9 +40,9 @@
             金币兑换
           </span>
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===2">白拿还赚
-            <span class="num">{{item.coinInfo}}</span>
-            金币
-          </span> -->
+                      <span class="num">{{item.coinInfo}}</span>
+                      金币
+                    </span> -->
           <div class="bottom" slot="bottom">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" v-if="item.isLotteryState!==1" @click="giveUpLottery(item)">放弃白拿</span>
@@ -57,23 +57,21 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
-import Vue from 'vue'
-import { award, orderRouter } from '../../../assets/data/task'
-import { mapGetters } from 'vuex'
+import { award } from '../../../assets/data/task'
 import { scrollPages, orderOperate, sweepstakeOrderOperate } from '../../../assets/js/mixin'
 import { Cell } from 'vux'
 export default {
-  name: "rejectOrder",
+  name: 'rejectOrder',
   mixins: [scrollPages, orderOperate, sweepstakeOrderOperate],
   components: {
     Scroll,
     AppendCommon,
     Cell
   },
-  data() {
+  data () {
     return {
       pullup: true,
-      axiosResult: [],//获得的数据
+      axiosResult: [], // 获得的数据
       maxPageSize: 0,
       pageSize: 5,
       pageNo: 1,
@@ -86,45 +84,45 @@ export default {
       goodsLottery: [],
       goodsLotteryNext: [],
       valueLength: 0,
-      valueLengthNext: 0,
+      valueLengthNext: 0
     }
   },
   computed: {
     params: {
-      get() {
-        if (this.showLotteryIndex === 1) {//未抽奖
+      get () {
+        if (this.showLotteryIndex === 1) { // 未抽奖
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
-              '0','4'
+              '0', '4'
             ],
             taskFlags: award,
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
-        } else if (this.showLotteryIndex === 2) {//再一次
+        } else if (this.showLotteryIndex === 2) { // 再一次
           return {
             buyerUserId: this.userInfo.buyerUserId,
             buyerTaskStatuss: [
               '5'
             ],
-            taskFlags: [award[1],award[2]],
+            taskFlags: [award[1], award[2]],
             pageSize: this.pageSize,
             pageNo: this.pageNo
           }
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getColums()
   },
   methods: {
-    //存数据
-    setGoodsList(data) {
+    // 存数据
+    setGoodsList (data) {
       let goodsDramArr = []
       for (let item of data) {
         let goodsState = this.setGoodsState(item)
@@ -147,7 +145,7 @@ export default {
           taskType: item.taskType,
           sellerTaskId: item.sellerTaskId,
           buyerTaskStatus: item.buyerTaskStatus,
-          isLotteryState:goodsState.isLotteryState
+          isLotteryState: goodsState.isLotteryState
         }
         goodsDramArr.push(obj)
       }
@@ -161,10 +159,9 @@ export default {
         this.canLoading = true
       })
     },
-    //设置内容状态
-    setGoodsState(item) {
+    // 设置内容状态
+    setGoodsState (item) {
       let goodsState = {}
-      let myIndex = award.indexOf(item.taskFlag)
       if (item.buyerTaskStatus === '0') {
         goodsState.stateText = '待开奖'
         goodsState.isLotteryState = 3
@@ -172,28 +169,15 @@ export default {
         goodsState.stateText = '待提交申请'
         goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
-      }else if (item.buyerTaskStatus === '5') {
+      } else if (item.buyerTaskStatus === '5') {
         goodsState.stateText = '未中奖'
         goodsState.isLotteryState = 0
         goodsState.info = `请在今天${this.setTime(item.gmtModify)}前提交，否则取消中奖资格`
       }
       return goodsState
     },
-    //中奖了路由跳转
-    getAward(item) {
-      const routerLink = [
-        'getPriceOneStep1',
-        'getPriceTwoStep1',
-        'getPriceThreeStep1',
-        '',
-        '',
-        'sureGetStep1'
-      ]
-      let index = awarded.indexOf(item.taskFlag)
-      this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
-    },
-    //更改获得数据
-    changeLotteryIndex(index, account) {
+    // 更改获得数据
+    changeLotteryIndex (index, account) {
       if (!account) {
         this.$vux.toast.text('我还没有数据呢', 'middle')
         return false
@@ -206,16 +190,16 @@ export default {
       this.showLotteryIndex = index
       this.getApi()
     },
-    //(特殊tarbar)获得条数
-    getColums() {
+    // (特殊tarbar)获得条数
+    getColums () {
       this.$axios.post('/api/orderOperate/getSweepstakesCountDetail', {
         buyerUserId: this.userInfo.buyerUserId
       }).then((response) => {
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
           var myData = data.data
@@ -225,7 +209,7 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
-    },
+    }
 
   }
 }

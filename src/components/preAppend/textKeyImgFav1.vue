@@ -51,22 +51,22 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../base/scroll/scroll.vue"
-import Step from "../../base/step/step.vue"
-import Upload from "../../base/upload/upload.vue"
+import Scroll from '../../base/scroll/scroll.vue'
+import Step from '../../base/step/step.vue'
+import Upload from '../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["文字好评", "收藏商品"],
+      stepArr: ['文字好评', '收藏商品'],
       stepIndex: 0,
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       twoInfo: {},
       goodsImg: [],
       text: '',
@@ -74,29 +74,29 @@ export default {
       rbObj: {}
     }
   },
-  //接口请求部分开始
-  created() {
-    let that = this;
-    //核对商品的接口
+  // 接口请求部分开始
+  created () {
+    let that = this
+    // 核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
         this.twoInfo = data.data
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
-    });
+    })
     if (this.$route.query.rb) {
-      //获取与评价的内容
+      // 获取与评价的内容
       this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
         'orderId': this.$route.query.buyerTaskRecordId
       }).then((data) => {
-        if (data.data.code == '200') {
+        if (data.data.code === '200') {
           this.rbObj = data.data.data
           this.text = this.rbObj.additionalFavorText
           this.goodsImg = JSON.parse(this.rbObj.addfavorCheckId)
@@ -106,17 +106,17 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '获取信息失败',
-            content: data.data.message,
+            content: data.data.message
           })
         }
       }).catch(function (err) {
         console.log(err)
-      });
+      })
     }
   },
   watch: {
     goodsImg: {
-      handler(val) {
+      handler (val) {
         if (val.length > 3) {
           this.$nextTick(() => {
             this.$refs.scroll.refresh()
@@ -126,15 +126,15 @@ export default {
       deep: true
     }
   },
-  //接口请求部分结束
+  // 接口请求部分结束
   methods: {
-    next() {
+    next () {
       if (this.text !== '' && this.goodsImg.length > 2) {
         this.$router.push({ name: 'preAppendTextKeyImgFav2', query: { text: this.text, goodsImg: this.goodsImg, buyerTaskRecordId: this.$route.query.buyerTaskRecordId, rbObj: this.rbObj } })
       } else {
         this.$vux.alert.show({
           title: '提示',
-          content: '请完善信息',
+          content: '请完善信息'
         })
       }
     }

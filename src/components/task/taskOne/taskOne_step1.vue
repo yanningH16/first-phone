@@ -95,38 +95,36 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Vue from "vue"
-import Step from "../../../base/step/step.vue"
+import Step from '../../../base/step/step.vue'
 import Clipboard from 'clipboard'
-import { Toast } from 'vux'
-import { Alert } from 'vux'
+import { Alert, Toast } from 'vux'
 import Scroll from '../../../base/scroll/scroll.vue'
 import { mapGetters } from 'vuex'
 export default {
-  name: "taskOne_step1",
+  name: 'taskOne_step1',
   components: {
     Step,
     Toast,
     Alert,
     Scroll
   },
-  data() {
+  data () {
     return {
-      isOk: true, //按钮可提交
-      type: 1, //任务类型
+      isOk: true, // 按钮可提交
+      type: 1, // 任务类型
       goodsObj: {},
       keyWord: {},
       keyIndex: 0,
       keyWordArr: [],
       discountsKeyword: '',
       keyName: '',
-      sortType: '',//排序类型
-      typeArr: ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先'], //类型数组
+      sortType: '', // 排序类型
+      typeArr: ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先'], // 类型数组
       buyerTaskRecordId: '',
-      stepIndex: 0, //当前任务步骤下标
-      msg: "1.点击输入框\r2.长按\r3.粘贴", //输入域placeholder,
-      shopName: "",
-      taoKey: "",
+      stepIndex: 0, // 当前任务步骤下标
+      msg: '1.点击输入框\r2.长按\r3.粘贴', // 输入域placeholder,
+      shopName: '',
+      taoKey: '',
       inputShopName: ''
     }
   },
@@ -136,8 +134,8 @@ export default {
       'userInfo'
     ])
   },
-  created() {
-    let that = this;
+  created () {
+    let that = this
     that.type = that.$route.query.type
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
@@ -153,66 +151,64 @@ export default {
       console.log(err)
       this.$vux.alert.show({
         title: '获取失败',
-        content: data.data.message,
+        content: '网络错误'
       })
     })
-
-
-    //获取关键词
+    // 获取关键词
     this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
       sellerTaskId: that.$route.query.sellerTaskId
     }).then((data) => {
       console.log(data)
       this.keyWordArr = data.data.data
-      this.keyIndex = this.mathRandom();
+      this.keyIndex = this.mathRandom()
       this.keyWord = data.data.data[this.keyIndex]
       this.sortType = this.keyWord.sortType
-      this.discountsKeyword = JSON.parse(this.keyWord.discountsKeyword).join(' ');
+      this.discountsKeyword = JSON.parse(this.keyWord.discountsKeyword).join(' ')
       var keyWordObj = JSON.parse(this.keyWord.keyword)
       for (let m in keyWordObj) {
-        //console.log(m);
-        this.keyName = m;
-        //console.log(keyWordObj[m])
+        // console.log(m);
+        this.keyName = m
+        // console.log(keyWordObj[m])
       }
       if (data.status !== 200) {
         this.$vux.alert.show({
           title: '错误提示',
-          content: data.message,
+          content: data.message
         })
       }
       this.$nextTick(() => {
         this.$refs.scroll.refresh()
       })
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
     })
   },
   methods: {
-    doCopy() {
-      var clipboard = new Clipboard('.copy');
-      var that = this;
+    doCopy () {
+      var clipboard = new Clipboard('.copy')
+      var that = this
       clipboard.on('success', function (e) {
         that.$vux.toast.text('复制成功!', 'middle')
-      });
+      })
     },
-    doNext() {
+    doNext () {
       if (this.type === 1) {
-        //检查输入域淘口令是否正确
+        // 检查输入域淘口令是否正确
         if (this.msg === this.taoKey) {
           this.$router.push({ name: 'taskOneStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
         } else {
           this.$vux.alert.show({
             title: '核对商品失败',
             content: '复制的淘口令有误',
-            buttonText: "重新输入",
-            onShow() {
+            buttonText: '重新输入',
+            onShow () {
               return false
             },
-            onHide() {
-              //console.log('Plugin: I\'m hiding')
+            onHide () {
+              // console.log('Plugin: I\'m hiding')
             }
           })
         }
@@ -223,32 +219,31 @@ export default {
           this.$vux.alert.show({
             title: '核对店铺失败',
             content: '输入的店铺有误',
-            buttonText: "重新输入",
-            onShow() {
+            buttonText: '重新输入',
+            onShow () {
               return false
             },
-            onHide() {
-              //console.log('Plugin: I\'m hiding')
+            onHide () {
+              // console.log('Plugin: I\'m hiding')
             }
           })
         }
       }
-
     },
-    failAlert() {  // 弹出框
+    failAlert () {  // 弹出框
       this.$vux.alert.show({
         title: '核对店铺失败',
         content: '输入的店铺名有误',
-        buttonText: "重新输入",
-        onShow() {
+        buttonText: '重新输入',
+        onShow () {
           console.log('Plugin: I\'m showing')
         },
-        onHide() {
+        onHide () {
           console.log('Plugin: I\'m hiding')
         }
       })
     },
-    mathRandom() {
+    mathRandom () {
       let length = this.keyWordArr.length
       return Math.floor((Math.random() * length))
     }

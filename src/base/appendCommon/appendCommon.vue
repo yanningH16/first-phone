@@ -54,32 +54,28 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Vue from 'vue'
 import Clipboard from 'clipboard'
 import Tianmao from './tianmao.svg'
 import Taobao from './taobao.svg'
 import { Toast } from 'vux'
-import { ToastPlugin } from 'vux'
-Vue.use(ToastPlugin)
 export default {
-  name: "appendCommon",
+  name: 'appendCommon',
   components: {
-    Toast,
-    ToastPlugin
+    Toast
   },
-  data() {
+  data () {
     return {
       Taobao: Taobao,
       Tianmao: Tianmao
     }
   },
   methods: {
-    doCopy() {
-      var clipboard = new Clipboard('.btn');
-      var that = this;
+    doCopy () {
+      var clipboard = new Clipboard('.btn')
+      var that = this
       clipboard.on('success', function (e) {
         that.$vux.toast.text('复制成功!', 'middle')
-      });
+      })
     }
   },
   props: {
@@ -197,7 +193,7 @@ export default {
       padding-right 0.8rem
       background #fff
       border none
-      border-1px(#383a3f,4px)
+      border-1px(#383a3f, 4px)
       extend-click()
   .subBtn
     border-top-1px(#d4d5d8)

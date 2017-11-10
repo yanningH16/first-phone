@@ -52,28 +52,27 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Step from "../../../base/step/step.vue"
+import Step from '../../../base/step/step.vue'
 import Scroll from '../../../base/scroll/scroll.vue'
 import { formateDate } from '../../../assets/js/utils'
 export default {
-  name: "taskOneStep2",
+  name: 'taskOneStep2',
   components: {
     Step,
     Scroll,
     formateDate
   },
-  data() {
+  data () {
     return {
       type: 3,
       goodsObj: {}
     }
   },
   methods: {
-    doSubmit() {
-      //提交申请
-      let that = this;
+    doSubmit () {
+      // 提交申请
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
-        'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
+        'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
       }).then((data) => {
         console.log(data)
         let time = formateDate('yyyy-MM-dd hh:mm:ss')
@@ -81,14 +80,12 @@ export default {
       }).catch(function (err) {
         console.log(err)
       })
-    },
-
+    }
   },
-  mounted() {
-    //获取商品详情
-    let that = this;
+  mounted () {
+    // 获取商品详情
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
+      'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       this.goodsObj = data.data.data

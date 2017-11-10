@@ -13,8 +13,7 @@
               </li>
               <li>
                 <strong>搜索关键词</strong>
-                <span style="display: inline-block; width: 15.4rem; vertical-align:
-                              top">{{showMsg.keyName}}</span>
+                <span style="display: inline-block; width: 15.4rem; vertical-align:top">{{showMsg.keyName}}</span>
                 <b><img src="../img/refresh.png" alt=""></b>
               </li>
               <li>
@@ -90,28 +89,28 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 const typeArr = ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先']
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["核对商品", "客服聊天", "填写订单信息"],
+      stepArr: ['核对商品"', '客服聊天', '填写订单信息'],
       stepIndex: 0,
-      msg: "1.点击输入框\r2.长按\r3.粘贴",
-      isOk: true, //按钮可点击
-      openIt: false, //打开找不到商品按钮
-      isPass: true, //验证店铺按钮
-      isRight: false, //验证通过
-      isWrong: false, //验证错误
-      shopName: "",
+      msg: '1.点击输入框\r2.长按\r3.粘贴',
+      isOk: true, // 按钮可点击
+      openIt: false, // 打开找不到商品按钮
+      isPass: true, // 验证店铺按钮
+      isRight: false, // 验证通过
+      isWrong: false, // 验证错误
+      shopName: '',
       twoInfo: {},
       task: [],
       taskIndex: 0,
@@ -122,14 +121,14 @@ export default {
       rbObj: {}
     }
   },
-  //接口请求部分开始
-  created() {
-    let that = this;
-    //第二步的核对商品的接口
+  // 接口请求部分开始
+  created () {
+    let that = this
+    // 第二步的核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
     }).then((data) => {
-      if (data.data.code === "200") {
+      if (data.data.code === '200') {
         this.twoInfo = data.data.data
         this.taoKey = data.data.data.taokouling
         if (this.$route.query.rb) {
@@ -139,39 +138,39 @@ export default {
         let isSupportHuabei = data.data.data.isSupportHuabei ? data.data.data.isSupportHuabei : 0
         let isSupportCredit = data.data.data.isSupportCredit ? data.data.data.isSupportCredit : 0
         let isSupprotCoupon = data.data.data.isSupprotCoupon ? data.data.data.isSupprotCoupon : 0
-        if (isSupportHuabei == 0 && isSupportCredit == 0 && isSupprotCoupon == 0) {
+        if (isSupportHuabei === 0 && isSupportCredit === 0 && isSupprotCoupon === 0) {
           this.allow = 1
-        } else if (isSupportHuabei == 0 && isSupportCredit == 0 && isSupprotCoupon == 1) {
+        } else if (isSupportHuabei === 0 && isSupportCredit === 0 && isSupprotCoupon === 1) {
           this.allow = 2
-        } else if (isSupportHuabei == 0 && isSupportCredit == 1 && isSupprotCoupon == 0) {
+        } else if (isSupportHuabei === 0 && isSupportCredit === 1 && isSupprotCoupon === 0) {
           this.allow = 3
-        } else if (isSupportHuabei == 0 && isSupportCredit == 1 && isSupprotCoupon == 1) {
+        } else if (isSupportHuabei === 0 && isSupportCredit === 1 && isSupprotCoupon === 1) {
           this.allow = 4
-        } else if (isSupportHuabei == 1 && isSupportCredit == 0 && isSupprotCoupon == 0) {
+        } else if (isSupportHuabei === 1 && isSupportCredit === 0 && isSupprotCoupon === 0) {
           this.allow = 5
-        } else if (isSupportHuabei == 1 && isSupportCredit == 0 && isSupprotCoupon == 1) {
+        } else if (isSupportHuabei === 1 && isSupportCredit === 0 && isSupprotCoupon === 1) {
           this.allow = 6
-        } else if (isSupportHuabei == 1 && isSupportCredit == 1 && isSupprotCoupon == 0) {
+        } else if (isSupportHuabei === 1 && isSupportCredit === 1 && isSupprotCoupon === 0) {
           this.allow = 7
-        } else if (isSupportHuabei == 1 && isSupportCredit == 1 && isSupprotCoupon == 1) {
+        } else if (isSupportHuabei === 1 && isSupportCredit === 1 && isSupprotCoupon === 1) {
           this.allow = 8
         }
       }
       this.$nextTick(() => {
         this.$refs.scroll.refresh()
       })
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
     })
-    //展开收索的接口
+    // 展开收索的接口
     this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
       sellerTaskId: that.$route.query.sellerTaskId
     }).then((response) => {
       let data = response.data
-      if (data.code == 200) {
+      if (data.code === '200') {
         let arr = data.data
         this.task = arr
         this.taskIndex = this.mathRandom()
@@ -179,13 +178,13 @@ export default {
       }
     }).catch((error) => {
       console.log(error)
-    });
+    })
     if (this.$route.query.rb) {
-      //获取与评价的内容
+      // 获取与评价的内容
       this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
         'orderId': this.$route.query.buyerTaskRecordId
       }).then((data) => {
-        if (data.data.code == '200') {
+        if (data.data.code === '200') {
           console.log(data)
           this.rbObj = data.data.data
           this.$nextTick(() => {
@@ -194,37 +193,37 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '获取信息失败',
-            content: data.data.message,
+            content: data.data.message
           })
         }
       }).catch(function (err) {
         console.log(err)
-      });
+      })
     }
   },
-  //接口请求部分结束
+  // 接口请求部分结束
   methods: {
-    open() {
+    open () {
       this.openIt = !this.openIt
-      //获取关键词
+      // 获取关键词
       this.$nextTick(() => {
         this.$refs.scroll.refresh()
       })
     },
-    //设置taskindex
-    //生成数随机数
-    mathRandom() {
+    // 设置taskindex
+    // 生成数随机数
+    mathRandom () {
       let length = this.task.length
       return Math.floor((Math.random() * length))
     },
-    //将数据改变成自己的数据
-    changeMsg() {
+    // 将数据改变成自己的数据
+    changeMsg () {
       let nowMsg = this.task[this.taskIndex]
       console.log(nowMsg)
-      this.showMsg.discountsKeyword = JSON.parse(nowMsg.discountsKeyword).join(' ');
+      this.showMsg.discountsKeyword = JSON.parse(nowMsg.discountsKeyword).join(' ')
       this.showMsg.sendPlace = nowMsg.sendPlace
       this.showMsg.sortType = typeArr[(parseInt(nowMsg.sortType) - 1)]
-      this.showMsg.price = (nowMsg.priceLower) + "-" + (nowMsg.priceLower) + '元'
+      this.showMsg.price = (nowMsg.priceLower) + '-' + (nowMsg.priceLower) + '元'
       this.showMsg.sellerTaskId = nowMsg.sellerTaskId
       var keyWordObj = JSON.parse(nowMsg.keyword)
       let keyName = ''
@@ -234,27 +233,27 @@ export default {
       this.showMsg.keyName = keyName
       console.log(this.showMsg)
     },
-    doNext() {
-      //检查输入域淘口令是否正确
+    doNext () {
+      // 检查输入域淘口令是否正确
       if (this.msg !== this.taoKey) {
         this.$vux.alert.show({
           title: '核对商品失败',
           content: '复制的淘口令有误',
-          buttonText: "重新输入",
-          onShow() {
+          buttonText: '重新输入',
+          onShow () {
             return false
-          },
+          }
         })
       } else {
-        if(this.$route.query.rb) {
+        if (this.$route.query.rb) {
           this.$router.push({ name: 'getPriceThreeStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow, rbObj: this.rbObj } })
         } else {
           this.$router.push({ name: 'getPriceThreeStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, allow: this.allow } })
         }
       }
     },
-    onInput() {
-      //如果通过显示通过按钮
+    onInput () {
+      // 如果通过显示通过按钮
       if (this.shopName === this.twoInfo.shopName) {
         this.isPass = false
         this.isRight = true
@@ -266,7 +265,7 @@ export default {
       }
     },
 
-    showIsPass() {
+    showIsPass () {
       this.isPass = true
       this.isRight = false
       this.isWrong = false

@@ -11,14 +11,14 @@
               <Swiper :list="scrollImgs" :auto="true" :loop="true" :height="swiperHeight"></Swiper>
             </div>
             <!-- <div class="movement">
-                  <img src="./img/menu.png" alt="userImg">
-                  <div class="scrollFont">
-                    <marquee>
-                      <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)" class="align-middle">hello world {{i}}
-                      </marquee-item>
-                    </marquee>
-                  </div>
-                </div> -->
+                                                  <img src="./img/menu.png" alt="userImg">
+                                                  <div class="scrollFont">
+                                                    <marquee>
+                                                      <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)" class="align-middle">hello world {{i}}
+                                                      </marquee-item>
+                                                    </marquee>
+                                                  </div>
+                                                </div> -->
             <ul class="top_btn">
               <li @click="toClassPage(1)"><img src="./font/quane.svg" alt="">
                 <span>全额返</span>
@@ -104,15 +104,14 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Headsearch from "../../base/headsearch/headsearch"
-import { Swiper } from 'vux'
+import Headsearch from '../../base/headsearch/headsearch'
 import Scroll from '../../base/scroll/scroll'
 import Slider from '../../base/slider/slider'
-import { Marquee, MarqueeItem, Alert } from 'vux'
-import Merchandise from "../../base/merchandise/merchandise_1"
+import { Swiper, Marquee, MarqueeItem, Alert } from 'vux'
+import Merchandise from '../../base/merchandise/merchandise_1'
 
 export default {
-  name: "index",
+  name: 'index',
   components: {
     Headsearch,
     Swiper,
@@ -123,7 +122,7 @@ export default {
     Slider,
     Alert
   },
-  data() {
+  data () {
     return {
       scrollX: true,
       arrImg1: [
@@ -168,30 +167,38 @@ export default {
           msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
         }
       ],
-      arrImg2: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+      arrImg2: [{
+        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
         vip: 0,
         info: 'HeadImg',
         progress: '20',
         sellerTaskId: 'UN201710290180926516',
-        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
-      arrImg3: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+      }],
+      arrImg3: [{
+        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
         vip: 0,
         info: 'HeadImg',
         progress: '20',
         sellerTaskId: 'UN201710290180926516',
-        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
-      arrImg4: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+      }],
+      arrImg4: [{
+        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
         vip: 0,
         info: 'HeadImg',
         progress: '20',
         sellerTaskId: 'UN201710290180926516',
-        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
-      arrImg5: [{        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+      }],
+      arrImg5: [{
+        imgSrc: 'http://baoyitech.oss-cn-hangzhou.aliyuncs.com/1508758557625c601fdea9f4b5fdf805d07334d1aff77',
         vip: 0,
         info: 'HeadImg',
         progress: '20',
         sellerTaskId: 'UN201710290180926516',
-        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }      }],
+        msg: { pric: '20', state: '0', zhuan: '2', baina: '白拿' }
+      }],
       defaultWidth: 13.9,
       defaultUnit: 'rem',
       defaultMargin: 0,
@@ -208,12 +215,12 @@ export default {
         url: 'javascript:',
         img: 'http://pic2.ooopic.com/10/67/08/30b1OOOPICcb.jpg'
       }],
-      swiperHeight: "12rem", //轮播图高度
+      swiperHeight: '12rem' // 轮播图高度
     }
   },
   methods: {
-    //获取首页轮播图
-    getBannerImg() {
+    // 获取首页轮播图
+    getBannerImg () {
       let _this = this
       this.$axios.get('/api/homePage/getBanner').then(function (data) {
         if (data.data.code === '200') {
@@ -221,7 +228,7 @@ export default {
           if (!data.data.data) {
             return false
           }
-          let imgArr = [];
+          let imgArr = []
           for (let i = 0; i < arrData.length; i++) {
             imgArr.push({
               url: '/nopay/details?sellerTaskId=' + arrData[i].sellerTaskId,
@@ -234,10 +241,10 @@ export default {
           _this.$vux.alert.show({
             title: '提示',
             content: '今日暂无广告',
-            onShow() {
+            onShow () {
               console.log('Plugin: I\'m showing')
             },
-            onHide() {
+            onHide () {
               console.log('Plugin: I\'m hiding')
             }
           })
@@ -247,27 +254,24 @@ export default {
         _this.$vux.alert.show({
           title: '错误',
           content: '服务器错误,请重试❗',
-          onShow() {
+          onShow () {
             console.log('Plugin: I\'m showing')
           },
-          onHide() {
+          onHide () {
             console.log('Plugin: I\'m hiding')
           }
         })
       })
     },
-    //获取推荐的抽奖商品
-    getRecommendLottery() {
-      let that = this;
-      this.$axios.get('/api/homePage/getRecommendLottery').then(function (data) {
-        //console.log(data);
+    // 获取推荐的抽奖商品
+    getRecommendLottery () {
+      this.$axios.get('/api/homePage/getRecommendLottery').then((data) => {
         if (data.data.code === '200') {
-          let arrList = [];
+          let arrList = []
           if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
-            //console.log(m);
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
@@ -281,93 +285,88 @@ export default {
                 zhuan: m.extraGold,
                 baina: '白拿'
               }
-            };
-            arrList.push(goods);
+            }
+            arrList.push(goods)
           }
-          that.arrImg1 = arrList;
-          that.$nextTick(() => {
-            that.$refs.scroll.refresh()
-          })
-        }
-      }).catch(function (err) {
-        console.log(err);
-      })
-    },
-    //获取推荐的必中商品
-    getRecommendSure() {
-      let that = this;
-      this.$axios.get('/api/homePage/getRecommendSure').then(function (data) {
-        if (data.data.code === '200') {
-          let arrList = [];
-          if (!data.data.data) {
-            return false
-          }
-          for (let m of data.data.data) {
-            //console.log(m);
-            let goods = {
-              imgSrc: m.picUrl,
-              hot: m.isRecommend,
-              vip: m.isPlus,
-              info: m.productName,
-              progress: m.percent,
-              sellerTaskId: m.sellerTaskId,
-              msg: {
-                pric: m.price,
-                state: m.isMore,
-                zhuan: m.extraGold,
-                baina: '白拿'
-              }
-            };
-            arrList.push(goods);
-          }
-          that.arrImg2 = arrList;
-          that.$nextTick(() => {
-            that.$refs.scroll.refresh()
-          })
-        }
-      }).catch(function (err) {
-        console.log(err);
-      })
-    },
-    //获取优质的白拿商品
-    getQualityFree() {
-      var that = this;
-      this.$axios.get('/api/homePage/getQualityFree').then(function (data) {
-        console.log(data);
-        if (data.data.code === '200') {
-          let arrList = [];
-          if (!data.data.data) {
-            return false
-          }
-          for (let m of data.data.data) {
-            //console.log(m);
-            let goods = {
-              imgSrc: m.picUrl,
-              hot: m.isRecommend,
-              vip: m.isPlus,
-              info: m.productName,
-              progress: m.percent,
-              sellerTaskId: m.sellerTaskId,
-              msg: {
-                pric: m.price,
-                state: m.isMore,
-                zhuan: m.extraGold,
-                baina: '白拿'
-              }
-            };
-            arrList.push(goods);
-          }
-          that.arrImg3 = arrList;
-          that.$nextTick(() => {
-            that.$refs.scroll.refresh()
+          this.arrImg1 = arrList
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
           })
         }
       }).catch(function (err) {
         console.log(err)
       })
     },
-    //获取热门的商品品类的列表
-    /*getRecommedProductByClass() {
+    // 获取推荐的必中商品
+    getRecommendSure () {
+      this.$axios.get('/api/homePage/getRecommendSure').then(function (data) {
+        if (data.data.code === '200') {
+          let arrList = []
+          if (!data.data.data) {
+            return false
+          }
+          for (let m of data.data.data) {
+            let goods = {
+              imgSrc: m.picUrl,
+              hot: m.isRecommend,
+              vip: m.isPlus,
+              info: m.productName,
+              progress: m.percent,
+              sellerTaskId: m.sellerTaskId,
+              msg: {
+                pric: m.price,
+                state: m.isMore,
+                zhuan: m.extraGold,
+                baina: '白拿'
+              }
+            }
+            arrList.push(goods)
+          }
+          this.arrImg2 = arrList
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    // 获取优质的白拿商品
+    getQualityFree () {
+      this.$axios.get('/api/homePage/getQualityFree').then((data) => {
+        if (data.data.code === '200') {
+          let arrList = []
+          if (!data.data.data) {
+            return false
+          }
+          for (let m of data.data.data) {
+            let goods = {
+              imgSrc: m.picUrl,
+              hot: m.isRecommend,
+              vip: m.isPlus,
+              info: m.productName,
+              progress: m.percent,
+              sellerTaskId: m.sellerTaskId,
+              msg: {
+                pric: m.price,
+                state: m.isMore,
+                zhuan: m.extraGold,
+                baina: '白拿'
+              }
+            }
+            arrList.push(goods)
+          }
+          this.arrImg3 = arrList
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    // 获取热门的商品品类的列表
+    /* getRecommedProductByClass() {
       this.$axios.post('api/homePage/getRecommedProductByClass', {
         productClassId: 1
       }).then(function (data) {
@@ -375,19 +374,17 @@ export default {
       }).catch(function (err) {
         console.log(err);
       })
-    },*/
-    //获取推荐女装
-    getRecommendWomen() {
-      let that = this;
-      this.$axios.get('/api/homePage/getRecommendWomen').then(function (data) {
-        //console.log(data);
+    }, */
+    // 获取推荐女装
+    getRecommendWomen () {
+      this.$axios.get('/api/homePage/getRecommendWomen').then((data) => {
+        // console.log(data);
         if (data.data.code === '200') {
-          let arrList = [];
+          let arrList = []
           if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
-            //console.log(m);
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
@@ -401,30 +398,27 @@ export default {
                 zhuan: m.extraGold,
                 baina: '白拿'
               }
-            };
-            arrList.push(goods);
+            }
+            arrList.push(goods)
           }
-          that.arrImg4 = arrList;
-          that.$nextTick(() => {
-            that.$refs.scroll.refresh()
+          this.arrImg4 = arrList
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
           })
         }
-      }).catch(function (err) {
-        console.log(err);
+      }).catch((err) => {
+        console.log(err)
       })
     },
-    //获取推荐男装
-    getRecommendMan() {
-      let that = this;
-      this.$axios.get('/api/homePage/getRecommendMan').then(function (data) {
-        //console.log(data);
+    // 获取推荐男装
+    getRecommendMan () {
+      this.$axios.get('/api/homePage/getRecommendMan').then((data) => {
         if (data.data.code === '200') {
-          let arrList = [];
+          let arrList = []
           if (!data.data.data) {
             return false
           }
           for (let m of data.data.data) {
-            //console.log(m);
             let goods = {
               imgSrc: m.picUrl,
               hot: m.isRecommend,
@@ -438,35 +432,35 @@ export default {
                 zhuan: m.extraGold,
                 baina: '白拿'
               }
-            };
-            arrList.push(goods);
+            }
+            arrList.push(goods)
           }
-          that.arrImg5 = arrList;
-          that.$nextTick(() => {
-            that.$refs.scroll.refresh()
+          this.arrImg5 = arrList
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh()
           })
         }
       }).catch(function (err) {
-        console.log(err);
+        console.log(err)
       })
     },
-    //进入详情页面
-    goDetail(item) {
+    // 进入详情页面
+    goDetail (item) {
       this.$router.push({ name: 'details', query: { sellerTaskId: item.sellerTaskId } })
     },
-    //进入筛选分类结果页面
-    toClassPage(index) {
+    // 进入筛选分类结果页面
+    toClassPage (index) {
       this.$router.push({ name: 'nopay', query: { index: index } })
     }
   },
-  mounted() {
-    this.getBannerImg();
-    this.getRecommendLottery();
-    this.getRecommendSure();
-    this.getQualityFree();
-    //this.getRecommedProductByClass();
-    this.getRecommendWomen();
-    this.getRecommendMan();
+  mounted () {
+    this.getBannerImg()
+    this.getRecommendLottery()
+    this.getRecommendSure()
+    this.getQualityFree()
+    // this.getRecommedProductByClass();
+    this.getRecommendWomen()
+    this.getRecommendMan()
   }
 }
 </script>

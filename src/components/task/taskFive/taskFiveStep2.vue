@@ -10,8 +10,8 @@
           <upload :myimgs="favImg" :max="3" :showNum="true"></upload>
         </div>
         <!-- <div class="warn">
-          <p>提示：如果店铺商品不足3个，可复制其他店铺同类商品提交</p>
-        </div> -->
+              <p>提示：如果店铺商品不足3个，可复制其他店铺同类商品提交</p>
+            </div> -->
         <div class="sureBtn">
           <button :disabled="!isOk" :class="{ook: !isOk}" @click="doNext">提交申请</button>
         </div>
@@ -20,45 +20,45 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Step from "../../../base/step/step.vue"
+import Step from '../../../base/step/step.vue'
 import Scroll from '../../../base/scroll/scroll.vue'
 import Upload from '../../../base/upload/upload.vue'
 
 export default {
-  name: "taskFiveStep2",
+  name: 'taskFiveStep2',
   components: {
     Step,
     Scroll,
     Upload
   },
-  data() {
+  data () {
     return {
-      isOk: true, //按钮可提交
-      favImg: [], //收藏截图
+      isOk: true, // 按钮可提交
+      favImg: [] // 收藏截图
     }
   },
   methods: {
-    doNext() {
+    doNext () {
       if (this.favImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
-          content: '请上传完整截图',
-        });
+          content: '请上传完整截图'
+        })
         return false
       }
-      let that = this;
+      let that = this
       this.$axios.post('/api/orderOperate/seventhOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         storeProductPicId: this.favImg
       }).then((res) => {
         console.log(res)
-        if (res.data.code === "200") {
+        if (res.data.code === '200') {
           this.$router.push({ name: 'submitSuccess', query: { type: 'task5' } })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }

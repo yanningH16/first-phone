@@ -1,5 +1,5 @@
 const Youpin = (resolve) => {
-  import ('@/components/youpin/youpin').then((module) => {
+  import('@/components/youpin/youpin').then((module) => {
     resolve(module)
   })
 }

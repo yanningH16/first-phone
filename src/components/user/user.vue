@@ -50,10 +50,10 @@
 import { Cell, Group, Badge } from 'vux'
 import UserHeader from './userHeader/userHeader'
 import Scroll from '../../base/scroll/scroll'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import { userInfoMixin } from '../../assets/js/mixin'
 export default {
-  name: "user",
+  name: 'user',
   mixins: [userInfoMixin],
   components: {
     UserHeader,
@@ -63,18 +63,17 @@ export default {
     Scroll
   },
   computed: {
-    //使用computed
-    userSetInfo() {
+    // 使用computed
+    userSetInfo () {
       return {
         avatorUrl: this.userInfo.headPicId,
         userName: this.userInfo.telephone || this.userInfo.telephone || '微信名',
         typeName: (this.userInfo.isVip ? 'Plus会员' : '普通会员'),
         btnName: (this.userInfo.isVip ? '续费Plus' : '升级Plus')
       }
-
     }
   },
-  data() {
+  data () {
     return {
       boxOne: [
         {
@@ -96,11 +95,11 @@ export default {
         }
       ],
       boxThree: [
-        /*{
+        /* {
           title: '关注商品',
           link: 'user/noPayOrder',
           isLink: true
-        },*/
+        }, */
         {
           title: '我的必中券',
           link: 'user/userCoupons',
@@ -123,13 +122,13 @@ export default {
           title: '帮助与客服',
           link: 'user/helpCenter',
           isLink: true
-        },
-        /*{
+        }
+        /* {
           title: '意见反馈',
           link: 'user/userSuggest',
           isLink: true,
           isDot: true
-        }*/
+        } */
       ],
       boxMoney: [
         {
@@ -173,25 +172,25 @@ export default {
           type: 4,
           badge: 0
         }
-      ],
+      ]
     }
   },
-  mounted() {
+  mounted () {
     this.getByBuyerUserId()
     this.getOrderNum()
   },
   methods: {
-    arrowClick() {
+    arrowClick () {
       this.$router.push({ name: 'settings' })
     },
-    buyPlus() {
+    buyPlus () {
       this.$router.push({ name: 'buyPlus' })
     },
-    orderRouter(type) {
+    orderRouter (type) {
       this.$router.push({ name: 'noPayOrder', params: { checkIndex: type } })
     },
-    //获得我的资金
-    getByBuyerUserId() {
+    // 获得我的资金
+    getByBuyerUserId () {
       this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
         userId: this.userInfo.buyerUserId
       }).then((response) => {
@@ -201,19 +200,19 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },
-    //设置我的资金
-    setCoinInfo(data) {
-      //垫付本金
+    // 设置我的资金
+    setCoinInfo (data) {
+      // 垫付本金
       if (data.waitingBackDeposit) {
         this.maxMoney(data.waitingBackDeposit, 0)
       }
@@ -230,8 +229,8 @@ export default {
         this.boxOne[0].title = `我的金币 ${parseFloat(data.availableGold).toFixed(2)}`
       }
     },
-    //资金大于10000
-    maxMoney(money, index) {
+    // 资金大于10000
+    maxMoney (money, index) {
       let watingPrice = parseFloat(money)
       if (watingPrice >= 10000) {
         watingPrice = watingPrice / 10000
@@ -239,8 +238,8 @@ export default {
       }
       this.boxMoney[index].price = watingPrice.toFixed(2)
     },
-    //获得订单数量
-    getOrderNum() {
+    // 获得订单数量
+    getOrderNum () {
       this.$axios.post('/api/orderOperate/getAllTaskRecordCountStatistics', {
         userId: this.userInfo.buyerUserId
       }).then((response) => {
@@ -249,18 +248,18 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },
-    //设置订单数量
-    setOrderNum(data) {
+    // 设置订单数量
+    setOrderNum (data) {
       if (!data.winningCount) {
         this.maxOrderNum(data.winningCount, 0)
       }
@@ -274,8 +273,8 @@ export default {
         this.maxOrderNum(data.rejectCount, 3)
       }
     },
-    //最大订单数
-    maxOrderNum(account, index) {
+    // 最大订单数
+    maxOrderNum (account, index) {
       let watingPrice = parseInt(account)
       if (watingPrice > 10) {
         watingPrice = '10+'

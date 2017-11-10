@@ -10,10 +10,10 @@
         <scroll class="scrollContent" ref="scrollContent" @scrollToEnd="scrollLoad" :pullup="pullup">
           <div class="scrollBox">
             <!-- <div class="tabContainer" ref="tabContainer">
-                                      <tab active-color="#08090a" bar-active-color="#08090a" custom-bar-width="6rem">
-                                        <tab-item :selected="(index===checkIndex)" :line-width="1" v-for="(item,index) in tabArr" :key="index" @on-item-click="choose">{{item}}</tab-item>
-                                      </tab>
-                                    </div> -->
+                                              <tab active-color="#08090a" bar-active-color="#08090a" custom-bar-width="6rem">
+                                                <tab-item :selected="(index===checkIndex)" :line-width="1" v-for="(item,index) in tabArr" :key="index" @on-item-click="choose">{{item}}</tab-item>
+                                              </tab>
+                                            </div> -->
             <div class="listBox">
               <!-- <div class="moneyList" v-if="checkIndex===0" ref="rechargeArr"> -->
               <div class="moneyList" ref="rechargeArr">
@@ -22,17 +22,17 @@
                 </list>
               </div>
               <!-- <div class="moneyList" v-else-if="checkIndex===1" ref="coinArr">
-                                        <list :list="coinArr">
-                                          <p class="text" v-show="coinArr.length===0">暂无记录</p>
-                                        </list>
-                                      </div>
-                                      <div class="moneyList" v-else>
-                                        <list :list="payArr">
-                                          <slot>
-                                            <p class="text" v-show="payArr.length===0">暂无记录</p>
-                                          </slot>
-                                        </list>
-                                      </div> -->
+                                                <list :list="coinArr">
+                                                  <p class="text" v-show="coinArr.length===0">暂无记录</p>
+                                                </list>
+                                              </div>
+                                              <div class="moneyList" v-else>
+                                                <list :list="payArr">
+                                                  <slot>
+                                                    <p class="text" v-show="payArr.length===0">暂无记录</p>
+                                                  </slot>
+                                                </list>
+                                              </div> -->
             </div>
           </div>
         </scroll>
@@ -50,7 +50,7 @@ import List from '../../../base/list/list'
 import { scrollPages } from '../../../assets/js/mixin'
 import { Tab, TabItem } from 'vux'
 export default {
-  name: "userMoney",
+  name: 'userCoin',
   mixins: [scrollPages],
   components: {
     Scroll,
@@ -58,65 +58,9 @@ export default {
     TabItem,
     List
   },
-  data() {
+  data () {
     return {
-      /*tabArr: [
-        '充值记录',
-        '赏金记录',
-        '支付记录',
-      ],*/
-      //充值记录
       rechargeArr: [],
-      //赏金记录
-      /*coinArr: [
-        {
-          title: '支付宝支付',
-          time: '2017-08-20 21:30',
-          money: '123.40',
-          unit: '金币',
-          info: '超额返'
-        },
-        {
-          title: '微信支付',
-          time: '2017-08-20 21:30',
-          money: '123.40',
-          unit: '金币',
-          info: '评价'
-        },
-        {
-          title: '微信支付',
-          time: '2017-08-20 21:30',
-          money: '123.40',
-          unit: '金币',
-          info: '未中奖补偿'
-        },
-        {
-          title: '支付宝支付',
-          time: '2017-08-20 21:30',
-          money: '123.40',
-          unit: '金币',
-          info: '追评'
-        },
-        {
-          title: '支付宝支付',
-          time: '2017-08-20 21:30',
-          money: '123.40',
-          unit: '金币',
-          info: '追评'
-        },
-        {
-          title: '支付宝支付',
-          time: '2017-08-20 21:30',
-          money: '123.40',
-          unit: '金币',
-          info: '追评'
-        }
-      ],*/
-      //支出记录
-      /*payArr: [],
-      checkIndex: 0,
-      listenScroll: true,
-      probeType: 3*/
       pageSize: 10,
       maxPageSize: 0,
       pageNo: 1,
@@ -127,7 +71,7 @@ export default {
   },
   computed: {
     params: {
-      get() {
+      get () {
         return {
           userFundId: this.userInfo.buyerUserId,
           pageNo: this.pageNo,
@@ -135,24 +79,24 @@ export default {
           fundsFlowTypes: ['TYP_BUYER_GLOD_PAY', 'TYP_BUYER_GOLD_CHARGE']
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     availableGold: {
-      get() {
+      get () {
         let gold = 0
         if (this.userCoin.availableGold) {
           gold = parseFloat(this.userCoin.availableGold).toFixed(2)
         }
         return gold
       },
-      set(val) {
+      set (val) {
         return val
       }
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.getApi()
     this.$nextTick(() => {
       this.$refs.scrollContent.refresh()
@@ -160,24 +104,24 @@ export default {
   },
   methods: {
     // 切换(暂时不用)
-    /*choose(index) {
+    /* choose(index) {
       this.checkIndex = index
       this.$nextTick(() => {
         this.$refs.scrollContent.refresh()
       })
-    },*/
-    /*myScroll(pos) {
+    }, */
+    /* myScroll(pos) {
       this.scrollY = pos.y
-    },*/
-    //设置数据
-    setInfo(data) {
+    }, */
+    // 设置数据
+    setInfo (data) {
       let mylist = []
       for (let item of data.fundsFlows) {
         let obj = {
           title: item.content,
           time: item.gmtModify,
           money: `${item.fundsFlowType === 'TYP_BUYER_GLOD_PAY' ? `-${item.pay.toFixed(2)}` : `+${item.income.toFixed(2)}`}`,
-          unit: '金币',
+          unit: '金币'
         }
         mylist.push(obj)
       }
@@ -186,11 +130,11 @@ export default {
         this.$refs.scrollContent.refresh()
       })
     },
-    //购买金币
-    buyCoin() {
+    // 购买金币
+    buyCoin () {
       this.$router.push({ name: 'buyCoin' })
     },
-    exChangeCoin() {
+    exChangeCoin () {
       if (this.availableGold) {
         this.$router.push({ name: 'exChangeCoin' })
       } else {

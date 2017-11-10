@@ -44,22 +44,22 @@
 import Scroll from '../../../base/scroll/scroll'
 import Pay from '../../../base/pay/pay'
 import { userInfoMixin } from '../../../assets/js/mixin'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
-  name: "buyCoin",
+  name: 'buyCoin',
   mixins: [userInfoMixin],
   components: {
     Scroll,
     Pay
   },
   filters: {
-    tag(val) {
+    tag (val) {
       if (!val) {
         return '普通会员'
       }
     }
   },
-  data() {
+  data () {
     return {
       preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|DIV|P)$/ },
       isClick: true,
@@ -93,13 +93,13 @@ export default {
       chosed: true
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.$refs.scrollBox.refresh()
       this.canLoading = true
     })
   },
-  updated() {
+  updated () {
     this.$nextTick(() => {
       this.$refs.scrollBox.refresh()
       this.canLoading = true
@@ -107,17 +107,17 @@ export default {
   },
   computed: {
     ataloCount: {
-      get() {
+      get () {
         let ataloCount = 0
         let choosePrice = parseFloat(this.moneyBox[this.moneyIndex].price)
         ataloCount = choosePrice - (this.chosed ? this.hasmoney : 0)
         return ataloCount
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
-    userSetInfo() {
+    userSetInfo () {
       let userTime
       if (this.userInfo.vipEndtime) {
         userTime = this.userInfo.vipEndtime.slice(0, 10)
@@ -130,42 +130,39 @@ export default {
       }
     },
     hasmoney: {
-      get() {
+      get () {
         let has = 0
         if (this.userCoin.availableDeposit) {
           has = parseFloat(this.userCoin.availableDeposit).toFixed(2)
         }
         return has
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
   methods: {
-    choosePay(index) {
-      // if (index === this.moneyIndex) {
-      //   return false
-      // }
+    choosePay (index) {
       this.moneyIndex = index
     },
-    isChosed(val) {
+    isChosed (val) {
       this.chosed = val
     },
-    buyPlus() {
-      if(hasmoney===0){
+    buyPlus () {
+      if (this.hasmoney === 0) {
         return false
       }
       this.$axios.post('/api/user/vipShipRenewal', {
         telephone: this.userInfo.telephone,
-        months: this.moneyBox[this.moneyIndex].month,
+        months: this.moneyBox[this.moneyIndex].month
       }).then((response) => {
         let data = response.data
         console.log(data)
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
           let _this = this
@@ -173,35 +170,35 @@ export default {
             text: '修改成功',
             type: 'success',
             time: 1000,
-            onHide() {
+            onHide () {
               _this.refreshUserInfo()
               _this.$router.push({ name: 'user' })
             }
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },
-    refreshUserInfo() {
+    refreshUserInfo () {
       this.$axios.post('/api/user/refresh', {
-        buyerUserId: this.userInfo.buyerUserId,
+        buyerUserId: this.userInfo.buyerUserId
       }).then((response) => {
         if (response.data.code === '200') {
           this.setUserInfo(response.data.data)
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: '网络错误，信息更新未完成',
+            content: '网络错误，信息更新未完成'
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },

@@ -40,51 +40,50 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../base/scroll/scroll.vue"
-import Step from "../../base/step/step.vue"
-import Upload from "../../base/upload/upload.vue"
+import Scroll from '../../base/scroll/scroll.vue'
+import Step from '../../base/step/step.vue'
+import Upload from '../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["图文好评", "收藏商品"],
+      stepArr: ['图文好评', '收藏商品'],
       stepIndex: 1,
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       commonImg: [],
       twoInfo: {}
     }
   },
-  //接口请求部分开始
-  created() {
-    let that = this;
-    //核对商品的接口
+  // 接口请求部分开始
+  created () {
+    // 核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+      buyerTaskRecordId: this.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
         this.twoInfo = data.data
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
-    });
+    })
     if (this.$route.query.rbObj) {
       this.commonImg = JSON.parse(this.$route.query.rbObj.storeProductPicId)
     }
   },
-  //接口请求部分结束
+  // 接口请求部分结束
   methods: {
-    next() {
-      let that = this;
+    next () {
+      let that = this
       if (this.commonImg.length > 0) {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
@@ -92,14 +91,14 @@ export default {
           addfavorCheckId: this.commonImg
         }).then((res) => {
           console.log(res)
-          if (res.data.code == 200) {
+          if (res.data.code === '200') {
             this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate4' } })
           }
         })
       } else {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '请上传商品截图',
+          content: '请上传商品截图'
         })
       }
     }

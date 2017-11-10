@@ -53,20 +53,20 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../base/scroll/scroll.vue"
-import Step from "../../base/step/step.vue"
-import Upload from "../../base/upload/upload.vue"
+import Scroll from '../../base/scroll/scroll.vue'
+import Step from '../../base/step/step.vue'
+import Upload from '../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       goodsImg: [],
       twoInfo: {},
       picArrList: [],
@@ -74,50 +74,48 @@ export default {
     }
   },
   methods: {
-    next() {
-      var that = this;
+    next () {
       if (this.goodsImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传评论截图'
-        });
-        return false;
+        })
+        return false
       }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        additionalFavorPicId: that.goodsImg
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+        additionalFavorPicId: this.goodsImg
       }).then((res) => {
         if (res.data.code === '200') {
           this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate3' } })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '提交失败,请重试',
+          content: '提交失败,请重试'
         })
       })
     }
   },
-  created() {
-    //核对商品的接口
+  created () {
+    // 核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: this.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
         this.twoInfo = data.data
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
-    });
-    //获取与评价的内容
+    })
+    // 获取与评价的内容
     this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-      'orderId': that.$route.query.buyerTaskRecordId
+      'orderId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
-      console.log(data)
       if (data.data.code === '200') {
         this.picArrList = JSON.parse(data.data.data.evaluateProductPicId)
         this.msgCont = data.data.data.additionalFavorText
@@ -127,12 +125,15 @@ export default {
       } else {
         this.$vux.alert.show({
           title: '获取信息失败',
-          content: data.data.message,
+          content: data.data.message
         })
       }
-    }).catch(function (err) {
-      console.log(err)
-    });
+    }).catch(() => {
+      this.$vux.alert.show({
+        title: '错误提示',
+        content: '服务器错误'
+      })
+    })
   }
 }
 </script>

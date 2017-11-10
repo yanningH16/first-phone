@@ -30,15 +30,15 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
-  name: "Binsert",
-  data() {
+  name: 'Binsert',
+  data () {
     return {}
   },
   methods: {
-    bottomBtn() {//申请白拿等按钮
+    bottomBtn () { // 申请白拿等按钮
       this.$emit('btn-click')
     },
-    wantGet() {//我要必中按钮
+    wantGet () { // 我要必中按钮
       this.$emit('wantGet')
     }
   },
@@ -57,7 +57,7 @@ export default {
     },
     leftTime: {
       type: String,
-      default: "14:00开始"
+      default: '14:00开始'
     }
   }
 }

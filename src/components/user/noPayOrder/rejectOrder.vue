@@ -20,21 +20,19 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
-import Vue from 'vue'
-import { notify, orderRouter } from '../../../assets/data/task'
-import { mapGetters } from 'vuex'
-import { scrollPages, orderOperate, rejectOrderOperate} from '../../../assets/js/mixin'
+import { notify } from '../../../assets/data/task'
+import { scrollPages, orderOperate, rejectOrderOperate } from '../../../assets/js/mixin'
 export default {
-  name: "rejectOrder",
+  name: 'rejectOrder',
   mixins: [scrollPages, orderOperate, rejectOrderOperate],
   components: {
     Scroll,
     AppendCommon
   },
-  data() {
+  data () {
     return {
       pullup: true,
-      axiosResult: [],//获得的数据
+      axiosResult: [], // 获得的数据
       maxPageSize: 0,
       pageSize: 5,
       pageNo: 1,
@@ -45,25 +43,25 @@ export default {
   },
   computed: {
     params: {
-      get() {
+      get () {
         return {
           buyerUserId: this.userInfo.buyerUserId,
           buyerTaskStatuss: [
-            "12"
+            '12'
           ],
           taskFlags: notify,
           pageSize: this.pageSize,
           pageNo: this.pageNo
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
   methods: {
-    //存数据
-    setGoodsList(data) {
+    // 存数据
+    setGoodsList (data) {
       let goodsDramArr = []
       for (let item of data) {
         let goodsState = this.setGoodsState(item)
@@ -92,7 +90,7 @@ export default {
           taskFiveId: item.taskFiveId,
           taskSixId: item.taskSixId,
           taskEightId: item.taskEightId,
-          taskNineId: item.taskNineId,
+          taskNineId: item.taskNineId
         }
         goodsDramArr.push(obj)
       }
@@ -102,8 +100,8 @@ export default {
         this.canLoading = true
       })
     },
-    //设置内容状态
-    setGoodsState(item) {
+    // 设置内容状态
+    setGoodsState (item) {
       let myIndex = notify.indexOf(item.taskFlag)
       let goodsState = {}
       if (item.buyerTaskStatus === '12') {
@@ -121,7 +119,7 @@ export default {
           goodsState.stateText = '评价审核未通过'
           goodsState.btnText = ''
           goodsState.isBottom = true
-          goodsState.errInfo =  '评价有问题，待平台与您联系'
+          goodsState.errInfo = '评价有问题，待平台与您联系'
         } else if (myIndex > 14 && myIndex <= 19) {
           goodsState.stateText = '预追评审核未通过'
           goodsState.btnText = '修改预追评'
@@ -131,12 +129,11 @@ export default {
           goodsState.stateText = '追评审核未通过'
           goodsState.btnText = ''
           goodsState.isBottom = true
-          goodsState.errInfo =  '评价有问题，待平台与您联系'
+          goodsState.errInfo = '评价有问题，待平台与您联系'
         }
       }
       return goodsState
-    },
-
+    }
   }
 }
 </script>

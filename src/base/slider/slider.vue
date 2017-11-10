@@ -8,7 +8,7 @@
 <script type="text/ecmascript-6">
 import Bscroll from 'better-scroll'
 export default {
-  name: "slider",
+  name: 'slider',
   props: {
     arr: {
       type: Array,
@@ -22,13 +22,13 @@ export default {
       type: Number,
       default: 0
     },
-    defaultUnit:{
-      type:String,
-      default:'px'
+    defaultUnit: {
+      type: String,
+      default: 'px'
     }
   },
   methods: {
-    _initScroll() {
+    _initScroll () {
       if (!this.scroll) {
         this.scroll = new Bscroll(this.$refs.wrapper, {
           click: true
@@ -37,7 +37,7 @@ export default {
         this.scroll.refresh()
       }
     },
-    _initPicsScroll() {
+    _initPicsScroll () {
       if (this.arr) {
         let picWidth = this.defaultWidth
         let margin = this.defaultMargin
@@ -51,14 +51,14 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this._initScroll()
       this._initPicsScroll()
     })
   },
   watch: {
-    arr() {
+    arr () {
       this.$nextTick(() => {
         this._initScroll()
         this._initPicsScroll()

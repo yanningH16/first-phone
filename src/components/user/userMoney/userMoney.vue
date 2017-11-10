@@ -76,12 +76,10 @@
 import Scroll from '../../../base/scroll/scroll'
 import List from '../../../base/list/list'
 import CoinSetting from '../../../base/coinSetting/coinSetting'
-import Vue from 'vue'
-import { Tab, TabItem, ConfirmPlugin } from 'vux'
+import { Tab, TabItem } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
-Vue.use(ConfirmPlugin)
 export default {
-  name: "userMoney",
+  name: 'userMoney',
   components: {
     Scroll,
     Tab,
@@ -103,32 +101,32 @@ export default {
     //   }
     // },
     isCoinSetting: {
-      get() {
+      get () {
         if (this.userInfo.taobaoStatus && parseInt(this.userInfo.taobaoStatus) === 1 && this.userInfo.bankCheckStatus && parseInt(this.userInfo.bankCheckStatus) === 1 && this.userInfo.depositPassword) {
           return false
         }
         return true
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     checkListBox: {
-      get() {
+      get () {
         let obj = {
           title: '未完成提现设置',
           list: [
             {
               textSuc: '淘宝号已绑定',
-              textErr: '淘宝号未绑定',
+              textErr: '淘宝号未绑定'
             },
             {
               textSuc: '银行卡已绑定',
-              textErr: '银行卡未绑定',
+              textErr: '银行卡未绑定'
             },
             {
               textSuc: '提现密码已设置',
-              textErr: '提现密码未设置',
+              textErr: '提现密码未设置'
             }
           ],
           btnText: '立即去绑定'
@@ -150,19 +148,19 @@ export default {
         }
         return obj
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     availableDeposit: {
-      get() {
+      get () {
         let deposit = 0
         if (this.userCoin.availableDeposit) {
           deposit = parseFloat(this.userCoin.availableDeposit).toFixed(2)
         }
         return deposit
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
@@ -171,7 +169,7 @@ export default {
       'userCoin'
     ])
   },
-  data() {
+  data () {
     return {
       tabArr: [
         '垫付本金',
@@ -188,12 +186,12 @@ export default {
       accountDone: 0
     }
   },
-  mounted() {
+  mounted () {
     this.getApi()
   },
   methods: {
     // 切换
-    choose(index) {
+    choose (index) {
       this.checkIndex = index
       this.$nextTick(() => {
         if (index === 0) {
@@ -206,8 +204,8 @@ export default {
       })
       this.getApi()
     },
-    //提现
-    deposit() {
+    // 提现
+    deposit () {
       if (!this.isCoinSetting) {
         this.showToast = true
       } else {
@@ -220,7 +218,7 @@ export default {
                 content: '普通会员200元以上才能提线 Plus会员任意金额都可提现',
                 confirmText: '充值会员',
                 cancelText: '取消',
-                onConfirm() {
+                onConfirm () {
                   _this.$router.push({ name: 'buyPlus' })
                 }
               })
@@ -237,20 +235,18 @@ export default {
                 content: '只有先绑定银行卡，才有提现资格',
                 confirmText: '立即绑定',
                 cancelText: '暂不绑定',
-                onConfirm() {
+                onConfirm () {
                   _this.setPreurl('userMoney')
                   _this.$router.push({ name: 'yinHangKa' })
                 }
               })
-
             }
-
           }
         }
       }
     },
-    //获得可提现金额
-    getByBuyerUserId() {
+    // 获得可提现金额
+    getByBuyerUserId () {
       this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
         userId: this.userInfo.buyerUserId
       }).then((response) => {
@@ -260,18 +256,18 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },
-    //获得数据各个数据
-    getApi() {
+    // 获得数据各个数据
+    getApi () {
       this.$axios.post('/api/orderOperate/getTaskRecordListByBuyerUserIdAndStatus', {
         status: this.checkIndex + 1,
         buyerUserId: this.userInfo.buyerUserId
@@ -281,19 +277,19 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
       }).catch((error) => {
         console.log(error)
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },
-    //设置信息
-    setInfo(data) {
+    // 设置信息
+    setInfo (data) {
       let mylist = []
       for (let item of data.taskList) {
         let obj = {
@@ -317,8 +313,8 @@ export default {
         this.accountCan = data.total ? data.total.toFixed(2) : 0.00
       }
     },
-    //提现跳转
-    doDeposit() {
+    // 提现跳转
+    doDeposit () {
       this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
         buyerUserId: this.userInfo.buyerUserId,
         deposit: this.availableDeposit,
@@ -329,20 +325,20 @@ export default {
         if (response.data.code === '200') {
           this.$vux.alert.show({
             title: '提现成功,点击确定返回个人中心',
-            onHide() {
+            onHide () {
               _this.$router.push({ name: 'user' })
             }
           })
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },

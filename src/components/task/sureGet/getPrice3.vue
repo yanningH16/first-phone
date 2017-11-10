@@ -23,59 +23,58 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 export default {
-  name: "getPrice3",
+  name: 'getPrice3',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["搜索核对加购物车", "收藏关注", "客服聊天", "填写订单信息"],
+      stepArr: ['搜索核对加购物车', '收藏关注', '客服聊天', '填写订单信息'],
       stepIndex: 2,
-      isOk: true, //按钮可点击
-      chatImg: [], //客服聊天截图
+      isOk: true, // 按钮可点击
+      chatImg: [] // 客服聊天截图
     }
   },
-  created() {
+  created () {
     if (this.$route.query.rbObj) {
       this.chatImg = JSON.parse(this.$route.query.rbObj.customerServiceChartPicId)
     }
   },
   methods: {
-    doNext() {
-      //var buyerTaskRecordId = this.$route.query.buyerTaskRecordId || localStorage.getItem("buyerTaskRecordId")bitslapOrderSubmit
-      let that = this;
+    doNext () {
+      // var buyerTaskRecordId = this.$route.query.buyerTaskRecordId || localStorage.getItem("buyerTaskRecordId")bitslapOrderSubmit
+      let that = this
       if (this.chatImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传完整截图'
-        });
+        })
         return false
       }
-      /*this.$axios.post('/api/orderOperate/bitslapOrderSubmit', {
+      /* this.$axios.post('/api/orderOperate/bitslapOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         chatImg: that.chatImg
       }).then((res) => {
-        if (res.data.code=== "200") {*/
+        if (res.data.code=== "200") { */
       let obj = {
         favImg: that.$route.query.obj.favImg,
         focusImg: that.$route.query.obj.focusImg,
         chatImg: that.chatImg
       }
       that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, allow: that.$route.query.allow, type: that.$route.query.type, obj: obj, rbObj: that.$route.query.rbObj } })
-      /*}
+      /* }
     }).catch((error) => {
       this.$vux.alert.show({
         title:'错误提示',
         content: '服务器错误',
       })
-    })*/
-
+    }) */
     }
   }
 }

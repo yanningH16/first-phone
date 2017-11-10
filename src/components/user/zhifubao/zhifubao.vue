@@ -30,7 +30,7 @@ import Upload from '../../../base/upload/upload'
 import MButton from '../../../base/button/button'
 import { XInput, Group } from 'vux'
 export default {
-  name: "zhifubao",
+  name: 'zhifubao',
   components: {
     Scroll,
     XInput,
@@ -39,22 +39,22 @@ export default {
     MButton,
     Upload
   },
-  data() {
+  data () {
     return {
       infos: [
         '为确保你的账号及退款账号为同一人，请上传支付宝基本信息截图，如账号信息和截图信息不一致，将不能通过平台审核',
         '当天提交的支付宝审核预计在1小时左右完成审核，21.00之后提交的将于次日审核'
       ],
       btnSaveState: false,
-      imgs:[],
-      max:1
+      imgs: [],
+      max: 1
     }
   },
   methods: {
-    //保存地址
-    apply() {
+    // 保存地址
+    apply () {
       console.log(123)
-      //ajax请求
+      // ajax请求
       if (this.btnSaveState) {
         console.log('保存')
       }
@@ -65,38 +65,38 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../../assets/stylus/variable'
 @import '../../../assets/stylus/mixin'
-  .settings
+.settings
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .scroll-content
     height 100%
-    position fixed
-    width 100%
-    height 100%
-    left: 0
-    top 0
-    bottom 0
-    z-index 9999
-    background $color-background
-    &.move-enter-active,.move-leave-active 
-      transition all 0.2s linear
-      transform translate3d(0, 0, 0)
-    &.move-enter,.move-leave
-      transform translate3d(100%, 0, 0)
-    .scroll-content
-      height 100%
-      .containerBox
-        margin-top 0.8rem
-        background $color-theme-white
-        width 100%
-        box-sizing border-box
-        padding 1.2rem 1.6rem
-        .title
-          color $color-text
-          font-size $font-size-medium
-        .uploadBox
-          height 9rem
-          .finish_room
-            position relative
-            top 1rem
-      .btnBox
-        box-sizing border-box
-        padding 0 1.6rem
+    .containerBox
+      margin-top 0.8rem
+      background $color-theme-white
+      width 100%
+      box-sizing border-box
+      padding 1.2rem 1.6rem
+      .title
+        color $color-text
+        font-size $font-size-medium
+      .uploadBox
+        height 9rem
+        .finish_room
+          position relative
+          top 1rem
+    .btnBox
+      box-sizing border-box
+      padding 0 1.6rem
 </style>

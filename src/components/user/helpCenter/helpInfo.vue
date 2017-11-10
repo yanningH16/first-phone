@@ -26,11 +26,11 @@
 import Scroll from '../../../base/scroll/scroll'
 import { myQuestions } from '../../../assets/data/question'
 export default {
-  name: "buyCoin",
+  name: 'buyCoin',
   components: {
     Scroll
   },
-  mounted() {
+  mounted () {
     if (parseInt(this.$route.query.chooseIndex) === 0 || this.$route.query.chooseIndex) {
       this.chooseIndex = parseInt(this.$route.query.chooseIndex)
     }
@@ -38,14 +38,14 @@ export default {
     this.mydata = questions.body
     document.title = questions.name
   },
-  data() {
+  data () {
     return {
       mydata: null,
       chooseIndex: null
     }
   },
   methods: {
-    showToggle(index) {
+    showToggle (index) {
       if (this.chooseIndex !== index) {
         this.chooseIndex = index
       } else {

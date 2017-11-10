@@ -20,7 +20,7 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
-  name: "list",
+  name: 'list',
   props: {
     list: {
       type: Array,
@@ -32,60 +32,60 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../assets/stylus/variable'
 @import '../../assets/stylus/mixin'
-  .listContainer
-    width 100%
+.listContainer
+  width 100%
+  box-sizing border-box
+  padding-left 1.6rem
+  background $color-theme-white
+  &.listContainer-noPad
+    padding-left 0
+  .list
+    display flex
     box-sizing border-box
-    padding-left 1.6rem
-    background $color-theme-white
-    &.listContainer-noPad
-      padding-left 0
-    .list
+    width 100%
+    height 7rem
+    height 7rem
+    padding-right 1.6rem
+    border-bottom-1px($color-text-ll)
+    &:last-of-type
+      border-bottom-1px($color-theme-white)
+    .listInfo
+      width 200px
+      flex 0 0 200px
+      font-size 0
       display flex
-      box-sizing border-box
-      width 100%
-      height 7rem
-      height 7rem
-      padding-right 1.6rem
-      border-bottom-1px($color-text-ll)
-      &:last-of-type
-        border-bottom-1px($color-theme-white)
-      .listInfo
-        width 200px 
-        flex 0 0 200px
-        font-size 0
-        display flex
-        flex-direction column
-        justify-content center
-        .title
-          font-size $font-size-medium
+      flex-direction column
+      justify-content center
+      .title
+        font-size $font-size-medium
+        color $color-text
+        width 90%
+        white-space nowrap
+        overflow hidden
+        text-overflow ellipsis
+        margin-bottom 0.8rem
+      .time
+        font-size $font-size-normal
+        color $color-text-d
+    .listMoney
+      flex 1
+      font-size 0
+      text-align right
+      display flex
+      flex-direction column
+      justify-content center
+      .moneyBox
+        flex 0 0 1
+        .money
+          font-size $font-size-large
           color $color-text
-          width 90%
-          white-space nowrap
-          overflow hidden
-          text-overflow ellipsis
-          margin-bottom 0.8rem
-        .time
+          margin-right 0.5rem
+        .unit
           font-size $font-size-normal
-          color $color-text-d
-      .listMoney
-        flex 1
-        font-size 0
-        text-align right
-        display flex
-        flex-direction column
-        justify-content center
-        .moneyBox
-          flex 0 0 1
-          .money
-            font-size $font-size-large
-            color $color-text
-            margin-right 0.5rem
-          .unit
-            font-size $font-size-normal
-            color $color-text
-        .infoBox
-          margin-top $margin-top-8
-          flex 0 0 1
-          color $color-text-d
-          font-size $font-size-small
+          color $color-text
+      .infoBox
+        margin-top $margin-top-8
+        flex 0 0 1
+        color $color-text-d
+        font-size $font-size-small
 </style>

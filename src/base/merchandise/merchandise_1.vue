@@ -27,8 +27,8 @@ export default {
       default: {}
     }
   },
-  name: "",
-  data() {
+  name: '',
+  data () {
     return {
       hot: 0
     }

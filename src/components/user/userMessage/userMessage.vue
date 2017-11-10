@@ -24,15 +24,14 @@
 import Scroll from '../../../base/scroll/scroll'
 import Coupons from '../../../base/coupons/coupons'
 import { scrollPages } from '../../../assets/js/mixin'
-import { mapGetters } from 'vuex'
 export default {
-  name: "userCoupons",
+  name: 'userCoupons',
   mixins: [scrollPages],
   components: {
     Scroll,
     Coupons
   },
-  data() {
+  data () {
     return {
       messageList: [],
       apiUrl: '/api/buyer/message/getMessageListPageByBuyerId'
@@ -40,23 +39,23 @@ export default {
   },
   computed: {
     params: {
-      get() {
+      get () {
         return {
           buyerUserId: this.userInfo.buyerUserId,
           pageNo: this.pageNo,
           pageSize: this.pageSize
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
   methods: {
-    readInfo(item) {
+    readInfo (item) {
       this.$router.push({ name: 'userMessageInfo', params: { message: item } })
     },
-    setInfo(data) {
+    setInfo (data) {
       let myList = []
       for (let item of data.datas) {
         myList.push({

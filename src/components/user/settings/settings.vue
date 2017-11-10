@@ -25,7 +25,7 @@
               </cell>
               <!--收货地址-->
               <!-- <cell :link="userAddress.link" :is-link="userAddress.isLink" :title="userAddress.title" :value="isNull(userAddress.value)">
-                                                                </cell> -->
+                                                                                  </cell> -->
             </group>
           </div>
           <div class="boxContainer">
@@ -52,10 +52,10 @@
 import avatarSrc from '../userHeader/avator.png'
 import Scroll from '../../../base/scroll/scroll'
 import { Cell, Group, Actionsheet, Datetime, PopupPicker } from 'vux'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { userInfoMixin } from '../../../assets/js/mixin'
 export default {
-  name: "settings",
+  name: 'settings',
   mixins: [userInfoMixin],
   filters: {
     isNull: function (value) {
@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     avatorBox: {
-      get() {
+      get () {
         return {
           title: '头像',
           link: '',
@@ -83,12 +83,12 @@ export default {
           avator: this.userInfo.headPicId || avatarSrc
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     userName: {
-      get() {
+      get () {
         return {
           title: '用户名',
           link: '',
@@ -96,12 +96,12 @@ export default {
           value: this.userInfo.username || this.userInfo.telephone || '暂无数据'
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     userTaobao: {
-      get() {
+      get () {
         return {
           title: '旺旺等级',
           link: '',
@@ -110,12 +110,12 @@ export default {
           info: '请及时更新真是的旺旺等级'
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     userSex: {
-      get() {
+      get () {
         return {
           title: '性别',
           link: 'settings/usersex',
@@ -123,12 +123,12 @@ export default {
           value: (parseInt(this.userInfo.gender) === 0 ? '女' : '男')
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     userAge: {
-      get() {
+      get () {
         return {
           title: '出生日期',
           link: '',
@@ -136,12 +136,12 @@ export default {
           value: this.userInfo.birthday ? this.userInfo.birthday.slice(0, 10) : this.userInfo.birthday
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     userAddress: {
-      get() {
+      get () {
         return {
           title: '收货地址',
           link: 'settings/userAddress',
@@ -149,12 +149,12 @@ export default {
           value: this.userInfo.postAddress
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     boxTwo: {
-      get() {
+      get () {
         return [
           {
             title: '联系QQ',
@@ -171,15 +171,12 @@ export default {
           }
         ]
       },
-      set(val) {
+      set (val) {
         return val
       }
-    },
-    ...mapGetters([
-      'userInfo'
-    ])
+    }
   },
-  data() {
+  data () {
     return {
       show: false,
       menus2: {
@@ -196,29 +193,28 @@ export default {
     }
   },
   methods: {
-    //判断是否有值
-    isNull(value) {
+    // 判断是否有值
+    isNull (value) {
       if (value) {
         return value
       }
       return '未填写'
     },
-    //更改头像
-    avatorChange() {
+    // 更改头像
+    avatorChange () {
       this.show = true
     },
-    //显示日期
-    ageChange() {
+    // 显示日期
+    ageChange () {
       this.visibility = true
     },
-    //更改年龄
-    saveAge() {
+    // 更改年龄
+    saveAge () {
       this.$axios.post('/api/user/update', {
         telephone: this.userInfo.telephone,
         birthday: this.age
       }).then((response) => {
         if (response.data.code === '200') {
-          let _this = this
           let obj = Object.assign({}, this.userInfo, {
             birthday: this.age
           })
@@ -228,24 +224,23 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },
-    //退出登录
-    logout() {
+    // 退出登录
+    logout () {
       const _this = this
       this.$vux.confirm.show({
         title: '确认退出登录吗',
         content: '退出登录将不能查看个人信息',
-        onConfirm() {
+        onConfirm () {
           _this.$axios.post('/api/user/loginOut', {}).then((response) => {
             if (response.data.code === '200') {
               _this.$vux.toast.text('退出成功', 'middle')
@@ -255,7 +250,7 @@ export default {
               _this.$vux.toast.show({
                 text: '退出成功',
                 type: 'warn',
-                position: middle
+                position: 'middle'
               })
             }
           }).catch((error) => {
@@ -264,13 +259,12 @@ export default {
         }
       })
     },
-    onChange(val) {
+    onChange (val) {
       this.$axios.post('/api/user/update', {
         telephone: this.userInfo.telephone,
         taobaoLevel: this.list[0].indexOf(val[0])
       }).then((response) => {
         if (response.data.code === '200') {
-          let _this = this
           let obj = Object.assign({}, this.userInfo, {
             taobaoLevel: this.list[0].indexOf(val[0])
           })
@@ -287,14 +281,13 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },

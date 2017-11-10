@@ -37,7 +37,7 @@ import Info from '../../../base/info/info'
 import MButton from '../../../base/button/button'
 import { mapActions } from 'vuex'
 export default {
-  name: "registerOne",
+  name: 'registerOne',
   components: {
     XInput,
     Group,
@@ -46,7 +46,7 @@ export default {
     Scroll
   },
   watch: {
-    phone(val) {
+    phone (val) {
       if (this.$refs.phone.valid) {
         this.btnCodeState = true
         return false
@@ -54,14 +54,14 @@ export default {
       this.btnCodeState = false
       this.checkState()
     },
-    msg() {
+    msg () {
       this.checkState()
     },
-    pwd() {
+    pwd () {
       this.checkState()
     }
   },
-  data() {
+  data () {
     return {
       btnCodeState: false,
       btnSaveState: false,
@@ -70,7 +70,7 @@ export default {
       msgType: (val) => {
         if (val.length === 6) {
           return {
-            valid: true,
+            valid: true
           }
         } else {
           return {
@@ -84,7 +84,7 @@ export default {
         let str = /((?=.*\d)(?=.*\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,16}$/
         if (str.test(val)) {
           return {
-            valid: true,
+            valid: true
           }
         } else {
           return {
@@ -104,7 +104,7 @@ export default {
     }
   },
   methods: {
-    checkState() {
+    checkState () {
       let isPhone = this.$refs.phone.valid
       let isMsg = this.$refs.msg.valid
       let isPwd = this.$refs.pwd.valid
@@ -114,7 +114,7 @@ export default {
         this.btnSaveState = false
       }
     },
-    getCode() {
+    getCode () {
       if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
@@ -124,16 +124,16 @@ export default {
           if (response.data.code === '200') {
             this.timer = setInterval(this.timeGo, 1000)
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.btnCodeState = true
           this.$vux.alert.show({
             title: '错误提示',
-            content: '服务器错误',
+            content: '服务器错误'
           })
         })
       }
     },
-    timeGo() {
+    timeGo () {
       if (this.time >= 0) {
         this.codeText = `已发送(${this.time})`
         this.time--
@@ -145,7 +145,7 @@ export default {
         this.btnCodeState = true
       }
     },
-    doRegister() {
+    doRegister () {
       if (!this.btnSaveState) {
         return false
       }
@@ -159,22 +159,22 @@ export default {
       }).then((response) => {
         this.$vux.loading.hide()
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
-          //登录成功
+          // 登录成功
           this.setUserPhoneHistory(this.phone)
           // this.$router.push({ name: 'registerTwo', params: { phone: this.phone } })
           this.$router.push({ name: 'registerThree' })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.loading.hide()
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },

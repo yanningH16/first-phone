@@ -24,19 +24,19 @@ import Scroll from '../../../base/scroll/scroll'
 import Coupons from '../../../base/coupons/coupons'
 import { mapGetters } from 'vuex'
 export default {
-  name: "userCoupons",
+  name: 'userCoupons',
   components: {
     Scroll,
     Coupons
   },
-  data() {
+  data () {
     return {
       pageSize: 5,
       pageNo: 1,
       pullup: true,
       couponsList: [
       ],
-      maxTotalCount:0
+      maxTotalCount: 0
     }
   },
   computed: {
@@ -44,12 +44,12 @@ export default {
       'userInfo'
     ])
   },
-  created() {
+  created () {
     this.getCoupons()
   },
   methods: {
-    //获取优惠券
-    getCoupons() {
+    // 获取优惠券
+    getCoupons () {
       this.$axios.post('/api/buyerTicket/getBuyerTicketsByBuyerUserId', {
         buyerUserId: this.userInfo.buyerUserId,
         pageSize: this.pageSize,
@@ -65,41 +65,41 @@ export default {
               text: '全场通用',
               time: item.validendtime,
               state: item.status,
-              buyerTicketId:item.buyerTicketId,
-              ticketId:item.ticketId
+              buyerTicketId: item.buyerTicketId,
+              ticketId: item.ticketId
             })
           }
-          this.couponsList = [...this.couponsList,...arr]
+          this.couponsList = [...this.couponsList, ...arr]
           this.$nextTick(() => {
             this.$refs.scrollContent.refresh()
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.btnCodeState = true
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },
     // 加载更多
-    loadMore(pos) {
-      if(this.maxTotalCount>this.pageSize*this.pageNo){
+    loadMore (pos) {
+      if (this.maxTotalCount > this.pageSize * this.pageNo) {
         this.pageNo++
         this.getCoupons()
-      }else{
+      } else {
         this.$vux.toast.text('没有更多了', 'bottom')
       }
     },
-    //删除优惠券
-    deleteCoupons(){
+    // 删除优惠券
+    deleteCoupons () {
       this.$axios.post('/api/buyerTicket/deleteDisabledBuyerTicketsByBuyerUserId', {
-        buyerUserId: this.userInfo.buyerUserId,
+        buyerUserId: this.userInfo.buyerUserId
       }).then((response) => {
         if (response.data.code === '200') {
-          let newList  = []
-          this.couponsList.map((item,index)=>{
-            if(item.state === 1){
+          let newList = []
+          this.couponsList.map((item, index) => {
+            if (item.state === 1) {
               newList.push(item)
             }
           })
@@ -108,11 +108,11 @@ export default {
             this.$refs.scrollContent.refresh()
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.btnCodeState = true
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }
@@ -120,60 +120,44 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '../../../assets/stylus/variable';
-@import '../../../assets/stylus/mixin';
-
-.userContainer {
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 9999;
-  background: $color-background;
-
-  &.move-enter-active, .move-leave-active {
-    transition: all 0.2s linear;
-    transform: translate3d(0, 0, 0);
-  }
-
-  &.move-enter, .move-leave {
-    transform: translate3d(100%, 0, 0);
-  }
-
-  .userContainerBox {
-    background: #eff0f2;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    .couponsBox {
-      padding: 1.5rem 0;
-      background: #fff;
-
-      .couponsList {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0.5rem 3.2rem;
-      }
-
-      .delete {
-        text-align: center;
-        height: 3.2rem;
-        line-height: 3.2rem;
-        margin-top: 1.5rem;
-
-        .deleteBtn {
-          font-size: $font-size-normal;
-          color: $color-text;
-          padding: 0.8rem 1.6rem;
-          border: 1px solid $color-text-l;
-          border-radius: $border-radius;
-        }
-      }
-    }
-  }
-}
+@import '../../../assets/stylus/variable'
+@import '../../../assets/stylus/mixin'
+.userContainer
+  height 100%
+  position fixed
+  width 100%
+  height 100%
+  left 0
+  top 0
+  bottom 0
+  z-index 9999
+  background $color-background
+  &.move-enter-active, .move-leave-active
+    transition all 0.2s linear
+    transform translate3d(0, 0, 0)
+  &.move-enter, .move-leave
+    transform translate3d(100%, 0, 0)
+  .userContainerBox
+    background #eff0f2
+    display flex
+    flex-direction column
+    height 100%
+    .couponsBox
+      padding 1.5rem 0
+      background #fff
+      .couponsList
+        width 100%
+        box-sizing border-box
+        padding 0.5rem 3.2rem
+      .delete
+        text-align center
+        height 3.2rem
+        line-height 3.2rem
+        margin-top 1.5rem
+        .deleteBtn
+          font-size $font-size-normal
+          color $color-text
+          padding 0.8rem 1.6rem
+          border 1px solid $color-text-l
+          border-radius $border-radius
 </style>

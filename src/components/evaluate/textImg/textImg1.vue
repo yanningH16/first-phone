@@ -59,33 +59,32 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      stepArr: ["上传评价截图", "客观评价"],
+      stepArr: ['上传评价截图', '客观评价'],
       stepIndex: 0,
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       goodsObj: {},
       commonImg: [],
-      imgListArr: [],//预评价上传的截图
+      imgListArr: [], // 预评价上传的截图
       commonMsg: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯'
     }
   },
-  created() {
-    //获取商品详情
-    let that = this;
+  created () {
+    // 获取商品详情
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
+      'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
@@ -96,15 +95,15 @@ export default {
       } else {
         this.$vux.alert.show({
           title: '获取信息失败',
-          content: data.data.message,
+          content: data.data.message
         })
       }
     }).catch(function (err) {
       console.log(err)
-    });
-    //获取与评价的内容
+    })
+    // 获取与评价的内容
     this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-      'orderId': that.$route.query.buyerTaskRecordId
+      'orderId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
@@ -116,21 +115,21 @@ export default {
       } else {
         this.$vux.alert.show({
           title: '获取信息失败',
-          content: data.data.message,
+          content: data.data.message
         })
       }
     }).catch(function (err) {
       console.log(err)
-    });
+    })
   },
   methods: {
-    doNext() {
+    doNext () {
       if (this.commonImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传评论截图'
-        });
-        return false;
+        })
+        return false
       }
       this.$router.push({ name: 'textImg2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, commonMsg: this.commonMsg, commonImg: this.commonImg, additionalTaskCost: this.goodsObj.additionalTaskCost } })
     }

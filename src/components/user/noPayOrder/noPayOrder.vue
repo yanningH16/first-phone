@@ -32,7 +32,7 @@ import SweepstakeOrder from './sweepstakeOrder'
 import OrderAll from './orderAll'
 import { Tab, TabItem } from 'vux'
 export default {
-  name: "userMoney",
+  name: 'userMoney',
   components: {
     Tab,
     TabItem,
@@ -42,22 +42,22 @@ export default {
     SweepstakeOrder,
     OrderAll
   },
-  created() {
+  created () {
     if (this.$route.params.checkIndex) {
       this.checkIndex = this.$route.params.checkIndex
     }
   },
-  data() {
+  data () {
     return {
       tabArr: ['全部', '抽奖', '中奖了', '评价', '驳回'],
-      checkIndex: 0,
+      checkIndex: 0
     }
   },
   methods: {
     // 切换
-    choose(index) {
+    choose (index) {
       this.checkIndex = index
-    },
+    }
   }
 }
 </script>

@@ -7,8 +7,8 @@ export const userInfoMixin = {
       'userCoin'
     ])
   }
-};
-//滚动加载页面
+}
+// 滚动加载页面
 export const scrollPages = {
   computed: {
     ...mapGetters([
@@ -16,13 +16,13 @@ export const scrollPages = {
       'userCoin'
     ])
   },
-  mounted() {
+  mounted () {
     if (this.isNoLoad) {
       return false
     }
     this.getApi()
   },
-  data() {
+  data () {
     return {
       pageSize: 10,
       maxPageSize: 0,
@@ -32,26 +32,26 @@ export const scrollPages = {
     }
   },
   methods: {
-    getApi() {
+    getApi () {
       this.$axios.post(this.apiUrl, this.params).then((response) => {
         this.$vux.loading.hide()
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
           this.setInfo(data.data)
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },
-    scrollLoad() {
+    scrollLoad () {
       if (!this.canLoading) {
         return false
       }
@@ -62,19 +62,19 @@ export const scrollPages = {
       }
     }
   }
-};
-//order
+}
+// order
 export const orderOperate = {
-  data() {
+  data () {
     return {
       orderList: [],
       typeArr: ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先']
     }
   },
   watch: {
-    //监测获得数据变化
+    // 监测获得数据变化
     axiosResult: {
-      handler(val) {
+      handler (val) {
         for (let i of val) {
           this.doInfo(i.buyerTaskRecordId)
         }
@@ -82,7 +82,7 @@ export const orderOperate = {
       deep: true
     },
     orderList: {
-      handler(val) {
+      handler (val) {
         if (val.length === (this.axiosResult.length + (this.pageNo - 1) * this.pageSize)) {
           for (let i in val) {
             if (i >= (this.pageNo - 1) * this.pageSize) {
@@ -98,7 +98,7 @@ export const orderOperate = {
       },
       deep: true
     },
-    checkIndex(val) {
+    checkIndex (val) {
       this.$nextTick(() => {
         this.$refs.scrollBox.refresh()
       })
@@ -110,26 +110,26 @@ export const orderOperate = {
       default: 0
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.$refs.scrollBox.refresh()
       this.canLoading = true
     })
   },
-  updated() {
+  updated () {
     this.$nextTick(() => {
       this.$refs.scrollBox.refresh()
       this.canLoading = true
     })
   },
   methods: {
-    //设置请求的buyerTaskRecords
-    setInfo(data) {
+    // 设置请求的buyerTaskRecords
+    setInfo (data) {
       this.axiosResult = [...data.buyerTaskRecords]
       this.maxPageSize = data.totalCount
     },
-    //api请求商品信息
-    doInfo(infoId) {
+    // api请求商品信息
+    doInfo (infoId) {
       this.$vux.loading.show({
         text: '加载中，请稍后'
       })
@@ -147,8 +147,8 @@ export const orderOperate = {
         console.log(error)
       })
     },
-    //设置时间
-    setTime(time) {
+    // 设置时间
+    setTime (time) {
       var nowTime
       if (time) {
         nowTime = time.substring(time.length - 8, time.length - 3)
@@ -162,28 +162,28 @@ export const orderOperate = {
         hours = '0' + hours
       }
       return `${hours}:${timeArr[1]}`
-    },
+    }
   }
-};
+}
 //
 export const sweepstakeOrderOperate = {
   methods: {
-    //删除订单
-    giveUpLottery(item) {
+    // 删除订单
+    giveUpLottery (item) {
       let _this = this
       this.$vux.confirm.show({
         // 组件除show外的属性
         title: '确认放弃白拿？',
         content: '放弃的商品不能再次申请',
-        onCancel() {
+        onCancel () {
           console.log('取消')
         },
-        onConfirm() {
+        onConfirm () {
           _this.doGiveUpLottery(item)
         }
       })
     },
-    doGiveUpLottery(item) {
+    doGiveUpLottery (item) {
       this.$axios.post('/api/orderOperate/orderCancel', {
         buyerTaskRecordId: item.orderNum
       }).then((response) => {
@@ -195,8 +195,8 @@ export const sweepstakeOrderOperate = {
         console.log(error)
       })
     },
-    //继续申请
-    getLottery(item) {
+    // 继续申请
+    getLottery (item) {
       const lotteryRouter = [
         'taskOneStep1',
         'taskTwoStep1',
@@ -210,41 +210,41 @@ export const sweepstakeOrderOperate = {
         this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
       }
     },
-    //去做任务
-    doTask(item) {
+    // 去做任务
+    doTask (item) {
       console.log('做任务')
-    },
+    }
   }
-};
-//评论模块操作
+}
+// 评论模块操作
 export const evaluateOrderOperate = {
   methods: {
-    //评价路由跳转
-    goEvaluate(item) {
+    // 评价路由跳转
+    goEvaluate (item) {
       let index = comment.indexOf(item.taskFlag)
       let taskIndex
-      if (index >= 0 && index <= 4) { //预评价
+      if (index >= 0 && index <= 4) { // 预评价
         taskIndex = item.taskFiveId
-      } else if (index > 4 && index <= 9) { //评价
+      } else if (index > 4 && index <= 9) { // 评价
         taskIndex = item.taskSixId
-      } else if (index > 9 && index <= 14) { //评价+预追评
+      } else if (index > 9 && index <= 14) { // 评价+预追评
         taskIndex = item.taskEightId
-      } else if (index > 14 && index <= 19) { //评价+追评
+      } else if (index > 14 && index <= 19) { // 评价+追评
         taskIndex = item.taskNineId
       }
       this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
-    //申请售后
-    applyCustomer(item) {
+    // 申请售后
+    applyCustomer (item) {
 
     }
   }
-};
-//驳回模块操作
+}
+// 驳回模块操作
 export const rejectOrderOperate = {
   methods: {
-    //驳回路由跳转
-    rejectOperate(item, taskFlag) {
+    // 驳回路由跳转
+    rejectOperate (item, taskFlag) {
       let myIndex = notify.indexOf(taskFlag)
       let taskIndex
       if (myIndex >= 0 && myIndex <= 4) {
@@ -259,14 +259,14 @@ export const rejectOrderOperate = {
         taskIndex = item.taskNinetId
       }
       this.$router.push({ name: orderRouter[parseInt(taskIndex - 1)], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType, rb: 1 } })
-    },
+    }
   }
-};
-//中奖模块操作
+}
+// 中奖模块操作
 export const winningOrderOperate = {
   methods: {
-    //中奖了路由跳转
-    getAward(item) {
+    // 中奖了路由跳转
+    getAward (item) {
       const routerLink = [
         'getPriceOneStep1',
         'getPriceTwoStep1',
@@ -279,16 +279,16 @@ export const winningOrderOperate = {
       console.log(item)
       this.$router.push({ name: routerLink[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
-    //删除订单
-    deleteOrder(item) {
+    // 删除订单
+    deleteOrder (item) {
       this.$vux.confirm.show({
         // 组件除show外的属性
         title: '确认删除订单？',
         content: '删除之后将不能恢复',
-        onCancel() {
+        onCancel () {
           console.log('取消')
         },
-        onConfirm() {
+        onConfirm () {
           console.log('确认')
         }
       })

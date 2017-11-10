@@ -22,7 +22,7 @@ export default {
   components: {
     Tabbar
   },
-  data() {
+  data () {
     return {
       excludeArr: 'details,nopay'
     }

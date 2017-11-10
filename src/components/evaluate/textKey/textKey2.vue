@@ -57,30 +57,30 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Step from "../../../base/step/step.vue"
+import Step from '../../../base/step/step.vue'
 import Scroll from '../../../base/scroll/scroll.vue'
 import { Rater } from 'vux'
 export default {
-  name: "component_name",
+  name: 'component_name',
   components: {
     Step,
     Scroll,
     Rater
   },
-  data() {
+  data () {
     return {
       isOk: true,
-      starStyle: '★', //星星形状
-      red: 'red', //星星颜色
-      active: true, //推荐 or 不推荐
-      priceNum: 5, //奖励金币数量
+      starStyle: '★', // 星星形状
+      red: 'red', // 星星颜色
+      active: true, // 推荐 or 不推荐
+      priceNum: 5, // 奖励金币数量
       goods1: 0,
-      goods2: 0,
+      goods2: 0
     }
   },
   methods: {
-    doNext() {
-      let that = this;
+    doNext () {
+      let that = this
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         favorText: this.$route.query.commonMsg,
@@ -95,13 +95,13 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '提交失败',
-            content: data.data.message,
+            content: data.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }

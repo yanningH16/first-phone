@@ -24,7 +24,7 @@ import MButton from '../../../base/button/button'
 import { XInput, Group, Cell } from 'vux'
 import { mapGetters } from 'vuex'
 export default {
-  name: "exChangeCoin",
+  name: 'exChangeCoin',
   components: {
     MButton,
     XInput,
@@ -33,10 +33,10 @@ export default {
   },
   computed: {
     maxValue: {
-      get() {
+      get () {
         return this.userCoin.availableGold
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
@@ -45,14 +45,14 @@ export default {
       'userCoin'
     ])
   },
-  data() {
+  data () {
     return {
       isDisabled: true,
       coinNum: null
     }
   },
   watch: {
-    coinNum(val) {
+    coinNum (val) {
       if (val.length > 0 && val <= this.maxValue) {
         this.isDisabled = false
         return false
@@ -61,7 +61,7 @@ export default {
     }
   },
   methods: {
-    sureExChange() {
+    sureExChange () {
       // if()
       this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
         withdrawType: 1,
@@ -73,10 +73,10 @@ export default {
         fullName: this.userInfo.fullName
       }).then((response) => {
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
           this.$vux.toast.show({

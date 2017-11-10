@@ -45,56 +45,55 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../base/scroll/scroll.vue"
-import Step from "../../base/step/step.vue"
-import Upload from "../../base/upload/upload.vue"
+import Scroll from '../../base/scroll/scroll.vue'
+import Step from '../../base/step/step.vue'
+import Upload from '../../base/upload/upload.vue'
 
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       goodsImg: [],
       msgCont: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯',
       twoInfo: {}
     }
   },
   // 接口请求部分开始
-  created() {
-    var that = this;
+  created () {
+    var that = this
     this.$axios.post('/api/orderOperate/getBuyerTask', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
     }).then((res) => {
-      console.log(res)
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
-    });
-    //核对商品的接口
+    })
+    // 核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
       buyerTaskRecordId: that.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
-      if (data.code === "200") {
+      if (data.code === '200') {
         this.twoInfo = data.data
       }
-    }).catch((error) => {
+    }).catch(() => {
       this.$vux.alert.show({
         title: '错误提示',
-        content: '服务器错误',
+        content: '服务器错误'
       })
-    });
-    //获取与评价的内容
+    })
+    // 获取与评价的内容
     this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
       'orderId': that.$route.query.buyerTaskRecordId
     }).then((data) => {
@@ -107,23 +106,26 @@ export default {
       } else {
         this.$vux.alert.show({
           title: '获取信息失败',
-          content: data.data.message,
+          content: data.data.message
         })
       }
-    }).catch(function (err) {
-      console.log(err)
-    });
+    }).catch(() => {
+      this.$vux.alert.show({
+        title: '错误提示',
+        content: '服务器错误'
+      })
+    })
   },
-  //接口请求部分结束
+  // 接口请求部分结束
   methods: {
-    next() {
-      var that = this;
+    next () {
+      var that = this
       if (this.goodsImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传评论截图'
-        });
-        return false;
+        })
+        return false
       }
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
@@ -132,10 +134,10 @@ export default {
         if (res.data.code === '200') {
           this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate1' } })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '提交失败,请重试',
+          content: '提交失败,请重试'
         })
       })
     }

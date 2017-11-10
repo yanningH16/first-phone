@@ -14,12 +14,12 @@
                   </div>
                 </div>
                 <!-- <div class="checkList">
-                                <div class="left">提现到微信</div>
-                                <div class="right">
-                                  <span class="info">{{userInfo.wechatNum}}</span>
-                                  <checkbtn :isChecked="chooseCheck===1"></checkbtn>
-                                </div>
-                              </div> -->
+                        <div class="left">提现到微信</div>
+                        <div class="right">
+                          <span class="info">{{userInfo.wechatNum}}</span>
+                          <checkbtn :isChecked="chooseCheck===1"></checkbtn>
+                        </div>
+                      </div> -->
               </div>
               <div class="groupBox">
                 <group>
@@ -35,10 +35,10 @@
                 您为普通会员，提现金额为100元的整数倍且不少于200元，手续费10%
               </div>
               <!-- <div class="groupBox">
-                          <group>
-                            <x-input placeholder="输入提现密码" :show-clear="false" v-model="pwd" type="password"></x-input>
-                          </group>
-                        </div> -->
+                                                    <group>
+                                                      <x-input placeholder="输入提现密码" :show-clear="false" v-model="pwd" type="password"></x-input>
+                                                    </group>
+                                                  </div> -->
               <div class="groupBox">
                 <group>
                   <x-input placeholder="请输入手机验证码" type="number" class="inputBox" v-model="msg" ref="msg" :show-clear="false">
@@ -63,11 +63,10 @@
 import Scroll from '../../../base/scroll/scroll'
 import Checkbtn from '../../../base/checkbtn/checkbtn'
 import MButton from '../../../base/button/button'
-import Vue from 'vue'
-import { XInput, Group, md5 } from 'vux'
+import { XInput, Group } from 'vux'
 import { mapGetters } from 'vuex'
 export default {
-  name: "getUserMoney",
+  name: 'getUserMoney',
   components: {
     Scroll,
     Checkbtn,
@@ -77,39 +76,38 @@ export default {
   },
   computed: {
     getMoneyInfo: {
-      get() {
+      get () {
         return `${this.userInfo.bankCardUserName} ${this.userInfo.bankCardNo}`
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     btnSaveState: {
-      get() {
-        let isSave = false
+      get () {
         // if (this.money >= 200 && this.money <= this.availableDeposit && this.pwd && this.msg && this.msg.length === 6) {
         if (this.money >= 200 && this.money <= this.availableDeposit && this.msg && this.msg.length === 6) {
           return true
         }
         return false
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     availableDeposit: {
-      get() {
+      get () {
         let deposit = 400
         if (this.userCoin.availableDeposit) {
           deposit = parseFloat(this.userCoin.availableDeposit).toFixed(2)
         }
         return deposit
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
-    userPhone() {
+    userPhone () {
       return this.userInfo.telephone
     },
     ...mapGetters([
@@ -117,7 +115,7 @@ export default {
       'userCoin'
     ])
   },
-  data() {
+  data () {
     return {
       btnCodeState: true,
       msg: null,
@@ -130,8 +128,8 @@ export default {
     }
   },
   methods: {
-    //获得验证码
-    getCode() {
+    // 获得验证码
+    getCode () {
       if (this.btnCodeState) {
         this.btnCodeState = false
         this.$axios.post('/api/sms/send', {
@@ -145,20 +143,20 @@ export default {
             this.btnCodeState = true
             this.$vux.alert.show({
               title: '错误提示',
-              content: response.data.message,
+              content: response.data.message
             })
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.btnCodeState = true
           this.$vux.alert.show({
             title: '错误提示',
-            content: '服务器错误',
+            content: '服务器错误'
           })
         })
       }
     },
-    //倒计时
-    timeGo() {
+    // 倒计时
+    timeGo () {
       if (this.time >= 0) {
         this.codeText = `已发送(${this.time}`
         this.time--
@@ -170,7 +168,7 @@ export default {
         this.btnCodeState = true
       }
     },
-    getUserMoney() {
+    getUserMoney () {
       var _this = this
       if (!this.btnSaveState) {
         return false
@@ -180,25 +178,25 @@ export default {
           this.$vux.confirm.show({
             title: '核对金额',
             content: `<p>本次提现金额:${parseFloat(_this.money).toFixed(2)}</p><p>实际到账金额:${parseFloat(_this.money * 0.9).toFixed(2)}</p>`,
-            onConfirm() {
+            onConfirm () {
               _this.doDeposit()
             }
           })
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: res.data.message,
+            content: res.data.message
           })
         }
-      }).catch((err) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络故障',
+          content: '网络故障'
         })
       })
     },
-    //验证码
-    checkCode() {
+    // 验证码
+    checkCode () {
       return new Promise((resolve, reject) => {
         this.$axios.post('/api/sms/verify', {
           telephone: this.userInfo.telephone,
@@ -211,7 +209,7 @@ export default {
         })
       })
     },
-    doDeposit() {
+    doDeposit () {
       this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
         withdrawType: 1,
         buyerUserId: this.userInfo.buyerUserId,
@@ -226,20 +224,20 @@ export default {
           this.$vux.alert.show({
             title: '提示',
             content: '提现成功,点击确定返回个人中心',
-            onHide() {
+            onHide () {
               _this.$router.push({ name: 'user' })
             }
           })
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     }

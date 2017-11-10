@@ -47,21 +47,21 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
 import Upload from '../../../base/upload/upload.vue'
-import Step from "../../../base/step/step.vue"
+import Step from '../../../base/step/step.vue'
 export default {
-  name: "getPriceOneStep4",
+  name: 'getPriceOneStep4',
   components: {
     Scroll,
     Upload,
     Step
   },
-  data() {
+  data () {
     return {
-      stepArr: ["核对商品收藏关注", "浏览店铺", "客服聊天", "填写订单信息"],
+      stepArr: ['核对商品收藏关注', '浏览店铺', '客服聊天', '填写订单信息'],
       stepIndex: 3,
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       orderImgs: [],
       orderNum: '',
       realPay: '',
@@ -69,7 +69,7 @@ export default {
       buyerTaskStatus: 4
     }
   },
-  created() {
+  created () {
     if (this.$route.query.rbObj) {
       this.orderNum = this.$route.query.rbObj.productOrderNo
       this.orderImgs = JSON.parse(this.$route.query.rbObj.taobaoOrderPicId)
@@ -78,20 +78,19 @@ export default {
     }
   },
   methods: {
-    doNext() {
-      let that = this;
+    doNext () {
       if (this.orderImgs.length === 0 || this.orderNum.length === 0 || this.realPay.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请完善任务信息'
-        });
+        })
         return false
       }
       this.$axios.post('/api/orderOperate/fourthOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
-        storeProductPicId: that.$route.query.obj.favImg,
-        concernShopPicId: that.$route.query.obj.focusImg,
-        customerServiceChartPicId: that.$route.query.obj.chatImg,
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
+        storeProductPicId: this.$route.query.obj.favImg,
+        concernShopPicId: this.$route.query.obj.focusImg,
+        customerServiceChartPicId: this.$route.query.obj.chatImg,
         taobaoOrderPicId: this.orderImgs,
         productOrderNo: this.orderNum,
         productOrderPrice: this.realPay,
@@ -103,13 +102,13 @@ export default {
         } else {
           this.$vux.alert.show({
             title: '提交失败',
-            content: data.data.message,
+            content: data.data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }

@@ -27,17 +27,17 @@ export default {
   props: {
     goods: {
       type: Array,
-      default: [],
+      default: []
     }
   },
-  name: "",
-  data() {
+  name: '',
+  data () {
     return {
       hot: 0
     }
   },
   methods: {
-    doRouter(index, sellerTaskId) {
+    doRouter (index, sellerTaskId) {
       this.$emit('myrouter', index, sellerTaskId)
     }
   }
@@ -66,7 +66,7 @@ export default {
   .vip
     background red
     width 5rem
-    height 2rem 
+    height 2rem
     color white
     position absolute
     top 2rem
@@ -79,7 +79,7 @@ export default {
   justify-content space-between
   margin-top 1.65rem
   .baina
-    border-1px($color-error,5px)
+    border-1px($color-error, 5px)
     color $color-error
     width 3.6rem
     height 1.8rem

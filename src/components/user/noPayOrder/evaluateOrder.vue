@@ -8,7 +8,7 @@
             <span class="num">{{item.coinInfo}}</span>金币</span>
           <span slot="info" class="infoOrange" v-if="item.coinType===1">
             <span class="num">{{item.coinInfo}}</span>金币兑换</span>
-          <div class="bottom" slot="bottom" >
+          <div class="bottom" slot="bottom">
             <span class="details">{{item.evaluateInfo}}</span>
             <span class="btn details" v-if="item.isEvaluateState===0" @click="goEvaluate(item)">去预评价</span>
             <span class="btn details" v-else-if="item.isEvaluateState===1" @click="goEvaluate(item)">评价到淘宝</span>
@@ -25,21 +25,19 @@
 <script type="text/ecmascript-6">
 import Scroll from '../../../base/scroll/scroll'
 import AppendCommon from '../../../base/appendCommon/appendCommon'
-import Vue from 'vue'
-import { comment, orderRouter } from '../../../assets/data/task'
-import { mapGetters } from 'vuex'
+import { comment } from '../../../assets/data/task'
 import { scrollPages, orderOperate, evaluateOrderOperate } from '../../../assets/js/mixin'
 export default {
-  name: "rejectOrder",
+  name: 'rejectOrder',
   mixins: [scrollPages, orderOperate, evaluateOrderOperate],
   components: {
     Scroll,
     AppendCommon
   },
-  data() {
+  data () {
     return {
       pullup: true,
-      axiosResult: [],//获得的数据
+      axiosResult: [], // 获得的数据
       maxPageSize: 0,
       pageSize: 5,
       pageNo: 1,
@@ -50,7 +48,7 @@ export default {
   },
   computed: {
     params: {
-      get() {
+      get () {
         return {
           buyerUserId: this.userInfo.buyerUserId,
           buyerTaskStatuss: [
@@ -61,18 +59,17 @@ export default {
           pageNo: this.pageNo
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
   },
   methods: {
-    //存数据
-    setGoodsList(data) {
+    // 存数据
+    setGoodsList (data) {
       let goodsDramArr = []
       for (let item of data) {
         let goodsState = this.setGoodsState(item.taskFlag, item.buyerTaskStatus)
-        let timeInfo = this.setTime(item.gmtModify)
         let obj = {
           goodsImg: item.platformPicId,
           shopName: item.shopName,
@@ -96,7 +93,7 @@ export default {
           taskFiveId: item.taskFiveId,
           taskSixId: item.taskSixId,
           taskEightId: item.taskEightId,
-          taskNineId: item.taskNineId,
+          taskNineId: item.taskNineId
         }
         goodsDramArr.push(obj)
       }
@@ -106,8 +103,8 @@ export default {
         this.canLoading = true
       })
     },
-    //设置内容状态
-    setGoodsState(taskFlag, buyerTaskStatus) {
+    // 设置内容状态
+    setGoodsState (taskFlag, buyerTaskStatus) {
       let goodsState = {}
       let myIndex = comment.indexOf(taskFlag)
 

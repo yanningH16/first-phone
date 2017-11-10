@@ -42,30 +42,28 @@
   </transition>
 </template>
 <script type="text/ecmascript-6">
-import Pay from '../../../base/pay/pay'
 import MButton from '../../../base/button/button'
 import { Divider, md5 } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
-import Vue from 'vue'
 export default {
-  name: "login",
+  name: 'login',
   components: {
     MButton,
     Divider
   },
-  mounted() {
+  mounted () {
     this.phone = this.userPhone
     this.$refs.login.style.height = `${document.body.clientHeight}px`
   },
   watch: {
-    phone() {
+    phone () {
       this.checked()
     },
-    pwd() {
+    pwd () {
       this.checked()
     }
   },
-  data() {
+  data () {
     return {
       btnSaveState: true,
       phone: this.userPhone,
@@ -78,17 +76,17 @@ export default {
     ])
   },
   methods: {
-    checked() {
+    checked () {
       if ((/^1[34578]\d{9}$/.test(this.phone) && this.pwd.length >= 6)) {
         this.btnSaveState = true
         return false
       }
       this.btnSaveState = false
     },
-    goRegister() {
+    goRegister () {
       this.$router.push({ name: 'registerOne' })
     },
-    doLogin() {
+    doLogin () {
       if (this.btnSaveState) {
         this.$vux.loading.show({
         })
@@ -98,31 +96,31 @@ export default {
         }).then((response) => {
           this.$vux.loading.hide()
           let data = response.data
-          if (data.code !== "200") {
+          if (data.code !== '200') {
             this.$vux.alert.show({
               title: '错误提示',
-              content: data.message,
+              content: data.message
             })
           } else {
-            //登录成功
+            // 登录成功
             this.setUserInfo(data.data)
             this.setUserPhoneHistory(this.phone)
             this.$router.push({ name: 'index' })
           }
-        }).catch((error) => {
+        }).catch(() => {
           this.$vux.loading.hide()
           this.$vux.alert.show({
             title: '错误提示',
-            content: '网络故障',
+            content: '网络故障'
           })
         })
       }
     },
-    forgetPwd() {
+    forgetPwd () {
       this.setUserPhoneHistory(this.phone)
       this.$router.push({ name: 'forgetPwd' })
     },
-    otherClick() {
+    otherClick () {
       this.$vux.alert.show({
         title: '温馨提示',
         content: '功能开发中',

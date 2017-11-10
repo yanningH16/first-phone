@@ -15,13 +15,14 @@
               <div class="time">
                 <!--1.金币换的界面-->
                 <div class="jinbihuan" v-if="objDeli.isGold===1">
-                  <span style="font-size: 2rem;">{{objDeli.goldNum | moneyBeautifuly}}</span>金币兑换<span
-                  class="prics">¥{{objDeli.price | moneyBeautifuly}}</span>
+                  <span style="font-size: 2rem;">{{objDeli.goldNum | moneyBeautifuly}}</span>金币兑换
+                  <span class="prics">¥{{objDeli.price | moneyBeautifuly}}</span>
                 </div>
                 <!--3.超额返的部分-->
                 <div class="jinbihuan" style="color: #ff3340" v-else-if="objDeli.isMore===1">
-                  多返<span style="font-size: 2rem;">{{objDeli.extraGold | moneyBeautifuly}}</span>金币<span
-                  class="prics">¥{{objDeli.price}}</span>
+                  多返
+                  <span style="font-size: 2rem;">{{objDeli.extraGold | moneyBeautifuly}}</span>金币
+                  <span class="prics">¥{{objDeli.price}}</span>
                 </div>
                 <!--2.正常的用的最多的页面 也叫全额返-->
                 <span class="pric" v-else>¥{{objDeli.price | moneyBeautifuly}}</span>
@@ -91,21 +92,18 @@
       </scroll>
       <!-- 底部的固定 -->
       <div class="bottom">
-            <binsert :type="typeFoot" :leastNum="objDeli.leftNumToday-0" :tType="tType" :leftTime="leftTime"
-                     @wantGet="wantGet" @btn-click="btnClick"></binsert>
-          </div>
+        <binsert :type="typeFoot" :leastNum="objDeli.leftNumToday-0" :tType="tType" :leftTime="leftTime" @wantGet="wantGet" @btn-click="btnClick"></binsert>
+      </div>
       <div>
         <!--使用优惠券券的弹窗-->
         <div v-if="pic" style="position: relative;">
-          <confirm v-model="pic" :confirmText="yes" style="height: 300px;padding-top: 10px" :cancel-text="no"
-                   @on-confirm='useCou' @on-cancel="useCansel">
+          <confirm v-model="pic" :confirmText="yes" style="height: 300px;padding-top: 10px" :cancel-text="no" @on-confirm='useCou' @on-cancel="useCansel">
             <h2 style="font-size:2rem;padding-top:1rem">你有可使用的必中券</h2>
             <p style="font-size:1.4rem;color:#75787f;padding-top:1.2rem">请选择一张必中券</p>
             <div style="height: 300px;overflow: auto">
               <scroll ref="scroll" style="height: 100%">
                 <div>
-                  <div @click="chooseIndex(index)" v-for="(item,index) in ticArr" :key='index'
-                       style="margin-bottom: 20px;position: relative">
+                  <div @click="chooseIndex(index)" v-for="(item,index) in ticArr" :key='index' style="margin-bottom: 20px;position: relative">
                     <coupons :item="item.ticObj">
                     </coupons>
                     <img v-if="item.ticObj.checked" class="checkedTic" src="./choose.png" alt="">
@@ -145,56 +143,59 @@
           <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">请重新支付</p>
         </alert>
 
-
         <!--用户未完成绑定的提示信息-->
         <!-- <alert v-model="wran" :button-text="alerts" @on-hide="hideAlert">
-          <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">未完成全部绑定</h2>
-          <ul class="wran_info">
-            <li>
-              <p v-if="this.userInfo.telephone !==undefined">
-                <span>手机号已绑定</span>
-                <span><img :src='Pass' alt="" width="20px" height="20px"></span>
-              </p>
-              <p v-else>
-                <span>手机号未绑定</span>
-                <span><img :src="Pass_no" alt="" width="20px" height="20px"></span>
-              </p>
-            </li>
-            <li>
-              <p v-if="this.userInfo.wechatNum !== undefined">
-                <span>微信号已绑定</span>
-                <span><img :src='Pass' alt="" width="20px" height="20px"></span>
-              </p>
-              <p v-else>
-                <span>微信号未绑定</span>
-                <span><img :src="Pass_no" alt="" width="20px" height="20px"></span>
-              </p>
-            </li>
-            <li>
-              <p v-if="this.userInfo.taobaoId !== undefined">
-                <span>淘宝账号已绑定</span>
-                <span><img :src='Pass' alt="" width="20px" height="20px"></span>
-              </p>
-              <p v-else>
-                <span>淘宝账号未绑定</span>
-                <span><img :src="Pass_no" alt="" width="20px" height="20px"></span>
-              </p>
-            </li>
-          </ul>
-        </alert> -->
+                              <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">未完成全部绑定</h2>
+                              <ul class="wran_info">
+                                <li>
+                                  <p v-if="this.userInfo.telephone !==undefined">
+                                    <span>手机号已绑定</span>
+                                    <span><img :src='Pass' alt="" width="20px" height="20px"></span>
+                                  </p>
+                                  <p v-else>
+                                    <span>手机号未绑定</span>
+                                    <span><img :src="Pass_no" alt="" width="20px" height="20px"></span>
+                                  </p>
+                                </li>
+                                <li>
+                                  <p v-if="this.userInfo.wechatNum !== undefined">
+                                    <span>微信号已绑定</span>
+                                    <span><img :src='Pass' alt="" width="20px" height="20px"></span>
+                                  </p>
+                                  <p v-else>
+                                    <span>微信号未绑定</span>
+                                    <span><img :src="Pass_no" alt="" width="20px" height="20px"></span>
+                                  </p>
+                                </li>
+                                <li>
+                                  <p v-if="this.userInfo.taobaoId !== undefined">
+                                    <span>淘宝账号已绑定</span>
+                                    <span><img :src='Pass' alt="" width="20px" height="20px"></span>
+                                  </p>
+                                  <p v-else>
+                                    <span>淘宝账号未绑定</span>
+                                    <span><img :src="Pass_no" alt="" width="20px" height="20px"></span>
+                                  </p>
+                                </li>
+                              </ul>
+                            </alert> -->
         <!-- 新增进行支付的弹窗开始  后面增加使用   on-confirm='payMoney'确定支付触发的   on-cancel='payQuxiao'取消触发的-->
-        <confirm v-model="paycode" @on-confirm="payMoney1" >
-       <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
-       <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户: <span>{{hasmoney1 | moneyBeautifuly}}</span>金币</p>
-       <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费: <span>{{Math.ceil(objDeli.price*0.1) | moneyBeautifuly}}</span>金币</p>
-      </confirm>
+        <confirm v-model="paycode" @on-confirm="payMoney1">
+          <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
+          <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户:
+            <span>{{hasmoney1 | moneyBeautifuly}}</span>金币</p>
+          <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费:
+            <span>{{Math.ceil(objDeli.price*0.1) | moneyBeautifuly}}</span>金币</p>
+        </confirm>
         <!-- 新增进行支付的弹窗结束 -->
         <!-- 必中的金币拿 -->
-        <confirm v-model="paycode_1" @on-confirm="payMoney2"  >
-       <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
-       <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户: <span>{{hasmoney1 | moneyBeautifuly}}</span>金币</p>
-       <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费: <span>{{objDeli.goldNum | moneyBeautifuly}}</span>金币</p>
-      </confirm>
+        <confirm v-model="paycode_1" @on-confirm="payMoney2">
+          <h2 style="font-size:2rem;color:#08090a;padding-top:2rem">提示</h2>
+          <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">当前账户:
+            <span>{{hasmoney1 | moneyBeautifuly}}</span>金币</p>
+          <p style="font-size:1.4rem;color:#75787f;margin-top:1.6rem">确定消费:
+            <span>{{objDeli.goldNum | moneyBeautifuly}}</span>金币</p>
+        </confirm>
 
         <!--充值plus会员的操作-->
         <div class="cover" v-if="vip">
@@ -203,9 +204,7 @@
             <p>购买会员享受更多福利</p>
             <transition name="move">
               <div class="userContainerBox">
-                <pay :title="title" :moneyBox="moneyBox" :moneyIndex="moneyIndex" :type="type" :paytype="paytype"
-                     :hasmoney="hasmoney" :isChecked="isChecked" :isChosed="chosed" @index-change="choosePay"
-                     @isChosed-change="isChosed"></pay>
+                <pay :title="title" :moneyBox="moneyBox" :moneyIndex="moneyIndex" :type="type" :paytype="paytype" :hasmoney="hasmoney" :isChecked="isChecked" :isChosed="chosed" @index-change="choosePay" @isChosed-change="isChosed"></pay>
                 <div class="btnBottomBox">
                   <div class="info">
                     微信支付：
@@ -225,9 +224,7 @@
             <p>请充值</p>
             <transition name="move">
               <div class="userContainerBox">
-                <pay :title="title1" :moneyBox="moneyBox1" :moneyIndex="moneyIndex1" :type="type1" :paytype="paytype1"
-                     :hasmoney="hasmoney1" :isChecked="isChecked1" :isChosed="chosed1" @index-change="choosePay1"
-                     @isChosed-change="isChosed1"></pay>
+                <pay :title="title1" :moneyBox="moneyBox1" :moneyIndex="moneyIndex1" :type="type1" :paytype="paytype1" :hasmoney="hasmoney1" :isChecked="isChecked1" :isChosed="chosed1" @index-change="choosePay1" @isChosed-change="isChosed1"></pay>
                 <div class="btnBottomBox">
                   <div class="info">
                     微信支付：
@@ -246,9 +243,7 @@
             <p>请充值</p>
             <transition name="move">
               <div class="userContainerBox">
-                <pay :title="title1" :moneyBox="moneyBox1" :moneyIndex="moneyIndex1" :type="type1" :paytype="paytype1"
-                     :hasmoney="hasmoney1" :isChecked="isChecked1" :isChosed="chosed1" @index-change="choosePay1"
-                     @isChosed-change="isChosed1"></pay>
+                <pay :title="title1" :moneyBox="moneyBox1" :moneyIndex="moneyIndex1" :type="type1" :paytype="paytype1" :hasmoney="hasmoney1" :isChecked="isChecked1" :isChosed="chosed1" @index-change="choosePay1" @isChosed-change="isChosed1"></pay>
                 <div class="btnBottomBox">
                   <div class="info">
                     微信支付：
@@ -289,7 +284,7 @@ import Coupons from '../../../base/coupons/coupons.vue'
 import Pay from '../../../base/pay/pay'
 import { mapGetters, mapActions } from 'vuex'
 import Pass from '../../../assets/images/pass.svg'
-import Pass_no from '../../../assets/images/no-pass.svg'
+import PassNo from '../../../assets/images/no-pass.svg'
 
 Vue.use(AlertPlugin)
 export default {
@@ -302,29 +297,28 @@ export default {
     Spinner,
     Binsert,
     Confirm,
-    Group,
     XSwitch,
     Alert,
     Pay,
     Coupons,
     AlertPlugin
   },
-  name: "details",
-  data() {
+  name: 'details',
+  data () {
     return {
-      //金币换的数据
+      // 金币换的数据
       firstTaskObj: {},
-      //优惠券
+      // 优惠券
       ticArr: [],
       ticIndex: 0,
       Pass: Pass,
-      Pass_no: Pass_no,
+      Pass_no: PassNo,
       objDeli: {
-        leftTime: '2017-10-10 21:54:55',
+        leftTime: '2017-10-10 21:54:55'
       },
       demo07_list: [{
         url: 'javascript:',
-        img: '',
+        img: ''
       }],
       hei: '32rem',
       //      底部组件
@@ -384,7 +378,7 @@ export default {
           oldPrice: '240',
           type: '1个月套餐',
           info: '每天仅需0.3元'
-        },
+        }
       ],
       moneyIndex: 0,
       type: 0,
@@ -398,44 +392,44 @@ export default {
       moneyBox1: [
         {
           price: '20金币',
-          oldPrice: '50元',
+          oldPrice: '50元'
         },
         {
           price: '100金币',
-          oldPrice: '100元',
+          oldPrice: '100元'
 
         },
         {
           price: '200金币',
-          oldPrice: '200元',
+          oldPrice: '200元'
         },
         {
           price: '300金币',
-          oldPrice: '300元',
+          oldPrice: '300元'
         },
         {
           price: '500金币',
-          oldPrice: '500元',
-        },
+          oldPrice: '500元'
+        }
       ],
       moneyIndex1: 0,
       type1: 1,
-      chosed1: true,
+      chosed1: true
     }
   },
-  created() {
+  created () {
     this.getDesc()
     // console.log(this.userInfo)
   },
   methods: {
     //      定义一个当前时间的函数
-    nowTime() {
+    nowTime () {
       let now = new Date().getHours()
       return now
     },
 
-    //选择使用优惠券
-    chooseIndex(index) {
+    // 选择使用优惠券
+    chooseIndex (index) {
       // console.log(this.ticArr[index])
       for (var i = 0; i < this.ticArr.length; i++) {
         if (index === i) {
@@ -444,10 +438,10 @@ export default {
           this.ticArr[i].ticObj.checked = false
         }
       }
-      this.ticIndex = index;
+      this.ticIndex = index
     },
-    /*当点击一张必中券之后 点击使用 跳到必中任务里面去*/
-    useCou() {
+    /* 当点击一张必中券之后 点击使用 跳到必中任务里面去 */
+    useCou () {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
         sellerTaskId: this.$route.query.sellerTaskId,
         buyerUserId: this.userInfo.buyerUserId,
@@ -471,11 +465,11 @@ export default {
             }
           })
         } else if (data.data.code === '1701') {
-          let that = this;
+          let that = this
           this.$vux.alert.show({
             title: '提示',
             content: '您还有未完成的任务,请去个人中心查看',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'noPayOrder' })
             }
           })
@@ -487,7 +481,7 @@ export default {
         }
       })
     },
-    useCansel() {
+    useCansel () {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
         sellerTaskId: this.$route.query.sellerTaskId,
         buyerUserId: this.userInfo.buyerUserId
@@ -507,7 +501,7 @@ export default {
           this.$vux.alert.show({
             title: '提示',
             content: '您还有未完成的任务,请去个人中心查看',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'noPayOrder' })
             }
           })
@@ -520,7 +514,7 @@ export default {
       })
     },
 
-    btnClick() {
+    btnClick () {
       // let buyerUserId = this.userInfo.buyerUserId
       let that = this
       // 做绑定判断,平台端审核的判断
@@ -530,7 +524,7 @@ export default {
           that.$vux.alert.show({
             title: '温馨提示',
             content: '您未登录，请登录',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'login' })
             }
           })
@@ -559,47 +553,44 @@ export default {
       // }
       if (this.userInfo) {
         this.$axios.post('/api/user/getStatusByUserId', {
-          buyerUserId: this.userInfo.buyerUserId,
+          buyerUserId: this.userInfo.buyerUserId
         }).then((data) => {
           console.log(data)
           let res = data.data.data
           if (res.alipayStatus === 0) {
             this.$vux.alert.show({
               title: '温馨提示',
-              content: '审核未通过,请重新修改信息',
+              content: '审核未通过,请重新修改信息'
             })
-
           } else if (res.alipayStatus === 2) {
             this.$vux.alert.show({
               title: '温馨提示',
-              content: '信息还在审核中,请耐心等待...',
+              content: '信息还在审核中,请耐心等待...'
             })
-
           } else if (res.alipayStatus === 3) {
             this.$vux.alert.show({
               title: '温馨提示',
-              content: '支付宝账号未绑定,请先进行绑定',
+              content: '支付宝账号未绑定,请先进行绑定'
             })
-
           } else if (res.taobaoStatus === 0) {
             let that = this
             this.$vux.alert.show({
               title: '温馨提示',
               content: '淘宝账号审核未通过,请重新修改信息',
-              onHide() {
+              onHide () {
                 that.$router.push({ name: 'registerThree' })
               }
             })
           } else if (res.taobaoStatus === 2) {
             this.$vux.alert.show({
               title: '温馨提示',
-              content: '信息还在审核中,请耐心等待...',
+              content: '信息还在审核中,请耐心等待...'
             })
           } else if (res.taobaoStatus === 3) {
             this.$vux.alert.show({
               title: '温馨提示',
               content: '您还未绑定淘宝/天猫,点击前往进行绑定',
-              onHide() {
+              onHide () {
                 that.$router.push({ name: 'registerThree' })
               }
             })
@@ -626,12 +617,12 @@ export default {
                           checked: false,
                           buyerUserId: i.buyerUserId,
                           buyerTicketId: i.buyerTicketId
-                        },
+                        }
                       })
                     }
                     this.pic = true
                   } else {
-                    //没有的话则走 我要白拿的正常任务
+                    // 没有的话则走 我要白拿的正常任务
                     this.$axios.post('/api/orderOperate/getFirstOrder', {
                       sellerTaskId: this.$route.query.sellerTaskId,
                       buyerUserId: this.userInfo.buyerUserId
@@ -651,7 +642,7 @@ export default {
                         this.$vux.alert.show({
                           title: '提示',
                           content: '您还有未完成的任务,请去个人中心查看',
-                          onHide() {
+                          onHide () {
                             that.$router.push({ name: 'noPayOrder' })
                           }
                         })
@@ -665,14 +656,12 @@ export default {
                   }
                 }
               })
-              //         状态为我要白拿触发的东西
             }
-            //如果底部按钮状态为申请就中奖的时候 即this.typeFoot===3 即拿金币换
+            // 如果底部按钮状态为申请就中奖的时候 即this.typeFoot===3 即拿金币换
             if (this.typeFoot === 3) {
               this.jinbizhong()
             }
             // 即this.typeFoot===3结束
-
             // 如果底部按钮状态为Plus白拿的时候 即this.typeFoot===4 即Plus白拿
             if (this.typeFoot === 4) {
               this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
@@ -685,7 +674,6 @@ export default {
               // console.log(isVip)
               if (isVip === 1) {
                 this.Plus()
-                //不是vip 提示充值 
               } else {
                 this.vip = true
               }
@@ -695,11 +683,11 @@ export default {
       }
       // 即this.typeFoot===4结束 Plus白拿结束
     },
-    //Plus白拿需要公用出来的部分
-    Plus() {
+    // Plus白拿需要公用出来的部分
+    Plus () {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
         sellerTaskId: this.$route.query.sellerTaskId,
-        buyerUserId: this.userInfo.buyerUserId,
+        buyerUserId: this.userInfo.buyerUserId
       }).then((data) => {
         let res = data.data
         this.firstTaskObj = res.data
@@ -709,7 +697,7 @@ export default {
           this.$vux.alert.show({
             title: '提示',
             content: '您还有未完成的任务,请去个人中心查看',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'noPayOrder' })
             }
           })
@@ -718,11 +706,11 @@ export default {
         }
       })
     },
-    //Plus白拿结束部分 
-    //金币换的必中任务的成功提醒 支付成功之后的弹窗的确定按钮
-    paySucess() {
+    // 金币换的必中任务的成功提醒 支付成功之后的弹窗的确定按钮
+    paySucess () {
       if (this.firstTaskObj.taskId === 39) {
-        this.$router.push({          name: 'sureGetStep1',
+        this.$router.push({
+          name: 'sureGetStep1',
           query: {
             buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId,
             sellerTaskId: this.$route.query.sellerTaskId,
@@ -730,7 +718,8 @@ export default {
           }
         })
       } else if (this.firstTaskObj.taskId === 40) {
-        this.$router.push({          name: 'sureGetStep1',
+        this.$router.push({
+          name: 'sureGetStep1',
           query: {
             buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId,
             sellerTaskId: this.$route.query.sellerTaskId,
@@ -738,7 +727,8 @@ export default {
           }
         })
       } else if (this.firstTaskObj.taskId === 41) {
-        this.$router.push({          name: 'sureGetStep1',
+        this.$router.push({
+          name: 'sureGetStep1',
           query: {
             buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId,
             sellerTaskId: this.$route.query.sellerTaskId,
@@ -746,7 +736,8 @@ export default {
           }
         })
       } else if (this.firstTaskObj.taskId === 42) {
-        this.$router.push({          name: 'sureGetStep1',
+        this.$router.push({
+          name: 'sureGetStep1',
           query: {
             buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId,
             sellerTaskId: this.$route.query.sellerTaskId,
@@ -754,7 +745,8 @@ export default {
           }
         })
       } else if (this.firstTaskObj.taskId === 43) {
-        this.$router.push({          name: 'sureGetStep1',
+        this.$router.push({
+          name: 'sureGetStep1',
           query: {
             buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId,
             sellerTaskId: this.$route.query.sellerTaskId,
@@ -762,7 +754,8 @@ export default {
           }
         })
       } else if (this.firstTaskObj.taskId === 44) {
-        this.$router.push({          name: 'sureGetStep1',
+        this.$router.push({
+          name: 'sureGetStep1',
           query: {
             buyerTaskRecordId: this.firstTaskObj.buyerTaskRecordId,
             sellerTaskId: this.$route.query.sellerTaskId,
@@ -770,21 +763,19 @@ export default {
           }
         })
       }
-
     },
     // 先支付的功能 支付完开通vip 如果余额不够 则微信支付的下面点击事件 微信支付不为0
-    btnZhiVip() {
+    btnZhiVip () {
       this.$axios.post('/api/fundsFlow/depositCharge', {
-        //用户
+        // 用户
         type: 'buyer',
-        //资金
+        // 资金
         income: this.ataloCount,
         userFundId: this.userInfo.buyerUserId
       }).then((data) => {
         // console.log(data)
         let res = data.data
         if (res.code === '200') {
-          //充值成功之后直接给它扣除 成为vip 
           this.$axios.post('/api/fundsFlow/depositExchangeForVip', {
             vipPlan: parseInt(this.moneyIndex + 1)
           }).then((data) => {
@@ -803,8 +794,8 @@ export default {
         }
       })
     },
-    //如果是余额足够则是去直接开通 微信支付不为数字0 立即开通
-    btnKaiVip() {
+    // 如果是余额足够则是去直接开通 微信支付不为数字0 立即开通
+    btnKaiVip () {
       this.$axios.post('/api/fundsFlow/depositExchangeForVip', {
         vipPlan: parseInt(this.moneyIndex + 1)
       }).then((data) => {
@@ -817,8 +808,8 @@ export default {
         }
       })
     },
-    //成功开通Vip点击成功之后跳转
-    VipPaySucess() {
+    // 成功开通Vip点击成功之后跳转
+    VipPaySucess () {
       this.Plus()
     },
 
@@ -832,30 +823,30 @@ export default {
     //     this.$router.push({ name: 'registerThree' })
     //   }
     // },
-    choosePay(index) {
+    choosePay (index) {
       this.moneyIndex = index
     },
-    isChosed(val) {
+    isChosed (val) {
       this.chosed = val
     },
-    choosePay1(index) {
+    choosePay1 (index) {
       this.moneyIndex1 = index
     },
-    isChosed1(val) {
+    isChosed1 (val) {
       this.chosed1 = val
     },
-    ceshi() {
+    ceshi () {
       this.cg = true
     },
-    //进入页面发送的请求
-    getDesc() {
+    // 进入页面发送的请求
+    getDesc () {
       let that = this
       this.$axios.post('/api/homePage/getDesc', {
         sellerTaskId: this.$route.query.sellerTaskId
       }).then((data) => {
         // console.log(data)
-        let res = data.data;
-        if (res.code == "200") {
+        let res = data.data
+        if (res.code === '200') {
           let obj = {
             picUrl: res.data.picUrl,
             productName: res.data.productName,
@@ -870,15 +861,15 @@ export default {
             isGold: res.data.isGold,
             goldNum: res.data.goldNum,
             leftNumToday: res.data.leftNumToday,
-            //              我要必中的剩余数
+            // 我要必中的剩余数
             goldChangeLeftNum: res.data.goldChangeLeftNum,
-            //              申请白拿的剩余数量  金币拿的数量 plus白拿的数量
+            // 申请白拿的剩余数量  金币拿的数量 plus白拿的数量
             applyLeftNum: res.data.applyLeftNum
           }
           that.objDeli = obj
           this.demo07_list[0].img = obj.picUrl
-          //         进行一系列的判断
-          //            如果是金币换的底部出现的情况
+          // 进行一系列的判断
+          // 如果是金币换的底部出现的情况
           that.$nextTick(() => {
             that.$refs.scroll.refresh()
           })
@@ -908,7 +899,7 @@ export default {
               this.tType = ''
               return false
             }
-            //超额返  全额返
+            // 超额返  全额返
           } else if (that.objDeli.isMore === 1 || that.objDeli.isMore === 0) {
             //              时间大于14点的时候
             if (this.nowTime() > 14) {
@@ -919,7 +910,7 @@ export default {
                 return false
               } else {
                 this.tType = 'btn'
-                //                  申请白拿剩余数量为0的时候
+                // 申请白拿剩余数量为0的时候
                 if (that.objDeli.applyLeftNum <= 0) {
                   this.typeFoot = 2
                   return false
@@ -934,21 +925,21 @@ export default {
               return false
             }
           }
-          //          进行判断结束
+          // 进行判断结束
         }
-      }).catch((error) => {
+      }).catch((eror) => {
         // console.log(error)
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },
     //      请求结束部分
 
-    /*白拿里面的我要必中当点击我要必中*******的时候触发的事件*/
-    wantGet() {
-       let that = this
+    /* 白拿里面的我要必中当点击我要必中*******的时候触发的事件 */
+    wantGet () {
+      let that = this
       // 做绑定判断,平台端审核的判断
       this.$axios.post('/api/user/loginOrNot', {}).then((res) => {
         console.log(res)
@@ -956,99 +947,95 @@ export default {
           that.$vux.alert.show({
             title: '温馨提示',
             content: '您未登录，请登录',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'login' })
             }
           })
           return false
         }
       })
-      if(this.userInfo){
-      this.$axios.post('/api/user/getStatusByUserId', {
-        buyerUserId: this.userInfo.buyerUserId,
-      }).then((data) => {
-        let res = data.data.data
-        if (res.alipayStatus === 0) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '审核未通过,请重新修改信息',
-          })
-          this.$router.push({ name: 'registerThree' })
-        } else if (res.alipayStatus === 2) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '信息还在审核中,请耐心等待...',
-          })
-
-        } else if (res.alipayStatus === 3) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '支付宝账号未绑定,请先进行绑定',
-          })
-
-        } else if (res.taobaoStatus === 0) {
-          let that = this
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '淘宝账号审核未通过,请重新修改信息',
-            onHide() {
-              that.$router.push({ name: 'registerThree' })
-            }
-          })
-
-        } else if (res.taobaoStatus === 2) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '信息还在审核中,请耐心等待...',
-          })
-        } else if (res.taobaoStatus === 3) {
-          this.$vux.alert.show({
-            title: '温馨提示',
-            content: '您还未绑定淘宝/天猫,点击前往进行绑定',
-            onHide() {
-              that.$router.push({ name: 'registerThree' })
-            }
-          })
-        } else {
-          //请求查询金币的接口
-          this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
-            userId: this.userInfo.buyerUserId
-          }).then((data) => {
-            // console.log(data)
-            let res = data.data
-            this.hasmoney1 = res.data.availableGold
-            //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
-            if (Math.ceil(this.objDeli.price * 0.1) <= res.data.availableGold) {
-              this.paycode = true
-            } else {
-              //提示用户去充值金币
-              this.jinbi = true
-            }
-          })
-        }
-      })
-    }
+      if (this.userInfo) {
+        this.$axios.post('/api/user/getStatusByUserId', {
+          buyerUserId: this.userInfo.buyerUserId
+        }).then((data) => {
+          let res = data.data.data
+          if (res.alipayStatus === 0) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '审核未通过,请重新修改信息'
+            })
+            this.$router.push({ name: 'registerThree' })
+          } else if (res.alipayStatus === 2) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '信息还在审核中,请耐心等待...'
+            })
+          } else if (res.alipayStatus === 3) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '支付宝账号未绑定,请先进行绑定'
+            })
+          } else if (res.taobaoStatus === 0) {
+            let that = this
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '淘宝账号审核未通过,请重新修改信息',
+              onHide () {
+                that.$router.push({ name: 'registerThree' })
+              }
+            })
+          } else if (res.taobaoStatus === 2) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '信息还在审核中,请耐心等待...'
+            })
+          } else if (res.taobaoStatus === 3) {
+            this.$vux.alert.show({
+              title: '温馨提示',
+              content: '您还未绑定淘宝/天猫,点击前往进行绑定',
+              onHide () {
+                that.$router.push({ name: 'registerThree' })
+              }
+            })
+          } else {
+            // 请求查询金币的接口
+            this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
+              userId: this.userInfo.buyerUserId
+            }).then((data) => {
+              // console.log(data)
+              let res = data.data
+              this.hasmoney1 = res.data.availableGold
+              // 如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
+              if (Math.ceil(this.objDeli.price * 0.1) <= res.data.availableGold) {
+                this.paycode = true
+              } else {
+                // 提示用户去充值金币
+                this.jinbi = true
+              }
+            })
+          }
+        })
+      }
     },
-    //必中里面的金币换 
-    jinbizhong() {
-      //请求查询金币的接口
+    jinbizhong () {
+      // 请求查询金币的接口
       this.$axios.post('/api/buyerFundsAccount/getByBuyerUserId', {
         userId: this.userInfo.buyerUserId
       }).then((data) => {
         // console.log(data)
         let res = data.data
         this.hasmoney1 = res.data.availableGold
-        //如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
+        // 如果需要支付的金币数量大于用户账户中的可用金币的时候触发下面 金币不够 提示用户充值
         if (this.objDeli.goldNum <= res.data.availableGold) {
           this.paycode_1 = true
         } else {
-          //提示用户去充值金币
+          // 提示用户去充值金币
           this.jinbi_1 = true
         }
       })
     },
-    //白拿的金币换的页面
-    payMoney() {
+    // 白拿的金币换的页面
+    payMoney () {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
         sellerTaskId: this.$route.query.sellerTaskId,
         buyerUserId: this.userInfo.buyerUserId,
@@ -1060,9 +1047,9 @@ export default {
         if (res.code === '200') {
           this.firstTaskObj = res.data
           this.$axios.post('/api/fundsFlow/buyerGoldExchange', {
-            //金币数量
+            // 金币数量
             amount: Math.ceil(this.objDeli.price * 0.1),
-            //用户id
+            // 用户id
             userFundId: this.userInfo.buyerUserId,
             orderId: this.$route.query.sellerTaskId
           }).then((data) => {
@@ -1078,7 +1065,7 @@ export default {
           this.$vux.alert.show({
             title: '提示',
             content: '您还有未完成的任务,请去个人中心查看',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'noPayOrder' })
             }
           })
@@ -1090,11 +1077,11 @@ export default {
         }
       })
     },
-    //必中的金币换的页面 
-    payMoney_1() {
+    /* 必中的金币换的页面 */
+    payMoney_1 () {
       this.$axios.post('/api/orderOperate/getFirstOrder', {
         sellerTaskId: this.$route.query.sellerTaskId,
-        buyerUserId: this.userInfo.buyerUserId,
+        buyerUserId: this.userInfo.buyerUserId
       }).then((data) => {
         // console.log(data)
         let res = data.data
@@ -1102,9 +1089,9 @@ export default {
         if (res.code === '200') {
           this.firstTaskObj = res.data
           this.$axios.post('/api/fundsFlow/buyerGoldExchange', {
-            //金币数量
+            // 金币数量
             amount: this.objDeli.goldNum,
-            //用户id
+            // 用户id
             userFundId: this.userInfo.buyerUserId,
             orderId: this.$route.query.sellerTaskId
           }).then((data) => {
@@ -1120,7 +1107,7 @@ export default {
           this.$vux.alert.show({
             title: '提示',
             content: '您还有未完成的任务,请去个人中心查看',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'noPayOrder' })
             }
           })
@@ -1132,21 +1119,21 @@ export default {
         }
       })
     },
-    //点击确认支付 白拿的金币换
-    payMoney1() {
+    // 点击确认支付 白拿的金币换
+    payMoney1 () {
       this.payMoney()
     },
-    //必中的金币换  点击确认支付
-    payMoney2() {
+    // 必中的金币换  点击确认支付
+    payMoney2 () {
       this.payMoney_1()
     },
-    //金币不足进行充值
-    //金币换的支付接口 金币不足弹出充值金币的接口
-    btnJinbi() {
+    // 金币不足进行充值
+    // 金币换的支付接口 金币不足弹出充值金币的接口
+    btnJinbi () {
       this.$axios.post('/api/fundsFlow/goldCharge', {
-        //用户
+        // 用户
         type: 'buyer',
-        //资金
+        // 资金
         income: this.ataloCountCore,
         userFundId: this.userInfo.buyerUserId
       }).then((data) => {
@@ -1160,11 +1147,11 @@ export default {
         }
       })
     },
-    btnJinbi_1() {
+    btnJinbi_1 () {
       this.$axios.post('/api/fundsFlow/goldCharge', {
-        //用户
+        // 用户
         type: 'buyer',
-        //资金
+        // 资金
         income: this.ataloCountCore,
         userFundId: this.userInfo.buyerUserId
       }).then((data) => {
@@ -1178,17 +1165,17 @@ export default {
         }
       })
     },
-    //金币充值成功之后再次调用以上接口判断是否支付成功 余额是否足够 
-    BaiNaSucess() {
+    /* 金币充值成功之后再次调用以上接口判断是否支付成功,余额是否足够  */
+    BaiNaSucess () {
       this.wantGet()
     },
-    BaiNaSucess_1() {
+    BaiNaSucess_1 () {
       this.jinbizhong()
     },
-    /*白拿里面的我要必中当点击我要必中*******的时候触发的事件*/
+    /* 白拿里面的我要必中当点击我要必中*******的时候触发的事件 */
     ...mapActions([
       'setUserInfo'
-    ]),
+    ])
   },
   computed: {
     ...mapGetters([
@@ -1197,7 +1184,7 @@ export default {
     ]),
     ataloCount: {
       //        会员充值
-      get() {
+      get () {
         let ataloCount = 0
         let choosePrice = parseFloat(this.moneyBox[this.moneyIndex].price)
         ataloCount = choosePrice - (this.chosed ? this.hasmoney : 0)
@@ -1206,13 +1193,13 @@ export default {
         }
         return ataloCount
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     ataloCountCore: {
       //        金币充值
-      get() {
+      get () {
         let ataloCount = 0
         let choosePrice = parseFloat(this.moneyBox1[this.moneyIndex1].price)
         ataloCount = choosePrice - (this.chosed1 ? this.hasmoney1 : 0)
@@ -1221,11 +1208,11 @@ export default {
         }
         return ataloCount
       },
-      set(val) {
+      set (val) {
         return val
       }
     }
-  },
+  }
   //      发送请求 请求数据
   // activated() {
   //   this.sellerTaskId = this.$route.query.sellerTaskId
@@ -1234,8 +1221,6 @@ export default {
   // deactivated() {
   //   this.objDeli = {}
   // }
-  //这种写法便于多个的使用
-
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>

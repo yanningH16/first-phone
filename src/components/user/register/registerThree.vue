@@ -49,12 +49,12 @@
               </div>
             </div>
             <!-- <div class="groupBox">
-              <div class="title">六、上传花呗图片</div>
-              <p class="text">花呗未开通也要提交该截图，未开通不影响做</p>
-              <div class="inputBox">
-                <upload :myimgs="imgHB" :max="5" @upload-change="uploadChangeHB" :isShow="true"></upload>
-              </div>
-            </div> -->
+                      <div class="title">六、上传花呗图片</div>
+                      <p class="text">花呗未开通也要提交该截图，未开通不影响做</p>
+                      <div class="inputBox">
+                        <upload :myimgs="imgHB" :max="5" @upload-change="uploadChangeHB" :isShow="true"></upload>
+                      </div>
+                    </div> -->
             <info :infoArr="infos">
               <p>注意事项</p>
             </info>
@@ -75,7 +75,7 @@ import Upload from '../../../base/upload/upload'
 import MButton from '../../../base/button/button'
 import { mapGetters } from 'vuex'
 export default {
-  name: "buyCoin",
+  name: 'buyCoin',
   components: {
     XInput,
     Group,
@@ -85,7 +85,7 @@ export default {
     Upload,
     PopupPicker
   },
-  data() {
+  data () {
     return {
       taobao: '',
       xm: '',
@@ -103,13 +103,13 @@ export default {
       imgSM: [],
       imgHB: [],
       value: [],
-      list: [['1星', '2星', '3星', '4星', '5星', '1钻', '2钻', '3钻', '4钻', '5钻','皇冠']],
+      list: [['1星', '2星', '3星', '4星', '5星', '1钻', '2钻', '3钻', '4钻', '5钻', '皇冠']],
       taobaoLevel: null
     }
   },
   computed: {
     btnSaveState: {
-      get() {
+      get () {
         let isHasTb = (this.taobao.length !== 0)
         let isWWImgUrl = (this.imgWW && this.imgWW.length === 1)
         let isLevel = (this.taobaoLevel !== null && this.taobaoLevel.length !== 0)
@@ -128,7 +128,7 @@ export default {
           return false
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
@@ -137,28 +137,28 @@ export default {
     ])
   },
   methods: {
-    uploadChangeWW(val) {
+    uploadChangeWW (val) {
       this.imgWW = val
     },
-    uploadChangeSM(val) {
+    uploadChangeSM (val) {
       this.imgSM = val
     },
-    uploadChangeHB(val) {
+    uploadChangeHB (val) {
       this.imgHB = val
     },
-    doResponse() {
+    doResponse () {
       if (this.btnSaveState) {
         let _this = this
         this.$vux.confirm.show({
           title: '提示',
           content: '买号绑定后将不能继续修改买号信息，确认提交？',
-          onConfirm() {
+          onConfirm () {
             _this.doApi()
           }
         })
       }
     },
-    doApi() {
+    doApi () {
       let content = {
         title: '提交成功，请耐心等待',
         info: '当天提交的支付宝审核预计在1小时左右完成审核,21:00之后提交的将于次日审核'
@@ -175,24 +175,24 @@ export default {
         huabeiPicsUrl: this.imgHB
       }).then((response) => {
         let data = response.data
-        if (data.code !== "200") {
+        if (data.code !== '200') {
           this.$vux.alert.show({
             title: '错误提示',
-            content: data.message,
+            content: data.message
           })
         } else {
-          //登录成功
+          // 登录成功
           this.$router.push({ name: 'state', params: { content: content } })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     },
-    //选择旺旺等级
-    onChange(val) {
+    // 选择旺旺等级
+    onChange (val) {
       this.taobaoLevel = val[0]
     }
   }

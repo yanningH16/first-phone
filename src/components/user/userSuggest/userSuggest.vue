@@ -19,24 +19,24 @@
 import Scroll from '../../../base/scroll/scroll'
 import { Tab, TabItem } from 'vux'
 export default {
-  name: "userCoupons",
+  name: 'userCoupons',
   components: {
     Scroll,
     Tab,
-    TabItem,
+    TabItem
   },
-  data() {
+  data () {
     return {
       tabArr: ['我要反馈', '我的反馈'],
       checkIndex: 0,
-      pullup: true,
+      pullup: true
     }
   },
   methods: {
-    scrollLoad() {
+    scrollLoad () {
 
     },
-    choose() {
+    choose () {
 
     }
   }

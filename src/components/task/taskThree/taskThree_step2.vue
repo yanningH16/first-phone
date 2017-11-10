@@ -20,55 +20,52 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Scroll from "../../../base/scroll/scroll.vue"
-import Step from "../../../base/step/step.vue"
-import Upload from "../../../base/upload/upload.vue"
+import Scroll from '../../../base/scroll/scroll.vue'
+import Step from '../../../base/step/step.vue'
+import Upload from '../../../base/upload/upload.vue'
 import { formateDate } from '../../../assets/js/utils'
 export default {
-  name: "getPrice1",
+  name: 'getPrice1',
   components: {
     Step,
     Upload,
     Scroll
   },
-  data() {
+  data () {
     return {
-      isOk: true, //按钮可点击
+      isOk: true, // 按钮可点击
       goodsOneKey: '',
       goodsTwoKey: '',
       goodsThreeKey: ''
     }
   },
   methods: {
-    //提交
-    send() {
+    // 提交
+    send () {
       if (this.goodsOneKey.length === 0 || this.goodsTwoKey.length === 0 || this.goodsThreeKey.length === 0) {
         this.$vux.alert.show({
           title: '提示',
-          content: '请复制完整淘口令！',
-        });
-        return false;
+          content: '请复制完整淘口令！'
+        })
+        return false
       }
-      let that = this;
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId
       }).then((res) => {
-        console.log(res)
         let data = res.data
-        console.log(data)
         if (data.code === '200') {
           let time = formateDate('yyyy-MM-dd hh:mm:ss')
           this.$router.push({ name: 'submitSuccess', query: { openTime: time, type: 'last' } })
         } else {
           this.$vux.alert.show({
             title: '提示',
-            content: data.message,
+            content: data.message
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }

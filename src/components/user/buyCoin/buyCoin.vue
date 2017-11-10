@@ -21,12 +21,12 @@ import Scroll from '../../../base/scroll/scroll'
 import Pay from '../../../base/pay/pay'
 import { mapGetters } from 'vuex'
 export default {
-  name: "buyCoin",
+  name: 'buyCoin',
   components: {
     Scroll,
     Pay
   },
-  data() {
+  data () {
     return {
       paytype: 2,
       isChecked: 0,
@@ -55,7 +55,7 @@ export default {
           price: '500金币',
           oldPrice: '500元',
           info: '送75金币'
-        },
+        }
       ],
       moneyIndex: 0,
       type: 1,
@@ -64,25 +64,25 @@ export default {
   },
   computed: {
     ataloCount: {
-      get() {
+      get () {
         let ataloCount = 0
         let choosePrice = parseFloat(this.moneyBox[this.moneyIndex].price)
         ataloCount = choosePrice - (this.chosed ? this.hasmoney : 0)
         return ataloCount.toFixed(2)
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
     hasmoney: {
-      get() {
+      get () {
         let has = 0
         if (this.userCoin.availableDeposit) {
           has = parseFloat(this.userCoin.availableDeposit).toFixed(2)
         }
         return has
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
@@ -92,19 +92,19 @@ export default {
     ])
   },
   methods: {
-    btn() {
-      if (hasmoney === 0) {
+    btn () {
+      if (this.hasmoney === 0) {
         return false
       }
       this.$vux.alert.show({
         title: '提示',
-        content: '正在开发',
+        content: '正在开发'
       })
     },
-    choosePay(index) {
+    choosePay (index) {
       this.moneyIndex = index
     },
-    isChosed(val) {
+    isChosed (val) {
       this.chosed = val
     }
   }

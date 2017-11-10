@@ -15,7 +15,7 @@
 <script type="text/ecmascript-6">
 import { XDialog } from 'vux'
 export default {
-  name: "component_name",
+  name: 'component_name',
   components: {
     XDialog
   },
@@ -31,15 +31,15 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
     }
   },
   methods: {
-    //检验状态
-    showCheckText(item) {
+    // 检验状态
+    showCheckText (item) {
       return item.status === 1 ? item.textSuc : item.textErr
-    },
+    }
   }
 }
 </script>

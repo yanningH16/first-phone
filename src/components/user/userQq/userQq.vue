@@ -22,14 +22,14 @@ import Scroll from '../../../base/scroll/scroll'
 import { XInput, Group } from 'vux'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: "userQq",
+  name: 'userQq',
   components: {
     Scroll,
     XInput,
     Group
   },
   watch: {
-    addressQQ(newVal) {
+    addressQQ (newVal) {
       if (RegExp(/^[1-9][0-9]{4,9}$/).test(newVal)) {
         this.btnSaveState = true
         return false
@@ -37,7 +37,7 @@ export default {
       this.btnSaveState = false
     }
   },
-  data() {
+  data () {
     return {
       addressQQ: '',
       btnSaveState: false
@@ -49,8 +49,8 @@ export default {
     ])
   },
   methods: {
-    //保存qq
-    saveQq() {//addressQQ
+    // 保存qq
+    saveQq () { // addressQQ
       this.$axios.post('/api/user/update', {
         telephone: this.userInfo.telephone,
         qqNum: this.addressQQ
@@ -64,21 +64,20 @@ export default {
           this.setUserInfo(obj)
           this.$vux.toast.show({
             text: '修改成功',
-            onHide() {
+            onHide () {
               _this.$router.push({ name: 'settings' })
             }
           })
         } else {
           this.$vux.alert.show({
             title: '错误提示',
-            content: response.data.message,
+            content: response.data.message
           })
         }
-
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '网络错误',
+          content: '网络错误'
         })
       })
     },

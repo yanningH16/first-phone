@@ -21,55 +21,55 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import Step from "../../../base/step/step.vue"
+import Step from '../../../base/step/step.vue'
 import Scroll from '../../../base/scroll/scroll.vue'
 import Upload from '../../../base/upload/upload.vue'
 import { formateDate } from '../../../assets/js/utils'
 
 export default {
-  name: "taskOne_step1",
+  name: 'taskOne_step1',
   components: {
     Step,
     Scroll,
     Upload
   },
-  data() {
+  data () {
     return {
-      isOk: true, //按钮可提交
+      isOk: true, // 按钮可提交
       openIt: false,
-      favImg: [], //收藏截图
-      focusImg: [], //关注店铺截图
-      type: 1, //任务类型
-      stepIndex: 0, //当前任务步骤下标
-      msg: "1.点击输入框\r2.长按\r3.粘贴", //输入域placeholder,
-      shopName: "",
-      taoKey: "111[发顺丰飒飒大苏打是大事发生范德萨发生范德萨飞洒飞洒打算][发顺丰飒飒大苏打是大事发生范德萨发生范德萨飞洒飞洒打算]"
+      favImg: [], // 收藏截图
+      focusImg: [], // 关注店铺截图
+      type: 1, // 任务类型
+      stepIndex: 0, // 当前任务步骤下标
+      msg: '1.点击输入框\r2.长按\r3.粘贴', // 输入域placeholder,
+      shopName: '',
+      taoKey: '111[发顺丰飒飒大苏打是大事发生范德萨发生范德萨飞洒飞洒打算][发顺丰飒飒大苏打是大事发生范德萨发生范德萨飞洒飞洒打算]'
     }
   },
   methods: {
-    shopCar() {
+    shopCar () {
       if (this.favImg.length === 0 || this.focusImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
-          content: '请上传完整截图',
-        });
+          content: '请上传完整截图'
+        })
         return false
       }
-      let that = this;
+      let that = this
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
         buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
         storeProductPicId: this.favImg,
         concernShopPicId: this.focusImg
       }).then((res) => {
         console.log(res)
-        if (res.data.code === "200") {
+        if (res.data.code === '200') {
           let time = formateDate('yyyy-MM-dd hh:mm:ss')
           this.$router.push({ name: 'submitSuccess', query: { openTime: time, type: 'task' } })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '服务器错误',
+          content: '服务器错误'
         })
       })
     }

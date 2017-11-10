@@ -28,15 +28,15 @@
 import Scroll from '../../base/scroll/scroll.vue'
 import MButton from '../../base/button/button'
 export default {
-  name: "SubmitSuccess",
+  name: 'state',
   components: {
     Scroll,
     MButton
   },
-  mounted() {
+  mounted () {
     // this.content = this.$route.params.content
   },
-  data() {
+  data () {
     return {
       content: {
         title: '提交成功，请耐心等待',
@@ -47,10 +47,10 @@ export default {
     }
   },
   methods: {
-    toNoPay() {
+    toNoPay () {
       this.$router.push({ name: 'nopay' })
     },
-    goDetail(item) {
+    goDetail (item) {
 
     }
   }

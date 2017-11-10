@@ -47,11 +47,11 @@ import Scroll from '../../base/scroll/scroll'
 import Headsearch from '../../base/headsearch/headsearch.vue'
 import Merchandise from '../../base/merchandise/merchandise.vue'
 import { mapActions } from 'vuex'
-import index from "../../router/index/index"
+// import index from '../../router/index/index'
 import { scrollPages } from '../../assets/js/mixin'
 const list = () => ['全部', '全额返', '超额返', '金币拿', 'Plus专享']
 const list1 = () => ['最新', '价值', '数量', '筛选']
-const list3 = () => ["0-49", "50-99", "100-149", "150-200", "200以上"]
+const list3 = () => ['0-49', '50-99', '100-149', '150-200', '200以上']
 export default {
   mixins: [scrollPages],
   components: {
@@ -63,8 +63,8 @@ export default {
     Headsearch,
     Scroll
   },
-  name: "component_name",
-  data() {
+  name: 'component_name',
+  data () {
     return {
       disabled: false,
       covers: false,
@@ -81,7 +81,6 @@ export default {
       navShow: true,
       chooseIndex: 0,
       istop: true,
-      //仍然得实例一下 
       sortType: 'desc',
       sortClass: 'integrated',
       priceHigh: 0,
@@ -101,8 +100,7 @@ export default {
   },
   computed: {
     params: {
-      get() {
-        // console.log(112111)
+      get () {
         return {
           sortType: this.sortType,
           sortClass: this.sortClass,
@@ -117,13 +115,12 @@ export default {
           firstCondition: this.firstCondition
         }
       },
-      set(val) {
-        // console.log(val)
+      set (val) {
         return val
       }
     }
   },
-  created() {
+  created () {
     if (this.$route.query.index) {
       this.headerTabClick(this.$route.query.index)
       this.index = this.$route.query.index
@@ -131,12 +128,12 @@ export default {
     }
   },
   methods: {
-    headerTabClick(index) {
+    headerTabClick (index) {
       this.disabled = true
       setTimeout(() => {
         this.disabled = false
-      }, 500),
-        this.pageNo = 1
+      }, 500)
+      this.pageNo = 1
       let TabArr = ['no', 'all', 'more', 'gold', 'plus']
       this.sortType = 'desc'
       this.sortClass = 'integrated'
@@ -150,16 +147,16 @@ export default {
       this.goods = []
       this.getApi()
     },
-    //设置本地存储
+    // 设置本地存储
     ...mapActions([
       'setUserNopay'
     ]),
-    tap(index) {
+    tap (index) {
       this.covers = true
       setTimeout(() => {
         this.covers = false
-      }, 400),
-        this.pageNo = 1
+      }, 400)
+      this.pageNo = 1
       this.goods = []
       // if (index == 0) {
       //   this.sortType = 'desc'
@@ -173,7 +170,7 @@ export default {
       //   this.goods = []
       //   this.getApi()
       // }
-      if (index == 0) {
+      if (index === 0) {
         this.sortType = 'desc'
         this.sortClass = 'newest'
         this.priceHigh = 0
@@ -185,7 +182,7 @@ export default {
         this.getApi()
         this.goods = []
       }
-      if (index == 1) {
+      if (index === 1) {
         if (this.istop) {
           this.sortType = 'asc'
           this.sortClass = 'price'
@@ -203,7 +200,7 @@ export default {
         }
         this.istop = !this.istop
       }
-      if (index == 2) {
+      if (index === 2) {
         this.sortType = 'desc'
         this.sortClass = 'sum'
         this.priceHigh = 0
@@ -214,7 +211,6 @@ export default {
         this.highLottery = 0
         this.getApi()
         this.goods = []
-
       }
       // if (index == 4) {
       //   this.sortType = 'desc'
@@ -229,11 +225,11 @@ export default {
       //   this.goods = []
       // }
       this.checkedIndex = index
-      if (index == 3) {
+      if (index === 3) {
         this.cover = true
       }
     },
-    sure() {
+    sure () {
       this.cover = false
       this.sortType = 'desc'
       this.sortClass = 'integrated'
@@ -242,17 +238,17 @@ export default {
       this.priceHigh = arrHigh[this.chooseIndex]
       this.priceLow = arrLow[this.chooseIndex]
       this.productClassId = 0
-      if (this.isCked1 == true) {
+      if (this.isCked1 === true) {
         this.postage = 1
       } else {
         this.postage = 0
       }
-      if (this.isCked2 == true) {
+      if (this.isCked2 === true) {
         this.format = 1
       } else {
         this.format = 0
       }
-      if (this.isCked3 == true) {
+      if (this.isCked3 === true) {
         this.highLottery = 1
       } else {
         this.highLottery = 0
@@ -260,21 +256,21 @@ export default {
       this.getApi()
       this.goods = []
     },
-    //点击筛选的价格  
-    pri(indexs) {
+    // 点击筛选的价格
+    pri (indexs) {
       this.chooseIndex = indexs
     },
-    clear() {
+    clear () {
       this.isCked1 = false
       this.isCked2 = false
       this.isCked3 = false
-      this.chooseIndex = ""
+      this.chooseIndex = ''
     },
-    show(index, sellerTaskId) {
+    show (index, sellerTaskId) {
       // console.log(sellerTaskId)
       this.$router.push({ name: 'details', query: { sellerTaskId: sellerTaskId } })
     },
-    boxScroll(pos) {
+    boxScroll (pos) {
       if (pos.y < 0) {
         let maxScroll = this.$refs.bgNav.getBoundingClientRect().height
         if (Math.abs(pos.y) <= maxScroll) {
@@ -287,17 +283,16 @@ export default {
         })
       }
     },
-    setInfo(data) {
+    setInfo (data) {
       if (!data.total) {
         this.$vux.alert.show({
-          title: '数据为空',
+          title: '数据为空'
         })
         return false
       }
       let arrList = []
       this.maxPageSize = data.total
       for (let m of data.datas) {
-        // console.log(m)
         let goods = {
           imgSrc: m.picUrl,
           vip: m.isPlus,
@@ -322,7 +317,7 @@ export default {
         this.canLoading = true
       })
     }
-  },
+  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>

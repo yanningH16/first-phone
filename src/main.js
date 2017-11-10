@@ -7,22 +7,19 @@ import VueLazyload from 'vue-lazyload'
 import store from './store'
 import App from './App'
 import axios from 'axios'
-Vue.prototype.$axios = axios
-
 import './assets/stylus/index.styl'
+import Loading from './assets/images/loading.gif'
+Vue.prototype.$axios = axios
 Vue.filter('moneyBeautifuly', function (value) {
   return parseFloat(value)
 })
 Vue.use(VueLazyload, {
-  // loading: '/static/images/wait.gif',
+  loading: Loading,
   error: '/static/images/noContainer.svg'
 })
-
 FastClick.attach(document.body)
-
 Vue.config.productionTip = false
-
-/* eslint-disable no-new */
+  /* eslint-disable no-new */
 new Vue({
   el: '#app-box',
   router,

@@ -58,7 +58,7 @@ import { XInput, Group, XAddress, ChinaAddressV2Data, Value2nameFilter as value2
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: "usersex",
+  name: 'userAddress',
   components: {
     Scroll,
     XInput,
@@ -66,7 +66,7 @@ export default {
     Checkbtn,
     XAddress
   },
-  data() {
+  data () {
     return {
       infos: [
         '请填写淘宝常用收货地址，中奖下单必须与改地址一致！平台会定期检查，如发现不一致，将封号处理！',
@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     addressItem: {
-      get() {
+      get () {
         return {
           name: this.userInfo.username,
           isDefault: true,
@@ -95,7 +95,7 @@ export default {
           addressInfo: this.userInfo.postAddress
         }
       },
-      set(val) {
+      set (val) {
         return val
       }
     },
@@ -104,34 +104,34 @@ export default {
     ])
   },
   watch: {
-    addressOne(newval) {
+    addressOne (newval) {
       this.addressOneName = this.getName(newval)
       this.regExpClicked()
     },
-    addressTwo() {
+    addressTwo () {
       this.regExpClicked()
     },
-    addressName() {
+    addressName () {
       this.regExpClicked()
     },
-    addressPhone() {
+    addressPhone () {
       this.regExpClicked()
     }
   },
   methods: {
-    showAddAddress() {
+    showAddAddress () {
       this.isShowAdd = true
     },
-    //显示下拉地址
-    chooseAddress() {
+    // 显示下拉地址
+    chooseAddress () {
       this.isShowAddress = true
     },
-    //获得地址
-    getName(value) {
+    // 获得地址
+    getName (value) {
       return value2name(value, ChinaAddressV2Data)
     },
-    //校验是否可点击
-    regExpClicked() {
+    // 校验是否可点击
+    regExpClicked () {
       // let hasAddressOne
       let hasCore = (this.addressOneName.length > 1)
       let hasAdd = this.$refs.validAdd.valid
@@ -143,9 +143,9 @@ export default {
       }
       this.btnSaveState = false
     },
-    //保存地址
-    saveAddress() {
-      //ajax请求
+    // 保存地址
+    saveAddress () {
+      // ajax请求
       if (this.btnSaveState) {
         console.log('保存')
         this.$axios.post('/api/user/update', {
@@ -154,16 +154,16 @@ export default {
           phone: this.addressPhone,
           name: this.addressName
         }).then((response) => {
-          //console.log(response);
-          let that = this;
-          let obj = this.$store.state.userInfo;
-          obj.addressInfo = this.addressOneName;
-          obj.phone = this.addressPhone;
-          obj.name = this.addressName;
-          this.setUserInfo(obj);
+          // console.log(response);
+          let that = this
+          let obj = this.$store.state.userInfo
+          obj.addressInfo = this.addressOneName
+          obj.phone = this.addressPhone
+          obj.name = this.addressName
+          this.setUserInfo(obj)
           this.$vux.toast.show({
             text: '保存成功',
-            onHide() {
+            onHide () {
               that.$router.push({ name: 'settings' })
             }
           })
@@ -172,8 +172,8 @@ export default {
         })
       }
     },
-    //更新地址
-    updateAddress() {
+    // 更新地址
+    updateAddress () {
       this.isShowAdd = true
     },
     ...mapActions([

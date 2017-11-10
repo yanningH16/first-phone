@@ -31,14 +31,14 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { Icon } from "vux"
+import { Icon } from 'vux'
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: "Headsearch",
+  name: 'Headsearch',
   components: {
     Icon
   },
-  data() {
+  data () {
     return {
       menuShow: true,
       hisShow: false,
@@ -53,65 +53,65 @@ export default {
       'history'
     ])
   },
-  created() {
-    this.hisArr = this.history.slice();
+  created () {
+    this.hisArr = this.history.slice()
   },
   methods: {
-    toSearch() {
+    toSearch () {
       if (this.hisArr.length > 5) {
-        this.hisArr.pop(0, 1);
+        this.hisArr.pop(0, 1)
       }
       this.hisArr.unshift(this.inpKey)
-      this.setHistory(this.hisArr.slice());
+      this.setHistory(this.hisArr.slice())
     },
-    //点击去个人消息中心
-    toMessage() {
-      this.$router.push({ name: 'userMessage' });
+    // 点击去个人消息中心
+    toMessage () {
+      this.$router.push({ name: 'userMessage' })
     },
-    openMenu() {
-      this.menuShow = false;
-      this.hisShow = false;
-      let that = this;
+    openMenu () {
+      this.menuShow = false
+      this.hisShow = false
+      let that = this
       this.$axios.get('api/productClass/getProductClassInfo').then(function (data) {
         if (data.data.code === '200') {
-          that.allClass = data.data.data;
+          that.allClass = data.data.data
         }
       }).catch(function (err) {
-        console.log(err);
+        console.log(err)
       })
     },
-    closeMenu() {
-      this.menuShow = true;
-      this.hisShow = false;
+    closeMenu () {
+      this.menuShow = true
+      this.hisShow = false
     },
-    openHis() {
+    openHis () {
       this.getHisData()
       if (this.hisShow) {
-        this.hisShow = false;
-        this.inpKey = '';
+        this.hisShow = false
+        this.inpKey = ''
       } else {
-        this.hisShow = true;
+        this.hisShow = true
       }
-      this.menuShow = true;
+      this.menuShow = true
     },
-    search() {
-      this.getHisData();
-      this.hisShow = true;
+    search () {
+      this.getHisData()
+      this.hisShow = true
     },
-    getHisData() {
-      let that = this;
+    getHisData () {
+      let that = this
       this.$axios.get('api/homePage/getRecommendSearch').then(function (data) {
-        console.log(data);
+        console.log(data)
         if (data.data.code === '200') {
-          that.hotArr = data.data.data;
+          that.hotArr = data.data.data
         }
       }).catch(function (err) {
-        console.log(err);
+        console.log(err)
       })
     },
     ...mapActions([
       'setHistory'
-    ]),
+    ])
   }
 }
 </script>
