@@ -90,7 +90,7 @@ export default {
       }).then((data) => {
         console.log(data)
         if (data.data.code === '200') {
-          this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate2' } })
+          this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate3' } })
         } else {
           this.$vux.alert.show({
             title: '提交失败',

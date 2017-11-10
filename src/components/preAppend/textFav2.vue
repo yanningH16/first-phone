@@ -91,7 +91,7 @@ export default {
         }).then((res) => {
           console.log(res)
           if (res.data.code === '200') {
-            this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate4' } })
+            this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate6' } })
           }
         })
       } else {

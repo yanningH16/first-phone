@@ -87,7 +87,7 @@ export default {
         additionalFavorPicId: this.goodsImg
       }).then((res) => {
         if (res.data.code === '200') {
-          this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate3' } })
+          this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate5' } })
         }
       }).catch(() => {
         this.$vux.alert.show({

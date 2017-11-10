@@ -42,6 +42,14 @@
             <span>你已成功提交评价</span>
             <p>商家将在48小时之内审核完毕，之后返款，请耐心等待</p>
           </div>
+          <div class="flag" v-if="$route.query.type=='evaluate6'">
+            <span>你已成功提交预追评</span>
+            <p>商家将在48小时之内审核完毕，请耐心等待</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='evaluate5'">
+            <span>你已成功提交追评</span>
+            <p>商家将在48小时之内审核完毕，之后返款，请耐心等待</p>
+          </div>
           <div class="flag" v-if="$route.query.type=='evaluate4'">
             <span>你已成功提交任务</span>
             <p>商家将在48小时之内审核完毕</p>
@@ -54,14 +62,14 @@
           </div>
         </div>
         <!-- <div class="commend">
-            <h2 @click="toNoPay">推荐商品 &gt;</h2>
-            <div class="goods_item" @click="goDetail(item)">
-              <merchandise :obj="list1"></merchandise>
-            </div>
-            <div class="goods_item">
-              <merchandise :obj="list1"></merchandise>
-            </div>
-          </div> -->
+                  <h2 @click="toNoPay">推荐商品 &gt;</h2>
+                  <div class="goods_item" @click="goDetail(item)">
+                    <merchandise :obj="list1"></merchandise>
+                  </div>
+                  <div class="goods_item">
+                    <merchandise :obj="list1"></merchandise>
+                  </div>
+                </div> -->
       </div>
     </scroll>
   </div>
