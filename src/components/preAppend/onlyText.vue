@@ -99,7 +99,7 @@ export default {
             content: data.data.message
           })
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }

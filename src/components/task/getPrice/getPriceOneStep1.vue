@@ -14,7 +14,7 @@
               <li>
                 <strong>搜索关键词</strong>
                 <span style="display: inline-block; width: 15.4rem; vertical-align: top">{{showMsg.keyName}}</span>
-                <b><img src="../img/refresh.png" alt=""></b>
+                <!-- <b><img src="../img/refresh.png" alt=""></b> -->
               </li>
               <li>
                 <span style="margin-left: 1rem">筛选条件：</span>
@@ -207,6 +207,7 @@ export default {
         if (data.data.code === '200') {
           console.log(data)
           this.rbObj = data.data.data
+          sessionStorage.setItem('__rbObjG1__', JSON.stringify(this.rbObj))
           this.$nextTick(() => {
             this.$refs.scroll.refresh()
           })
@@ -216,7 +217,7 @@ export default {
             content: data.data.message
           })
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }

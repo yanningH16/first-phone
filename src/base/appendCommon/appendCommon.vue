@@ -72,9 +72,8 @@ export default {
   methods: {
     doCopy () {
       var clipboard = new Clipboard('.btn')
-      var that = this
-      clipboard.on('success', function (e) {
-        that.$vux.toast.text('复制成功!', 'middle')
+      clipboard.on('success', (e) => {
+        this.$vux.toast.text('复制成功!', 'middle')
       })
     }
   },

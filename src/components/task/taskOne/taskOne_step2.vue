@@ -77,7 +77,7 @@ export default {
         console.log(data)
         let time = formateDate('yyyy-MM-dd hh:mm:ss')
         this.$router.push({ name: 'submitSuccess', query: { openTime: time, type: 'task' } })
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }
@@ -89,7 +89,7 @@ export default {
     }).then((data) => {
       console.log(data)
       this.goodsObj = data.data.data
-    }).catch(function (err) {
+    }).catch((err) => {
       console.log(err)
     })
   }

@@ -69,10 +69,9 @@ export default {
   },
   // 接口请求部分开始
   created () {
-    let that = this
     // 核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+      buyerTaskRecordId: this.$route.query.buyerTaskRecordId
     }).then((res) => {
       let data = res.data
       if (data.code === '200') {
@@ -101,7 +100,7 @@ export default {
             content: data.data.message
           })
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }
@@ -111,9 +110,8 @@ export default {
     next () {
       console.log(this.text)
       if (this.text !== '') {
-        let that = this
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
-          buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+          buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
           additionalFavorText: this.text
         }).then((res) => {
           console.log(res)

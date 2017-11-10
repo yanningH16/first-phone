@@ -50,24 +50,23 @@ export default {
   },
   created () {
     if (this.$route.query.rbObj) {
-      this.favImg = JSON.parse(this.$route.query.rbObj.storeProductPicId)
-      this.focusImg = JSON.parse(this.$route.query.rbObj.concernShopPicId)
+      this.favImg = JSON.parse(sessionStorage.getItem('__rbObjG1__')).storeProductPicId
+      this.focusImg = JSON.parse(sessionStorage.getItem('__rbObjG1__')).concernShopPicId
     }
   },
   methods: {
     doNext () {
-      let that = this
-      if (this.favImg.length === 0 || that.focusImg.length === 0) {
+      if (this.favImg.length === 0 || this.focusImg.length === 0) {
         this.$vux.alert.show({
           title: '提示',
           content: '请上传完整截图'
         })
         return false
       }
-      if (that.$route.query.type === 1 || that.$route.query.type === 2 || that.$route.query.type === 3) {
-        that.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg }, rbObj: that.$route.query.rbObj } })
+      if (parseInt(this.$route.query.type) === 1 || parseInt(this.$route.query.type) === 2 || parseInt(this.$route.query.type) === 3) {
+        this.$router.push({ name: 'sureGetStep3', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.$route.query.type, allow: this.$route.query.allow, obj: { favImg: this.favImg, focusImg: this.focusImg }, rbObj: this.$route.query.rbObj } })
       } else {
-        that.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: that.$route.query.buyerTaskRecordId, type: that.$route.query.type, allow: that.$route.query.allow, obj: { favImg: that.favImg, focusImg: that.focusImg }, rbObj: that.$route.query.rbObj } })
+        this.$router.push({ name: 'sureGetStep4', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId, type: this.$route.query.type, allow: this.$route.query.allow, obj: { favImg: this.favImg, focusImg: this.focusImg }, rbObj: this.$route.query.rbObj } })
       }
     }
   }

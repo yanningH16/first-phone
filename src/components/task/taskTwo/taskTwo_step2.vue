@@ -55,9 +55,8 @@ export default {
         })
         return false
       }
-      let that = this
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId,
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
         storeProductPicId: this.favImg,
         concernShopPicId: this.focusImg
       }).then((res) => {

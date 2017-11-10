@@ -59,9 +59,8 @@ export default {
   },
   created () {
     // 获取商品详情
-    let that = this
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      'buyerTaskRecordId': that.$route.query.buyerTaskRecordId
+      'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
@@ -76,15 +75,14 @@ export default {
           content: data.data.message
         })
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       console.log(err)
     })
   },
   methods: {
     doNext () {
-      let that = this
       this.$axios.post('/api/orderOperate/backOrderSubmit', {
-        buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+        buyerTaskRecordId: this.$route.query.buyerTaskRecordId
       }).then((data) => {
         console.log(data)
         if (data.data.code === '200') {

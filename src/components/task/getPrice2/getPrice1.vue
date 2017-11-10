@@ -14,7 +14,7 @@
               <li>
                 <strong>搜索关键词</strong>
                 <span style="display: inline-block; width: 15.4rem; vertical-align: top">{{showMsg.keyName}}</span>
-                <b><img src="../img/refresh.png" alt=""></b>
+                <!-- <b><img src="../img/refresh.png" alt=""></b> -->
               </li>
               <li>
                 <span style="margin-left: 1rem">筛选条件：</span>
@@ -135,10 +135,9 @@ export default {
   },
   // 接口请求部分开始
   created () {
-    let that = this
     // 第二步的核对商品的接口
     this.$axios.post('/api/orderOperate/getAdditionalInfo', {
-      buyerTaskRecordId: that.$route.query.buyerTaskRecordId
+      buyerTaskRecordId: this.$route.query.buyerTaskRecordId
     }).then((data) => {
       if (data.data.code === '200') {
         this.twoInfo = data.data.data
@@ -179,7 +178,7 @@ export default {
     })
     // 展开收索的接口
     this.$axios.post('/api/orderOperate/listSellerTaskKeyword', {
-      sellerTaskId: that.$route.query.sellerTaskId
+      sellerTaskId: this.$route.query.sellerTaskId
     }).then((response) => {
       let data = response.data
       if (data.code === '200') {
@@ -199,6 +198,7 @@ export default {
         if (data.data.code === '200') {
           console.log(data)
           this.rbObj = data.data.data
+          sessionStorage.setItem('__rbObjG1__', JSON.stringify(this.rbObj))
           this.$nextTick(() => {
             this.$refs.scroll.refresh()
           })
@@ -208,7 +208,7 @@ export default {
             content: data.data.message
           })
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }
