@@ -14,16 +14,16 @@
                   </div>
                 </div>
                 <!-- <div class="checkList">
-                        <div class="left">提现到微信</div>
-                        <div class="right">
-                          <span class="info">{{userInfo.wechatNum}}</span>
-                          <checkbtn :isChecked="chooseCheck===1"></checkbtn>
-                        </div>
-                      </div> -->
+                                      <div class="left">提现到微信</div>
+                                      <div class="right">
+                                        <span class="info">{{userInfo.wechatNum}}</span>
+                                        <checkbtn :isChecked="chooseCheck===1"></checkbtn>
+                                      </div>
+                                    </div> -->
               </div>
               <div class="groupBox">
                 <group>
-                  <x-input placeholder="请输入提现金额" type="number" class="inputBox" v-model="money" :show-clear="false">
+                  <x-input placeholder="请输入提现金额" type="number" class="inputBox" v-model="money" :show-clear="false" disabled>
                     <div slot="right" class="text">可提现金额:{{availableDeposit}}</div>
                   </x-input>
                 </group>
@@ -35,10 +35,10 @@
                 您为普通会员，提现金额为100元的整数倍且不少于200元，手续费10%
               </div>
               <!-- <div class="groupBox">
-                                                    <group>
-                                                      <x-input placeholder="输入提现密码" :show-clear="false" v-model="pwd" type="password"></x-input>
-                                                    </group>
-                                                  </div> -->
+                                                                  <group>
+                                                                    <x-input placeholder="输入提现密码" :show-clear="false" v-model="pwd" type="password"></x-input>
+                                                                  </group>
+                                                                </div> -->
               <div class="groupBox">
                 <group>
                   <x-input placeholder="请输入手机验证码" type="number" class="inputBox" v-model="msg" ref="msg" :show-clear="false">
@@ -86,10 +86,17 @@ export default {
     btnSaveState: {
       get () {
         // if (this.money >= 200 && this.money <= this.availableDeposit && this.pwd && this.msg && this.msg.length === 6) {
-        if (this.money >= 200 && this.money <= this.availableDeposit && this.msg && this.msg.length === 6) {
-          return true
+        if (!this.userInfo.isVip) {
+          if (this.money >= 200 && this.money <= this.availableDeposit && this.msg && this.msg.length === 6) {
+            return true
+          }
+          return false
+        } else {
+          if (this.money > 0 && this.money <= this.availableDeposit && this.msg && this.msg.length === 6) {
+            return true
+          }
+          return false
         }
-        return false
       },
       set (val) {
         return val
@@ -126,6 +133,9 @@ export default {
       chooseCheck: 1,
       money: null
     }
+  },
+  mounted () {
+    this.money = this.availableDeposit
   },
   methods: {
     // 获得验证码
@@ -301,6 +311,7 @@ export default {
         .inputBox
           .btn
             border-1px($color-text, $border-radius)
+            border none
             outline 0
             -webkit-appearance none
             position relative

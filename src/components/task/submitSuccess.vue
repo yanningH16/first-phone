@@ -10,56 +10,58 @@
           <div class="state">
             <h3 v-if="$route.query.type=='task'">你的申请已成功提交，待平台开奖</h3>
             <h3 v-if="$route.query.type=='price'">你已完成全部任务，等待卖价发货</h3>
-          </div <div class="flag" v-if="$route.query.type=='task'">
-          <span>预计
-            <strong>{{ openTime }}</strong> 开奖</span>
-          <p>若未中奖，继续提交第二天申请，将再获取1次抽奖机会</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='task'">
+            <span>预计
+              <strong>{{ openTime }}</strong> 开奖</span>
+            <p>若未中奖，继续提交第二天申请，将再获取1次抽奖机会</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='price'">
+            <span>商家将在72小时内操作发货，请耐心等待</span>
+            <p>在收到商品后，先在平台提交好评等待商家审核，切勿擅自提前到淘宝评价</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='last'">
+            <span>预计
+              <strong>{{ openTime }}</strong> 开奖</span>
+            <p>若未中奖，将不能再申请该商品</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='task5'">
+            <span>你已成功提交任务</span>
+            <p>商家审核通过后就会发放奖励，请耐心等待</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='evaluate1'">
+            <span>你已成功提交预评价</span>
+            <p>商家将在48小时之内审核完毕，请耐心等待</p>
+            <p>请在快递签收后，前去淘宝评价</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='evaluate2'">
+            <span>你已成功提交预评价</span>
+            <p>商家将在48小时之内审核完毕，请耐心等待</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='evaluate3'">
+            <span>你已成功提交评价</span>
+            <p>商家将在48小时之内审核完毕，之后返款，请耐心等待</p>
+          </div>
+          <div class="flag" v-if="$route.query.type=='evaluate4'">
+            <span>你已成功提交任务</span>
+            <p>商家将在48小时之内审核完毕</p>
+            <p>审核通过后再追评到淘宝，请耐心等待</p>
+          </div>
+          <div class="toIndex">
+            <router-link :to="{ name: 'index' }">
+              <button>返回首页</button>
+            </router-link>
+          </div>
         </div>
-        <div class="flag" v-if="$route.query.type=='price'">
-          <span>商家将在72小时内操作发货，请耐心等待</span>
-          <p>在收到商品后，先在平台提交好评等待商家审核，切勿擅自提前到淘宝评价</p>
-        </div>
-        <div class="flag" v-if="$route.query.type=='last'">
-          <span>预计
-            <strong>{{ openTime }}</strong> 开奖</span>
-          <p>若未中奖，将不能再申请该商品</p>
-        </div>
-        <div class="flag" v-if="$route.query.type=='task5'">
-          <span>你已成功提交任务</span>
-          <p>商家审核通过后就会发放奖励，请耐心等待</p>
-        </div>
-        <div class="flag" v-if="$route.query.type=='evaluate1'">
-          <span>你已成功提交预评价</span>
-          <p>商家将在48小时之内审核完毕，请耐心等待</p>
-          <p>请在快递签收后，前去淘宝评价</p>
-        </div>
-        <div class="flag" v-if="$route.query.type=='evaluate2'">
-          <span>你已成功提交预评价</span>
-          <p>商家将在48小时之内审核完毕，请耐心等待</p>
-        </div>
-        <div class="flag" v-if="$route.query.type=='evaluate3'">
-          <span>你已成功提交评价</span>
-          <p>商家将在48小时之内审核完毕，之后返款，请耐心等待</p>
-        </div>
-        <div class="flag" v-if="$route.query.type=='evaluate4'">
-          <span>你已成功提交任务</span>
-          <p>商家将在48小时之内审核完毕</p>
-          <p>审核通过后再追评到淘宝，请耐心等待</p>
-        </div>
-        <div class="toIndex">
-          <router-link :to="{ name: 'index' }">
-            <button>返回首页</button>
-          </router-link>
-        </div>
-      </div>
-      <div class="commend">
-        <h2 @click="toNoPay">推荐商品 &gt;</h2>
-        <div class="goods_item" @click="goDetail(item)">
-          <merchandise :obj="list1"></merchandise>
-        </div>
-        <div class="goods_item">
-          <merchandise :obj="list1"></merchandise>
-        </div>
+        <!-- <div class="commend">
+            <h2 @click="toNoPay">推荐商品 &gt;</h2>
+            <div class="goods_item" @click="goDetail(item)">
+              <merchandise :obj="list1"></merchandise>
+            </div>
+            <div class="goods_item">
+              <merchandise :obj="list1"></merchandise>
+            </div>
+          </div> -->
       </div>
     </scroll>
   </div>

@@ -41,4 +41,12 @@ export default {
     height 100%
     width 100%
     overflow hidden
+    .slide-left-enter, .slide-right-leave-active
+      opacity 0
+      -webkit-transform translate(50px, 0)
+      transform translate(50px, 0)
+    .slide-left-leave-active, .slide-right-enter
+      opacity 0
+      -webkit-transform translate(-50px, 0)
+      transform translate(-50px, 0)
 </style>

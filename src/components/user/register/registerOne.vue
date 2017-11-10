@@ -17,7 +17,7 @@
               <x-input :show-clear="false" placeholder="输入QQ号(非必填)" type="number" v-model="qq"></x-input>
             </group>
           </div>
-          <info :infoArr="infos"></info>
+          <info :infoArr="infos" :isIndex="false"></info>
           <div class="btnBox">
             <m-Button @my-click="doRegister" :class="{'btn-disabled':!btnSaveState}">下一步</m-Button>
           </div>
@@ -214,6 +214,7 @@ export default {
           .btn
             border-1px($color-text, $border-radius)
             outline 0
+            border none
             -webkit-appearance none
             position relative
             height 3.4rem

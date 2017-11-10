@@ -3,7 +3,8 @@
     <p class="text">
       <slot></slot>
     </p>
-    <p v-for="(item,index) in infoArr" :key="index" class="text">{{index+1}}.{{item}}</p>
+    <p v-for="(item,index) in infoArr" :key="index" class="text" v-if="isIndex">{{index+1}}.{{item}}</p>
+    <p v-for="(item,index) in infoArr" :key="index" class="text" v-if="!isIndex">{{item}}</p>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -13,6 +14,10 @@ export default {
     infoArr: {
       type: Array,
       default: []
+    },
+    isIndex: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

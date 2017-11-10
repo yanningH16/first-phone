@@ -65,7 +65,6 @@ export default {
       let goodsDramArr = []
       for (let item of data) {
         let goodsState = this.setGoodsState(item)
-        let timeInfo = this.setTime(item.gmtModify)
         let obj = {
           platformId: item.platformId,
           goodsImg: item.platformPicId,
@@ -78,7 +77,6 @@ export default {
           num: `${item.numPerOrder}件`,
           price: item.price,
           orderNum: item.buyerTaskRecordId,
-          info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           errInfo: goodsState.errInfo,

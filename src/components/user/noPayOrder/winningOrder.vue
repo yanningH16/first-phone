@@ -158,10 +158,10 @@ export default {
             buyerTaskStatuss: [
               '4', '9', '1'
             ],
-            taskType: 1,
             taskFlags: [awarded[0], awarded[1], awarded[2]],
             pageSize: this.pageSize,
             pageNo: this.pageNo
+            //  taskType: 1
           }
         } else if (this.showAwardIndex === 2) { // 中奖了-金币拿订单
           return {
@@ -171,8 +171,8 @@ export default {
             ],
             taskFlags: [awarded[3], awarded[4], awarded[5]],
             pageSize: this.pageSize,
-            pageNo: this.pageNo,
-            taskType: 2
+            pageNo: this.pageNo
+            // taskType: 2
           }
         }
         /* else if (this.showAwardIndex === 3) { //中奖了-必中券订单

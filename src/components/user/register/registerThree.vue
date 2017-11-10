@@ -159,10 +159,10 @@ export default {
       }
     },
     doApi () {
-      let content = {
-        title: '提交成功，请耐心等待',
-        info: '当天提交的支付宝审核预计在1小时左右完成审核,21:00之后提交的将于次日审核'
-      }
+      // let content = {
+      //   title: '提交成功，请耐心等待',
+      //   info: '当天提交的支付宝审核预计在1小时左右完成审核,21:00之后提交的将于次日审核'
+      // }
       this.$axios.post('/api/user/register3', {
         telephone: this.userPhone,
         taobaoId: this.taobao,
@@ -182,7 +182,7 @@ export default {
           })
         } else {
           // 登录成功
-          this.$router.push({ name: 'state', params: { content: content } })
+          // this.$router.push({ name: 'state', params: { content: content } })
         }
       }).catch(() => {
         this.$vux.alert.show({

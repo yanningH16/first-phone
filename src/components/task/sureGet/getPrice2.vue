@@ -49,6 +49,7 @@ export default {
     }
   },
   created () {
+    console.log(this.$route)
     if (this.$route.query.rbObj) {
       this.favImg = JSON.parse(this.$route.query.rbObj.storeProductPicId)
       this.focusImg = JSON.parse(this.$route.query.rbObj.concernShopPicId)

@@ -80,7 +80,7 @@ export default {
           info = '处理中'
         } else if (parseInt(item.status) === 1) {
           status = 1
-          info = '到账失败'
+          info = '到账成功'
         }
         let obj = {
           title: item.productName,

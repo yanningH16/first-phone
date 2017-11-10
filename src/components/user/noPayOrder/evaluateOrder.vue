@@ -85,7 +85,6 @@ export default {
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
-          errInfo: goodsState.info,
           taskFlag: item.taskFlag,
           taskType: item.taskType,
           sellerTaskId: item.sellerTaskId,
@@ -107,7 +106,6 @@ export default {
     setGoodsState (taskFlag, buyerTaskStatus) {
       let goodsState = {}
       let myIndex = comment.indexOf(taskFlag)
-
       if (buyerTaskStatus === '4') {
         if (myIndex >= 0 && myIndex <= 4) {
           goodsState.stateText = '待预评价'

@@ -5,11 +5,11 @@
         <appendCommon :goodsObj="item">
           <span slot="state" class="reject" :class="{'normal':item.stateColor===1}">{{item.stateText}}</span>
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===0">多返
-                                                                <span class="num">{{item.coinInfo}}</span>金币
-                                                              </span>
-                                                              <span slot="info" class="infoOrange" v-if="item.coinType===1">
-                                                                <span class="num">{{item.coinInfo}}</span>金币兑换
-                                                              </span> -->
+                                                                    <span class="num">{{item.coinInfo}}</span>金币
+                                                                  </span>
+                                                                  <span slot="info" class="infoOrange" v-if="item.coinType===1">
+                                                                    <span class="num">{{item.coinInfo}}</span>金币兑换
+                                                                  </span> -->
           <!--全部-->
           <div class="bottom" slot="bottom" v-if="item.orderType === 0"></div>
           <!--抽奖-->
@@ -21,9 +21,9 @@
           </div>
           <!--中奖了-->
           <!-- <span slot="info" class="infoRed" v-if="item.coinType===2 && item.orderType === 2">白拿还赚
-                                                                <span class="num">{{item.coinInfo||0}}</span>
-                                                                金币
-                                                              </span> -->
+                                                                    <span class="num">{{item.coinInfo||0}}</span>
+                                                                    金币
+                                                                  </span> -->
           <div class="bottom" slot="bottom" v-if="item.orderType === 2">
             <span class=" details">{{item.lotteryInfo}}</span>
             <span class="btn" @click="giveUpLottery(item)" v-if="item.isLotteryState!==1">放弃白拿</span>
@@ -175,40 +175,42 @@ export default {
         let myIndex = comment.indexOf(item.taskFlag)
         goodsState.orderType = 3
         if (item.buyerTaskStatus === '4') {
-          if (myIndex >= 0 && myIndex <= 3) {
+          if (myIndex >= 0 && myIndex <= 4) {
             goodsState.stateText = '待预评价'
             goodsState.isEvaluateState = 0
-          } else if (myIndex > 3 && myIndex <= 7) {
+          } else if (myIndex > 4 && myIndex <= 9) {
             goodsState.stateText = '待评价到淘宝'
             goodsState.isEvaluateState = 1
-          } else if (myIndex > 7 && myIndex <= 11) {
+          } else if (myIndex > 9 && myIndex <= 14) {
             goodsState.stateText = '待预追评'
             goodsState.isEvaluateState = 2
-          } else if (myIndex > 11 && myIndex <= 15) {
+          } else if (myIndex > 14 && myIndex <= 19) {
             goodsState.stateText = '待追评到淘宝'
             goodsState.isEvaluateState = 3
           }
         } else if (item.buyerTaskStatus === '9') {
-          if (myIndex >= 0 && myIndex <= 3) {
+          if (myIndex >= 0 && myIndex <= 4) {
             goodsState.stateText = '预评价审核中'
             goodsState.isEvaluateState = 4
             goodsState.isBottom = 4
-          } else if (myIndex > 3 && myIndex <= 7) {
+          } else if (myIndex > 4 && myIndex <= 9) {
             goodsState.stateText = '淘宝评价审核中'
             goodsState.isBottom = 4
-          } else if (myIndex > 7 && myIndex <= 11) {
+          } else if (myIndex > 9 && myIndex <= 14) {
             goodsState.stateText = '预追评审核中'
             goodsState.isBottom = 4
-          } else if (myIndex > 11 && myIndex <= 15) {
+          } else if (myIndex > 14 && myIndex <= 19) {
             goodsState.stateText = '淘宝追评审核中'
             goodsState.isBottom = 4
           }
         } // 中奖了的状态
       } else if (awarded.indexOf(item.taskFlag) !== -1 && (item.buyerTaskStatus === '1' || item.buyerTaskStatus === '4' || item.buyerTaskStatus === '9')) {
         goodsState.orderType = 2
+        let timeInfo = this.setTime(item.gmtModify)
         if (item.buyerTaskStatus === '4' || item.buyerTaskStatus === '1') {
           goodsState.stateText = '待领奖'
           goodsState.isLotteryState = 0
+          goodsState.info = `请在今天${timeInfo}前提交，否则取消中奖资格`
         } else if (item.buyerTaskStatus === '9') {
           goodsState.stateText = '订单审核中'
           goodsState.isBottom = 1

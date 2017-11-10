@@ -63,6 +63,8 @@ export default {
     width 100%
     height 100%
     border-radius 5px
+    border 1px solid  #dedede
+    box-sizing border-box
   .vip
     background red
     width 5rem

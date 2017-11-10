@@ -8,7 +8,7 @@ export const userInfoMixin = {
     ])
   }
 }
-// 滚动加载页面
+  // 滚动加载页面
 export const scrollPages = {
   computed: {
     ...mapGetters([
@@ -63,16 +63,17 @@ export const scrollPages = {
     }
   }
 }
-// order
+  // order
 export const orderOperate = {
   data () {
     return {
       orderList: [],
-      typeArr: ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先']
+      typeArr: ['综合排序', '信用', '价格从高到低', '价格从低到高', '销量优先'],
+      realResult: []
     }
   },
   watch: {
-    // 监测获得数据变化
+      // 监测获得数据变化
     axiosResult: {
       handler (val) {
         for (let i of val) {
@@ -84,16 +85,27 @@ export const orderOperate = {
     orderList: {
       handler (val) {
         if (val.length === (this.axiosResult.length + (this.pageNo - 1) * this.pageSize)) {
-          for (let i in val) {
-            if (i >= (this.pageNo - 1) * this.pageSize) {
-              for (let axiosItem of this.axiosResult) {
-                if (axiosItem.buyerTaskRecordId === val[i].buyerTaskRecordId) {
-                  val[i] = Object.assign(val[i], axiosItem)
-                }
+          // for (let i in val) {
+          //   if (i >= (this.pageNo - 1) * this.pageSize) {
+          //     let newItem = []
+          //     for (let axiosItem of this.axiosResult) {
+          //       if (axiosItem.buyerTaskRecordId === val[i].buyerTaskRecordId) {
+          //         val[i] = Object.assign(val[i], axiosItem)
+          //         newItem.push(axiosItem, val[i])
+          //       }
+          //     }
+          //   }
+          // }
+          // console.log(val)
+          // this.setGoodsList(val)
+          for (let realItem of this.realResult) {
+            for (let orderItem of val) {
+              if (realItem.buyerTaskRecordId === orderItem.buyerTaskRecordId) {
+                realItem = Object.assign(realItem, orderItem)
               }
             }
           }
-          this.setGoodsList(val)
+          this.setGoodsList(this.realResult)
         }
       },
       deep: true
@@ -123,12 +135,13 @@ export const orderOperate = {
     })
   },
   methods: {
-    // 设置请求的buyerTaskRecords
+      // 设置请求的buyerTaskRecords
     setInfo (data) {
       this.axiosResult = [...data.buyerTaskRecords]
+      this.realResult = [...this.realResult, ...data.buyerTaskRecords]
       this.maxPageSize = data.totalCount
     },
-    // api请求商品信息
+      // api请求商品信息
     doInfo (infoId) {
       this.$vux.loading.show({
         text: '加载中，请稍后'
@@ -147,7 +160,7 @@ export const orderOperate = {
         console.log(error)
       })
     },
-    // 设置时间
+      // 设置时间
     setTime (time) {
       var nowTime
       if (time) {
@@ -165,14 +178,14 @@ export const orderOperate = {
     }
   }
 }
-//
+  //
 export const sweepstakeOrderOperate = {
   methods: {
-    // 删除订单
+      // 删除订单
     giveUpLottery (item) {
       let _this = this
       this.$vux.confirm.show({
-        // 组件除show外的属性
+          // 组件除show外的属性
         title: '确认放弃白拿？',
         content: '放弃的商品不能再次申请',
         onCancel () {
@@ -195,7 +208,7 @@ export const sweepstakeOrderOperate = {
         console.log(error)
       })
     },
-    // 继续申请
+      // 继续申请
     getLottery (item) {
       const lotteryRouter = [
         'taskOneStep1',
@@ -210,16 +223,16 @@ export const sweepstakeOrderOperate = {
         this.$router.push({ name: lotteryRouter[index], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
       }
     },
-    // 去做任务
+      // 去做任务
     doTask (item) {
       console.log('做任务')
     }
   }
 }
-// 评论模块操作
+  // 评论模块操作
 export const evaluateOrderOperate = {
   methods: {
-    // 评价路由跳转
+      // 评价路由跳转
     goEvaluate (item) {
       let index = comment.indexOf(item.taskFlag)
       let taskIndex
@@ -234,16 +247,16 @@ export const evaluateOrderOperate = {
       }
       this.$router.push({ name: orderRouter[taskIndex - 1], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType } })
     },
-    // 申请售后
+      // 申请售后
     applyCustomer (item) {
 
     }
   }
 }
-// 驳回模块操作
+  // 驳回模块操作
 export const rejectOrderOperate = {
   methods: {
-    // 驳回路由跳转
+      // 驳回路由跳转
     rejectOperate (item, taskFlag) {
       let myIndex = notify.indexOf(taskFlag)
       let taskIndex
@@ -262,7 +275,7 @@ export const rejectOrderOperate = {
     }
   }
 }
-// 中奖模块操作
+  // 中奖模块操作
 export const winningOrderOperate = {
   methods: {
     // 中奖了路由跳转
