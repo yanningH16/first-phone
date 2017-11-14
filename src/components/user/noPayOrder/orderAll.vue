@@ -180,12 +180,15 @@ export default {
             goodsState.isEvaluateState = 0
           } else if (myIndex > 4 && myIndex <= 9) {
             goodsState.stateText = '待评价到淘宝'
+            goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
             goodsState.isEvaluateState = 1
           } else if (myIndex > 9 && myIndex <= 14) {
             goodsState.stateText = '待预追评'
+            goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
             goodsState.isEvaluateState = 2
           } else if (myIndex > 14 && myIndex <= 19) {
             goodsState.stateText = '待追评到淘宝'
+            goodsState.info = '收货之后48小时之内复制到淘宝，否则没收金币'
             goodsState.isEvaluateState = 3
           }
         } else if (item.buyerTaskStatus === '9') {
