@@ -186,6 +186,9 @@ export default {
     ...mapActions([
       'setUserPhoneHistory'
     ])
+  },
+  mounted () {
+    console.log(this.msg)
   }
 }
 </script>
@@ -232,6 +235,7 @@ export default {
             background $color-theme-white
             position relative
             right -1.5rem
+            border none
             &.btn-disabled
               opacity 0.3
       .btnBox
