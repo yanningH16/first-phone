@@ -74,7 +74,7 @@ export default {
     if (this.$route.query.rbObj) {
       let obj = JSON.parse(sessionStorage.getItem('__rbObjG1__'))
       this.orderNum = obj.productOrderNo
-      this.orderImgs = obj.taobaoOrderPicId
+      this.orderImgs = JSON.parse(obj.taobaoOrderPicId)
       this.realPay = obj.productOrderPrice
       this.buyerTaskStatus = obj.buyerTaskStatus
     }

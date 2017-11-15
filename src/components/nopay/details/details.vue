@@ -419,7 +419,6 @@ export default {
   },
   created () {
     this.getDesc()
-    // console.log(this.userInfo)
   },
   methods: {
     //      定义一个当前时间的函数
@@ -519,7 +518,6 @@ export default {
       let that = this
       // 做绑定判断,平台端审核的判断
       this.$axios.post('/api/user/loginOrNot', {}).then((res) => {
-        console.log(res)
         if (res.data.code !== '200') {
           that.$vux.alert.show({
             title: '温馨提示',
@@ -551,6 +549,7 @@ export default {
       //   return false
       // }
       // }
+      console.log(this.userInfo)
       if (this.userInfo) {
         this.$axios.post('/api/user/getStatusByUserId', {
           buyerUserId: this.userInfo.buyerUserId
@@ -678,6 +677,14 @@ export default {
                 this.vip = true
               }
             }
+          }
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '温馨提示',
+          content: '您未登录，请登录',
+          onHide () {
+            that.$router.push({ name: 'login' })
           }
         })
       }
@@ -942,7 +949,6 @@ export default {
       let that = this
       // 做绑定判断,平台端审核的判断
       this.$axios.post('/api/user/loginOrNot', {}).then((res) => {
-        console.log(res)
         if (res.data.code !== '200') {
           that.$vux.alert.show({
             title: '温馨提示',
@@ -1013,6 +1019,14 @@ export default {
                 this.jinbi = true
               }
             })
+          }
+        })
+      } else {
+        this.$vux.alert.show({
+          title: '温馨提示',
+          content: '您未登录，请登录',
+          onHide () {
+            that.$router.push({ name: 'login' })
           }
         })
       }

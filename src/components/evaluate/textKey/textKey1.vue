@@ -96,7 +96,6 @@ export default {
     this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
       'orderId': this.$route.query.buyerTaskRecordId
     }).then((data) => {
-      console.log(data)
       if (data.data.code === '200') {
         this.commonMsg = data.data.data.favorText
         this.$nextTick(() => {

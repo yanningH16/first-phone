@@ -109,13 +109,12 @@ export default {
   // 接口请求部分结束
   methods: {
     next () {
-      console.log(this.text)
-      if (this.text !== '') {
+      if (this.text !== '' && this.text.length >= 15) {
         this.$router.push({ name: 'preAppendTextFav2', query: { text: this.text, buyerTaskRecordId: this.$route.query.buyerTaskRecordId, rbObj: this.rbObj } })
       } else {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '内容不能为空'
+          content: '内容不能为空且不少于15个字'
         })
       }
     }

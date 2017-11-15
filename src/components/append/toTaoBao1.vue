@@ -60,7 +60,7 @@ export default {
     return {
       isOk: true, // 按钮可点击
       goodsImg: [],
-      msgCont: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯',
+      msgCont: '',
       twoInfo: {}
     }
   },
@@ -94,9 +94,8 @@ export default {
     })
     // 获取与评价的内容
     this.$axios.post('/api/orderOperate/getTaskRecordByOrderId', {
-      'orderId': this.$route.query.buyerTaskRecordId
+      orderId: this.$route.query.buyerTaskRecordId
     }).then((data) => {
-      console.log(data)
       if (data.data.code === '200') {
         this.msgCont = data.data.data.additionalFavorText
         this.$nextTick(() => {

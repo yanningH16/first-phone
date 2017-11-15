@@ -78,7 +78,7 @@ export default {
       goodsObj: {},
       commonImg: [],
       imgListArr: [], // 预评价上传的截图
-      commonMsg: '衣服很漂亮，穿上很仙噢！喜欢的亲不要犹豫咯'
+      commonMsg: ''
     }
   },
   created () {
@@ -107,7 +107,8 @@ export default {
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
-        this.imgListArr = JSON.parse(data.data.data.favorPicId)
+        let img = data.data.data.favorPicId
+        this.imgListArr = img ? JSON.parse(img) : ''
         this.commonMsg = data.data.data.favorText
         this.$nextTick(() => {
           this.$refs.scroll.refresh()

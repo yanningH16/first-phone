@@ -85,19 +85,19 @@ export const orderOperate = {
     orderList: {
       handler (val) {
         if (val.length === (this.axiosResult.length + (this.pageNo - 1) * this.pageSize)) {
-          // for (let i in val) {
-          //   if (i >= (this.pageNo - 1) * this.pageSize) {
-          //     let newItem = []
-          //     for (let axiosItem of this.axiosResult) {
-          //       if (axiosItem.buyerTaskRecordId === val[i].buyerTaskRecordId) {
-          //         val[i] = Object.assign(val[i], axiosItem)
-          //         newItem.push(axiosItem, val[i])
-          //       }
-          //     }
-          //   }
-          // }
-          // console.log(val)
-          // this.setGoodsList(val)
+            // for (let i in val) {
+            //   if (i >= (this.pageNo - 1) * this.pageSize) {
+            //     let newItem = []
+            //     for (let axiosItem of this.axiosResult) {
+            //       if (axiosItem.buyerTaskRecordId === val[i].buyerTaskRecordId) {
+            //         val[i] = Object.assign(val[i], axiosItem)
+            //         newItem.push(axiosItem, val[i])
+            //       }
+            //     }
+            //   }
+            // }
+            // console.log(val)
+            // this.setGoodsList(val)
           for (let realItem of this.realResult) {
             for (let orderItem of val) {
               if (realItem.buyerTaskRecordId === orderItem.buyerTaskRecordId) {
@@ -271,7 +271,7 @@ export const rejectOrderOperate = {
       } else if (myIndex > 19 && myIndex <= 24) {
         taskIndex = item.taskNinetId
       }
-      this.$router.push({ name: orderRouter[parseInt(taskIndex - 1)], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: item.taskType, rb: 1 } })
+      this.$router.push({ name: orderRouter[parseInt(taskIndex - 1)], query: { buyerTaskRecordId: item.buyerTaskRecordId, sellerTaskId: item.sellerTaskId, type: (item.taskFourId - 38), rb: 1 } })
     }
   }
 }

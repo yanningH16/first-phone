@@ -49,10 +49,9 @@ export default {
     }
   },
   created () {
-    console.log(this.$route)
     if (this.$route.query.rbObj) {
-      this.favImg = JSON.parse(sessionStorage.getItem('__rbObjG1__')).storeProductPicId
-      this.focusImg = JSON.parse(sessionStorage.getItem('__rbObjG1__')).concernShopPicId
+      this.favImg = JSON.parse(JSON.parse(sessionStorage.getItem('__rbObjG1__')).storeProductPicId)
+      this.focusImg = JSON.parse(JSON.parse(sessionStorage.getItem('__rbObjG1__')).concernShopPicId)
     }
   },
   methods: {

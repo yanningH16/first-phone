@@ -72,7 +72,7 @@ export default {
       })
     })
     if (this.$route.query.rbObj) {
-      this.commonImg = JSON.parse(sessionStorage.getItem('__rbObjP1__')).storeProductPicId
+      this.commonImg = JSON.parse(JSON.parse(sessionStorage.getItem('__rbObjP1__')).storeProductPicId)
     }
   },
   // 接口请求部分结束
