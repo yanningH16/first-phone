@@ -1,8 +1,10 @@
 var express = require('express')
 var proxy = require('http-proxy-middleware')
 var history = require('connect-history-api-fallback')
-var config = require('./config/index')
+// var config = require('./config/index')
+var compression = require('compression')
 var app = express()
+app.use(compression())
 app.use('/api', proxy({
   target: 'http://118.31.72.73:8086',
   changeOrigin: true,
