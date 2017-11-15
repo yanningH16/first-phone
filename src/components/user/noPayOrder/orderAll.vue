@@ -126,10 +126,11 @@ export default {
           // coinInfo:item.
         }
         // 无错误信息判断
-        if (goodsState.orderType === 2 || item.buyerTaskStatus === '6' || item.buyerTaskStatus === '7') {
+        if (item.buyerTaskStatus === '9' || item.buyerTaskStatus === '6' || item.buyerTaskStatus === '7') {
           obj.errInfo = ''
           obj.info = ''
         }
+        // console.log(obj)
         goodsDramArr.push(obj)
       }
       this.goodsAll = [...goodsDramArr]

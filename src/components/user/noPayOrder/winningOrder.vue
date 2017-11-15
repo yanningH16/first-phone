@@ -231,7 +231,7 @@ export default {
           num: `${item.numPerOrder}件`,
           price: item.price,
           orderNum: item.buyerTaskRecordId,
-          info: `请在今天${timeInfo}前提交，否则取消中奖资格`,
+          info: `请在今天${timeInfo}前领奖，否则取消中奖资格`,
           isBottom: goodsState.isBottom,
           buyerTaskRecordId: item.buyerTaskRecordId,
           isEvaluateState: goodsState.isEvaluateState,
