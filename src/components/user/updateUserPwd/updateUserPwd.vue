@@ -64,7 +64,7 @@ export default {
     userPwdPhone: {
       get: function () {
         let reg = /^(\d{3})\d{4}(\d{4})$/
-        let tel = this.userInfo.telephone.replace(reg, '$1^-^$2')
+        let tel = this.userInfo.telephone.replace(reg, '$1****$2')
         return tel
       },
       set: function (val) {

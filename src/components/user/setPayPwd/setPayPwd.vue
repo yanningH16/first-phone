@@ -78,7 +78,7 @@ export default {
     userPwdPhone: {
       get: function () {
         let reg = /^(\d{3})\d{4}(\d{4})$/
-        let tel = this.userInfo.telephone.replace(reg, '$1^-^$2')
+        let tel = this.userInfo.telephone.replace(reg, '$1****$2')
         return tel
       },
       set: function (v) {
@@ -147,7 +147,7 @@ export default {
     },
     nextOne () {
       this.$axios.post('/api/sms/verify', {
-        telephone: this.userPhone,
+        telephone: this.userInfo.telephone,
         code: this.userMsg,
         type: 0
       }).then((response) => {
@@ -169,7 +169,7 @@ export default {
     },
     sure () {
       this.$axios.post('/api/user/resetDepositWord', {
-        telephone: this.userPhone,
+        telephone: this.userInfo.telephone,
         depositPassword: md5(this.pwd)
       }).then((response) => {
         if (response.data.code !== '200') {

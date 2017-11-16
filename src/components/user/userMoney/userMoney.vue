@@ -321,16 +321,24 @@ export default {
 
     // 提现跳转
     doDeposit () {
+      let deposit = this.availableDeposit
+      if (this.depositUnit === '万元') {
+        deposit = deposit * 10000
+      }
       this.$axios.post('/api/withdrawApply/buyer/insertWithdrawApply', {
         buyerUserId: this.userInfo.buyerUserId,
-        deposit: this.availableDeposit,
+        deposit: deposit,
         telephone: this.userInfo.telephone,
-        withdrawType: 1
+        withdrawType: '1',
+        fullName: this.userInfo.fullName,
+        bankName: this.userInfo.bankName,
+        bankNo: this.userInfo.bankCardNo
       }).then((response) => {
         const _this = this
         if (response.data.code === '200') {
           this.$vux.alert.show({
-            title: '提现成功,点击确定返回个人中心',
+            title: '提示',
+            content: '提现成功,点击确定返回个人中心',
             onHide () {
               _this.$router.push({ name: 'user' })
             }

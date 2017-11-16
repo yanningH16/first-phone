@@ -79,7 +79,7 @@ export default {
         // 银行卡状态判断
         if (this.userInfo.bankCardNo) {
           let reg = /^(\d{4})[\d]*(\d{4})$/
-          let account = this.userInfo.bankCardNo.replace(reg, '$1^-^$2')
+          let account = this.userInfo.bankCardNo.replace(reg, '$1****$2')
           let obj = {
             title: `绑定银行卡：${account}`
           }

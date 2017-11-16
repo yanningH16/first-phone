@@ -29,9 +29,13 @@
           </div>
         </scroll>
         <div class="btnBottomBox">
-          <div class="info">
+          <div class="info" v-if="ataloCount>0">
             <span class="name">微信支付：</span>
             <span class="text">￥{{ataloCount}}</span>
+          </div>
+          <div class="info" v-else>
+            <span class="name">余额支付：</span>
+            <span class="text">￥{{moneyBox[moneyIndex].price}}</span>
           </div>
           <span class="btn" v-if="userInfo.userState" @click="buyPlus" :class="{'disabled':hasmoney===0}">立即充值</span>
           <span class="btn" v-else @click="buyPlus" :class="{'disabled':hasmoney===0}">立即续费</span>
@@ -90,7 +94,7 @@ export default {
         }
       ],
       moneyIndex: 0,
-      chosed: true
+      chosed: false
     }
   },
   mounted () {
