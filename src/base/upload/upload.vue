@@ -91,13 +91,16 @@ export default {
 
       // }
       this.lastImg.push(img1.name)
-      let picName = img1.lastModified + md5(img1.name)
+      let myTime = (new Date()).getTime()
+      if (img1.lastModified) {
+        myTime = img1.lastModified
+      }
+      let picName = parseInt(Math.random() * 10000000 + 10000000000) + md5(img1.name) + myTime
       this.getClient(img1, picName)
     },
     // 获得上传参数
     getClient (file, picName) {
       this.$axios.get('/api/picManage/getStsInfo').then((response) => {
-        console.log(response.data.code === '200')
         if (response.data.code === '200') {
           this.uploadFile(response.data.data, file, picName)
         } else {
@@ -106,12 +109,11 @@ export default {
             content: '上传失败'
           })
         }
-      }).catch((error) => {
+      }).catch(() => {
         this.$vux.alert.show({
           title: '错误提示',
           content: '网络错误'
         })
-        console.log('error:' + error)
       })
     },
     // 上传图片
@@ -125,7 +127,6 @@ export default {
         stsToken: data.securityToken,
         bucket: 'baoyitech'
       })
-      console.log(name, file)
       return client.multipartUpload(name, file).then((res) => {
         if (_this.imgs.length > _this.max - 1) {
           _this.$vux.alert.show({
@@ -133,7 +134,11 @@ export default {
             content: '最多添加' + _this.max + '张图片'
           })
         } else {
-          _this.imgs.push(`http://baoyitech.oss-cn-hangzhou.aliyuncs.com/${res.name}`)
+          if (res.url) {
+            _this.imgs.push(res.url)
+          } else {
+            _this.imgs.push(`http://baoyitech.oss-cn-hangzhou.aliyuncs.com/${res.name}`)
+          }
           if (_this.imgs.length > _this.max - 1) {
             _this.isMax = false
           }
