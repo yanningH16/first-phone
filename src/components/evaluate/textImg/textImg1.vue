@@ -107,7 +107,7 @@ export default {
     }).then((data) => {
       console.log(data)
       if (data.data.code === '200') {
-        let img = data.data.data.favorPicId
+        let img = data.data.data.favorCheckId
         this.imgListArr = img ? JSON.parse(img) : ''
         this.commonMsg = data.data.data.favorText
         this.$nextTick(() => {

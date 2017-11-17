@@ -121,7 +121,7 @@ export default {
       } else {
         this.$vux.alert.show({
           title: '错误提示',
-          content: '内容不能为空'
+          content: '请填写不小于15字的评价内容！'
         })
       }
     }

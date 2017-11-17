@@ -119,7 +119,7 @@ export default {
         if (hour === 13) {
           hour += (minue / 60)
         }
-        if (hour < 10) {
+        if (hour < 10 || hour >= 20) {
           this.openTime = date + ' 10:00:00'
         } else if (hour >= 10 && hour < 13.5) {
           this.openTime = date + ' 13:30:00'

@@ -74,7 +74,6 @@ export default {
       this.$axios.post('/api/orderOperate/frontOrderSubmit', {
         'buyerTaskRecordId': this.$route.query.buyerTaskRecordId
       }).then((data) => {
-        console.log(data)
         let time = formateDate('yyyy-MM-dd hh:mm:ss')
         this.$router.push({ name: 'submitSuccess', query: { openTime: time, type: 'task' } })
       }).catch((err) => {

@@ -138,7 +138,7 @@ export default {
       if (this.goodCommon === '' && this.goodCommon.length < 15) {
         this.$vux.alert.show({
           title: '提示',
-          content: '请填写评论信息!,且字数不能小于15'
+          content: '请填写不小于15字的评价内容！'
         })
         return false
       }
