@@ -134,7 +134,7 @@ export default {
           addfavorCheckId: this.goodsImg
         }).then((res) => {
           console.log(res)
-          if (res.data.code === '200') {
+          if (parseInt(res.data.code) === 200) {
             this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate6' } })
           }
         })

@@ -128,7 +128,7 @@ export default {
         buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
         additionalFavorPicId: this.goodsImg
       }).then((res) => {
-        if (res.data.code === '200') {
+        if (parseInt(res.data.code) === 200) {
           this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate5' } })
         }
       }).catch(() => {

@@ -192,7 +192,7 @@ export default {
       })
     },
     doNext () {
-      if (this.type === 1) {
+      if (parseInt(this.type) === 1) {
         // 检查输入域淘口令是否正确
         if (this.msg === this.taoKey) {
           this.$router.push({ name: 'taskOneStep2', query: { buyerTaskRecordId: this.$route.query.buyerTaskRecordId } })
