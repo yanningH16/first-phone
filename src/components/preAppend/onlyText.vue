@@ -108,7 +108,7 @@ export default {
   methods: {
     next () {
       console.log(this.text)
-      if (this.text !== '') {
+      if (this.text !== '' && this.text.length >= 15) {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
           additionalFavorText: this.text

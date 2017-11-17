@@ -109,13 +109,11 @@ export default {
   // 接口请求部分结束
   methods: {
     next () {
-      console.log(this.text)
-      if (this.text !== '') {
+      if (this.text !== '' && this.text.length >= 15) {
         this.$axios.post('/api/orderOperate/backOrderSubmit', {
           buyerTaskRecordId: this.$route.query.buyerTaskRecordId,
           additionalFavorText: this.text
         }).then((res) => {
-          console.log(res)
           if (res.data.code === 200) {
             this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate6' } })
           }
