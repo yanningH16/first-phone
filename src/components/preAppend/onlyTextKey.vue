@@ -116,7 +116,7 @@ export default {
           additionalFavorText: this.text
         }).then((res) => {
           console.log(res)
-          if (res.data.code === 200) {
+          if (parseInt(res.data.code) === 200) {
             this.$router.push({ name: 'submitSuccess', query: { type: 'evaluate6' } })
           }
         })

@@ -229,7 +229,7 @@ export default {
       return Math.floor((Math.random() * length))
     },
     doNext () {
-      if (this.type === 1 || this.type === 4) {
+      if (parseInt(this.type) === 1 || parseInt(this.type) === 4) {
         // 检查输入域淘口令是否正确
         if (this.msg === this.taoKey) {
           if (this.$route.query.rb) {
