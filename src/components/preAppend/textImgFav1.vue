@@ -129,7 +129,7 @@ export default {
   methods: {
     next () {
       console.log(this.text)
-      if (this.text !== '' && this.goodsImg.length > 2) {
+      if (this.text !== '' && this.goodsImg.length > 2 && this.text.length >= 15) {
         this.$router.push({ name: 'preAppendTextImgFav2', query: { text: this.text, goodsImg: this.goodsImg, buyerTaskRecordId: this.$route.query.buyerTaskRecordId, rbObj: this.rbObj } })
       } else {
         this.$vux.alert.show({
